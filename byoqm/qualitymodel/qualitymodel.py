@@ -2,7 +2,7 @@ from abc import ABC, abstractmethod
 from collections.abc import Callable
 from typing import List
 
-# TODO: find correct terminology for internal node (use ISO)
+
 class Characteristic(ABC):
     @abstractmethod
     def calculate() -> int | float:
