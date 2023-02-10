@@ -1,13 +1,7 @@
 from pathlib import Path
-import os
 from metric import Metric
+from qm_parser import YMLParser
 
-
-path = "./metrics"
-metrics = []
-for child in Path(path).iterdir():
-    if child.is_file():
-        metrics.append(Metric(child.resolve()))
-
-for metric in metrics:
-    print(metric.name, ":", metric.measure())
+parser = YMLParser()
+path = Path('yml_test_file.yml')
+parser.parse(path.resolve())
