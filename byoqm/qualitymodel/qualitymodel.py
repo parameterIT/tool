@@ -18,7 +18,7 @@ class QualityModel(ABC):
     def insert(
         self,
         parent: Characteristic,
-        childen: List[Characteristic | Metric]
+        child: Characteristic | Metric
         ):
         """Inserts a new characteristic into the quality model.
 
