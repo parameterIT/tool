@@ -1,26 +1,28 @@
 from abc import ABC, abstractmethod
 from collections.abc import Callable
 from typing import List
+from metric import Metric
 
 
 class Characteristic(ABC):
     @abstractmethod
-    def calculate() -> int | float:
+    def measure() -> int | float:
         pass
 
-
 class QualityModel(ABC):
+    @abstractmethod
+    def __init__(self):
+        pass
+
     @abstractmethod
     def insert(
         self,
         parent: Characteristic,
-        childen: List[Characteristic],
-        aggregations: Callable[..., int | float],
-    ):
+        childen: List[Characteristic | Metric]
+        ):
         """Inserts a new characteristic into the quality model.
 
-        Assumes that `aggregations` is a function with n parameters, where n is the
-        number of children.
+        Aggregation is a function with the signature: f(int | float list, int | float list) -> int | float
         """
         pass
 
@@ -30,4 +32,8 @@ class QualityModel(ABC):
 
     @abstractmethod
     def find(self, key: str) -> Characteristic:
+        pass
+
+    @abstractmethod
+    def measure(self):
         pass
