@@ -9,17 +9,14 @@ class Characteristic(ABC):
     def measure() -> int | float:
         pass
 
+
 class QualityModel(ABC):
     @abstractmethod
     def __init__(self):
         pass
 
     @abstractmethod
-    def insert(
-        self,
-        parent: Characteristic,
-        childen: List[Characteristic | Metric]
-        ):
+    def insert(self, parent: Characteristic, childen: List[Characteristic | Metric]):
         """Inserts a new characteristic into the quality model.
 
         Aggregation is a function with the signature: f(int | float list, int | float list) -> int | float

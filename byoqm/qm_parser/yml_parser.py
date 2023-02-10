@@ -1,28 +1,37 @@
 from typing import List
 from qm_parser import Parser
-from qualitymodel import QualityModel
+from qualitymodel import QualityModel, Node
 import yaml
+from pathlib import Path
 
 
 class YMLParser(Parser):
-    
-    def parse_children(self, children: dict, parent : Node = None) -> List[Node]:
-        nodes = []
-        for key, value in children.items():
-            if key != "Metrics":
-                nodes.append(Node(key, parent, self.parse_children(value)))
-            else:
-                for metric, value in value.items():
-                    nodes.append(Node(metric, parent, value))
-        return nodes
-    
-    def parse(self, file_path: str) -> QualityModel:
-        #quality_md = QualityModel()
-        stream = open(file_path, 'r')
+    # TODO: Finding metrics, failing if they don't exist
+    # TODO: Parse weights
+    def parse(self, file_path: Path) -> Node:
+        stream = open(file_path, "r")
         dictionary = yaml.load(stream, Loader=yaml.FullLoader)
-        nodes = self.parse_children(dictionary)
-        for node in nodes:
-            #quality_md.insert(node)
-        
-    
-        
+        root = self._parse("Quality", dictionary)
+        return root
+
+    def _parse(self, name: str, children, parent: Node = None) -> Node:
+        # List of all keys = list of children names
+        # For each children name generate a child node
+        # Collect the child nodes in list
+        node = Node(name, parent, [])
+
+        children = []
+        for k, v in children:
+            if k == "Metric":
+                children.append(self._parse_metrics(v))
+            else:
+                children.append(self._parse(k, v, node))
+        node.children = children
+
+        return node
+
+    def _parse_metrics(self, metrics):
+        for m in metrics:
+            # search /metrics for the executable
+            pass
+        return []

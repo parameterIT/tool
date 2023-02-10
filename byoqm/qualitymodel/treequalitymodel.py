@@ -3,6 +3,7 @@ from ast import List
 from typing import Callable
 from qualitymodel import Characteristic, QualityModel
 
+
 class Node(Characteristic):
     def __init__(self, name: str, parent: Node, weights: List[int | float]):
         self.name = name
@@ -28,6 +29,6 @@ class TreeQualityModel(QualityModel):
 
     def find():
         pass
-    
+
     def measure():
         pass

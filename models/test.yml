@@ -1,0 +1,8 @@
+Quality:
+  Maintainability:
+    Readability:
+      Metrics:
+        - loc 
+    Complexiety:
+      Metrics:
+        - methodheader
