@@ -1,7 +1,17 @@
 from abc import ABC, abstractmethod
+import subprocess
+from pathlib import Path
 
 
-class Metric(ABC):
-    @abstractmethod
+
+class Metric():
+    def __init__(self, path : Path):
+        self.path = path.resolve()
+        self.name = path.name
+        
     def measure(self) -> int | float:
-        pass
+        process = subprocess.run([self.path], stdout=subprocess.PIPE)
+        result = process.stdout.decode('utf-8').strip()
+        return result
+        
+        
