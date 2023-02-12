@@ -1,7 +1,6 @@
 from abc import ABC, abstractmethod
-from collections.abc import Callable
 from typing import List
-from metric import Metric
+from byoqm.metric.metric import Metric
 
 
 class Characteristic(ABC):

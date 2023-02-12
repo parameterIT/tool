@@ -1,7 +1,5 @@
-from abc import ABC, abstractmethod
-from ast import List
-from typing import Callable
-from qualitymodel import Characteristic, QualityModel
+from typing import List
+from byoqm.qualitymodel.qualitymodel import Characteristic, QualityModel
 
 
 class Node(Characteristic):
