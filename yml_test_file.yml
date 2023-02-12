@@ -1,12 +1,19 @@
 Maintainability:
+  weight: 2
   Readability:
+    weight: 4 
     Metrics:
       - LOC:
         weight: 23
   Complexiety:
+    weight: 5
     Metrics:
-      - Duplication
-      - Cyclomatic
+      - Duplication:
+        weight: 4
+      - Cyclomatic:
+        weight: 5
 Reliability:
+  weight: 2
   Metrics:
-    - CodeCoverage
+    - CodeCoverage:
+      weight: 7
