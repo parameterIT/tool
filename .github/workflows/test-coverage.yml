@@ -1,20 +1,15 @@
-name: Checking test-coverage
-
+name: "coverage"
 on:
-  push:
-    branches: [main]
   pull_request:
-    branches: [main]
-
+    branches:
+      - master
+      - main
 jobs:
-  build:
-    runs-on: ubuntu-22.04
+  coverage:
+    runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - name: Setup Python 3.11.1
-        uses: actions/setup-python@v2
+      - name: Get Cover
+        uses: orgoro/coverage@v3
         with:
-          python-version: "3.11.1"
-      - name: Checking test-coverage
-        run: python -m coverage run -m unittest
-          python -m coverage report --fail-under=50
+          coverageFile: ../coverage.xml
+          token: ${{ secrets.GITHUB_TOKEN }}
