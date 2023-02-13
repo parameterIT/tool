@@ -1,6 +1,4 @@
 from abc import ABC, abstractmethod
-from collections.abc import Callable
-from typing import List
 from metric import Metric
 
 
@@ -17,10 +15,7 @@ class QualityModel(ABC):
 
     @abstractmethod
     def insert(self, parent: Characteristic, child: Characteristic | Metric):
-        """Inserts a new characteristic into the quality model.
-
-        Aggregation is a function with the signature: f(int | float list, int | float list) -> int | float
-        """
+        """Inserts a new characteristic into the quality model."""
         pass
 
     @abstractmethod

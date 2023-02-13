@@ -1,6 +1,4 @@
-from abc import ABC, abstractmethod
 from ast import List
-from typing import Callable
 from byoqm.metric.metric import Metric
 from qualitymodel import Characteristic, QualityModel
 
@@ -21,7 +19,7 @@ class Node(Characteristic):
 
 class TreeQualityModel(QualityModel):
     def __init__(self):
-        self.root = Node("root", None, [])
+        self.root = Node("quality", None, [])
 
     def insert(self, parent, child):
         self.find(parent).children.append(child)
@@ -32,7 +30,7 @@ class TreeQualityModel(QualityModel):
     def _keys(self, node: Node, metrics: str):
         for n in node.children:
             if isinstance(n, Metric):
-                metrics += n.name
+                metrics += " " + n.name
             else:
                 self._keys(n, metrics)
 
