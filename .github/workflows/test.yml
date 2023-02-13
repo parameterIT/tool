@@ -1,10 +1,10 @@
-name: Run Tests 
+name: Run Tests
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
   pull_request:
-    branches: [ main ]
+    branches: [main]
 
 jobs:
   build:
@@ -16,5 +16,4 @@ jobs:
         with:
           python-version: "3.11.1"
       - name: Test with unittest
-        run: python -m unittest discover
-
+        run: coverage run unittest discover
