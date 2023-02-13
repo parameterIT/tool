@@ -16,4 +16,4 @@ jobs:
         with:
           python-version: "3.11.1"
       - name: Test with unittest
-        run: coverage run unittest discover
+        run: python -m unittest discover
