@@ -4,6 +4,7 @@ from typing import Callable
 from byoqm.metric.metric import Metric
 from qualitymodel import Characteristic, QualityModel
 
+
 class Node(Characteristic):
     def __init__(self, name: str, parent: Node, weights: List[int | float]):
         self.name = name
@@ -26,8 +27,8 @@ class TreeQualityModel(QualityModel):
         self.find(parent).children.append(child)
 
     def keys(self):
-        print(self._keys(self.root,""))
-        
+        print(self._keys(self.root, ""))
+
     def _keys(self, node: Node, metrics: str):
         for n in node.children:
             if isinstance(n, Metric):
@@ -35,7 +36,7 @@ class TreeQualityModel(QualityModel):
             else:
                 self._keys(n, metrics)
 
-    def find(self, name: str):         
+    def find(self, name: str):
         for n in self.root.children:
             n._find(n, name)
 
@@ -45,6 +46,6 @@ class TreeQualityModel(QualityModel):
         else:
             for n in node.children:
                 n.find(n, name)
-    
+
     def measure(self):
         self.root.measure()
