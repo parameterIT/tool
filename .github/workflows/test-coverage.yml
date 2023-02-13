@@ -29,7 +29,7 @@ jobs:
           flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
       - name: Test with pytest
         run: |
-          pytest --cov-report xml
+          pytest --cov=byoqm --cov-report xml
       - name: Python Coverage
         uses: orgoro/coverage@v3
         with:
