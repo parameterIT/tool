@@ -4,14 +4,13 @@ on:
     branches:
       - master
       - main
-test:
+jobs:
   coverage:
     runs-on: ubuntu-latest
     steps:
-        - uses: orgoro/coverage@v3
-        - uses: ./
+      - name: Get Cover
+        uses: orgoro/coverage@v3
+        uses: ./
         with:
           coverageFile: coverage.xml
-          thresholdNew: 0.8
-          thresholdModified: 0.0
           token: ${{ secrets.GITHUB_TOKEN }}
