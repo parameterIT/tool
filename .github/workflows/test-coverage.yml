@@ -5,6 +5,19 @@ on:
       - master
       - main
 jobs:
+  unit_tests:
+    name: Unit test regression
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-python@v4
+        with:
+          python-version: "3.9"
+          cache: "pip"
+          architecture: "x64"
+          token: ${{ github.token }}
+      - run: pip install -r requirements.txt
+      - run: python -m unittest discover
   code_coverage:
     name: Unit test coverage
     runs-on: ubuntu-latest
@@ -18,7 +31,7 @@ jobs:
           architecture: "x64"
           token: ${{ github.token }}
       - run: pip install -r requirements.txt
-      - run: coverage run --source=byoqm/ -m unittest discover test/
+      - run: coverage run --source=byoqm/ -m unittest discover
       - run: coverage xml
       - uses: orgoro/coverage@v3
         with:
