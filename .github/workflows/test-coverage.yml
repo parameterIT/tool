@@ -8,8 +8,10 @@ jobs:
   coverage:
     runs-on: ubuntu-latest
     steps:
-      - name: Get Cover
-        uses: orgoro/coverage@v3
-        with:
-          coverageFile: "./coverage/coverage.xml"
-          token: ${{ secrets.GITHUB_TOKEN }}
+    - name: Generate xml Coverage
+      run: coverage xml
+    - name: Get Cover
+       uses: orgoro/coverage@v3
+       with:
+         coverageFile: "coverage.xml"
+         token: ${{ secrets.GITHUB_TOKEN }}
