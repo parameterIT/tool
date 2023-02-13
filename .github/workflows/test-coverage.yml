@@ -16,5 +16,5 @@ jobs:
         with:
           python-version: "3.11.1"
       - name: Checking test-coverage
-        run: coverage run -m unittest discover
-          coverage report --fail-under=50
+        run: python -m coverage run -m unittest
+          python -m coverage report --fail-under=50
