@@ -10,6 +10,7 @@ jobs:
     steps:
       - name: Get Cover
         uses: orgoro/coverage@v3
+      - name: Get dir
         uses: ./
         with:
           coverageFile: coverage.xml
