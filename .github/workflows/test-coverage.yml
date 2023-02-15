@@ -16,6 +16,6 @@ jobs:
         with:
           python-version: "3.11.1"
       - name: Running unit tests
-        run: poetry coverage run -m unittest
+        run: coverage run -m unittest
       - name: Test coverage
-        run: poetry coverage report --fail-under=0
+        run: coverage report --fail-under=0
