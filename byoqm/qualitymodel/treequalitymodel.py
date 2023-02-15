@@ -23,8 +23,8 @@ class TreeQualityModel(QualityModel):
 
     def insert(self, parent, child):
         if self.find(child.name) != None:
-            #TODO: Research traceback when raising a custom exception
-            raise Exception('Node already exists in the quality model')
+            # TODO: Research traceback when raising a custom exception
+            raise Exception("Node already exists in the quality model")
 
         self.find(parent).children.append(child)
 
@@ -49,7 +49,7 @@ class TreeQualityModel(QualityModel):
             for n in node.children:
                 n._find(n, name)
 
-        #Should only be hit if no node with the given name is found
+        # Should only be hit if no node with the given name is found
         return None
 
     def measure(self):
