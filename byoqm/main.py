@@ -1,5 +1,6 @@
 from pathlib import Path
 import sys
+from byoqm.models.code_climate import getDesc
 
 from byoqm import models
 from byoqm.models import code_climate
