@@ -1,4 +1,7 @@
 from typing import Dict
+from pathlib import Path
+
+SRC_ROOT = [Path()]
 
 
 def getDesc() -> Dict:
