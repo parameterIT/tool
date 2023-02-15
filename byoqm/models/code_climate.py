@@ -31,12 +31,14 @@ class CodeClimate(QualityModel):
         pass
 
     def file_length(self):
-        src_files = list(self.src_root.glob("**/*.py"))
+        py_files = self.src_root.glob("**/*.py")
         count = 0
-        for file in src_files:
-            loc = sum(1 for line in open(file))
-            if loc > 250:
-                count += 1
+        for file in py_files:
+            with open(file) as f:
+                loc = sum(1 for line in f)
+                if loc > 250:
+                    count += 1
+        py_files.close()
         return count
 
     def identical_blocks_of_code(self) -> int | float:
