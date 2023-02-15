@@ -1,5 +1,5 @@
-from typing import Dict
 from pathlib import Path
+from typing import Dict
 
 SRC_ROOT = [Path()]
 
@@ -11,7 +11,12 @@ def getDesc() -> Dict:
     The keys of the dictionary are seen as characteristics of the model, and the
     values aggregation functions.
     """
-    model = {"maintainability": maintainability, "duplication": duplication}
+
+    model = {
+        "maintainability": maintainability,
+        "duplication": duplication,
+        "lines of code": file_length,
+    }
     return model
 
 
@@ -40,7 +45,13 @@ def complex_logic():
 
 
 def file_length():
-    pass
+    src_files = list(SRC_ROOT[0].glob("**/*.py"))
+    count = 0
+    for file in src_files:
+        loc = sum(1 for line in open(file))
+        if loc > 250:
+            count += 1
+    return count
 
 
 def identical_blocks_of_code() -> int | float:
