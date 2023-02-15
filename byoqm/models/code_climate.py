@@ -1,82 +1,61 @@
-from pathlib import Path
 from typing import Dict
 
-SRC_ROOT = [Path()]
+from byoqm.qualitymodel.qualitymodel import QualityModel
 
 
-def getDesc() -> Dict:
-    """
-    getDesc returns a dictionary describing the quality model.
+class CodeClimate(QualityModel):
+    def getDesc(self) -> Dict:
+        model = {
+            "maintainability": self.maintainability,
+            "duplication": self.duplication,
+            "lines of code": self.file_length,
+        }
+        return model
 
-    The keys of the dictionary are seen as characteristics of the model, and the
-    values aggregation functions.
-    """
+    def maintainability(self):
+        return 7 + self.duplication()
 
-    model = {
-        "maintainability": maintainability,
-        "duplication": duplication,
-        "lines of code": file_length,
-    }
-    return model
+    def duplication(self) -> int | float:
+        return self.identical_blocks_of_code() + self.similar_blocks_of_code()
 
+    def cognitive_complexity(self):
+        pass
 
-def maintainability():
-    return 7 + duplication()
+    def cyclomatic_complexity(self):
+        pass
 
+    def argument_count(self):
+        pass
 
-def duplication() -> int | float:
-    return identical_blocks_of_code() + similar_blocks_of_code()
+    def complex_logic(self):
+        pass
 
+    def file_length(self):
+        src_files = list(self.src_root.glob("**/*.py"))
+        count = 0
+        for file in src_files:
+            loc = sum(1 for line in open(file))
+            if loc > 250:
+                count += 1
+        return count
 
-def cognitive_complexity():
-    pass
+    def identical_blocks_of_code(self) -> int | float:
+        return 2
 
+    def method_complexity(self):
+        pass
 
-def cyclomatic_complexity():
-    pass
+    def method_count(self):
+        pass
 
+    def method_length(self):
+        pass
 
-def argument_count():
-    pass
+    def nested_control_flow(self):
+        pass
 
+    def return_statements(self):
+        pass
 
-def complex_logic():
-    pass
-
-
-def file_length():
-    src_files = list(SRC_ROOT[0].glob("**/*.py"))
-    count = 0
-    for file in src_files:
-        loc = sum(1 for line in open(file))
-        if loc > 250:
-            count += 1
-    return count
-
-
-def identical_blocks_of_code() -> int | float:
-    return 2
-
-
-def method_complexity():
-    pass
-
-
-def method_count():
-    pass
-
-
-def method_length():
-    pass
-
-
-def nested_control_flow():
-    pass
-
-
-def return_statements():
-    pass
-
-
-def similar_blocks_of_code() -> int | float:
-    return 3
+    def similar_blocks_of_code(self) -> int | float:
+        return 3
