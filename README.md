@@ -14,7 +14,7 @@ poetry install
 This is all done using poetry. To run:
 
 ```sh
-poetry run python byoqm/main.py
+poetry run python byoqm/main.py <path/to/source/code>
 ```
 
 To test:
