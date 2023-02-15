@@ -16,7 +16,7 @@ jobs:
         with:
           python-version: "3.11.1"
       - name: Curling poetry
-      - run: curl -sSL https://install.python-poetry.org | python3 -
+      - run: curl -sSL https://install.python-poetry.org | python3
       - name: Installing poetry
       - run: poetry install
       - name: Installing coverage.
