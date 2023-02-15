@@ -15,7 +15,4 @@ if __name__ == "__main__":
         print(f"The source code at {path_to_src.resolve()} does not exist")
         exit(1)
 
-    print(path_to_src.resolve())
-
     code_climate.SRC_ROOT[0] = path_to_src
-    print(code_climate.SRC_ROOT[0])

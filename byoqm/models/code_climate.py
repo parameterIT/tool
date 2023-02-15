@@ -4,10 +4,14 @@ from pathlib import Path
 
 SRC_ROOT = [Path()]
 
-SRC_ROOT = Path('byoqm/metric')
 
+#'byoqm/metric'
 def getDesc() -> Dict:
-    model = {"maintainability": maintainability, "duplication": duplication, "Lines of code": file_length}
+    model = {
+        "maintainability": maintainability,
+        "duplication": duplication,
+        "lines of code": file_length,
+    }
     return model
 
 
@@ -36,7 +40,7 @@ def complex_logic():
 
 
 def file_length():
-    src_files = list(SRC_ROOT.glob('**/*.py'))
+    src_files = list(SRC_ROOT[0].glob("**/*.py"))
     count = 0
     for file in src_files:
         loc = sum(1 for line in open(file))
