@@ -1,11 +1,13 @@
+from pathlib import Path
 from typing import Dict
 from pathlib import Path
 
 SRC_ROOT = [Path()]
 
+SRC_ROOT = Path('byoqm/metric')
 
 def getDesc() -> Dict:
-    model = {"maintainability": maintainability, "duplication": duplication}
+    model = {"maintainability": maintainability, "duplication": duplication, "Lines of code": file_length}
     return model
 
 
@@ -34,7 +36,13 @@ def complex_logic():
 
 
 def file_length():
-    pass
+    src_files = list(SRC_ROOT.glob('**/*.py'))
+    count = 0
+    for file in src_files:
+        loc = sum(1 for line in open(file))
+        if loc > 250:
+            count += 1
+    return count
 
 
 def identical_blocks_of_code() -> int | float:
