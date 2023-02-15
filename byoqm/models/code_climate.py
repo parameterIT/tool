@@ -12,6 +12,7 @@ def getDesc() -> Dict:
     The keys of the dictionary are seen as characteristics of the model, and the
     values aggregation functions.
     """
+
     model = {
         "maintainability": maintainability,
         "duplication": duplication,
