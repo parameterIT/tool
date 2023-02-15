@@ -1,31 +1,21 @@
 from abc import ABC, abstractmethod
-from metric import Metric
-
-
-class Characteristic(ABC):
-    @abstractmethod
-    def measure() -> int | float:
-        pass
+from typing import Dict
+from pathlib import Path
 
 
 class QualityModel(ABC):
-    @abstractmethod
     def __init__(self):
         pass
 
-    @abstractmethod
-    def insert(self, parent: Characteristic, child: Characteristic | Metric):
-        """Inserts a new characteristic into the quality model."""
-        pass
+    def set_src_root(self, root: Path):
+        self.src_root = root
 
     @abstractmethod
-    def keys(self):
-        pass
+    def getDesc(self) -> Dict:
+        """
+        getDesc returns a dictionary describing the quality model.
 
-    @abstractmethod
-    def find(self, key: str) -> Characteristic:
-        pass
-
-    @abstractmethod
-    def measure(self):
+        The keys of the dictionary are seen as characteristics of the model, and the
+        values aggregation functions.
+        """
         pass
