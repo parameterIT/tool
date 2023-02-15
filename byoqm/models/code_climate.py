@@ -5,6 +5,12 @@ SRC_ROOT = [Path()]
 
 
 def getDesc() -> Dict:
+    """
+    getDesc returns a dictionary describing the quality model.
+
+    The keys of the dictionary are seen as characteristics of the model, and the
+    values aggregation functions.
+    """
     model = {"maintainability": maintainability, "duplication": duplication}
     return model
 
