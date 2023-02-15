@@ -1,9 +1,7 @@
 from pathlib import Path
 import sys
-
-from byoqm import models
-from byoqm.models import code_climate
 from byoqm.models.code_climate import getDesc
+from models import code_climate
 
 if __name__ == "__main__":
     if len(sys.argv) == 1:
