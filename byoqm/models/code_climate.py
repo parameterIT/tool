@@ -4,6 +4,7 @@ from pathlib import Path
 
 SRC_ROOT = [Path()]
 
+
 def getDesc() -> Dict:
     """
     getDesc returns a dictionary describing the quality model.
