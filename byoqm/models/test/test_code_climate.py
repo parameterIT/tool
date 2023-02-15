@@ -4,8 +4,8 @@ import unittest
 from byoqm.models.code_climate import CodeClimate
 
 
-class TestStringMethods(unittest.TestCase):
-    def test_file_length_given_this_directory_returns_0(self):
+class TestCodeClimate(unittest.TestCase):
+    def test_file_length_given_this_directory_returns_1(self):
         qm = CodeClimate()
         qm.set_src_root(Path("byoqm/models/test"))
 
