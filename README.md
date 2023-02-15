@@ -26,6 +26,6 @@ poetry run python -m unittest
 To format:
 
 ```
-poetry run python -m black .
+poetry run black .
 ```
 
