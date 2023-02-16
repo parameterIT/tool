@@ -1,4 +1,5 @@
 from typing import Dict
+import ast
 
 from byoqm.qualitymodel.qualitymodel import QualityModel
 
@@ -48,8 +49,17 @@ class CodeClimate(QualityModel):
         pass
 
     def method_count(self):
-        pass
-
+        py_files = self.src_root.glob("**/*.py")
+        count = 0
+        for file in py_files:
+            with open(file) as f:
+                tree = ast.parse(f.read())
+                mc = sum(isinstance(exp, ast.FunctionDef) for exp in tree.body)
+                if mc > 20: 
+                    count += 1
+        py_files.close
+        return count   
+     
     def method_length(self):
         pass
 
