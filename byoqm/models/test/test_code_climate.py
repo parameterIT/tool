@@ -14,14 +14,15 @@ class TestCodeClimate(unittest.TestCase):
 
         self.assertEqual(actual, expected)
 
-    def test_method_count_given_this_directory_returns_1(self): 
+    def test_method_count_given_this_directory_returns_1(self):
         qm = CodeClimate()
         qm.set_src_root(Path("byoqm/models/test"))
 
         expected = 1
         actual = qm.method_count()
-         
+
         self.assertEqual(actual, expected)
-         
+
+
 if __name__ == "__main__":
     unittest.main()

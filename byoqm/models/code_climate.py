@@ -55,11 +55,11 @@ class CodeClimate(QualityModel):
             with open(file) as f:
                 tree = ast.parse(f.read())
                 mc = sum(isinstance(exp, ast.FunctionDef) for exp in tree.body)
-                if mc > 20: 
+                if mc > 20:
                     count += 1
         py_files.close
-        return count   
-     
+        return count
+
     def method_length(self):
         pass
 

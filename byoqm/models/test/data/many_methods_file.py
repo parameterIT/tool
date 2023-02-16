@@ -1,42 +1,82 @@
-def method1() : 
+def method1():
     pass
-def method2() : 
+
+
+def method2():
     pass
-def method3() : 
+
+
+def method3():
     pass
-def method4() : 
+
+
+def method4():
     pass
-def method5() : 
+
+
+def method5():
     pass
-def method6() : 
+
+
+def method6():
     pass
-def method7() : 
+
+
+def method7():
     pass
-def method8() : 
+
+
+def method8():
     pass
-def method9() : 
+
+
+def method9():
     pass
-def method10() : 
+
+
+def method10():
     pass
-def method11() : 
+
+
+def method11():
     pass
-def method12() : 
+
+
+def method12():
     pass
-def method13() : 
+
+
+def method13():
     pass
-def method14() : 
+
+
+def method14():
     pass
-def method15() : 
+
+
+def method15():
     pass
-def method16() : 
+
+
+def method16():
     pass
-def method17() : 
+
+
+def method17():
     pass
-def method18() : 
+
+
+def method18():
     pass
-def method19() : 
+
+
+def method19():
     pass
-def method20() : 
+
+
+def method20():
     pass
-def method21() : 
+
+
+def method21():
     pass
