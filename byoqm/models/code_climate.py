@@ -86,8 +86,10 @@ class CodeClimate(QualityModel):
                 tree = ast.parse(f.read())
                 for exp in tree.body:
                     if isinstance(exp, ast.FunctionDef):
-                        rs = sum(isinstance(subexp, ast.Return) for subexp in ast.walk(exp))
-                        if rs > 4: 
+                        rs = sum(
+                            isinstance(subexp, ast.Return) for subexp in ast.walk(exp)
+                        )
+                        if rs > 4:
                             count += 1
         py_files.close()
         return count
