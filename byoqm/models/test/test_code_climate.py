@@ -22,6 +22,7 @@ class TestCodeClimate(unittest.TestCase):
         actual = qm.method_count()
 
         self.assertEqual(actual, expected)
+
     def test_argument_count_given_this_directory_returns_2(self):
         qm = CodeClimate()
         qm.set_src_root(Path("byoqm/models/test"))
@@ -30,6 +31,7 @@ class TestCodeClimate(unittest.TestCase):
         actual = qm.argument_count()
 
         self.assertEqual(actual, expected)
+
 
 if __name__ == "__main__":
     unittest.main()
