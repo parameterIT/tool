@@ -1,4 +1,4 @@
-from typing import Dict
+from typing import Dict, List
 import ast
 
 from byoqm.qualitymodel.qualitymodel import QualityModel
@@ -10,6 +10,7 @@ class CodeClimate(QualityModel):
             "maintainability": self.maintainability,
             "duplication": self.duplication,
             "lines of code": self.file_length,
+            "return statements": self.return_statements,
         }
         return model
 
@@ -67,7 +68,33 @@ class CodeClimate(QualityModel):
         pass
 
     def return_statements(self):
+        py_files = self.src_root.glob("**/*.py")
+        count = 0
+        for file in py_files:
+            with open(file) as f: 
+                tree = ast.parse(f.read())
+                for exp in tree.body:
+                    if isinstance(exp, ast.FunctionDef):
+                        print(exp)
+                        
+                        if exp.body == None:  
+                            continue
+                        rc = sum(isinstance(subExp, ast.Return) for subExp in exp.body)
+                        print (rc)
+                        if rc > 4: 
+                            count += 1
+        py_files.close()
+        return count
         pass
 
     def similar_blocks_of_code(self) -> int | float:
         return 3
+
+    def return_count_per_node(nodes : List[ast.stmt]) -> int | float:
+        if nodes.count() == 0:
+            return 0
+        sum = 0
+        for element in nodes:
+            if element == None:
+                continue
+            
