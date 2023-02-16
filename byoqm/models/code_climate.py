@@ -36,7 +36,7 @@ class CodeClimate(QualityModel):
                         continue
                     if len(exp.args.args) > 4:
                         count += 1
-        py_files.close
+        py_files.close()
         return count
 
     def complex_logic(self):
@@ -68,7 +68,7 @@ class CodeClimate(QualityModel):
                 mc = sum(isinstance(exp, ast.FunctionDef) for exp in tree.body)
                 if mc > 20:
                     count += 1
-        py_files.close
+        py_files.close()
         return count
 
     def method_length(self):
