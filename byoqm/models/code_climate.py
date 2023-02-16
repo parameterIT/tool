@@ -86,13 +86,8 @@ class CodeClimate(QualityModel):
                 tree = ast.parse(f.read())
                 for exp in tree.body:
                     if isinstance(exp, ast.FunctionDef):
-                        print(exp)
-
-                        if exp.body == None:
-                            continue
-                        rc = sum(isinstance(subExp, ast.Return) for subExp in exp.body)
-                        print(rc)
-                        if rc > 4:
+                        rs = sum(isinstance(subexp, ast.Return) for subexp in ast.walk(exp))
+                        if rs > 4: 
                             count += 1
         py_files.close()
         return count
@@ -100,11 +95,3 @@ class CodeClimate(QualityModel):
 
     def similar_blocks_of_code(self) -> int | float:
         return 3
-
-    def return_count_per_node(nodes: List[ast.stmt]) -> int | float:
-        if nodes.count() == 0:
-            return 0
-        sum = 0
-        for element in nodes:
-            if element == None:
-                continue
