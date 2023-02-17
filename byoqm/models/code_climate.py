@@ -10,7 +10,7 @@ class CodeClimate(QualityModel):
             "maintainability": self.maintainability,
             "duplication": self.duplication,
             "lines of code": self.file_length,
-            "method length": self.method_length
+            "method length": self.method_length,
         }
         return model
 
@@ -81,6 +81,7 @@ class CodeClimate(QualityModel):
                 for exp in tree.body:
                     ml = sum(1 for _ in ast.walk(exp))
                     print(ml)
+
     def nested_control_flow(self):
         pass
 

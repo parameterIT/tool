@@ -7,6 +7,7 @@ def method1():
     print(1)
     print(1)
 
+
 def method2():
     print(1)
     print(1)
@@ -24,7 +25,6 @@ def method2():
     print(1)
     print(1)
     print(1)
-
 
 
 def method3():
