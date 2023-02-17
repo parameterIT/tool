@@ -29,3 +29,24 @@ To format:
 poetry run black .
 ```
 
+
+## Building Tree Sitter Grammars
+
+Make sure you have a `build/` and `grammars/` folders in the root of the project:
+
+```sh
+mkdir build grammars
+```
+
+Clone the python grammar into `grammars/`:
+
+
+```sh
+cd grammars && git clone https://github.com/tree-sitter/tree-sitter-python && cd -
+```
+
+Build the grammar file:
+
+```sh
+poetry run python byoqm/build_treesitter.py
+```
