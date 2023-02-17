@@ -18,7 +18,7 @@ jobs:
         with:
           poetry-version: "1.2.2"
       - run: mkdir -p grammars build
-      - run: cd grammars && git git clone https://github.com/tree-sitter/tree-sitter-python && cd -
+      - run: cd grammars && git clone https://github.com/tree-sitter/tree-sitter-python && cd -
       - run: poetry install
       - run: poetry run python byoqm/build_treesitter.py
       - run: poetry run python -m unittest
