@@ -23,4 +23,5 @@ if __name__ == "__main__":
     qm: QualityModel = CodeClimate()
     qm.set_src_root(src_root)
     print(qm.getDesc()["lines of code"]())
+    print(qm.getDesc()["return statements"]())
     print(qm.getDesc()["method length"]())
