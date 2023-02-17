@@ -7,7 +7,7 @@ on:
     branches: [ main ]
 
 jobs:
-  build:
+  build-and0test:
     runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@v3
@@ -17,4 +17,9 @@ jobs:
       - uses: Gr1N/setup-poetry@v8
         with:
           poetry-version: "1.2.2"
-      - run: poetry install && poetry run python -m unittest
+      - run: mkdir -p grammars build
+      - run: cd grammars && git git clone https://github.com/tree-sitter/tree-sitter-python && cd -
+      - run: poetry install
+      - run: poetry run python byoqm/build_treesitter.py
+      - run: poetry run python -m unittest
+
