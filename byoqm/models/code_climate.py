@@ -90,7 +90,8 @@ class CodeClimate(QualityModel):
                 for child in children:
                     if child.type != "function_definition":
                         continue
-                    query = self._py_language.query("""
+                    query = self._py_language.query(
+                        """
                     (function_definition
                         name: (identifier) @function.def)
                     (call 
