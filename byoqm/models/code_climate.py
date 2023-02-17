@@ -8,7 +8,7 @@ from byoqm.qualitymodel.qualitymodel import QualityModel
 
 class CodeClimate(QualityModel):
     def __init__(self):
-        py_language = Language("grammars/my-languages.so", "python")
+        py_language = Language("build/my-languages.so", "python")
         self._parser = Parser()
         self._parser.set_language(py_language)
 
