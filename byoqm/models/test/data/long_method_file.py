@@ -1,4 +1,4 @@
-def method1():
+def short_method():
     print(1)
     print(1)
     print(1)
@@ -8,7 +8,25 @@ def method1():
     print(1)
 
 
-def method2():
+def long_method():
+    print(1)
+    print(1)
+    print(1)
+    print(1)
+    print(1)
+    print(1)
+    print(1)
+    print(1)
+    print(1)
+    print(1)
+    print(1)
+    print(1)
+    print(1)
+    print(1)
+    print(1)
+    print(1)
+    print(1)
+    print(1)
     print(1)
     print(1)
     print(1)
@@ -27,7 +45,23 @@ def method2():
     print(1)
 
 
-def method3():
+def Long_method_with_if():
+    print(1)
+    print(1)
+    print(1)
+    print(1)
+    print(1)
+    print(1)
+    print(1)
+    print(1)
+    print(1)
+    print(1)
+    print(1)
+    print(1)
+    print(1)
+    print(1)
+    if bool(1):
+        print(1)
     print(1)
     print(1)
     print(1)
