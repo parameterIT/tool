@@ -10,6 +10,7 @@ class CodeClimate(QualityModel):
             "maintainability": self.maintainability,
             "duplication": self.duplication,
             "lines of code": self.file_length,
+            "method length": self.method_length
         }
         return model
 
@@ -47,7 +48,7 @@ class CodeClimate(QualityModel):
         count = 0
         for file in py_files:
             with open(file) as f:
-                loc = sum(1 for line in f)
+                loc = sum(1 for line in f if line.rstrip())
                 if loc > 250:
                     count += 1
         py_files.close()
@@ -72,8 +73,14 @@ class CodeClimate(QualityModel):
         return count
 
     def method_length(self):
-        pass
-
+        py_files = self.src_root.glob("**/*.py")
+        count = 0
+        for file in py_files:
+            with open(file) as f:
+                tree = ast.parse(f.read())
+                for exp in tree.body:
+                    ml = sum(1 for _ in ast.walk(exp))
+                    print(ml)
     def nested_control_flow(self):
         pass
 
