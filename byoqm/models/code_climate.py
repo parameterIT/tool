@@ -23,12 +23,12 @@ class CodeClimate(QualityModel):
             "return statements": self.return_statements,
         }
         return model
-    
+
     def save_to_csv(self):
         file_location = "./output/" + str(date.today()) + ".csv"
-        with open(file_location, 'w') as file: 
+        with open(file_location, "w") as file:
             writer = csv.writer(file)
-            writer.writerow(["Metric","Value"])
+            writer.writerow(["Metric", "Value"])
             writer.writerow(["Argument Count", str(self.argument_count())])
             writer.writerow(["File Length", str(self.file_length())])
             writer.writerow(["Method Count", str(self.method_count())])
