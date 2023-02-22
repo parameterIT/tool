@@ -87,19 +87,18 @@ class CodeClimate(QualityModel):
             with open(file) as f:
                 tree = self._parser.parse(bytes(f.read(), "utf8"))
                 children = tree.root_node.children
-                for child in children:
-                    if child.type != "function_definition":
-                        continue
-                    query = self._py_language.query(
+                query = self._py_language.query(
                         """
                     (function_definition
                         name: (identifier) @function.def)
-                    (call 
-                        function: (identifier) @function.call)"""
+                        """
                     )
-                    captures = query.captures(child)
-                    if len(captures) > 25:
-                        count += 1
+                captures = query.captures(tree.root_node)
+                for node in captures:
+                    n = node[0]
+                    print(n.type)
+                    print(n.start_point)
+                    print(n.end_point)
         py_files.close()
         return count
 
