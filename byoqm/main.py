@@ -1,7 +1,8 @@
 from pathlib import Path
 from metric import Metric
+from visuals import pie
 
-
+data = list()
 path = "./metrics"
 metrics = []
 for child in Path(path).iterdir():
@@ -10,3 +11,6 @@ for child in Path(path).iterdir():
 
 for metric in metrics:
     print(metric.name, ":", metric.measure())
+    data.append(metric.measure())
+    
+
