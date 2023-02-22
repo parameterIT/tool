@@ -1,5 +1,8 @@
 from typing import Dict, List
 import ast
+from datetime import date
+import csv
+from pathlib import Path
 
 from tree_sitter import Language, Parser
 
@@ -20,6 +23,16 @@ class CodeClimate(QualityModel):
             "return statements": self.return_statements,
         }
         return model
+    
+    def save_to_csv(self):
+        file_location = "./output/" + str(date.today()) + ".csv"
+        with open(file_location, 'w') as file: 
+            writer = csv.writer(file)
+            writer.writerow(["Metric","Value"])
+            writer.writerow(["Argument Count", str(self.argument_count())])
+            writer.writerow(["File Length", str(self.file_length())])
+            writer.writerow(["Method Count", str(self.method_count())])
+            writer.writerow(["Return Statements", str(self.return_statements())])
 
     def maintainability(self):
         return 7 + self.duplication()
