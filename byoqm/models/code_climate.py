@@ -3,6 +3,7 @@ import ast
 from datetime import date
 import csv
 from pathlib import Path
+import os
 
 from tree_sitter import Language, Parser
 
@@ -24,8 +25,10 @@ class CodeClimate(QualityModel):
         }
         return model
 
-    def save_to_csv(self):
-        file_location = "./output/" + str(date.today()) + ".csv"
+    def save_to_csv(self, path="./output"):
+        file_location = path + "/" + str(date.today()) + ".csv"
+        if not os.path.exists(path):
+            os.mkdir(path)
         with open(file_location, "w") as file:
             writer = csv.writer(file)
             writer.writerow(["Metric", "Value"])
