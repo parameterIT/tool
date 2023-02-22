@@ -1,5 +1,7 @@
 from typing import Dict, List
 import ast
+import os
+from defusedxml.ElementTree import parse
 
 from tree_sitter import Language, Parser
 
@@ -18,6 +20,7 @@ class CodeClimate(QualityModel):
             "duplication": self.duplication,
             "lines of code": self.file_length,
             "return statements": self.return_statements,
+            "identical blocks of code": self.identical_blocks_of_code,
         }
         return model
 
@@ -62,7 +65,17 @@ class CodeClimate(QualityModel):
         return count
 
     def identical_blocks_of_code(self) -> int | float:
-        return 2
+        files = []
+        for file in self.src_root.glob("**/*.py"):
+            files.append(str(file))
+        filestring = f"{files}"; filestring = filestring[1:len(filestring)-1]
+        os.system(f"metrics/cpd/bin/run.sh cpd --minimum-tokens 10 --skip-lexical-errors --dir {filestring} --format xml > result.xml")
+        et = parse("result.xml")
+        count = 0
+        for child in et.getroot():
+            if child.tag == "duplication":
+                count += 1
+        return count
 
     def method_complexity(self):
         pass

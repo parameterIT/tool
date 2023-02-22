@@ -24,3 +24,4 @@ if __name__ == "__main__":
     qm.set_src_root(src_root)
     print(qm.getDesc()["lines of code"]())
     print(qm.getDesc()["return statements"]())
+    qm.getDesc()["identical blocks of code"]()
