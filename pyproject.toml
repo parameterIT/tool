@@ -8,6 +8,7 @@ readme = "README.md"
 [tool.poetry.dependencies]
 python = "^3.11"
 tree-sitter = "^0.20.1"
+defusedxml = "^0.7.1"
 
 [tool.poetry.group.dev.dependencies]
 black = "^23.1.0"
