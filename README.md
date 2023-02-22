@@ -9,6 +9,13 @@ You can then get started by running:
 poetry install
 ```
 
+### Code duplication - cpd
+
+As of this moment, we are using copy paste detector to find duplicate code.
+This requires you to download cpd and place the `bin/` and `lib/` folder (and their files) in a cpd subfolder in metrics (`metrics/cpd/<cpd folders goes here>`).
+
+You can download cpd from the following link (check if there is a newer release): https://github.com/pmd/pmd/releases/tag/pmd_releases/6.54.0
+
 ## Running, Testing, and Formatting
 
 This is all done using poetry. To run:
