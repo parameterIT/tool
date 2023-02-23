@@ -22,6 +22,8 @@ class CodeClimate(QualityModel):
             "duplication": self.duplication,
             "lines of code": self.file_length,
             "return statements": self.return_statements,
+            "argument count": self.argument_count,
+            "method count": self.method_count,
         }
         return model
 
@@ -31,11 +33,10 @@ class CodeClimate(QualityModel):
             os.mkdir(path)
         with open(file_location, "w") as file:
             writer = csv.writer(file)
+            dict = self.getDesc()
             writer.writerow(["Metric", "Value"])
-            writer.writerow(["Argument Count", str(self.argument_count())])
-            writer.writerow(["File Length", str(self.file_length())])
-            writer.writerow(["Method Count", str(self.method_count())])
-            writer.writerow(["Return Statements", str(self.return_statements())])
+            for key in dict:
+                writer.writerow([key, dict[key]()])
 
     def maintainability(self):
         return 7 + self.duplication()
