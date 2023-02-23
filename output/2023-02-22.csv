@@ -1,5 +1,7 @@
 Metric,Value
-Argument Count,2
-File Length,1
-Method Count,1
-Return Statements,2
+maintainability,15
+duplication,5
+lines of code,3
+return statements,4
+argument count,1
+method count,6
