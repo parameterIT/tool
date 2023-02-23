@@ -600,9 +600,18 @@ python-versions = ">=3.7"
 files = [
     {file = "xyzservices-2023.2.0-py3-none-any.whl", hash = "sha256:8d29c4d7c33b0ad63f54744ec90f68c5a65d7c0d7e498b624b7c076c1d926998"},
     {file = "xyzservices-2023.2.0.tar.gz", hash = "sha256:3342bba410d7941290eed0e58a2e5aadb0f7b97863ec4283b283c406ee723a28"},
+name = "tree-sitter"
+version = "0.20.1"
+description = "Python bindings to the Tree-sitter parsing library"
+category = "main"
+optional = false
+python-versions = ">=3.3"
+files = [
+    {file = "tree_sitter-0.20.1-cp39-cp39-macosx_12_0_arm64.whl", hash = "sha256:6f11a1fd909dcf569e7b1d98861a837436799e757bbbc5cd5280989050929e12"},
+    {file = "tree_sitter-0.20.1.tar.gz", hash = "sha256:e93f082c545d6649bcfb5d681ed255eb004a6ce22988971a128f40692feec60d"},
 ]
 
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.11"
-content-hash = "40efaeabb669c8c6e510e39312460f40c4b193fd39eb55d4e88022ff6ff05d09"
+content-hash = "5a54dc5c7c848481e632ae17cba8938b2d4eee5ead5b9e02c0a2998d5fbc1f0d"

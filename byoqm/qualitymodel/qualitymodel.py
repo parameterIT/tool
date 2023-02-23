@@ -1,33 +1,21 @@
 from abc import ABC, abstractmethod
-from collections.abc import Callable
-from typing import List
-
-
-class Characteristic(ABC):
-    @abstractmethod
-    def calculate() -> int | float:
-        pass
+from typing import Dict
+from pathlib import Path
 
 
 class QualityModel(ABC):
-    @abstractmethod
-    def insert(
-        self,
-        parent: Characteristic,
-        childen: List[Characteristic],
-        aggregations: Callable[..., int | float],
-    ):
-        """Inserts a new characteristic into the quality model.
+    def __init__(self):
+        pass
 
-        Assumes that `aggregations` is a function with n parameters, where n is the
-        number of children.
+    def set_src_root(self, root: Path):
+        self.src_root = root
+
+    @abstractmethod
+    def getDesc(self) -> Dict:
         """
-        pass
+        getDesc returns a dictionary describing the quality model.
 
-    @abstractmethod
-    def keys(self):
-        pass
-
-    @abstractmethod
-    def find(self, key: str) -> Characteristic:
+        The keys of the dictionary are seen as characteristics of the model, and the
+        values aggregation functions.
+        """
         pass

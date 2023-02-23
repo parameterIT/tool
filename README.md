@@ -14,7 +14,7 @@ poetry install
 This is all done using poetry. To run:
 
 ```sh
-poetry run python byoqm/main.py
+poetry run python byoqm/main.py <path/to/source/code>
 ```
 
 To test:
@@ -26,6 +26,27 @@ poetry run python -m unittest
 To format:
 
 ```
-poetry run python -m black .
+poetry run black .
 ```
 
+
+## Building Tree Sitter Grammars
+
+Make sure you have a `build/` and `grammars/` folders in the root of the project:
+
+```sh
+mkdir build grammars
+```
+
+Clone the python grammar into `grammars/`:
+
+
+```sh
+cd grammars && git clone https://github.com/tree-sitter/tree-sitter-python && cd -
+```
+
+Build the grammar file:
+
+```sh
+poetry run python byoqm/build_treesitter.py
+```
