@@ -90,37 +90,47 @@ class CodeClimate(QualityModel):
             bytes(
                 """
 if i == 0:
-	if i == 1:
+    if i == 1:
     	if i == 2:
-            	if i < j:
-                	pass
+            if i < j:
+                pass
+if x == 0:
+	if x == 1:
+    	if x == 2:
+            if x < z:
+                pass
 """,
                 "utf8",
             )
         )  # end of tree
+        root: tree_sitter.Node | None = tree.root_node
+        violations = self._nested_control_flow(root, 0, 0)
+        return violations
 
-        query = self._py_language.query(
-            """
-(if_statement
-    condition: _
-	consequence: (
-        block (if_statement
-        	condition: _
-            consequence: (block (if_statement
-            	condition: _
-                consequence: (block (if_statement
-                	condition: _
-                    consequence: _
-                ) @iiinner-if)
-               	)
-            ))
-		)
-)
-                                """
-        )  # end of query
+    def _nested_control_flow(
+        self, current: tree_sitter.Node | None, depth: int, violations: int
+    ) -> int:
+        print(current, depth)
+        if current == None:
+            return violations
 
-        captures = query.captures(tree.root_node)
-        print(captures)
+        if current.type == "if":
+            depth += 1
+
+        if depth >= 4:
+            return violations + 1
+
+        if current.next_sibling != None:
+            current = current.next_sibling
+            return self._nested_control_flow(current, depth, violations)
+        elif current.child_count >= 1:
+            # walk across all children
+            for child in current.children:
+                return self._nested_control_flow(child, depth + 1, violations)
+            else:
+                return violations
+        elif current.next_sibling == None:
+            return violations
 
     def return_statements(self):
         py_files = self.src_root.glob("**/*.py")
