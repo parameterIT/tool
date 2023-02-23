@@ -600,6 +600,8 @@ python-versions = ">=3.7"
 files = [
     {file = "xyzservices-2023.2.0-py3-none-any.whl", hash = "sha256:8d29c4d7c33b0ad63f54744ec90f68c5a65d7c0d7e498b624b7c076c1d926998"},
     {file = "xyzservices-2023.2.0.tar.gz", hash = "sha256:3342bba410d7941290eed0e58a2e5aadb0f7b97863ec4283b283c406ee723a28"},
+]
+[[package]]
 name = "tree-sitter"
 version = "0.20.1"
 description = "Python bindings to the Tree-sitter parsing library"
