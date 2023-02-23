@@ -2,15 +2,16 @@ from typing import Dict, List
 import ast
 
 from tree_sitter import Language, Parser
+import tree_sitter
 
 from byoqm.qualitymodel.qualitymodel import QualityModel
 
 
 class CodeClimate(QualityModel):
     def __init__(self):
-        py_language = Language("build/my-languages.so", "python")
+        self._py_language = Language("build/my-languages.so", "python")
         self._parser = Parser()
-        self._parser.set_language(py_language)
+        self._parser.set_language(self._py_language)
 
     def getDesc(self) -> Dict:
         model = {
@@ -83,7 +84,43 @@ class CodeClimate(QualityModel):
         pass
 
     def nested_control_flow(self):
-        pass
+        # 4 or more levels of nesting should be counted up
+        # if, while, for
+        tree = self._parser.parse(
+            bytes(
+                """
+if i == 0:
+	if i == 1:
+    	if i == 2:
+            	if i < j:
+                	pass
+""",
+                "utf8",
+            )
+        )  # end of tree
+
+        query = self._py_language.query(
+            """
+(if_statement
+    condition: _
+	consequence: (
+        block (if_statement
+        	condition: _
+            consequence: (block (if_statement
+            	condition: _
+                consequence: (block (if_statement
+                	condition: _
+                    consequence: _
+                ) @iiinner-if)
+               	)
+            ))
+		)
+)
+                                """
+        )  # end of query
+
+        captures = query.captures(tree.root_node)
+        print(captures)
 
     def return_statements(self):
         py_files = self.src_root.glob("**/*.py")
