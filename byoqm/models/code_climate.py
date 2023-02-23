@@ -1,5 +1,9 @@
 from typing import Dict, List
 import ast
+from datetime import date
+import csv
+from pathlib import Path
+import os
 
 from tree_sitter import Language, Parser
 
@@ -18,8 +22,21 @@ class CodeClimate(QualityModel):
             "duplication": self.duplication,
             "lines of code": self.file_length,
             "return statements": self.return_statements,
+            "argument count": self.argument_count,
+            "method count": self.method_count,
         }
         return model
+
+    def save_to_csv(self, path="./output"):
+        file_location = path + "/" + str(date.today()) + ".csv"
+        if not os.path.exists(path):
+            os.mkdir(path)
+        with open(file_location, "w") as file:
+            writer = csv.writer(file)
+            dict = self.getDesc()
+            writer.writerow(["Metric", "Value"])
+            for key in dict:
+                writer.writerow([key, dict[key]()])
 
     def maintainability(self):
         return 7 + self.duplication()
