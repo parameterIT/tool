@@ -66,8 +66,11 @@ class CodeClimate(QualityModel):
 
     def identical_blocks_of_code(self) -> int | float:
         files = [str(file) for file in self.src_root.glob("**/*.py")]
-        filestring = f"{files}"; filestring = filestring[1:len(filestring)-1]
-        os.system(f"metrics/cpd/bin/run.sh cpd --minimum-tokens 10 --skip-lexical-errors --dir {filestring} --format xml > out/result.xml")
+        filestring = f"{files}"
+        filestring = filestring[1 : len(filestring) - 1]
+        os.system(
+            f"metrics/cpd/bin/run.sh cpd --minimum-tokens 10 --skip-lexical-errors --dir {filestring} --format xml > out/result.xml"
+        )
         et = parse("result.xml")
         count = 0
         for child in et.getroot():
