@@ -3,6 +3,7 @@ import sys
 from byoqm.models.code_climate import CodeClimate
 from byoqm.visuals.dashboard import Dashboard
 from byoqm.qualitymodel.qualitymodel import QualityModel
+from visuals import line
 
 
 def parse_src_root() -> Path:
