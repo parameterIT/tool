@@ -57,7 +57,6 @@ class TestCodeClimate(unittest.TestCase):
         expected = 4
         actual = qm.identical_blocks_of_code()
         self.assertEqual(actual, expected)
-    
 
 
 if __name__ == "__main__":
