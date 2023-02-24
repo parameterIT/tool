@@ -2,29 +2,35 @@
 import ast
 from pathlib import Path
 from tree_sitter import Language, Parser
+import sys
 
 
-class Method_Count:
-    def __init__(self, src: Path):
-        self._py_language = Language("./build/my-languages.so", "python")
-        self._parser = Parser()
-        self._parser.set_language(self._py_language)
-        self.src_root = src
+def parse_src_root() -> Path:
+    if len(sys.argv) == 1:
+        print("Make sure to provide the path to source code")
+        exit(1)
 
-    def method_count(self):
-        py_files = self.src_root.glob("**/*.py")
-        count = 0
-        for file in py_files:
-            with open(file) as f:
-                tree = ast.parse(f.read())
-                mc = sum(isinstance(exp, ast.FunctionDef) for exp in tree.body)
-                if mc > 20:
-                    count += 1
-        py_files.close()
-        return count
+    path_to_src = Path(sys.argv[1])
+    if not path_to_src.exists():
+        print(f"The source code at {path_to_src.resolve()} does not exist")
+        exit(1)
+
+    return path_to_src
 
 
-mc: Method_Count = Method_Count(
-    src=Path("./byoqm/")
-)  # Path to user src_root, our project as dummy value.
-print(mc.method_count())
+PY_LANGUAGE = Language("./build/my-languages.so", "python")
+parser = Parser()
+parser.set_language(PY_LANGUAGE)
+
+src_root = parse_src_root()
+
+py_files = src_root.glob("**/*.py")
+count = 0
+for file in py_files:
+    with open(file) as f:
+        tree = ast.parse(f.read())
+        mc = sum(isinstance(exp, ast.FunctionDef) for exp in tree.body)
+        if mc > 20:
+            count += 1
+py_files.close()
+print(count)
