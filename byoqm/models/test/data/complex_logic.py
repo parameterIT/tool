@@ -5,7 +5,7 @@ d = bool(1)
 
 if a or b or c:
     print(2)
-elif b or c or d:
+elif b or c or d or a:
     print(3)
 
 while b or c:
