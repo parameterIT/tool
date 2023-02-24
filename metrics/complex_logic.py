@@ -2,13 +2,14 @@
 from pathlib import Path
 from tree_sitter import Language, Parser
 
+
 class Complex_Logic:
     def __init__(self, src: Path):
         self._py_language = Language("../build/my-languages.so", "python")
         self._parser = Parser()
         self._parser.set_language(self._py_language)
         self.src_root = src
-    
+
     def complex_logic(self):
         py_files = self.src_root.glob("**/*.py")
         count = 0
@@ -39,5 +40,3 @@ cl: Complex_Logic = Complex_Logic(
     src=Path("../byoqm/")
 )  # Path to user src_root, our project as dummy value.
 print("Complex logic violations,", cl.complex_logic())
-
-
