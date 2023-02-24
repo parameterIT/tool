@@ -144,8 +144,6 @@ class CodeClimate(QualityModel):
         return count
 
     def nested_control_flow(self):
-        logging.basicConfig(stream=sys.stderr)
-        logging.getLogger("tester").setLevel(logging.DEBUG)
         count = 0
         if self.src_root.is_file():
             with self.src_root.open() as f:
