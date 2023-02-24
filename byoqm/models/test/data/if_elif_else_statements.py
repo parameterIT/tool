@@ -39,7 +39,10 @@ elif i == 3:
                 else:
                     pass
 else:
-    print("it was not it")
+    for i in range(10):
+        for j in range(10):
+            for k in range(10):
+                pass
 
 
 if i == 2:

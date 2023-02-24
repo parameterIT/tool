@@ -1,9 +1,11 @@
+import logging
 from typing import Dict, List
 import ast
 from datetime import date
 import csv
 from pathlib import Path
 import os
+from test.test_support import sys
 
 from tree_sitter import Language, Parser
 import tree_sitter
@@ -101,6 +103,8 @@ class CodeClimate(QualityModel):
         pass
 
     def nested_control_flow(self):
+        logging.basicConfig(stream=sys.stderr)
+        logging.getLogger("tester").setLevel(logging.DEBUG)
         count = 0
         if self.src_root.is_file():
             with self.src_root.open() as f:
@@ -126,22 +130,27 @@ class CodeClimate(QualityModel):
         return count
 
     def _can_go_three_down(self, fromNode, depth) -> bool:
-        if depth == 3:
+        if depth >= 3:
             return True
-        else:
-            for child in fromNode.children:
-                if child.type == "block" or self._is_control_flow(child):
-                    # Check for block as a precaution, because tree-sitter has a block
-                    # as child following control-flow statements
-                    return self._can_go_three_down(child, depth + 1)
-                elif child.type == "elif_clause":
-                    # elif_clause is a child of an if_statement in tree_sitter, but in code
-                    # nesting levels a sibling of the if_statement, so don't increment
-                    # depth
-                    return self._can_go_three_down(child, depth)
-                elif child.type == "case_clause":
-                    # same as elif but for cases in a match statement
-                    return self._can_go_three_down(child, depth)
+
+        for child in fromNode.children:
+            if child.type == "block" or self._is_control_flow(child):
+                # Check for block as a precaution, because tree-sitter has a block
+                # as child following control-flow statements
+                return self._can_go_three_down(child, depth + 1)
+            elif child.type == "elif_clause":
+                # elif_clause is a child of an if_statement in tree_sitter, but in code
+                # nesting levels a sibling of the if_statement, so don't increment
+                # depth
+                return self._can_go_three_down(child, depth)
+            elif child.type == "else_clause":
+                # same as elif but for else, this doesn't work
+                # Chris's theory: child.type == block somehow prevents ever reaching
+                # this branch
+                return self._can_go_three_down(child, depth)
+            elif child.type == "case_clause":
+                # same as elif but for cases in a match statement
+                return self._can_go_three_down(child, depth)
         return False
 
     def _is_control_flow(self, node) -> bool:
