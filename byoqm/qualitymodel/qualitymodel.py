@@ -7,9 +7,9 @@ class QualityModel(ABC):
     def __init__(self):
         pass
 
-    def set_src_root(self, root: Path):
-        self.src_root = root
-
+    def set_results(self, results : Path):
+        self.results = results
+    
     @abstractmethod
     def getDesc(self) -> Dict:
         """

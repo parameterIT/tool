@@ -5,7 +5,7 @@ from tree_sitter import Language, Parser, Node
 
 class Method_Length:
     def __init__(self, src: Path):
-        self._py_language = Language("../build/my-languages.so", "python")
+        self._py_language = Language("./build/my-languages.so", "python")
         self._parser = Parser()
         self._parser.set_language(self._py_language)
         self.src_root = src
@@ -35,6 +35,6 @@ class Method_Length:
 
 
 ml: Method_Length = Method_Length(
-    src=Path("../byoqm/")
+    src=Path("./byoqm/")
 )  # Path to user src_root, our project as dummy value.
-print("Method length violations,", ml.method_length())
+print(ml.method_length())

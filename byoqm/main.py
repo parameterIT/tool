@@ -1,5 +1,9 @@
 from pathlib import Path
+import subprocess
 import sys
+import os
+import csv
+from datetime import date
 from byoqm.models.code_climate import CodeClimate
 from byoqm.visuals.dashboard import Dashboard
 from byoqm.qualitymodel.qualitymodel import QualityModel
@@ -18,12 +22,22 @@ def parse_src_root() -> Path:
 
     return path_to_src
 
+def save_to_csv(quality_model, out="./output"):
+        file_location = out + "/" + str(date.today()) + ".csv"
+        if not os.path.exists(out):
+            os.mkdir(out)
+        with open(file_location, "w") as file:
+            writer = csv.writer(file)
+            writer.writerow(["metric", "value"])
+            for metric, path in quality_model.getDesc().items():
+                process = subprocess.run([path], stdout=subprocess.PIPE)
+                result = process.stdout.decode("utf-8").strip() 
+                writer.writerow([metric, result])
 
 if __name__ == "__main__":
     src_root: Path = parse_src_root()
-
     qm: QualityModel = CodeClimate()
-    qm.set_src_root(src_root)
-    qm.save_to_csv()
-    dashboard = Dashboard()
-    dashboard.show_graphs()
+    save_to_csv(qm)
+    qm.set_results(Path("./output/2023-02-24.csv"))
+    #dashboard = Dashboard()
+    #dashboard.show_graphs()
