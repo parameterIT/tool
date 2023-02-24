@@ -2,12 +2,13 @@
 from pathlib import Path
 from tree_sitter import Language, Parser
 
+
 class File_Length:
-    def __init__(self, src : Path):
-            self._py_language = Language("../build/my-languages.so", "python")
-            self._parser = Parser()
-            self._parser.set_language(self._py_language)
-            self.src_root = src
+    def __init__(self, src: Path):
+        self._py_language = Language("../build/my-languages.so", "python")
+        self._parser = Parser()
+        self._parser.set_language(self._py_language)
+        self.src_root = src
 
     def file_length(self):
         py_files = self.src_root.glob("**/*.py")
@@ -20,5 +21,8 @@ class File_Length:
         py_files.close()
         return count
 
-fl : File_Length = File_Length(src = Path("../byoqm/")) #Path to user src_root, our project as dummy value.
-print("File length violations,",fl.file_length())
+
+fl: File_Length = File_Length(
+    src=Path("../byoqm/")
+)  # Path to user src_root, our project as dummy value.
+print("File length violations,", fl.file_length())
