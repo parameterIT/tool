@@ -1,6 +1,6 @@
 from bokeh.plotting import figure
 
-
+#this needs to get changed for monthly shift
 def get_line(data, key):
     x = [(value[0].split("-")[2]) for value in data[key]]
     y = [(value[1]) for value in data[key]]
