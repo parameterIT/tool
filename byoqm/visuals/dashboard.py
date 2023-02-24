@@ -14,8 +14,9 @@ class Dashboard:
         show(grid)
 
     def sort_data_values(self, data):
-        for key in data:
-            data[key].sort()
+        for metric_name in data:
+            # gets the corresponding list of (date, list) tuples and sorts them on the date
+            data[metric_name].sort()
         return data
 
     def get_data(self, path="./output"):
