@@ -39,6 +39,6 @@ class Method_Length:
             return count
 
 ml : Method_Length = Method_Length(src = Path("../byoqm/")) #Path to user src_root, our project as dummy value.
-print("Method length violations: ",ml.method_length())
+print("Method length violations,",ml.method_length())
 
 
