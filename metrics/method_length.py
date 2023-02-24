@@ -9,11 +9,11 @@ import os
 from tree_sitter import Language, Parser, Node
 
 class Method_Length:
-    def __init__(self):
+    def __init__(self, src : Path):
             self._py_language = Language("../build/my-languages.so", "python")
             self._parser = Parser()
             self._parser.set_language(self._py_language)
-            self.src_root = Path("../byoqm/") # Path to the source code, e.g. byoqm
+            self.src_root = src
 
     def method_length(self):
             py_files = self.src_root.glob("**/*.py")
@@ -38,7 +38,7 @@ class Method_Length:
             py_files.close()
             return count
 
-ml : Method_Length = Method_Length()
+ml : Method_Length = Method_Length(src = Path("../byoqm/")) #Path to user src_root, our project as dummy value.
 print("Method length violations: ",ml.method_length())
 
 
