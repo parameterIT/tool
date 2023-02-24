@@ -112,7 +112,9 @@ class CodeClimate(QualityModel):
                 captures = query.captures(tree.root_node)
                 for node in captures:
                     n = node[0]
-                    length = n.end_point[0] - n.start_point[0] + 1 #e.g. sp 1, ep 7 -> 7 - 1 = 6 + 1 = 7
+                    length = (
+                        n.end_point[0] - n.start_point[0] + 1
+                    )  # e.g. sp 1, ep 7 -> 7 - 1 = 6 + 1 = 7
                     if length > 25:
                         count += 1
         py_files.close()
