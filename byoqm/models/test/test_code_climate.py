@@ -50,6 +50,15 @@ class TestCodeClimate(unittest.TestCase):
 
         self.assertEqual(actual, expected)
 
+    def test_identical_code_given_test_data_directoy_returns_3(self):
+        qm = CodeClimate()
+        qm.set_src_root(Path("byoqm/models/test/data2/"))
+
+        expected = 4
+        actual = qm.identical_blocks_of_code()
+        self.assertEqual(actual, expected)
+    
+
 
 if __name__ == "__main__":
     unittest.main()
