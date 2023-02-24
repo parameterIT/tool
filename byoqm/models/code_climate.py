@@ -28,6 +28,7 @@ class CodeClimate(QualityModel):
             "identical blocks of code": self.identical_blocks_of_code,
             "argument count": self.argument_count,
             "method count": self.method_count,
+            "complex logic": self.complex_logic,
         }
         return model
 
@@ -69,7 +70,29 @@ class CodeClimate(QualityModel):
         return count
 
     def complex_logic(self):
-        pass
+        py_files = self.src_root.glob("**/*.py")
+        count = 0
+        for file in py_files:
+            with open(file) as f:
+                tree = self._parser.parse(bytes(f.read(), "utf8"))
+                query = self._py_language.query(
+                    """
+                        (_
+                            condition: (boolean_operator) @function.boolean_operator)
+                        """
+                )
+                captures = query.captures(tree.root_node)
+                for capture in captures:
+                    # initial count is always at least 2 (right and left)
+                    identifier_count = 2
+                    node = capture[0]
+                    while node.child_by_field_name("left").type != "identifier":
+                        identifier_count += 1
+                        node = node.child_by_field_name("left")
+                    if identifier_count > 2:
+                        count += 1
+        py_files.close()
+        return count
 
     def file_length(self):
         py_files = self.src_root.glob("**/*.py")
