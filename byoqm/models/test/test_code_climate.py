@@ -52,7 +52,7 @@ class TestCodeClimate(unittest.TestCase):
 
     def test_nested_control_flow_given_for_loops_returns_2(self):
         qm = CodeClimate()
-        qm.set_src_root(Path("byoqm/model/test/data/for_loops.py"))
+        qm.set_src_root(Path("byoqm/models/test/data/for_loops.py"))
 
         expected = 2
         actual = qm.nested_control_flow()

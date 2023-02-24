@@ -90,22 +90,27 @@ class CodeClimate(QualityModel):
     def nested_control_flow(self):
         count = 0
         if self.src_root.is_file():
+            logging.getLogger("tester").debug("its a file!!!!!!!!!!!!!!!!!")
             with self.src_root.open() as f:
                 count = self._nested_control_flow(f)
         else:
+            logging.getLogger("tester").debug("its a directory!!!!!!!!!!!!!!!!!")
             py_files = self.src_root.glob("**/*.py")
             for file in py_files:
                 with open(file) as f:
                     count += self._nested_control_flow(f)
+            else:
+                logging.getLogger("tester").debug(
+                    "its a empty directory!!!!!!!!!!!!!!!!!"
+                )
         return count
 
     def _nested_control_flow(self, f) -> int:
-        logging.basicConfig(stream=sys.stderr)
-        logging.getLogger("tester").setLevel(logging.DEBUG)
-
+        logging.getLogger("tester").debug("_nested_control_flow!!!!!!!!!!!!!!!!!")
         count = 0
         tree = self._parser.parse(bytes(f.read(), "utf-8"))
         queue = tree.root_node.children
+        logging.getLogger("tester").debug(f"{queue}")
         while len(queue) != 0:
             current = queue.pop(0)
             if self._is_control_flow_or_extraneous(current) and self._can_go_three_down(
@@ -117,26 +122,20 @@ class CodeClimate(QualityModel):
                     queue.append(child)
         return count
 
-    # Look for if_statement followed by block, check that block for the next if_statement
-    # generalize to look for any _statement followed by block, check that block for _statement
     def _can_go_three_down(self, fromNode, depth) -> bool:
         if depth == 3:
             return True
         else:
             for child in fromNode.children:
-                if child.type == "block":
-                    return self._can_go_three_down(child, depth)
                 if self._is_control_flow(child):
-                    return self._can_go_three_down(child, depth + 1)
-
+                    for grandchild in child.children:
+                        if grandchild.type == "block":
+                            return self._can_go_three_down(grandchild, depth + 1)
         return False
 
     def _is_control_flow(self, node) -> bool:
-        return (
-            node.type == "if"
-            or node.type == "if_statement"
-            or node.type == "for_statement"
-        )
+        logging.getLogger("tester").debug(f"{node.type}")
+        return node.type == "if_statement" or node.type == "for_statement"
 
     def _is_control_flow_or_extraneous(self, node) -> bool:
         return self._is_control_flow(node) or node.type == "block"
