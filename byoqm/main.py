@@ -31,7 +31,8 @@ def save_to_csv(quality_model, out="./output"):
         writer = csv.writer(file)
         writer.writerow(["metric", "value"])
         for metric, path in quality_model.getDesc()["metrics"].items():
-            process = subprocess.run(path, stdout=subprocess.PIPE)
+            cmd = [f"./{path}", f"{src_root}"]
+            process = subprocess.run(cmd, stdout=subprocess.PIPE)
             result = process.stdout.decode("utf-8").strip()
             writer.writerow([metric, result])
 
