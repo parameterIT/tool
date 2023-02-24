@@ -50,6 +50,15 @@ class TestCodeClimate(unittest.TestCase):
 
         self.assertEqual(actual, expected)
 
+    def test_complex_logic_given_this_repository_returns_3(self):
+        qm = CodeClimate()
+        qm.set_src_root(Path("byoqm/models/test"))
+
+        expected = 3
+        actual = qm.complex_logic()
+
+        self.assertEqual(actual, expected)
+
 
 if __name__ == "__main__":
     unittest.main()
