@@ -2,11 +2,8 @@ from bokeh.plotting import figure
 
 
 def get_line(data, key):
-    x = []
-    y = []
-    for value in data[key]:
-        x.append(value[0].split("-")[2])
-        y.append(value[1])
+    x = [(value[0].split("-")[2]) for value in data[key]]
+    y = [(value[1]) for value in data[key]]
     p = figure(
         title=key, x_axis_label="Date", y_axis_label="Problems", width=600, height=350
     )
