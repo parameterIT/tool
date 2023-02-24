@@ -7,8 +7,7 @@ from pathlib import Path
 import os
 from test.test_support import sys
 
-from tree_sitter import Language, Parser
-import tree_sitter
+from tree_sitter import Language, Parser, Node
 
 from byoqm.qualitymodel.qualitymodel import QualityModel
 
@@ -24,9 +23,11 @@ class CodeClimate(QualityModel):
             "maintainability": self.maintainability,
             "duplication": self.duplication,
             "lines of code": self.file_length,
+            "method length": self.method_length,
             "return statements": self.return_statements,
             "argument count": self.argument_count,
             "method count": self.method_count,
+            "complex logic": self.complex_logic,
         }
         return model
 
@@ -68,14 +69,36 @@ class CodeClimate(QualityModel):
         return count
 
     def complex_logic(self):
-        pass
+        py_files = self.src_root.glob("**/*.py")
+        count = 0
+        for file in py_files:
+            with open(file) as f:
+                tree = self._parser.parse(bytes(f.read(), "utf8"))
+                query = self._py_language.query(
+                    """
+                        (_
+                            condition: (boolean_operator) @function.boolean_operator)
+                        """
+                )
+                captures = query.captures(tree.root_node)
+                for capture in captures:
+                    # initial count is always at least 2 (right and left)
+                    identifier_count = 2
+                    node = capture[0]
+                    while node.child_by_field_name("left").type != "identifier":
+                        identifier_count += 1
+                        node = node.child_by_field_name("left")
+                    if identifier_count > 2:
+                        count += 1
+        py_files.close()
+        return count
 
     def file_length(self):
         py_files = self.src_root.glob("**/*.py")
         count = 0
         for file in py_files:
             with open(file) as f:
-                loc = sum(1 for line in f)
+                loc = sum(1 for line in f if line.rstrip())
                 if loc > 250:
                     count += 1
         py_files.close()
@@ -100,7 +123,27 @@ class CodeClimate(QualityModel):
         return count
 
     def method_length(self):
-        pass
+        py_files = self.src_root.glob("**/*.py")
+        count = 0
+        for file in py_files:
+            with open(file) as f:
+                tree = self._parser.parse(bytes(f.read(), "utf8"))
+                query = self._py_language.query(
+                    """
+                        (function_definition
+                            body: (block) @function.block)
+                        """
+                )
+                captures = query.captures(tree.root_node)
+                for node in captures:
+                    n = node[0]
+                    length = (
+                        n.end_point[0] - n.start_point[0] + 1
+                    )  # e.g. sp 1, ep 7 -> 7 - 1 = 6 + 1 = 7
+                    if length > 25:
+                        count += 1
+        py_files.close()
+        return count
 
     def nested_control_flow(self):
         logging.basicConfig(stream=sys.stderr)
@@ -168,10 +211,10 @@ class CodeClimate(QualityModel):
         for file in py_files:
             with open(file) as f:
                 tree = ast.parse(f.read())
-                for exp in tree.body:
-                    if isinstance(exp, ast.FunctionDef):
+                for node in tree.body:
+                    if isinstance(node, ast.FunctionDef):
                         rs = sum(
-                            isinstance(subexp, ast.Return) for subexp in ast.walk(exp)
+                            isinstance(subexp, ast.Return) for subexp in ast.walk(node)
                         )
                         if rs > 4:
                             count += 1
