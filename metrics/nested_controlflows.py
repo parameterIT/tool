@@ -3,6 +3,7 @@ from pathlib import Path
 from tree_sitter import Language, Parser
 import sys
 
+
 def parse_src_root() -> Path:
     if len(sys.argv) == 1:
         print("Make sure to provide the path to source code")
@@ -21,4 +22,4 @@ parser = Parser()
 parser.set_language(PY_LANGUAGE)
 src = parse_src_root()
 py_files = src.glob("**/*.py")
-print(4) #Missing logic
+print(4)  # Missing logic

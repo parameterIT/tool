@@ -3,6 +3,7 @@ from pathlib import Path
 from tree_sitter import Language, Parser, Node
 import sys
 
+
 def parse_src_root() -> Path:
     if len(sys.argv) == 1:
         print("Make sure to provide the path to source code")
@@ -14,6 +15,7 @@ def parse_src_root() -> Path:
         exit(1)
 
     return path_to_src
+
 
 PY_LANGUAGE = Language("./build/my-languages.so", "python")
 parser = Parser()

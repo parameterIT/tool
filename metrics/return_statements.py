@@ -4,6 +4,7 @@ import ast
 from tree_sitter import Language, Parser, Node
 import sys
 
+
 def parse_src_root() -> Path:
     if len(sys.argv) == 1:
         print("Make sure to provide the path to source code")
@@ -15,6 +16,7 @@ def parse_src_root() -> Path:
         exit(1)
 
     return path_to_src
+
 
 PY_LANGUAGE = Language("./build/my-languages.so", "python")
 parser = Parser()
@@ -29,9 +31,7 @@ for file in py_files:
         tree = ast.parse(f.read())
         for node in tree.body:
             if isinstance(node, ast.FunctionDef):
-                rs = sum(
-                    isinstance(subexp, ast.Return) for subexp in ast.walk(node)
-                )
+                rs = sum(isinstance(subexp, ast.Return) for subexp in ast.walk(node))
                 if rs > 4:
                     count += 1
 py_files.close()
