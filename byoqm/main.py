@@ -1,7 +1,9 @@
 from pathlib import Path
 import sys
 from byoqm.models.code_climate import CodeClimate
+from byoqm.visuals.dashboard import Dashboard
 from byoqm.qualitymodel.qualitymodel import QualityModel
+from visuals import line
 
 
 def parse_src_root() -> Path:
@@ -23,4 +25,5 @@ if __name__ == "__main__":
     qm: QualityModel = CodeClimate()
     qm.set_src_root(src_root)
     qm.save_to_csv()
-    print(qm.getDesc()["method length"]())
+    dashboard = Dashboard()
+    dashboard.show_graphs()
