@@ -1,10 +1,7 @@
 #!/usr/bin/env python
-import os
 import ast
-import csv
-from datetime import date
 from pathlib import Path
-from tree_sitter import Language, Parser, Node
+from tree_sitter import Language, Parser
 
 class Method_Count:
     def __init__(self, src : Path):
