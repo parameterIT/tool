@@ -86,7 +86,6 @@ class CodeClimate(QualityModel):
         files = [str(file) for file in self.src_root.glob("**/*.py")]
         filestring = f"{files}"
         filestring = filestring[1 : len(filestring) - 1]
-        print(filestring)
         os.system(
             f"metrics/cpd/bin/run.sh cpd --minimum-tokens 5 --skip-lexical-errors --dir {filestring} --format xml > out/result.xml"
         )
