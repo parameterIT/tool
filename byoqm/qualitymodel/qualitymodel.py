@@ -19,3 +19,7 @@ class QualityModel(ABC):
         values aggregation functions.
         """
         pass
+    
+    @abstractmethod
+    def get_aggregated_results(self):
+        pass

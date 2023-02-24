@@ -30,6 +30,9 @@ class CodeClimate(QualityModel):
         }
         return model
 
+    def get_aggregated_results(self):
+        return self.maintainability()
+
     def maintainability(self):
         return self.duplication() + self.cognitive_complexity() + self.structural_issues() + self.cyclomatic_complexity()
 

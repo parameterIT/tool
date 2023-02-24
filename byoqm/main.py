@@ -39,5 +39,6 @@ if __name__ == "__main__":
     qm: QualityModel = CodeClimate()
     save_to_csv(qm)
     qm.set_results(Path("./output/2023-02-24.csv"))
+    qm.get_aggregated_results()
     #dashboard = Dashboard()
     #dashboard.show_graphs()
