@@ -6,7 +6,8 @@ authors = ["Christoffer Gram <chkg@itu.dk>"]
 readme = "README.md"
 
 [tool.poetry.dependencies]
-python = "^3.11"
+python = "^3.10"
+bokeh = "^3.0.3"
 tree-sitter = "^0.20.1"
 defusedxml = "^0.7.1"
 

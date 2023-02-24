@@ -1,7 +1,9 @@
 from pathlib import Path
 import sys
 from byoqm.models.code_climate import CodeClimate
+from byoqm.visuals.dashboard import Dashboard
 from byoqm.qualitymodel.qualitymodel import QualityModel
+from visuals import line
 
 
 def parse_src_root() -> Path:
@@ -25,3 +27,6 @@ if __name__ == "__main__":
     print(qm.getDesc()["lines of code"]())
     print(qm.getDesc()["return statements"]())
     qm.getDesc()["identical blocks of code"]()
+    qm.save_to_csv()
+    dashboard = Dashboard()
+    dashboard.show_graphs()
