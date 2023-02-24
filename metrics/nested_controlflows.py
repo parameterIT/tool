@@ -1,18 +1,24 @@
 #!/usr/bin/env python
 from pathlib import Path
 from tree_sitter import Language, Parser
+import sys
 
-class Nested_Controlflows:
-    def __init__(self, src: Path):
-        self._py_language = Language("./build/my-languages.so", "python")
-        self._parser = Parser()
-        self._parser.set_language(self._py_language)
-        self.src_root = src
-    
-    def nested_controlflows(self):
-        return 4
+def parse_src_root() -> Path:
+    if len(sys.argv) == 1:
+        print("Make sure to provide the path to source code")
+        exit(1)
 
-ic: Nested_Controlflows = Nested_Controlflows(
-    src=Path("./byoqm/")
-)  # Path to user src_root, our project as dummy value.
-print(ic.nested_controlflows())
+    path_to_src = Path(sys.argv[1])
+    if not path_to_src.exists():
+        print(f"The source code at {path_to_src.resolve()} does not exist")
+        exit(1)
+
+    return path_to_src
+
+
+PY_LANGUAGE = Language("./build/my-languages.so", "python")
+parser = Parser()
+parser.set_language(PY_LANGUAGE)
+src = parse_src_root()
+py_files = src.glob("**/*.py")
+print(4) #Missing logic
