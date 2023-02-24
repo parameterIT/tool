@@ -1,17 +1,15 @@
-from bokeh.plotting import figure, show
-from bokeh.layouts import gridplot, column
-from typing import Dict, List
-from visuals import line
 import csv
 import os
+
+from bokeh.layouts import gridplot
+from bokeh.plotting import show
+from visuals import line
 
 
 class Dashboard:
     def show_graphs(self):
         data = self.get_data()
-        f = []
-        for key in data:
-            f.append(line.get_line(data, key))
+        f = [line.get_line(data, key) for key in data]
         grid = gridplot([[f[0], f[1]], [f[2], f[3]], [f[4], f[5]]])
         show(grid)
 
