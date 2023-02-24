@@ -1,23 +1,22 @@
-from bokeh.plotting import figure, show
-from bokeh.layouts import gridplot, column
-from typing import Dict, List
-from visuals import line
 import csv
 import os
+
+from bokeh.layouts import gridplot
+from bokeh.plotting import show
+from visuals import line
 
 
 class Dashboard:
     def show_graphs(self):
         data = self.get_data()
-        f = []
-        for key in data:
-            f.append(line.get_line(data, key))
+        f = [line.get_line(data, key) for key in data]
         grid = gridplot([[f[0], f[1]], [f[2], f[3]], [f[4], f[5]]])
         show(grid)
 
     def sort_data_values(self, data):
-        for key in data:
-            data[key].sort()
+        for metric_name in data:
+            # gets the corresponding list of (date, list) tuples and sorts them on the date
+            data[metric_name].sort()
         return data
 
     def get_data(self, path="./output"):
