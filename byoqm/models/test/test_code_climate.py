@@ -41,6 +41,24 @@ class TestCodeClimate(unittest.TestCase):
 
         self.assertEqual(actual, expected)
 
+    def test_nested_control_flow_given_ifstmts_returns_2(self):
+        qm = CodeClimate()
+        qm.set_src_root(Path("byoqm/models/test/data/if_stmts.py"))
+
+        expected = 2
+        actual = qm.nested_control_flow()
+
+        self.assertEqual(actual, expected)
+
+    def test_nested_control_flow_given_for_loops_returns_2(self):
+        qm = CodeClimate()
+        qm.set_src_root(Path("byoqm/model/test/data/for_loops.py"))
+
+        expected = 2
+        actual = qm.nested_control_flow()
+
+        self.assertEqual(actual, expected)
+
 
 if __name__ == "__main__":
     unittest.main()

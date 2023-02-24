@@ -1,5 +1,9 @@
+from io import FileIO
+from re import DEBUG
 from typing import Dict, List
 import ast
+from test.test_support import sys
+import logging
 
 from tree_sitter import Language, Parser
 import tree_sitter
@@ -84,53 +88,58 @@ class CodeClimate(QualityModel):
         pass
 
     def nested_control_flow(self):
-        # 4 or more levels of nesting should be counted up
-        # if, while, for
-        tree = self._parser.parse(
-            bytes(
-                """
-if i == 0:
-    if i == 1:
-    	if i == 2:
-            if i < j:
-                pass
-if x == 0:
-	if x == 1:
-    	if x == 2:
-            if x < z:
-                pass
-""",
-                "utf8",
-            )
-        )  # end of tree
-        root: tree_sitter.Node | None = tree.root_node
-        violations = self._nested_control_flow(root, 0, 0)
-        return violations
+        count = 0
+        if self.src_root.is_file():
+            with self.src_root.open() as f:
+                count = self._nested_control_flow(f)
+        else:
+            py_files = self.src_root.glob("**/*.py")
+            for file in py_files:
+                with open(file) as f:
+                    count += self._nested_control_flow(f)
+        return count
 
-    def _nested_control_flow(
-        self, current: tree_sitter.Node | None, depth: int, violations: int
-    ) -> int:
-        print(current, depth)
-        if current == None:
-            return violations
+    def _nested_control_flow(self, f) -> int:
+        logging.basicConfig(stream=sys.stderr)
+        logging.getLogger("tester").setLevel(logging.DEBUG)
 
-        if current.type == "if":
-            depth += 1
-
-        if depth >= 4:
-            return violations + 1
-
-        if current.next_sibling != None:
-            current = current.next_sibling
-            return self._nested_control_flow(current, depth, violations)
-        elif current.child_count >= 1:
-            # walk across all children
-            for child in current.children:
-                return self._nested_control_flow(child, depth + 1, violations)
+        count = 0
+        tree = self._parser.parse(bytes(f.read(), "utf-8"))
+        queue = tree.root_node.children
+        while len(queue) != 0:
+            current = queue.pop(0)
+            if self._is_control_flow_or_extraneous(current) and self._can_go_three_down(
+                current, 1
+            ):
+                count += 1
             else:
-                return violations
-        elif current.next_sibling == None:
-            return violations
+                for child in current.children:
+                    queue.append(child)
+        return count
+
+    # Look for if_statement followed by block, check that block for the next if_statement
+    # generalize to look for any _statement followed by block, check that block for _statement
+    def _can_go_three_down(self, fromNode, depth) -> bool:
+        if depth == 3:
+            return True
+        else:
+            for child in fromNode.children:
+                if child.type == "block":
+                    return self._can_go_three_down(child, depth)
+                if self._is_control_flow(child):
+                    return self._can_go_three_down(child, depth + 1)
+
+        return False
+
+    def _is_control_flow(self, node) -> bool:
+        return (
+            node.type == "if"
+            or node.type == "if_statement"
+            or node.type == "for_statement"
+        )
+
+    def _is_control_flow_or_extraneous(self, node) -> bool:
+        return self._is_control_flow(node) or node.type == "block"
 
     def return_statements(self):
         py_files = self.src_root.glob("**/*.py")
