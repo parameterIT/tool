@@ -1,6 +1,7 @@
 from pathlib import Path
 import sys
 from byoqm.models.code_climate import CodeClimate
+from byoqm.visuals.dashboard import Dashboard
 from byoqm.qualitymodel.qualitymodel import QualityModel
 
 
@@ -22,5 +23,6 @@ if __name__ == "__main__":
 
     qm: QualityModel = CodeClimate()
     qm.set_src_root(src_root)
-
-    print(qm.nested_control_flow())
+    qm.save_to_csv()
+    dashboard = Dashboard()
+    dashboard.show_graphs()
