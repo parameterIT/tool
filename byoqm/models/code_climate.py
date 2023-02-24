@@ -103,7 +103,6 @@ class CodeClimate(QualityModel):
         for file in py_files:
             with open(file) as f:
                 tree = self._parser.parse(bytes(f.read(), "utf8"))
-                children = tree.root_node.children
                 query = self._py_language.query(
                     """
                         (function_definition
@@ -113,7 +112,7 @@ class CodeClimate(QualityModel):
                 captures = query.captures(tree.root_node)
                 for node in captures:
                     n = node[0]
-                    length = n.end_point[0] - n.start_point[0] + 1
+                    length = n.end_point[0] - n.start_point[0] + 1 #e.g. sp 1, ep 7 -> 7 - 1 = 6 + 1 = 7
                     if length > 25:
                         count += 1
         py_files.close()
