@@ -22,23 +22,24 @@ def parse_src_root() -> Path:
 
     return path_to_src
 
+
 def save_to_csv(quality_model, out="./output"):
-        file_location = out + "/" + str(date.today()) + ".csv"
-        if not os.path.exists(out):
-            os.mkdir(out)
-        with open(file_location, "w") as file:
-            writer = csv.writer(file)
-            writer.writerow(["metric", "value"])
-            for metric, path in quality_model.getDesc().items():
-                process = subprocess.run([path], stdout=subprocess.PIPE)
-                result = process.stdout.decode("utf-8").strip() 
-                writer.writerow([metric, result])
+    file_location = out + "/" + str(date.today()) + ".csv"
+    if not os.path.exists(out):
+        os.mkdir(out)
+    with open(file_location, "w") as file:
+        writer = csv.writer(file)
+        writer.writerow(["metric", "value"])
+        for metric, path in quality_model.getDesc()["metrics"].items():
+            process = subprocess.run(path, stdout=subprocess.PIPE)
+            result = process.stdout.decode("utf-8").strip()
+            writer.writerow([metric, result])
+
 
 if __name__ == "__main__":
     src_root: Path = parse_src_root()
     qm: QualityModel = CodeClimate()
     save_to_csv(qm)
     qm.set_results(Path("./output/2023-02-24.csv"))
-    qm.get_aggregated_results()
-    #dashboard = Dashboard()
-    #dashboard.show_graphs()
+    for name, aggregation in qm.getDesc()["aggregations"].items():
+        print(name, aggregation())

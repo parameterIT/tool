@@ -18,15 +18,25 @@ class CodeClimate(QualityModel):
 
     def getDesc(self) -> Dict:
         model = {
-            "method_length": "./metrics/method_length.py",
-            "file_length": "./metrics/file_length.py",
-            "argument_count": "./metrics/argument_count.py",
-            "complex_logic": "./metrics/complex_logic.py",
-            "method_count": "./metrics/method_count.py",
-            "return_statements": "./metrics/return_statements.py",
-            "identical_blocks_of_code": "./metrics/identical_codeblocks.py",
-            "similar_blocks_of_code": "./metrics/similar_codeblocks.py",
-            "nested_controlflows": "./metrics/nested_controlflows.py",
+            "metrics": {
+                "method_length": "./metrics/method_length.py",
+                "file_length": "./metrics/file_length.py",
+                "argument_count": "./metrics/argument_count.py",
+                "complex_logic": "./metrics/complex_logic.py",
+                "method_count": "./metrics/method_count.py",
+                "return_statements": "./metrics/return_statements.py",
+                "identical_blocks_of_code": "./metrics/identical_codeblocks.py",
+                "similar_blocks_of_code": "./metrics/similar_codeblocks.py",
+                "nested_controlflows": "./metrics/nested_controlflows.py",
+            },
+            "aggregations": {
+                "quality": self.maintainability,
+                "maintainability": self.maintainability,
+                "duplication": self.duplication,
+                "cognitive complexity": self.cognitive_complexity,
+                "structural issues": self.structural_issues,
+                "cyclomatic complexity": self.cyclomatic_complexity,
+            },
         }
         return model
 
@@ -34,7 +44,12 @@ class CodeClimate(QualityModel):
         return self.maintainability()
 
     def maintainability(self):
-        return self.duplication() + self.cognitive_complexity() + self.structural_issues() + self.cyclomatic_complexity()
+        return (
+            self.duplication()
+            + self.cognitive_complexity()
+            + self.structural_issues()
+            + self.cyclomatic_complexity()
+        )
 
     def duplication(self) -> int | float:
         with self.results.open() as f:
@@ -46,7 +61,6 @@ class CodeClimate(QualityModel):
                 if row["metric"] == "similar_blocks_of_code":
                     sum += int(row["value"])
             return sum
-                
 
     def cognitive_complexity(self) -> int | float:
         with self.results.open() as f:
