@@ -123,7 +123,7 @@ class CodeClimate(QualityModel):
             f"metrics/cpd/bin/run.sh cpd --minimum-tokens {tokens} --skip-lexical-errors --dir {filestring} --format xml",
             shell=True,
             capture_output=True,
-            text=True
+            text=True,
         )
         et = parse(StringIO(res.stdout))
         for child in et.getroot():
