@@ -33,4 +33,7 @@ def method1():
         print(2)
 
 
+assigning_variable = a and b
+other_assigning_variable = a and b and c and d
+
 method1()
