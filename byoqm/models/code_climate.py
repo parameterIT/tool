@@ -1,3 +1,5 @@
+import subprocess
+import tempfile
 from typing import Dict, List
 import ast
 import os
@@ -115,14 +117,20 @@ class CodeClimate(QualityModel):
             files = [str(file) for file in self.src_root.glob("**/*.py")]
         filestring = f"{files}"
         filestring = filestring[1 : len(filestring) - 1]
-        os.system(
-            f"metrics/cpd/bin/run.sh cpd --minimum-tokens {tokens} --skip-lexical-errors --dir {filestring} --format xml > out/result.xml"
-        )
-        et = parse("out/result.xml")
         count = 0
-        for child in et.getroot():
-            if child.tag == "duplication":
-                count += 1
+        with tempfile.NamedTemporaryFile() as tmp:
+            res = subprocess.run(
+                f"metrics/cpd/bin/run.sh cpd --minimum-tokens {tokens} --skip-lexical-errors --dir {filestring} --format xml",
+                shell=True,
+                capture_output=True,
+            )
+            tmp.write(res.stdout)
+            tmp.seek(0)
+            et = parse(tmp)
+            for child in et.getroot():
+                if child.tag == "duplication":
+                    count += 1
+            tmp.close()
         return count
 
     def method_complexity(self):
