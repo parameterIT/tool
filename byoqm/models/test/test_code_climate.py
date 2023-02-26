@@ -124,6 +124,15 @@ class TestCodeClimate(unittest.TestCase):
 
         self.assertEqual(actual, expected)
 
+    def test_identical_code_given_loop_returns_0(self):
+        qm = CodeClimate()
+        qm.set_src_root(Path("byoqm/models/test/data2/simple.py"))
+
+        expected = 0
+        actual = qm.identical_blocks_of_code(10000)
+
+        self.assertEqual(actual, expected)
+
     def test_complex_logic_given_this_repository_returns_3(self):
         qm = CodeClimate()
         qm.set_src_root(Path("byoqm/models/test"))
