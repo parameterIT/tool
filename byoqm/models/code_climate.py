@@ -161,7 +161,62 @@ class CodeClimate(QualityModel):
         return count
 
     def nested_control_flow(self):
-        pass
+        count = 0
+        if self.src_root.is_file():
+            with self.src_root.open() as f:
+                count = self._nested_control_flow(f)
+        else:
+            py_files = self.src_root.glob("**/*.py")
+            for file in py_files:
+                with open(file) as f:
+                    count += self._nested_control_flow(f)
+        return count
+
+    def _nested_control_flow(self, f) -> int:
+        count = 0
+        tree = self._parser.parse(bytes(f.read(), "utf-8"))
+        queue = tree.root_node.children
+        while len(queue) != 0:
+            current = queue.pop(0)
+            if self._is_control_flow(current) and self._can_go_three_down(current, 1):
+                count += 1
+            else:
+                for child in current.children:
+                    queue.append(child)
+        return count
+
+    def _can_go_three_down(self, fromNode, depth) -> bool:
+        if depth >= 3:
+            return True
+
+        for child in fromNode.children:
+            if child.type == "block" or self._is_control_flow(child):
+                # Check for block as a precaution, because tree-sitter has a block
+                # as child following control-flow statements
+                return self._can_go_three_down(child, depth + 1)
+            elif child.type == "elif_clause":
+                # elif_clause is a child of an if_statement in tree_sitter, but in code
+                # nesting levels a sibling of the if_statement, so don't increment
+                # depth
+                return self._can_go_three_down(child, depth)
+            elif child.type == "else_clause":
+                # same as elif but for else, this doesn't work
+                # Chris's theory: child.type == block somehow prevents ever reaching
+                # this branch
+                return self._can_go_three_down(child, depth)
+            elif child.type == "case_clause":
+                # same as elif but for cases in a match statement
+                return self._can_go_three_down(child, depth)
+        return False
+
+    def _is_control_flow(self, node) -> bool:
+        CONTROL_FLOW_STMTS = (
+            "if_statement",
+            "for_statement",
+            "while_statement",
+            "match_statement",
+        )
+        return node.type in CONTROL_FLOW_STMTS
 
     def return_statements(self):
         py_files = self.src_root.glob("**/*.py")
