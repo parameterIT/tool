@@ -83,7 +83,7 @@ class CodeClimate(QualityModel):
                     # initial count is always at least 2 (right and left)
                     identifier_count = 2
                     node = capture[0]
-                    while node.child_by_field_name("left").type != "identifier":
+                    while node.child_by_field_name("left").type == "boolean_operator":
                         identifier_count += 1
                         node = node.child_by_field_name("left")
                     if identifier_count > 2:
