@@ -38,9 +38,9 @@ class CodeClimate(QualityModel):
         with open(file_location, "w") as file:
             writer = csv.writer(file)
             writer.writerow(["Metric", "Value"])
-            for metric,func in self.getDesc().items():
+            for metric, func in self.getDesc().items():
                 if metric == "identical blocks of code":
-                    writer.writerow([metric,func(35)])
+                    writer.writerow([metric, func(35)])
                 else:
                     writer.writerow([metric, func()])
 
