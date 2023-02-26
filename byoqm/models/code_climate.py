@@ -37,16 +37,18 @@ class CodeClimate(QualityModel):
             os.mkdir(path)
         with open(file_location, "w") as file:
             writer = csv.writer(file)
-            dict = self.getDesc()
             writer.writerow(["Metric", "Value"])
-            for key in dict:
-                writer.writerow([key, dict[key]()])
+            for metric,func in self.getDesc().items():
+                if metric == "identical blocks of code":
+                    writer.writerow([metric,func(35)])
+                else:
+                    writer.writerow([metric, func()])
 
     def maintainability(self):
         return 7 + self.duplication()
 
     def duplication(self) -> int | float:
-        return self.identical_blocks_of_code() + self.similar_blocks_of_code()
+        return self.identical_blocks_of_code(35) + self.similar_blocks_of_code()
 
     def cognitive_complexity(self):
         pass
