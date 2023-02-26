@@ -1,3 +1,4 @@
+from io import StringIO
 import subprocess
 import tempfile
 from typing import Dict, List
@@ -118,19 +119,16 @@ class CodeClimate(QualityModel):
         filestring = f"{files}"
         filestring = filestring[1 : len(filestring) - 1]
         count = 0
-        with tempfile.NamedTemporaryFile() as tmp:
-            res = subprocess.run(
-                f"metrics/cpd/bin/run.sh cpd --minimum-tokens {tokens} --skip-lexical-errors --dir {filestring} --format xml",
-                shell=True,
-                capture_output=True,
-            )
-            tmp.write(res.stdout)
-            tmp.seek(0)
-            et = parse(tmp)
-            for child in et.getroot():
-                if child.tag == "duplication":
-                    count += 1
-            tmp.close()
+        res = subprocess.run(
+            f"metrics/cpd/bin/run.sh cpd --minimum-tokens {tokens} --skip-lexical-errors --dir {filestring} --format xml",
+            shell=True,
+            capture_output=True,
+            text=True
+        )
+        et = parse(StringIO(res.stdout))
+        for child in et.getroot():
+            if child.tag == "duplication":
+                count += 1
         return count
 
     def method_complexity(self):
