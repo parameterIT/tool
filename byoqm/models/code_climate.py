@@ -86,7 +86,7 @@ class CodeClimate(QualityModel):
                     while node.child_by_field_name("left").type == "boolean_operator":
                         boolean_count += 1
                         node = node.child_by_field_name("left")
-                        #change the value below to a parameter when parameterizing
+                        # change the value below to a parameter when parameterizing
                     if boolean_count > 2:
                         count += 1
         py_files.close()
