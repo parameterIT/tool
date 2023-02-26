@@ -110,7 +110,7 @@ class CodeClimate(QualityModel):
         filestring = f"{files}"
         filestring = filestring[1 : len(filestring) - 1]
         os.system(
-            f"metrics/cpd/bin/run.sh cpd --minimum-tokens 5 --skip-lexical-errors --dir {filestring} --format xml > out/result.xml"
+            f"metrics/cpd/bin/run.sh cpd --minimum-tokens 34 --skip-lexical-errors --dir {filestring} --format xml > out/result.xml"
         )
         et = parse("out/result.xml")
         count = 0
