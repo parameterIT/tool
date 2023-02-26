@@ -5,7 +5,6 @@ from defusedxml.ElementTree import parse
 from datetime import date
 import csv
 from pathlib import Path
-import os
 
 from tree_sitter import Language, Parser, Node
 
@@ -105,12 +104,16 @@ class CodeClimate(QualityModel):
         py_files.close()
         return count
 
-    def identical_blocks_of_code(self) -> int | float:
-        files = [str(file) for file in self.src_root.glob("**/*.py")]
+    def identical_blocks_of_code(self, tokens) -> int | float:
+        files = []
+        if self.src_root.is_file():
+            files = [str(self.src_root)]
+        else:
+            files = [str(file) for file in self.src_root.glob("**/*.py")]
         filestring = f"{files}"
         filestring = filestring[1 : len(filestring) - 1]
         os.system(
-            f"metrics/cpd/bin/run.sh cpd --minimum-tokens 34 --skip-lexical-errors --dir {filestring} --format xml > out/result.xml"
+            f"metrics/cpd/bin/run.sh cpd --minimum-tokens {tokens} --skip-lexical-errors --dir {filestring} --format xml > out/result.xml"
         )
         et = parse("out/result.xml")
         count = 0
