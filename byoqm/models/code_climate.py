@@ -1,9 +1,13 @@
+from io import StringIO
+import subprocess
+import tempfile
 from typing import Dict, List
 import ast
+import os
+from defusedxml.ElementTree import parse
 from datetime import date
 import csv
 from pathlib import Path
-import os
 
 from tree_sitter import Language, Parser, Node
 
@@ -23,6 +27,7 @@ class CodeClimate(QualityModel):
             "lines of code": self.file_length,
             "method length": self.method_length,
             "return statements": self.return_statements,
+            "identical blocks of code": self.identical_blocks_of_code,
             "argument count": self.argument_count,
             "method count": self.method_count,
             "complex logic": self.complex_logic,
@@ -35,16 +40,18 @@ class CodeClimate(QualityModel):
             os.mkdir(path)
         with open(file_location, "w") as file:
             writer = csv.writer(file)
-            dict = self.getDesc()
             writer.writerow(["Metric", "Value"])
-            for key in dict:
-                writer.writerow([key, dict[key]()])
+            for metric, func in self.getDesc().items():
+                if metric == "identical blocks of code":
+                    writer.writerow([metric, func(35)])
+                else:
+                    writer.writerow([metric, func()])
 
     def maintainability(self):
         return 7 + self.duplication()
 
     def duplication(self) -> int | float:
-        return self.identical_blocks_of_code() + self.similar_blocks_of_code()
+        return self.identical_blocks_of_code(35) + self.similar_blocks_of_code()
 
     def cognitive_complexity(self):
         pass
@@ -117,8 +124,26 @@ class CodeClimate(QualityModel):
         py_files.close()
         return count
 
-    def identical_blocks_of_code(self) -> int | float:
-        return 2
+    def identical_blocks_of_code(self, tokens) -> int | float:
+        files = []
+        if self.src_root.is_file():
+            files = [str(self.src_root)]
+        else:
+            files = [str(file) for file in self.src_root.glob("**/*.py")]
+        filestring = f"{files}"
+        filestring = filestring[1 : len(filestring) - 1]
+        count = 0
+        res = subprocess.run(
+            f"metrics/cpd/bin/run.sh cpd --minimum-tokens {tokens} --skip-lexical-errors --dir {filestring} --format xml",
+            shell=True,
+            capture_output=True,
+            text=True,
+        )
+        et = parse(StringIO(res.stdout))
+        for child in et.getroot():
+            if child.tag == "duplication":
+                count += 1
+        return count
 
     def method_complexity(self):
         pass

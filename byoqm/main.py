@@ -24,6 +24,9 @@ if __name__ == "__main__":
 
     qm: QualityModel = CodeClimate()
     qm.set_src_root(src_root)
+    print(qm.getDesc()["lines of code"]())
+    print(qm.getDesc()["return statements"]())
+    qm.getDesc()["identical blocks of code"](35)
     qm.save_to_csv()
     dashboard = Dashboard()
     dashboard.show_graphs()
