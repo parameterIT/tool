@@ -24,26 +24,48 @@ parser.set_language(PY_LANGUAGE)
 src_root = parse_src_root()
 
 py_files = src_root.glob("**/*.py")
-count = 0
-for file in py_files:
-    with open(file) as f:
-        tree = parser.parse(bytes(f.read(), "utf8"))
-        query = PY_LANGUAGE.query(
-            """
-                (_
-                    condition: (boolean_operator) @function.boolean_operator)
-                """
-        )
-        captures = query.captures(tree.root_node)
-        for capture in captures:
-            # initial count is always at least 2 (right and left)
-            identifier_count = 2
-            node = capture[0]
-            while node.child_by_field_name("left").type == "boolean_operator":
-                identifier_count += 1
-                node = node.child_by_field_name("left")
-            if identifier_count > 2:
-                count += 1
-py_files.close()
 
-print(count)
+
+def complex_logic():
+    count = 0
+    # single file path
+    if src_root.is_file():
+        with src_root.open() as f:
+            count = _complex_logic(f)
+    else:
+        py_files = src_root.glob("**/*.py")
+
+        for file in py_files:
+            with open(file) as f:
+                count += _complex_logic(f)
+        py_files.close()
+    return count
+
+
+def _complex_logic(f):
+    tree = parser.parse(bytes(f.read(), "utf8"))
+    query = PY_LANGUAGE.query(
+        """
+            (_
+                condition: (boolean_operator) @function.boolean_operator)
+            (_
+                right: (boolean_operator) @function.boolean_operator)
+
+            """
+    )
+    captures = query.captures(tree.root_node)
+    count = 0
+    for capture in captures:
+        # initial count is always at least 2 (right and left)
+        boolean_count = 2
+        node = capture[0]
+        while node.child_by_field_name("left").type == "boolean_operator":
+            boolean_count += 1
+            node = node.child_by_field_name("left")
+            # change the value below to a parameter when parameterizing
+        if boolean_count > 2:
+            count += 1
+    return count
+
+
+print(complex_logic())
