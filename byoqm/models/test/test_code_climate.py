@@ -99,7 +99,8 @@ class TestCodeClimate(unittest.TestCase):
         self.assertEqual(actual, expected)
 
     @unittest.skipIf(
-        os.path.exists("../../../metrics/cpd/"), "CPD doesn't exist in the environment"
+        not os.path.exists("../../../metrics/cpd/"),
+        "CPD doesn't exist in the environment",
     )
     def test_identical_code_given_file_returns_1(self):
         qm = CodeClimate()
@@ -111,7 +112,8 @@ class TestCodeClimate(unittest.TestCase):
         self.assertEqual(actual, expected)
 
     @unittest.skipIf(
-        os.path.exists("../../../metrics/cpd/"), "CPD doesn't exist in the environment"
+        not os.path.exists("../../../metrics/cpd/"),
+        "CPD doesn't exist in the environment",
     )
     def test_identical_code_given_loop_returns_1(self):
         qm = CodeClimate()
@@ -123,7 +125,8 @@ class TestCodeClimate(unittest.TestCase):
         self.assertEqual(actual, expected)
 
     @unittest.skipIf(
-        os.path.exists("../../../metrics/cpd/"), "CPD doesn't exist in the environment"
+        not os.path.exists("../../../metrics/cpd/"),
+        "CPD doesn't exist in the environment",
     )
     def test_identical_code_given_loop_returns_5(self):
         qm = CodeClimate()
@@ -135,7 +138,8 @@ class TestCodeClimate(unittest.TestCase):
         self.assertEqual(actual, expected)
 
     @unittest.skipIf(
-        os.path.exists("../../../metrics/cpd/"), "CPD doesn't exist in the environment"
+        not os.path.exists("../../../metrics/cpd/"),
+        "CPD doesn't exist in the environment",
     )
     def test_identical_code_given_loop_returns_0(self):
         qm = CodeClimate()
