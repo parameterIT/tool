@@ -8,8 +8,6 @@ from tree_sitter import Language, Parser, Node
 
 from byoqm.qualitymodel.qualitymodel import QualityModel
 
-print("Hello from code_cliamte")
-
 
 class CodeClimate(QualityModel):
     def __init__(self):
@@ -92,3 +90,6 @@ class CodeClimate(QualityModel):
 
     def similar_blocks_of_code(self) -> int | float:
         return 3
+
+
+model = CodeClimate()
