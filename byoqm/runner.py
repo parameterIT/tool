@@ -20,8 +20,9 @@ _MODELS_DIR = "models"
 
 class Runner:
     def __init__(self, model_name: str, src_root: str):
-        self._src_root = src_root
+        self._src_root: str = src_root
         self._model: QualityModel = self._load(model_name)
+        self._model_name: str = model_name
 
     def _load(self, model_name: str) -> QualityModel:
         """
@@ -88,6 +89,7 @@ class Runner:
 
         with open(file_location, "w") as results_file:
             writer = csv.writer(results_file)
+            writer.writerow([f"qualitymodel={self._model_name}"])
             writer.writerow(["Metric", "Value"])
             for description, value in results.items():
                 writer.writerow([description, value])
