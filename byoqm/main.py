@@ -1,6 +1,10 @@
 from pathlib import Path
+import subprocess
 import sys
 import importlib.util
+import os
+import csv
+from datetime import date
 from byoqm.visuals.dashboard import Dashboard
 from byoqm.qualitymodel.qualitymodel import QualityModel
 from visuals import line
@@ -32,6 +36,20 @@ def parse_quality_model() -> QualityModel:
     spec.loader.exec_module(module)
 
 
+def save_to_csv(quality_model, out="./output"):
+    file_location = out + "/" + str(date.today()) + ".csv"
+    if not os.path.exists(out):
+        os.mkdir(out)
+    with open(file_location, "w") as file:
+        writer = csv.writer(file)
+        writer.writerow(["Metric", "Value"])
+        for metric, path in quality_model.getDesc()["metrics"].items():
+            cmd = [f"./{path}", f"{src_root}"]
+            process = subprocess.run(cmd, stdout=subprocess.PIPE)
+            result = process.stdout.decode("utf-8").strip()
+            writer.writerow([metric, result])
+
+
 if __name__ == "__main__":
     if len(sys.argv) < 2:
         print(
@@ -41,12 +59,10 @@ if __name__ == "__main__":
 
     parse_quality_model()
     src_root: Path = parse_src_root()
-
-    # qm: QualityModel = CodeClimate()
-    # qm.set_src_root(src_root)
-    # print(qm.getDesc()["lines of code"]())
-    # print(qm.getDesc()["return statements"]())
-    # qm.getDesc()["identical blocks of code"](35)
-    # qm.save_to_csv()
-    # dashboard = Dashboard()
-    # dashboard.show_graphs()
+    qm: QualityModel = CodeClimate()
+    save_to_csv(qm)
+    qm.set_results(Path("./output/2023-02-24.csv"))
+    for name, aggregation in qm.getDesc()["aggregations"].items():
+        print(name, aggregation())
+    dashboard = Dashboard()
+    dashboard.show_graphs()
