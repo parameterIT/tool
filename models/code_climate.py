@@ -29,18 +29,10 @@ class CodeClimate(QualityModel):
                 "nested_controlflows": "./metrics/nested_controlflows.py",
             },
             "aggregations": {
-                "quality": self.maintainability,
-                "maintainability": self.maintainability,
-                "duplication": self.duplication,
-                "cognitive complexity": self.cognitive_complexity,
-                "structural issues": self.structural_issues,
                 "cyclomatic complexity": self.cyclomatic_complexity,
             },
         }
         return model
-
-    def get_aggregated_results(self):
-        return self.maintainability()
 
     def maintainability(self):
         return (
@@ -81,12 +73,8 @@ class CodeClimate(QualityModel):
                     sum += int(row["Value"])
             return sum
 
-    def cyclomatic_complexity(self):
-        with self.results.open() as f:
-            reader = csv.DictReader(f)
-            for row in reader:
-                if row["Metric"] == "return_statements":
-                    return int(row["Value"])
+    def cyclomatic_complexity(self, results: Dict):
+        return results["return_statements"]
 
     def similar_blocks_of_code(self) -> int | float:
         return 3
