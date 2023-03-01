@@ -70,13 +70,12 @@ class Runner:
         return results
 
     def _run_aggregations(self, metrics: Dict) -> Dict:
-        results = metrics.copy()
+        results = metrics
 
         aggregations = self._model.getDesc()["aggregations"]
         for aggregation, aggregation_function in aggregations.items():
             results[aggregation] = aggregation_function(results)
 
-        print(results)
         return results
 
     def _write_to_csv(self, results: Dict):
