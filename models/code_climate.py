@@ -29,55 +29,36 @@ class CodeClimate(QualityModel):
                 "nested_controlflows": "./metrics/nested_controlflows.py",
             },
             "aggregations": {
-                "cyclomatic complexity": self.cyclomatic_complexity,
+                "cyclomatic_complexity": self.cyclomatic_complexity,
+                "structural_issues": self.structural_issues,
+                "cognitive_complexity": self.cognitive_complexity,
+                "duplication": self.duplication,
+                "maintainability": self.maintainability,
             },
         }
         return model
 
-    def maintainability(self):
+    def maintainability(self, results: Dict) -> int | float:
         return (
-            self.duplication()
-            + self.cognitive_complexity()
-            + self.structural_issues()
-            + self.cyclomatic_complexity()
+            results["duplication"]
+            + results["cognitive_complexity"]
+            + results["structural_issues"]
+            + results["cognitive_complexity"]
         )
 
-    def duplication(self) -> int | float:
-        with self.results.open() as f:
-            reader = csv.DictReader(f)
-            sum = 0
-            for row in reader:
-                if row["Metric"] == "identical_blocks_of_code":
-                    sum += int(row["Value"])
-                if row["Metric"] == "similar_blocks_of_code":
-                    sum += int(row["Value"])
-            return sum
+    def duplication(self, results: Dict) -> int | float:
+        return results["identical_blocks_of_code"] + results["similar_blocks_of_code"]
 
-    def cognitive_complexity(self) -> int | float:
-        with self.results.open() as f:
-            reader = csv.DictReader(f)
-            for row in reader:
-                if row["Metric"] == "complex_logic":
-                    return int(row["Value"])
+    def cognitive_complexity(self, results: Dict):
+        return results["complex_logic"]
 
-    def structural_issues(self):
-        with self.results.open() as f:
-            reader = csv.DictReader(f)
-            sum = 0
-            for row in reader:
-                if row["Metric"] == "argument_count":
-                    sum += int(row["Value"])
-                if row["Metric"] == "file_length":
-                    sum += int(row["Value"])
-                if row["Metric"] == "method_count":
-                    sum += int(row["Value"])
-            return sum
+    def structural_issues(self, results: Dict):
+        return (
+            results["argument_count"] + results["file_length"] + results["method_count"]
+        )
 
     def cyclomatic_complexity(self, results: Dict):
         return results["return_statements"]
-
-    def similar_blocks_of_code(self) -> int | float:
-        return 3
 
 
 model = CodeClimate()

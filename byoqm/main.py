@@ -27,5 +27,5 @@ if __name__ == "__main__":
     runner: Runner = Runner("code_climate", "byoqm")
     runner.run()
 
-    dashboard = Dashboard()
-    dashboard.show_graphs()
+    # dashboard = Dashboard()
+    # dashboard.show_graphs()

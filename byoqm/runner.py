@@ -65,7 +65,7 @@ class Runner:
             cmd = [f"./{exec_path}", f"{self._src_root}"]
             process = subprocess.run(cmd, stdout=subprocess.PIPE)
             result = process.stdout.decode("utf-8").strip()
-            results[metric] = result
+            results[metric] = int(result)
 
         return results
 
@@ -74,7 +74,7 @@ class Runner:
 
         aggregations = self._model.getDesc()["aggregations"]
         for aggregation, aggregation_function in aggregations.items():
-            results[aggregation] = aggregation_function(metrics)
+            results[aggregation] = aggregation_function(results)
 
         print(results)
         return results
