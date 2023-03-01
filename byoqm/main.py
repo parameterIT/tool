@@ -29,7 +29,7 @@ def save_to_csv(quality_model, out="./output"):
         os.mkdir(out)
     with open(file_location, "w") as file:
         writer = csv.writer(file)
-        writer.writerow(["metric", "value"])
+        writer.writerow(["Metric", "Value"])
         for metric, path in quality_model.getDesc()["metrics"].items():
             cmd = [f"./{path}", f"{src_root}"]
             process = subprocess.run(cmd, stdout=subprocess.PIPE)
@@ -44,3 +44,5 @@ if __name__ == "__main__":
     qm.set_results(Path("./output/2023-02-24.csv"))
     for name, aggregation in qm.getDesc()["aggregations"].items():
         print(name, aggregation())
+    dashboard = Dashboard()
+    dashboard.show_graphs()
