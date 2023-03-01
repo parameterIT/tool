@@ -14,7 +14,7 @@ MODELS_PATH = "models"
 
 
 def parse_src_root() -> Path:
-    path_to_src = Path(sys.argv[1])
+    path_to_src = Path(sys.argv[0])
     if not path_to_src.exists():
         print(f"The source code at {path_to_src.resolve()} does not exist")
         exit(1)
@@ -27,13 +27,13 @@ def parse_quality_model() -> QualityModel:
         print(f"Make sure the models folder exists")
         exit(1)
 
-    quality_model_name = sys.argv[2]
+    quality_model_name = sys.argv[1]
     spec = importlib.util.spec_from_file_location(
         "code_climate", "models/code_climate.py"
     )
     module = importlib.util.module_from_spec(spec)
     sys.modules["code_climate"] = module
-    spec.loader.exec_module(module)
+    return spec.loader.exec_module(module)
 
 
 def save_to_csv(quality_model, out="./output"):
@@ -53,13 +53,12 @@ def save_to_csv(quality_model, out="./output"):
 if __name__ == "__main__":
     if len(sys.argv) < 2:
         print(
-            "Make sure to provide the path to source code and a name of a quality model to use"
+            f"Make sure to provide the path to source code and a name of a quality model to use currently have {sys.argv}"
         )
         exit(1)
 
-    parse_quality_model()
     src_root: Path = parse_src_root()
-    qm: QualityModel = CodeClimate()
+    qm = parse_quality_model()
     save_to_csv(qm)
     qm.set_results(Path("./output/2023-02-24.csv"))
     for name, aggregation in qm.getDesc()["aggregations"].items():
