@@ -29,7 +29,7 @@ def save_to_csv(quality_model, out="./output"):
         os.mkdir(out)
     with open(file_location, "w") as file:
         writer = csv.writer(file)
-        writer.writerow(["Metric", "Value"])
+        writer.writerow(["metric", "value"])
         for metric, path in quality_model.getDesc()["metrics"].items():
             cmd = [f"./{path}", f"{src_root}"]
             process = subprocess.run(cmd, stdout=subprocess.PIPE)
