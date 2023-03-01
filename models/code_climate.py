@@ -90,3 +90,6 @@ class CodeClimate(QualityModel):
 
     def similar_blocks_of_code(self) -> int | float:
         return 3
+
+
+model = CodeClimate()
