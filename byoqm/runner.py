@@ -53,10 +53,24 @@ class Runner:
         Returns a path to a .csv file that contains the metric and aggregation results
         as defined by the currently loaded model.
         """
-        metrics = self._run_metrics()
-        aggregations = self._run_aggregations(metrics)
-        output = self._write_to_csv(aggregations)
+        results = self._run_aggregations()
+        output = self._write_to_csv(results)
         return output
+
+    def _run_aggregations(self) -> Dict:
+        """
+        Runs all the aggergations defined by the quality model.
+        The `results` dictionary is updated as each aggregation is run, meaning that
+        aggregations relying on other aggregations should be defined after its
+        dependencies in the dictionary returned by a model's getDesc()
+        """
+        results = self._run_metrics()
+
+        aggregations = self._model.getDesc()["aggregations"]
+        for aggregation, aggregation_function in aggregations.items():
+            results[aggregation] = aggregation_function(results)
+
+        return results
 
     def _run_metrics(self) -> Dict:
         results = {}
@@ -67,15 +81,6 @@ class Runner:
             process = subprocess.run(cmd, stdout=subprocess.PIPE)
             result = process.stdout.decode("utf-8").strip()
             results[metric] = int(result)
-
-        return results
-
-    def _run_aggregations(self, metrics: Dict) -> Dict:
-        results = metrics
-
-        aggregations = self._model.getDesc()["aggregations"]
-        for aggregation, aggregation_function in aggregations.items():
-            results[aggregation] = aggregation_function(results)
 
         return results
 

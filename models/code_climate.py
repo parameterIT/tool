@@ -43,14 +43,14 @@ class CodeClimate(QualityModel):
             results["duplication"]
             + results["cognitive_complexity"]
             + results["structural_issues"]
-            + results["cognitive_complexity"]
+            + results["cyclomatic_complexity"]
         )
 
     def duplication(self, results: Dict) -> int | float:
         return results["identical_blocks_of_code"] + results["similar_blocks_of_code"]
 
     def cognitive_complexity(self, results: Dict):
-        return results["complex_logic"]
+        return results["complex_logic"] + results["nested_controlflows"]
 
     def structural_issues(self, results: Dict):
         return (
