@@ -7,15 +7,22 @@ class QualityModel(ABC):
     def __init__(self):
         pass
 
-    def set_src_root(self, root: Path):
-        self.src_root = root
+    def set_results(self, results: Path):
+        self.results = results
 
     @abstractmethod
     def getDesc(self) -> Dict:
         """
         getDesc returns a dictionary describing the quality model.
 
-        The keys of the dictionary are seen as characteristics of the model, and the
-        values aggregation functions.
+        The first level of the dictionary should be two keys:
+        - metrics
+        - aggregations
+
+        The value of metrics should be a nested dictionary where key-value pairs are
+        metric name-path to metric executable pairs.
+
+        The value of aggregations should be a nested dictionary where key-value pairs
+        are aggregation name-aggregation function reference pairs
         """
         pass
