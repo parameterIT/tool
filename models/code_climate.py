@@ -13,6 +13,8 @@ from tree_sitter import Language, Parser, Node
 
 from byoqm.qualitymodel.qualitymodel import QualityModel
 
+print("Hello from code_cliamte")
+
 
 class CodeClimate(QualityModel):
     def __init__(self):
