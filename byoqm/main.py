@@ -29,10 +29,10 @@ def load_quality_model_from_args() -> QualityModel:
 
     quality_model_name = sys.argv[2]
     spec = importlib.util.spec_from_file_location(
-        "code_climate", MODELS_PATH + "/" + quality_model_name + ".py"
+        "model", MODELS_PATH + "/" + quality_model_name + ".py"
     )
     module = importlib.util.module_from_spec(spec)
-    sys.modules["code_climate"] = module
+    sys.modules["model"] = module
     spec.loader.exec_module(module)
     # assumes that the python module has a variable model, that is an instantiation of the model class
     return module.model
