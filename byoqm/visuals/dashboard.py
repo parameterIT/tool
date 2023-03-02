@@ -24,9 +24,9 @@ class Dashboard:
     def get_data(self, path="./output"):
         graph_data = defaultdict(list)
         for filename in os.listdir(path):
-            date = datetime.strptime(filename.split(".")[0], "%Y-%m-%d")
+            date = datetime.strptime(filename.split(".")[0], "%Y-%m-%d_%H-%M-%S")
             filepath = os.path.join(path, filename)
-            df = pd.read_csv(filepath, header=0)
+            df = pd.read_csv(filepath, header=0, skiprows=1)
             for row in df.itertuples(index=False, name=None):
                 graph_data[row[0]].append((date, row[1]))
         for _, v in graph_data.items():
