@@ -29,67 +29,36 @@ class CodeClimate(QualityModel):
                 "nested_controlflows": "./metrics/nested_controlflows.py",
             },
             "aggregations": {
-                "quality": self.maintainability,
-                "maintainability": self.maintainability,
+                "cyclomatic_complexity": self.cyclomatic_complexity,
+                "structural_issues": self.structural_issues,
+                "cognitive_complexity": self.cognitive_complexity,
                 "duplication": self.duplication,
-                "cognitive complexity": self.cognitive_complexity,
-                "structural issues": self.structural_issues,
-                "cyclomatic complexity": self.cyclomatic_complexity,
+                "maintainability": self.maintainability,
             },
         }
         return model
 
-    def get_aggregated_results(self):
-        return self.maintainability()
-
-    def maintainability(self):
+    def maintainability(self, results: Dict) -> int | float:
         return (
-            self.duplication()
-            + self.cognitive_complexity()
-            + self.structural_issues()
-            + self.cyclomatic_complexity()
+            results["duplication"]
+            + results["cognitive_complexity"]
+            + results["structural_issues"]
+            + results["cyclomatic_complexity"]
         )
 
-    def duplication(self) -> int | float:
-        with self.results.open() as f:
-            reader = csv.DictReader(f)
-            sum = 0
-            for row in reader:
-                if row["metric"] == "identical_blocks_of_code":
-                    sum += int(row["value"])
-                if row["metric"] == "similar_blocks_of_code":
-                    sum += int(row["value"])
-            return sum
+    def duplication(self, results: Dict) -> int | float:
+        return results["identical_blocks_of_code"] + results["similar_blocks_of_code"]
 
-    def cognitive_complexity(self) -> int | float:
-        with self.results.open() as f:
-            reader = csv.DictReader(f)
-            for row in reader:
-                if row["metric"] == "complex_logic":
-                    return int(row["value"])
+    def cognitive_complexity(self, results: Dict):
+        return results["complex_logic"] + results["nested_controlflows"]
 
-    def structural_issues(self):
-        with self.results.open() as f:
-            reader = csv.DictReader(f)
-            sum = 0
-            for row in reader:
-                if row["metric"] == "argument_count":
-                    sum += int(row["value"])
-                if row["metric"] == "file_length":
-                    sum += int(row["value"])
-                if row["metric"] == "method_count":
-                    sum += int(row["value"])
-            return sum
+    def structural_issues(self, results: Dict):
+        return (
+            results["argument_count"] + results["file_length"] + results["method_count"]
+        )
 
-    def cyclomatic_complexity(self):
-        with self.results.open() as f:
-            reader = csv.DictReader(f)
-            for row in reader:
-                if row["metric"] == "return_statements":
-                    return int(row["value"])
-
-    def similar_blocks_of_code(self) -> int | float:
-        return 3
+    def cyclomatic_complexity(self, results: Dict):
+        return results["return_statements"]
 
 
 model = CodeClimate()
