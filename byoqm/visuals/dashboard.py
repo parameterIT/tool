@@ -1,5 +1,7 @@
-import csv
+from collections import defaultdict
+from datetime import datetime
 import os
+import pandas as pd
 
 from bokeh.layouts import gridplot
 from bokeh.plotting import show
@@ -9,32 +11,24 @@ from visuals import line
 class Dashboard:
     def show_graphs(self):
         data = self.get_data()
-        f = [line.get_line(data, key) for key in data]
-        grid = gridplot([[f[0], f[1]], [f[2], f[3]], [f[4], f[5]]])
-        show(grid)
-
-    def sort_data_values(self, data):
-        for metric_name in data:
-            # gets the corresponding list of (date, list) tuples and sorts them on the date
-            data[metric_name].sort()
-        return data
+        # consider changing to broader term such as 'figures' if we plan on expanding the list to include other charts
+        line_figures = [line.get_line(data, key) for key in data]
+        gridplots = gridplot(
+            [
+                [line_figures[i], line_figures[i + 1]]
+                for i in range(0, len(line_figures) - 1, 2)
+            ]
+        )
+        show(gridplots)
 
     def get_data(self, path="./output"):
-        graph_data = {}
-
+        graph_data = defaultdict(list)
         for filename in os.listdir(path):
-            date = filename.split(".")[0]
-            file_path = os.path.join(path, filename)
-            if os.path.isfile(file_path):
-                with open(file_path, "r") as csvfile:
-                    datareader = csv.reader(csvfile)
-                    for row in datareader:
-                        if row[0] == "Metric":
-                            continue
-                        tuple = (date, int(row[1]))
-                        if not row[0] in graph_data:
-                            graph_data[row[0]] = [tuple]
-                        else:
-                            graph_data[row[0]].append(tuple)
-
-        return self.sort_data_values(graph_data)
+            date = datetime.strptime(filename.split(".")[0], "%Y-%m-%d")
+            filepath = os.path.join(path, filename)
+            df = pd.read_csv(filepath, header=0)
+            for row in df.itertuples(index=False, name=None):
+                graph_data[row[0]].append((date, row[1]))
+        for _, v in graph_data.items():
+            v.sort()
+        return graph_data
