@@ -62,7 +62,7 @@ if __name__ == "__main__":
     src_root: Path = parse_src_root()
     qm = load_quality_model_from_args()
     save_to_csv(qm)
-    qm.set_results(Path("./output/2023-02-24.csv"))
+    qm.set_results(Path("./output/" + str(date.today()) + ".csv"))
     for name, aggregation in qm.getDesc()["aggregations"].items():
         print(name, aggregation())
     dashboard = Dashboard()
