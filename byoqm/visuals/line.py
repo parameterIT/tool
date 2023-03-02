@@ -8,6 +8,7 @@ def get_line(data, key):
     p = figure(
         width=600,
         height=350,
+        title=key,
         x_axis_type="datetime",
         x_axis_label="Date",
         y_axis_label="No. Violations",
