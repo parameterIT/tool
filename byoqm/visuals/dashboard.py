@@ -11,9 +11,14 @@ from visuals import line
 class Dashboard:
     def show_graphs(self):
         data = self.get_data()
-        #consider changing to broader term such as 'figures' if we plan on expanding the list to include other charts
+        # consider changing to broader term such as 'figures' if we plan on expanding the list to include other charts
         line_figures = [line.get_line(data, key) for key in data]
-        gridplot = gridplot([[line_figures[i], line_figures[i + 1]] for i in range(0, len(line_figures) - 1, 2)])
+        gridplot = gridplot(
+            [
+                [line_figures[i], line_figures[i + 1]]
+                for i in range(0, len(line_figures) - 1, 2)
+            ]
+        )
         show(gridplot)
 
     def get_data(self, path="./output"):
