@@ -55,38 +55,38 @@ class CodeClimate(QualityModel):
             reader = csv.DictReader(f)
             sum = 0
             for row in reader:
-                if row["Metric"] == "identical_blocks_of_code":
-                    sum += int(row["Value"])
-                if row["Metric"] == "similar_blocks_of_code":
-                    sum += int(row["Value"])
+                if row["metric"] == "identical_blocks_of_code":
+                    sum += int(row["value"])
+                if row["metric"] == "similar_blocks_of_code":
+                    sum += int(row["value"])
             return sum
 
     def cognitive_complexity(self) -> int | float:
         with self.results.open() as f:
             reader = csv.DictReader(f)
             for row in reader:
-                if row["Metric"] == "complex_logic":
-                    return int(row["Value"])
+                if row["metric"] == "complex_logic":
+                    return int(row["value"])
 
     def structural_issues(self):
         with self.results.open() as f:
             reader = csv.DictReader(f)
             sum = 0
             for row in reader:
-                if row["Metric"] == "argument_count":
-                    sum += int(row["Value"])
-                if row["Metric"] == "file_length":
-                    sum += int(row["Value"])
-                if row["Metric"] == "method_count":
-                    sum += int(row["Value"])
+                if row["metric"] == "argument_count":
+                    sum += int(row["value"])
+                if row["metric"] == "file_length":
+                    sum += int(row["value"])
+                if row["metric"] == "method_count":
+                    sum += int(row["value"])
             return sum
 
     def cyclomatic_complexity(self):
         with self.results.open() as f:
             reader = csv.DictReader(f)
             for row in reader:
-                if row["Metric"] == "return_statements":
-                    return int(row["Value"])
+                if row["metric"] == "return_statements":
+                    return int(row["value"])
 
     def similar_blocks_of_code(self) -> int | float:
         return 3

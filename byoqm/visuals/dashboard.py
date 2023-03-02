@@ -29,7 +29,7 @@ class Dashboard:
                 with open(file_path, "r") as csvfile:
                     datareader = csv.reader(csvfile)
                     for row in datareader:
-                        if row[0] == "Metric":
+                        if row[0] == "metric":
                             continue
                         tuple = (date, int(row[1]))
                         if not row[0] in graph_data:
