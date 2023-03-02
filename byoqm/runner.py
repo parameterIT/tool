@@ -19,8 +19,8 @@ _MODELS_DIR = "models"
 
 
 class Runner:
-    def __init__(self, model_name: str, src_root: str):
-        self._src_root: str = src_root
+    def __init__(self, model_name: str, src_root: Path):
+        self._src_root: Path = src_root.resolve()
         self._model: QualityModel = self._load(model_name)
         self._model_name: str = model_name
 
@@ -77,7 +77,7 @@ class Runner:
 
         metrics = self._model.getDesc()["metrics"]
         for metric, exec_path in metrics.items():
-            cmd = [f"./{exec_path}", f"{self._src_root}"]
+            cmd = [f"./{exec_path}", self._src_root]
             process = subprocess.run(cmd, stdout=subprocess.PIPE)
             result = process.stdout.decode("utf-8").strip()
             results[metric] = int(result)

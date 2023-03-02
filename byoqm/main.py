@@ -23,8 +23,8 @@ if __name__ == "__main__":
             f"Make sure to provide the path to source code and a name of a quality model to use currently have {sys.argv}"
         )
         exit(1)
-
-    runner: Runner = Runner("code_climate", "byoqm")
+    path = Path("byoqm")
+    runner: Runner = Runner("code_climate", path)
     runner.run()
 
     dashboard = Dashboard()
