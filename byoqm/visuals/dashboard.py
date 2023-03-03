@@ -2,7 +2,7 @@ from collections import defaultdict
 from datetime import datetime
 import os
 import pandas as pd
-
+from .line import get_line
 from bokeh.layouts import gridplot
 from bokeh.plotting import show
 from .line import get_line

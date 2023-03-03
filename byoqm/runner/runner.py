@@ -30,18 +30,14 @@ class Runner:
         """
         Searches _MODELS_DIR for a python file named `name` to use as the model.
         """
-        try:
-            path_to_model = self._find_model_file(model_name)
-            spec = importlib.util.spec_from_file_location("model", path_to_model)
-            module = importlib.util.module_from_spec(spec)
-            sys.modules["model"] = module
-            spec.loader.exec_module(module)
-            # Assumes any module describing a quality model has a top level mode
-            # variable
-            return module.model
-        except FileNotFoundError:
-            print(f"Failed to locate {model_name} in {self._MODELS_DIR}")
-            exit(1)
+        path_to_model = self._find_model_file(model_name)
+        spec = importlib.util.spec_from_file_location("model", path_to_model)
+        module = importlib.util.module_from_spec(spec)
+        sys.modules["model"] = module
+        spec.loader.exec_module(module)
+        # Assumes any module describing a quality model has a top level mode
+        # variable
+        return module.model
 
     def _find_model_file(self, model_name):
         path_to_model = self._MODELS_DIR + "/" + model_name + ".py"
