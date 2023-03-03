@@ -21,20 +21,15 @@ PY_LANGUAGE = Language("./build/my-languages.so", "python")
 parser = Parser()
 parser.set_language(PY_LANGUAGE)
 
-src_root = parse_src_root()
-
-py_files = src_root.glob("**/*.py")
-
 
 def parse():
     count = 0
-    # single file path
-    if src_root.is_file():
-        with src_root.open() as f:
+    src = parse_src_root()
+    if src.is_file():
+        with src.open() as f:
             count = _parse(f)
     else:
-        py_files = src_root.glob("**/*.py")
-
+        py_files = src.glob("**/*.py")
         for file in py_files:
             with open(file) as f:
                 count += _parse(f)
