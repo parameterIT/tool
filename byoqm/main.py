@@ -18,8 +18,8 @@ def parse_src_root() -> Path:
     return path_to_src
 
 @click.command()
-@click.argument("src_root")
-@click.argument("quality_model")
+@click.argument("src_root", required=True)
+@click.argument("quality_model", required=True)
 @click.option("--output", "-o", type=str, required=False, help="The path to the output directory", default="./output")
 @click.option("--save-file", type=bool, required=False, help="Boolean determining whether or not a file should be saved in the output directory", default=True)
 @click.option("--show-graphs", type=bool, required=False, help="Boolean determining whether or not the dashboard should be saved", default=True)
