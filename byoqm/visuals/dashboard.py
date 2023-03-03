@@ -5,7 +5,6 @@ import pandas as pd
 
 from bokeh.layouts import gridplot
 from bokeh.plotting import show
-from visuals import line
 
 
 class Dashboard:

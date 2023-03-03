@@ -2,7 +2,6 @@ from pathlib import Path
 import sys
 from byoqm.runner import Runner
 from byoqm.visuals.dashboard import Dashboard
-from visuals import line
 import click
 
 # Assumes the project is being run from the root of the repository
