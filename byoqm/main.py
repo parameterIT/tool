@@ -49,11 +49,6 @@ def load(
     save_file: bool = True,
     show_graphs: bool = True,
 ):
-    if len(sys.argv) < 3:
-        print(
-            f"Make sure to provide the path to source code and a name of a quality model to use currently have {sys.argv}"
-        )
-        exit(1)
     runner: Runner = Runner(quality_model, Path(src_root), Path(output), save_file)
     runner.run()
     if show_graphs:
