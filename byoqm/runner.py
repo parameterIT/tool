@@ -13,10 +13,13 @@ from test.test_support import os
 
 from byoqm.qualitymodel.qualitymodel import QualityModel
 
+
 class Runner:
     _MODELS_DIR = "models"
-    
-    def __init__(self, model_name: str, src_root: Path, output_path: Path, save_file: bool):
+
+    def __init__(
+        self, model_name: str, src_root: Path, output_path: Path, save_file: bool
+    ):
         self._src_root: Path = src_root.resolve()
         self._model: QualityModel = self._load(model_name)
         self._model_name: str = model_name
@@ -53,7 +56,7 @@ class Runner:
         as defined by the currently loaded model.
         """
         results = self._run_aggregations()
-        if (self._save_file):
+        if self._save_file:
             output = self._write_to_csv(results)
         return output
 
