@@ -11,6 +11,7 @@ def method2():
         for z in range(10):
             print(z)
 
+
 def method3():
     pass
 
