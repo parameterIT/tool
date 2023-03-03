@@ -3,6 +3,10 @@ from pathlib import Path
 from tree_sitter import Language, Parser, Node
 import sys
 
+PY_LANGUAGE = Language("./build/my-languages.so", "python")
+parser = Parser()
+parser.set_language(PY_LANGUAGE)
+
 
 def parse_src_root() -> Path:
     if len(sys.argv) == 1:
@@ -17,31 +21,38 @@ def parse_src_root() -> Path:
     return path_to_src
 
 
-PY_LANGUAGE = Language("./build/my-languages.so", "python")
-parser = Parser()
-parser.set_language(PY_LANGUAGE)
-src = parse_src_root()
+def parse():
+    count = 0
+    src = parse_src_root()
+    if src.is_file():
+        with src.open() as f:
+            count = _parse(f)
+    else:
+        py_files = src.glob("**/*.py")
+        for file in py_files:
+            with open(file) as f:
+                count += _parse(f)
+        py_files.close()
+    return count
 
 
-py_files = src.glob("**/*.py")
-count = 0
-for file in py_files:
-    with open(file) as f:
-        tree = parser.parse(bytes(f.read(), "utf8"))
-        query = PY_LANGUAGE.query(
-            """
-                    (function_definition
-                        body: (block) @function.block)
-                    """
-        )
-        captures = query.captures(tree.root_node)
-        for node in captures:
-            n = node[0]
-            length = (
-                n.end_point[0] - n.start_point[0] + 1
-            )  # e.g. sp 1, ep 7 -> 7 - 1 = 6 + 1 = 7
-            if length > 25:
-                count += 1
-py_files.close()
+def _parse(file):
+    count = 0
+    tree = parser.parse(bytes(file.read(), "utf8"))
+    query = PY_LANGUAGE.query(
+        """
+                (function_definition
+                    body: (block) @function.block)
+                """
+    )
+    captures = query.captures(tree.root_node)
+    for node in captures:
+        n = node[0]
+        length = (
+            n.end_point[0] - n.start_point[0] + 1
+        )  # e.g. sp 1, ep 7 -> 7 - 1 = 6 + 1 = 7
+        if length > 25:
+            count += 1
+    return count
 
-print(count)
+print(parse())
