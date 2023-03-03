@@ -8,7 +8,6 @@ PY_LANGUAGE = Language("./build/my-languages.so", "python")
 parser = Parser()
 parser.set_language(PY_LANGUAGE)
 
-
 def parse_src_root() -> Path:
     if len(sys.argv) == 1:
         print("Make sure to provide the path to source code")
@@ -20,7 +19,6 @@ def parse_src_root() -> Path:
         exit(1)
 
     return path_to_src
-
 
 def parse():
     count = 0
@@ -36,15 +34,20 @@ def parse():
         py_files.close()
     return count
 
-
 def _parse(file):
     count = 0
     tree = ast.parse(file.read())
+    query = PY_LANGUAGE.query(
+        """
+        (function_definition
+            parameters: (parameters) @function.parameters)
+        """
+    )
+    captures = query.captures(tree.root_node)
     for node in tree.body:
         if isinstance(node, ast.FunctionDef):
             rs = sum(isinstance(subexp, ast.Return) for subexp in ast.walk(node))
             if rs > 4:
                 count += 1
-
 
 print(parse())
