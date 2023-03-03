@@ -14,7 +14,7 @@ class TestArgumentCount(unittest.TestCase):
         self.assertEqual(result, "2")
 
     def tearDown(self):
-        os.chdir(Path("./metrics/test").resolve())
+        os.chdir(Path("metrics/test").resolve())
 
 
 if __name__ == "__main__":
