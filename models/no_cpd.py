@@ -18,8 +18,6 @@ class NoCpd(QualityModel):
                 "complex_logic": "./metrics/complex_logic.py",
                 "method_count": "./metrics/method_count.py",
                 "return_statements": "./metrics/return_statements.py",
-                "identical_blocks_of_code": "./metrics/identical_codeblocks.py",
-                "similar_blocks_of_code": "./metrics/similar_codeblocks.py",
                 "nested_controlflows": "./metrics/nested_controlflows.py",
             },
             "aggregations": {
