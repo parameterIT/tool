@@ -23,7 +23,7 @@ class Runner:
         self._src_root: Path = src_root.resolve()
         self._model: QualityModel = self._load(model_name)
         self._model_name: str = model_name
-        self._OUTPUT_DIR = output_path
+        self._output_dir = output_path
         self._save_file = save_file
 
     def _load(self, model_name: str) -> QualityModel:
@@ -93,7 +93,7 @@ class Runner:
         # Format: YYYY-MM-DD_HH-MM-SS
         current_time: str = time.strftime("%Y-%m-%d_%H-%M-%S", time.gmtime())
         file_name = Path(current_time + ".csv")
-        file_location = self._OUTPUT_DIR / file_name
+        file_location = self._output_dir / file_name
 
         with open(file_location, "w") as results_file:
             writer = csv.writer(results_file)

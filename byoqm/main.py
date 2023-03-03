@@ -4,9 +4,6 @@ from byoqm.runner import Runner
 from byoqm.visuals.dashboard import Dashboard
 import click
 
-# Assumes the project is being run from the root of the repository
-MODELS_PATH = "models"
-
 
 def parse_src_root() -> Path:
     path_to_src = Path(sys.argv[1])
