@@ -13,16 +13,18 @@ from test.test_support import os
 
 from byoqm.qualitymodel.qualitymodel import QualityModel
 
-# Assumes the project is being run from the root of the repository
-_OUTPUT_DIR = Path("./output")
-_MODELS_DIR = "models"
-
 
 class Runner:
-    def __init__(self, model_name: str, src_root: Path):
+    _MODELS_DIR = "models"
+
+    def __init__(
+        self, model_name: str, src_root: Path, output_path: Path, save_file: bool
+    ):
         self._src_root: Path = src_root.resolve()
         self._model: QualityModel = self._load(model_name)
         self._model_name: str = model_name
+        self._output_dir = output_path
+        self._save_file = save_file
 
     def _load(self, model_name: str) -> QualityModel:
         """
@@ -38,11 +40,11 @@ class Runner:
             # variable
             return module.model
         except FileNotFoundError:
-            print(f"Failed to locate {model_name} in {_MODELS_DIR}")
+            print(f"Failed to locate {model_name} in {self._MODELS_DIR}")
             exit(1)
 
     def _find_model_file(self, model_name):
-        path_to_model = _MODELS_DIR + "/" + model_name + ".py"
+        path_to_model = self._MODELS_DIR + "/" + model_name + ".py"
         if not os.path.exists(path_to_model):
             raise FileNotFoundError
 
@@ -54,7 +56,8 @@ class Runner:
         as defined by the currently loaded model.
         """
         results = self._run_aggregations()
-        output = self._write_to_csv(results)
+        if self._save_file:
+            output = self._write_to_csv(results)
         return output
 
     def _run_aggregations(self) -> Dict:
@@ -90,7 +93,7 @@ class Runner:
         # Format: YYYY-MM-DD_HH-MM-SS
         current_time: str = time.strftime("%Y-%m-%d_%H-%M-%S", time.gmtime())
         file_name = Path(current_time + ".csv")
-        file_location = _OUTPUT_DIR / file_name
+        file_location = self._output_dir / file_name
 
         with open(file_location, "w") as results_file:
             writer = csv.writer(results_file)
