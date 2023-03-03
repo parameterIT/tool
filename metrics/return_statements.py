@@ -36,18 +36,23 @@ def parse():
 
 def _parse(file):
     count = 0
-    tree = ast.parse(file.read())
-    query = PY_LANGUAGE.query(
+    tree = parser.parse(bytes(file.read(), "utf8"))
+    query_functions = PY_LANGUAGE.query(
         """
-        (function_definition
-            parameters: (parameters) @function.parameters)
+        (_ (function_definition) @function)
         """
     )
-    captures = query.captures(tree.root_node)
-    for node in tree.body:
-        if isinstance(node, ast.FunctionDef):
-            rs = sum(isinstance(subexp, ast.Return) for subexp in ast.walk(node))
-            if rs > 4:
-                count += 1
+    query_return = PY_LANGUAGE.query(
+        """
+        (_ (return_statement) @return)
+        """
+    )
+    
+    functions = query_functions.captures(tree.root_node)
+    for function_node, _ in functions:
+        captures = query_return.captures(function_node)
+        if (len(captures) > 4):
+            count += 1
+    return count
 
 print(parse())
