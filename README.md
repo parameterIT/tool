@@ -21,7 +21,13 @@ You can download cpd from the following link (check if there is a newer release)
 This is all done using poetry. To run:
 
 ```sh
-poetry run python byoqm/main.py <path/to/source/code>
+poetry run main <path/to/source/code> <Quality_model>
+```
+
+Optional values can be gotten by running: 
+
+```sh
+poetry run main --help
 ```
 
 To test:
