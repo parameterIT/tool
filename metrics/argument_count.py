@@ -34,7 +34,6 @@ def parse():
             with open(file) as f:
                 count += _parse(f)
         py_files.close()
-    print(count)
     return count
 
 
@@ -55,4 +54,4 @@ def _parse(file):
     return count
 
 
-parse()
+print(parse())
