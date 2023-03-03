@@ -9,7 +9,10 @@ class TestNestedControlFlows(unittest.TestCase):
         os.chdir("../../")
 
     def test_nested_controlflow_given_file_returns_2(self):
-        cmd = ["./metrics/nested_controlflows.py", "./metrics/test/data/test_data_nested_controlflows"]
+        cmd = [
+            "./metrics/nested_controlflows.py",
+            "./metrics/test/data/test_data_nested_controlflows",
+        ]
         process = subprocess.run(cmd, stdout=subprocess.PIPE)
         result = process.stdout.decode("utf-8").strip()
         self.assertEqual(result, "2")
