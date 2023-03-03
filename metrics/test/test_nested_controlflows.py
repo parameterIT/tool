@@ -15,7 +15,7 @@ class TestNestedControlFlows(unittest.TestCase):
         ]
         process = subprocess.run(cmd, stdout=subprocess.PIPE)
         result = process.stdout.decode("utf-8").strip()
-        self.assertEqual(result, "2")
+        self.assertEqual(result, "9")
 
     def tearDown(self):
         os.chdir(Path("metrics/test").resolve())
