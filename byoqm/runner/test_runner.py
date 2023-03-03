@@ -15,7 +15,7 @@ class TestRunner(unittest.TestCase):
         _OUTPUT_FOLDER.mkdir(parents=True, exist_ok=True)
 
         self._runner = Runner(
-            "code_climate",
+            "no_cpd",
             Path("byoqm/"),
             _OUTPUT_FOLDER,
             True,
