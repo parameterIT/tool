@@ -21,5 +21,4 @@ jobs:
       - run: cd grammars && git clone https://github.com/tree-sitter/tree-sitter-python && cd -
       - run: poetry install
       - run: poetry run python byoqm/build_treesitter.py
-      - run: cd metrics/test
-      - run: poetry run python -m unittest
+      - run: cd metrics/test && poetry run python -m unittest
