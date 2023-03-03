@@ -16,10 +16,11 @@ def parse_src_root() -> Path:
 
     return path_to_src
 
+
 def unique(list1):
     # initialize a null list
     unique_list = []
- 
+
     # traverse for all elements
     for x in list1:
         # check if exists in unique_list or not
@@ -77,7 +78,7 @@ def _parse(file) -> int:
                 (while_statement body: (block) @cons)
                 (for_statement body: (block) @cons)])
             )
-                """ 
+                """
     )
     inital_nodes = unique(query.captures(tree.root_node))
     sub_node_query = PY_LANGUAGE.query(
@@ -93,7 +94,7 @@ def _parse(file) -> int:
             (while_statement body: (block) @cons)
             (for_statement body: (block) @cons)]
             )
-                """ 
+                """
     )
     for node, _ in inital_nodes:
         nodes2 = sub_node_query.captures(node)
@@ -101,7 +102,8 @@ def _parse(file) -> int:
             nodes3 = sub_node_query.captures(node2)
             for node3, _ in nodes3:
                 if len(sub_node_query.captures(node3)) > 0:
-                    count +=1        
+                    count += 1
     return count
-print(parse())
 
+
+print(parse())
