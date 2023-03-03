@@ -1,5 +1,4 @@
 from typing import Dict
-from typing import Dict
 
 
 from byoqm.qualitymodel.qualitymodel import QualityModel

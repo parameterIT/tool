@@ -1,10 +1,6 @@
 from typing import Dict
-import subprocess
-from typing import Dict
-import ast
-import csv
 
-from tree_sitter import Language, Parser, Node
+from tree_sitter import Language, Parser
 
 from byoqm.qualitymodel.qualitymodel import QualityModel
 
