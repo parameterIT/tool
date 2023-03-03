@@ -24,22 +24,22 @@ src = parse_src_root()
 py_files = src.glob("**/*.py")
 
 
-def nested_control_flow():
+def parse():
     count = 0
     if src.is_file():
         with src.open() as f:
-            count = _nested_control_flow(f)
+            count = _parse(f)
     else:
         py_files = src.glob("**/*.py")
         for file in py_files:
             with open(file) as f:
-                count += _nested_control_flow(f)
+                count += _parse(f)
     return count
 
 
-def _nested_control_flow(f) -> int:
+def _parse(file) -> int:
     count = 0
-    tree = parser.parse(bytes(f.read(), "utf-8"))
+    tree = parser.parse(bytes(file.read(), "utf-8"))
     queue = tree.root_node.children
     while len(queue) != 0:
         current = queue.pop(0)
@@ -86,4 +86,4 @@ def _is_control_flow(node) -> bool:
     return node.type in CONTROL_FLOW_STMTS
 
 
-print(nested_control_flow())
+print(parse())
