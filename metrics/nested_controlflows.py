@@ -109,7 +109,7 @@ def _parse(file) -> int:
                 if len(sub_node_query.captures(node3)) > 0:
                     count += 1
                     found = True
-                    
+
     return count
 
 
