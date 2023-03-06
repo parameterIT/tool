@@ -97,12 +97,19 @@ def _parse(file) -> int:
                 """
     )
     for node, _ in inital_nodes:
+        found = False
         nodes2 = sub_node_query.captures(node)
         for node2, _ in nodes2:
+            if found:
+                break
             nodes3 = sub_node_query.captures(node2)
             for node3, _ in nodes3:
+                if found:
+                    break
                 if len(sub_node_query.captures(node3)) > 0:
                     count += 1
+                    found = True
+                    
     return count
 
 
