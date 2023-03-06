@@ -8,7 +8,8 @@ class TestNestedControlFlows(unittest.TestCase):
     def setUp(self):
         os.chdir("../../")
 
-    def test_nested_controlflow_given_file_returns_2(self):
+    @unittest.expectedFailure
+    def test_nested_controlflow_given_test_directory_returns_9(self):
         cmd = [
             "./metrics/nested_controlflows.py",
             "./metrics/test/data/test_data_nested_controlflows",

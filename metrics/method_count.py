@@ -4,6 +4,10 @@ from pathlib import Path
 from tree_sitter import Language, Parser
 import sys
 
+PY_LANGUAGE = Language("./build/my-languages.so", "python")
+parser = Parser()
+parser.set_language(PY_LANGUAGE)
+
 
 def parse_src_root() -> Path:
     if len(sys.argv) == 1:
@@ -18,19 +22,33 @@ def parse_src_root() -> Path:
     return path_to_src
 
 
-PY_LANGUAGE = Language("./build/my-languages.so", "python")
-parser = Parser()
-parser.set_language(PY_LANGUAGE)
+def parse():
+    count = 0
+    src = parse_src_root()
+    if src.is_file():
+        with src.open() as f:
+            count = _parse(f)
+    else:
+        py_files = src.glob("**/*.py")
+        for file in py_files:
+            with open(file) as f:
+                count += _parse(f)
+        py_files.close()
+    return count
 
-src_root = parse_src_root()
 
-py_files = src_root.glob("**/*.py")
-count = 0
-for file in py_files:
-    with open(file) as f:
-        tree = ast.parse(f.read())
-        mc = sum(isinstance(exp, ast.FunctionDef) for exp in tree.body)
-        if mc > 20:
-            count += 1
-py_files.close()
-print(count)
+def _parse(file):
+    count = 0
+    tree = parser.parse(bytes(file.read(), "utf8"))
+    query = PY_LANGUAGE.query(
+        """
+        (_ (function_definition) @function)
+        """
+    )
+    captures = query.captures(tree.root_node)
+    if len(captures) > 20:
+        count += 1
+    return count
+
+
+print(parse())
