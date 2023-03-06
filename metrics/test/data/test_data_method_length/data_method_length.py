@@ -7,6 +7,33 @@ def short_method():
     print(1)
     print(1)
 
+def method_with_length_of_25():
+    print(1)
+    print(1)
+    print(1)
+    print(1)
+    print(1)
+    print(1)
+    print(1)
+    print(1)
+    print(1)
+    print(1)
+    print(1)
+    print(1)
+    print(1)
+    print(1)
+    print(1)
+    print(1)
+    print(1)
+    print(1)
+    print(1)
+    print(1)
+    print(1)
+    print(1)
+    print(1)
+    print(1)
+    print(1)
+ 
 
 def long_method():
     print(1)

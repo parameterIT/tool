@@ -50,7 +50,7 @@ def _parse(file):
         n = node[0]
         length = (
             n.end_point[0] - n.start_point[0] + 1
-        )  # e.g. sp 1, ep 7 -> 7 - 1 = 6 + 1 = 7
+        )  # length is zero indexed - therefore we add 1 at the end
         if length > 25:
             count += 1
     return count
