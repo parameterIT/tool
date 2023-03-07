@@ -1,3 +1,3 @@
-class PluginInterface():
+class PluginInterface:
     def run():
         pass

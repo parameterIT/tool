@@ -3,15 +3,14 @@ from byoqm.source_cart import SourceCart
 
 
 class ArgumentCount(PluginInterface):
-
-    def __init__(self, byoqm : SourceCart):
+    def __init__(self, byoqm: SourceCart):
         self.src = byoqm.src_root
         self.language = byoqm.language
         self.parser = byoqm.parser
-        #Initialize the metric with needed information.
+        # Initialize the metric with needed information.
 
     def run(self):
-        #Run the metric and return the result.
+        # Run the metric and return the result.
         count = 0
         if self.src.is_file():
             with self.src.open() as f:
@@ -23,7 +22,6 @@ class ArgumentCount(PluginInterface):
                     count += self._parse(f)
             py_files.close()
         return count
-
 
     def _parse(self, file):
         count = 0

@@ -4,7 +4,7 @@ from tree_sitter import Language, Parser
 
 
 class SourceCart:
-    def __init__(self, src_root : Path):
+    def __init__(self, src_root: Path):
         self.language = Language("./build/my-languages.so", "python")
         self.parser = Parser()
         self.plugins = List()
