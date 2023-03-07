@@ -15,7 +15,7 @@ class SourceCoordinator:
         self._parser = Parser()
         self._parser.set_language(self.language)
 
-    def getAst(self, for_file: Path):
+    def getAst(self, for_file: Path) -> tree_sitter.Tree:
         """
         getAst checks if an AST for the path already has been computed, and returns that
         AST if it is the case. Otherwise, it will parse the file to a tree_sitter AST
