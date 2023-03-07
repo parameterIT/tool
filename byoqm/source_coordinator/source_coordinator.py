@@ -16,6 +16,14 @@ class SourceCoordinator:
         self._parser.set_language(self.language)
 
     def getAst(self, for_file: Path):
+        """
+        getAst checks if an AST for the path already has been computed, and returns that
+        AST if it is the case. Otherwise, it will parse the file to a tree_sitter AST
+        and return that tree.
+
+        Throws a ValueError when the file to parse is not a child path of the given
+        src_root.
+        """
         if not for_file.is_relative_to(self.src_root):
             raise ValueError(
                 "The file to parse must be a child path of of the src_root"
