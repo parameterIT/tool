@@ -10,12 +10,12 @@ class TestMethodCount(unittest.TestCase):
 
     def test_method_count_given_file_returns_1(self):
         cmd = [
-            "./metrics/argument_count.py",
-            "./metrics/test/data/test_data_argument_count",
+            "./metrics/method_count.py",
+            "./metrics/test/data/test_data_method_count",
         ]
         process = subprocess.run(cmd, stdout=subprocess.PIPE)
         result = process.stdout.decode("utf-8").strip()
-        self.assertEqual(result, "2")
+        self.assertEqual(result, "1")
 
     def tearDown(self):
         os.chdir(Path("metrics/test").resolve())
