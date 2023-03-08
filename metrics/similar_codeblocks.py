@@ -41,7 +41,6 @@ def similar_blocks_of_code() -> int | float:
         capture_output=True,
         text=True,
     )
-    print(res.stdout)
     et = parse(StringIO(res.stdout))
     for child in et.getroot():
         if child.tag == "duplication":

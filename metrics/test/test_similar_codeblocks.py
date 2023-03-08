@@ -12,7 +12,7 @@ class TestIdenticalCodeBlocks(unittest.TestCase):
         not os.path.exists("../../metrics/cpd"),
         "CPD doesn't exist in the environment",
     )
-    def test_identical_codeblocks_given_file_returns_1(self):
+    def test_similar_codeblocks_given_file_returns_1(self):
         cmd = [
             "./metrics/similar_codeblocks.py",
             "./metrics/test/data/test_data_similar_codeblocks",
