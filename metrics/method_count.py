@@ -1,10 +1,5 @@
 #!/usr/bin/env python
-import ast
-from pathlib import Path
-from tree_sitter import Language, Parser
-import sys
 from byoqm.metric.metric import Metric
-
 from byoqm.source_coordinator.source_coordinator import SourceCoordinator
 
 class MethodCount(Metric):
