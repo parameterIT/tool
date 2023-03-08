@@ -8,7 +8,9 @@ from metrics.method_count import MethodCount
 class TestMethodCount(unittest.TestCase):
     def setUp(self):
         os.chdir("../../")
-        self._coordinator = SourceCoordinator(Path("./metrics/test/data/test_data_method_count"),"python")
+        self._coordinator = SourceCoordinator(
+            Path("./metrics/test/data/test_data_method_count"), "python"
+        )
         self._methodcount = MethodCount()
         self._methodcount.set_coordinator(self._coordinator)
 

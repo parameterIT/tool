@@ -8,7 +8,9 @@ from metrics.argument_count import ArgumentCount
 class TestArgumentCount(unittest.TestCase):
     def setUp(self):
         os.chdir("../../")
-        self._coordinator = SourceCoordinator(Path("./metrics/test/data/test_data_argument_count"),"python")
+        self._coordinator = SourceCoordinator(
+            Path("./metrics/test/data/test_data_argument_count"), "python"
+        )
         self._argumentcount = ArgumentCount()
         self._argumentcount.set_coordinator(self._coordinator)
 

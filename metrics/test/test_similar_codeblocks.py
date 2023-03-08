@@ -8,10 +8,12 @@ from metrics.similar_codeblocks import SimilarBlocksofCode
 class TestSimilarCodeBlocks(unittest.TestCase):
     def setUp(self):
         os.chdir("../../")
-        self._coordinator = SourceCoordinator(Path("./metrics/test/data/test_data_similar_codeblocks"),"python")
+        self._coordinator = SourceCoordinator(
+            Path("./metrics/test/data/test_data_similar_codeblocks"), "python"
+        )
         self._similarcode = SimilarBlocksofCode()
         self._similarcode.set_coordinator(self._coordinator)
-        
+
     @unittest.skipIf(
         not os.path.exists("../../metrics/cpd"),
         "CPD doesn't exist in the environment",

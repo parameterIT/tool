@@ -8,7 +8,9 @@ from metrics.complex_logic import ComplexLogic
 class TestComplexLogic(unittest.TestCase):
     def setUp(self):
         os.chdir("../../")
-        self._coordinator = SourceCoordinator(Path("./metrics/test/data/test_data_complex_logic"),"python")
+        self._coordinator = SourceCoordinator(
+            Path("./metrics/test/data/test_data_complex_logic"), "python"
+        )
         self._complexlogic = ComplexLogic()
         self._complexlogic.set_coordinator(self._coordinator)
 

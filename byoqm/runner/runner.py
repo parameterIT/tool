@@ -78,7 +78,7 @@ class Runner:
         results = {}
 
         metrics = self._model.getDesc()["metrics"]
-        for metric,metric_file in metrics.items():
+        for metric, metric_file in metrics.items():
             spec = importlib.util.spec_from_file_location("metric", metric_file)
             module = importlib.util.module_from_spec(spec)
             sys.modules[metric] = module

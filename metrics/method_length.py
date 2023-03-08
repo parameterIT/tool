@@ -2,11 +2,12 @@
 from byoqm.metric.metric import Metric
 from byoqm.source_coordinator.source_coordinator import SourceCoordinator
 
+
 class MethodLength(Metric):
     def __init__(self):
         self._coordinator = None
 
-    def set_coordinator(self, coordinator : SourceCoordinator):
+    def set_coordinator(self, coordinator: SourceCoordinator):
         self._coordinator = coordinator
 
     def run(self):
@@ -15,11 +16,10 @@ class MethodLength(Metric):
             count += self._parse(self._coordinator.getAst(file))
         return count
 
-
-    def _parse(self,ast):
+    def _parse(self, ast):
         count = 0
         query = self._coordinator.language.query(
-        """
+            """
                 (function_definition
                     body: (block) @function.block)
                 """
@@ -33,5 +33,6 @@ class MethodLength(Metric):
             if length > 25:
                 count += 1
         return count
+
 
 metric = MethodLength()

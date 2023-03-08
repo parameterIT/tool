@@ -8,7 +8,9 @@ from metrics.method_length import MethodLength
 class TestMethodLength(unittest.TestCase):
     def setUp(self):
         os.chdir("../../")
-        self._coordinator = SourceCoordinator(Path("./metrics/test/data/test_data_method_length"),"python")
+        self._coordinator = SourceCoordinator(
+            Path("./metrics/test/data/test_data_method_length"), "python"
+        )
         self._methodlength = MethodLength()
         self._methodlength.set_coordinator(self._coordinator)
 

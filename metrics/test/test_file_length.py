@@ -8,7 +8,9 @@ from metrics.file_length import FileLength
 class TestFileLength(unittest.TestCase):
     def setUp(self):
         os.chdir("../../")
-        self._coordinator = SourceCoordinator(Path("./metrics/test/data/test_data_file_length"),"python")
+        self._coordinator = SourceCoordinator(
+            Path("./metrics/test/data/test_data_file_length"), "python"
+        )
         self._filelength = FileLength()
         self._filelength.set_coordinator(self._coordinator)
 

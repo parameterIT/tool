@@ -8,7 +8,9 @@ from metrics.nested_controlflows import NestedControlflows
 class TestNestedControlFlows(unittest.TestCase):
     def setUp(self):
         os.chdir("../../")
-        self._coordinator = SourceCoordinator(Path("./metrics/test/data/test_data_nested_controlflows"),"python")
+        self._coordinator = SourceCoordinator(
+            Path("./metrics/test/data/test_data_nested_controlflows"), "python"
+        )
         self._nestedflow = NestedControlflows()
         self._nestedflow.set_coordinator(self._coordinator)
 

@@ -8,7 +8,9 @@ from metrics.return_statements import ReturnStatements
 class TestReturnStatements(unittest.TestCase):
     def setUp(self):
         os.chdir("../../")
-        self._coordinator = SourceCoordinator(Path("./metrics/test/data/test_data_return_statements"),"python")
+        self._coordinator = SourceCoordinator(
+            Path("./metrics/test/data/test_data_return_statements"), "python"
+        )
         self._returnstmnt = ReturnStatements()
         self._returnstmnt.set_coordinator(self._coordinator)
 

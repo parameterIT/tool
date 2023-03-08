@@ -2,11 +2,12 @@
 from byoqm.metric.metric import Metric
 from byoqm.source_coordinator.source_coordinator import SourceCoordinator
 
+
 class ArgumentCount(Metric):
     def __init__(self):
         self._coordinator = None
 
-    def set_coordinator(self, coordinator : SourceCoordinator):
+    def set_coordinator(self, coordinator: SourceCoordinator):
         self._coordinator = coordinator
 
     def run(self):
@@ -15,7 +16,7 @@ class ArgumentCount(Metric):
             count += self._parse(self._coordinator.getAst(file))
         return count
 
-    def _parse(self,ast):
+    def _parse(self, ast):
         count = 0
         query = self._coordinator.language.query(
             """
@@ -29,5 +30,6 @@ class ArgumentCount(Metric):
                 count += 1
 
         return count
+
 
 metric = ArgumentCount()

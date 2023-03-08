@@ -7,7 +7,7 @@ class NestedControlflows(Metric):
     def __init__(self):
         self._coordinator = None
 
-    def set_coordinator(self, coordinator : SourceCoordinator):
+    def set_coordinator(self, coordinator: SourceCoordinator):
         self._coordinator = coordinator
 
     def run(self):
@@ -16,7 +16,7 @@ class NestedControlflows(Metric):
             count += self._parse(self._coordinator.getAst(file))
         return count
 
-    def _unique(self,not_unique_list):
+    def _unique(self, not_unique_list):
         unique_list = []
 
         for x in not_unique_list:
@@ -24,8 +24,7 @@ class NestedControlflows(Metric):
                 unique_list.append(x)
         return unique_list
 
-
-    def _parse(self,ast) -> int:
+    def _parse(self, ast) -> int:
         count = 0
         query = self._coordinator.language.query(
             """
@@ -86,5 +85,6 @@ class NestedControlflows(Metric):
                         found = True
 
         return count
+
 
 metric = NestedControlflows()

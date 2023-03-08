@@ -7,7 +7,7 @@ class FileLength(Metric):
     def __init__(self):
         self._coordinator = None
 
-    def set_coordinator(self, coordinator : SourceCoordinator):
+    def set_coordinator(self, coordinator: SourceCoordinator):
         self._coordinator = coordinator
 
     def run(self):
@@ -17,12 +17,12 @@ class FileLength(Metric):
                 count += self._parse(f)
         return count
 
-
     def _parse(self, file):
         count = 0
         loc = sum(1 for line in file if line.rstrip())
         if loc > 250:
             count += 1
         return count
+
 
 metric = FileLength()

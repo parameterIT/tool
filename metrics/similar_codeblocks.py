@@ -7,19 +7,21 @@ from defusedxml.ElementTree import parse
 
 TOKENS = 35
 
+
 class SimilarBlocksofCode(Metric):
     def __init__(self):
         self._coordinator = None
 
-    def set_coordinator(self, coordinator : SourceCoordinator):
+    def set_coordinator(self, coordinator: SourceCoordinator):
         self._coordinator = coordinator
 
     def run(self):
-        count = self.similar_blocks_of_code([str(file) for file in self._coordinator.src_paths])
+        count = self.similar_blocks_of_code(
+            [str(file) for file in self._coordinator.src_paths]
+        )
         return count
 
-
-    def similar_blocks_of_code(self,files) -> int | float:
+    def similar_blocks_of_code(self, files) -> int | float:
         filestring = f"{files}"
         filestring = filestring[1 : len(filestring) - 1]
         count = 0
@@ -34,5 +36,6 @@ class SimilarBlocksofCode(Metric):
             if child.tag == "duplication":
                 count += 1
         return count
-    
+
+
 metric = SimilarBlocksofCode()

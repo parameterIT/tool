@@ -7,19 +7,21 @@ import subprocess
 
 TOKENS = 35
 
+
 class IdenticalBlocksofCode(Metric):
     def __init__(self):
         self._coordinator = None
 
-    def set_coordinator(self, coordinator : SourceCoordinator):
+    def set_coordinator(self, coordinator: SourceCoordinator):
         self._coordinator = coordinator
 
     def run(self):
-        count = self.identical_blocks_of_code([str(file) for file in self._coordinator.src_paths])
+        count = self.identical_blocks_of_code(
+            [str(file) for file in self._coordinator.src_paths]
+        )
         return count
 
-
-    def identical_blocks_of_code(self,files) -> int | float:
+    def identical_blocks_of_code(self, files) -> int | float:
         filestring = f"{files}"
         filestring = filestring[1 : len(filestring) - 1]
         count = 0
@@ -34,5 +36,6 @@ class IdenticalBlocksofCode(Metric):
             if child.tag == "duplication":
                 count += 1
         return count
+
 
 metric = IdenticalBlocksofCode()

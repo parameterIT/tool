@@ -8,11 +8,12 @@ from metrics.identical_codeblocks import IdenticalBlocksofCode
 class TestIdenticalCodeBlocks(unittest.TestCase):
     def setUp(self):
         os.chdir("../../")
-        self._coordinator = SourceCoordinator(Path("./metrics/test/data/test_data_identical_codeblocks"),"python")
+        self._coordinator = SourceCoordinator(
+            Path("./metrics/test/data/test_data_identical_codeblocks"), "python"
+        )
         self._identicalcode = IdenticalBlocksofCode()
         self._identicalcode.set_coordinator(self._coordinator)
 
-    
     @unittest.skipIf(
         not os.path.exists("../../metrics/cpd"),
         "CPD doesn't exist in the environment",

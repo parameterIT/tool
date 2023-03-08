@@ -7,7 +7,7 @@ class ReturnStatements(Metric):
     def __init__(self):
         self._coordinator = None
 
-    def set_coordinator(self, coordinator : SourceCoordinator):
+    def set_coordinator(self, coordinator: SourceCoordinator):
         self._coordinator = coordinator
 
     def run(self):
@@ -16,11 +16,10 @@ class ReturnStatements(Metric):
             count += self._parse(self._coordinator.getAst(file))
         return count
 
-
-    def _parse(self,ast):
+    def _parse(self, ast):
         count = 0
         query_functions = self._coordinator.language.query(
-        """
+            """
         (_ (function_definition) @function)
         """
         )
@@ -36,5 +35,6 @@ class ReturnStatements(Metric):
             if len(captures) > 4:
                 count += 1
         return count
+
 
 metric = ReturnStatements()
