@@ -16,10 +16,15 @@ class TestDashboard(unittest.TestCase):
     def setUp(self):
         _OUTPUT_FOLDER.mkdir(parents=True, exist_ok=True)
         self._seed_files()
-        
-    
+
     def _seed_files(self):
-        files = [Path("2023-03-02_13-57-34.csv"), Path("2023-03-02_23-59-59"), Path("2023-03-03_00-00-01.csv"), Path("2023-04-02_00-00-01.csv"), Path("2024-03-02_00-00-01.csv")]
+        files = [
+            Path("2023-03-02_13-57-34.csv"),
+            Path("2023-03-02_23-59-59"),
+            Path("2023-03-03_00-00-01.csv"),
+            Path("2023-04-02_00-00-01.csv"),
+            Path("2024-03-02_00-00-01.csv"),
+        ]
         for file in files:
             filepath = _OUTPUT_FOLDER / file
             with open(filepath, "w") as results_file:
@@ -38,7 +43,7 @@ class TestDashboard(unittest.TestCase):
         dashboard = Dashboard(start_date, end_date)
         data = dashboard.get_data(_OUTPUT_FOLDER)
         self.assertEqual(len(data[_METRIC_NAME]), 5)
-    
+
     def test_get_data_given_2023_returns_4(self):
         start_date = datetime.strptime("2023-01-01", "%Y-%m-%d")
         end_date = datetime.strptime("2023-12-31", "%Y-%m-%d")
@@ -52,6 +57,7 @@ class TestDashboard(unittest.TestCase):
         dashboard = Dashboard(start_date, end_date)
         data = dashboard.get_data(_OUTPUT_FOLDER)
         self.assertEqual(len(data[_METRIC_NAME]), 2)
+
 
 if __name__ == "__main__":
     unittest.main()
