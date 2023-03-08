@@ -48,4 +48,5 @@ def identical_blocks_of_code() -> int | float:
             count += 1
     return count
 
+
 print(identical_blocks_of_code())

@@ -26,6 +26,7 @@ parser = Parser()
 parser.set_language(PY_LANGUAGE)
 src_root = parse_src_root()
 
+
 def similar_blocks_of_code() -> int | float:
     files = []
     if src_root.is_file():
