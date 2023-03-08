@@ -2,14 +2,12 @@ from pathlib import Path
 import unittest
 import os
 from byoqm.source_coordinator.source_coordinator import SourceCoordinator
-
 from metrics.method_count import MethodCount
 
 
 class TestMethodCount(unittest.TestCase):
     def setUp(self):
         os.chdir("../../")
-        print(os.getcwd())
         self._coordinator = SourceCoordinator(Path("./metrics/test/data/test_data_method_count"),"python")
         self._methodcount = MethodCount()
         self._methodcount.set_coordinator(self._coordinator)
