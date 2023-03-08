@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 from pathlib import Path
-import ast
 from tree_sitter import Language, Parser, Node
 import sys
 
