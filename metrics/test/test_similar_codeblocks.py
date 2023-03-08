@@ -4,7 +4,7 @@ import unittest
 import os
 
 
-class TestIdenticalCodeBlocks(unittest.TestCase):
+class TestSimilarCodeBlocks(unittest.TestCase):
     def setUp(self):
         os.chdir("../../")
 
