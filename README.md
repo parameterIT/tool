@@ -33,7 +33,7 @@ poetry run main --help
 To test:
 
 ```sh
-poetry run python -m unittest
+poetry run test
 ```
 
 To format:
