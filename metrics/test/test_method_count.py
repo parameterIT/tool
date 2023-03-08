@@ -8,14 +8,15 @@ from metrics.method_count import MethodCount
 
 class TestMethodCount(unittest.TestCase):
     def setUp(self):
-        os.chdir("../..")
-        self._coordinator = SourceCoordinator("./metrics/test/data/test_data_method_count","python")
+        os.chdir("../../")
+        print(os.getcwd())
+        self._coordinator = SourceCoordinator(Path("./metrics/test/data/test_data_method_count"),"python")
         self._methodcount = MethodCount()
         self._methodcount.set_coordinator(self._coordinator)
 
     def test_method_count_given_file_returns_1(self):
         result = self._methodcount.run()
-        self.assertEqual(result, "1")
+        self.assertEqual(result, 1)
 
     def tearDown(self):
         os.chdir(Path("metrics/test").resolve())

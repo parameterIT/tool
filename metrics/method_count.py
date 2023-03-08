@@ -7,10 +7,6 @@ from byoqm.metric.metric import Metric
 
 from byoqm.source_coordinator.source_coordinator import SourceCoordinator
 
-PY_LANGUAGE = Language("build/my-languages.so", "python")
-parser = Parser()
-parser.set_language(PY_LANGUAGE)
-
 class MethodCount(Metric):
     def __init__(self):
         self._coordinator = None
@@ -27,7 +23,7 @@ class MethodCount(Metric):
 
     def _parse(self,ast):
         count = 0
-        query = PY_LANGUAGE.query(
+        query = self._coordinator.language.query(
             """
             (_ (function_definition) @function)
             """

@@ -3,7 +3,7 @@ from tree_sitter import Language, Parser
 import tree_sitter
 
 
-_TREESITTER_BUILD: Path = Path("build/my-languages.so").resolve()
+_TREESITTER_BUILD: Path = Path("build/my-languages.so")
 
 
 class SourceCoordinator:
