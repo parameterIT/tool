@@ -1,7 +1,10 @@
 #!/usr/bin/env python
+from io import StringIO
 from pathlib import Path
+import subprocess
 from tree_sitter import Language, Parser
 import sys
+from defusedxml.ElementTree import parse
 
 
 def parse_src_root() -> Path:
@@ -17,9 +20,33 @@ def parse_src_root() -> Path:
     return path_to_src
 
 
+TOKENS = 35
 PY_LANGUAGE = Language("./build/my-languages.so", "python")
 parser = Parser()
 parser.set_language(PY_LANGUAGE)
-src = parse_src_root()
-py_files = src.glob("**/*.py")
-print(2)  # Missing logic
+src_root = parse_src_root()
+
+
+def similar_blocks_of_code() -> int | float:
+    files = []
+    if src_root.is_file():
+        files = [str(src_root)]
+    else:
+        files = [str(file) for file in src_root.glob("**/*.py")]
+    filestring = f"{files}"
+    filestring = filestring[1 : len(filestring) - 1]
+    count = 0
+    res = subprocess.run(
+        f"metrics/cpd/bin/run.sh cpd --minimum-tokens {TOKENS} --skip-lexical-errors --ignore-identifiers --ignore-literals --dir {filestring} --format xml",
+        shell=True,
+        capture_output=True,
+        text=True,
+    )
+    et = parse(StringIO(res.stdout))
+    for child in et.getroot():
+        if child.tag == "duplication":
+            count += 1
+    return count
+
+
+print(similar_blocks_of_code())
