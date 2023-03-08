@@ -6,7 +6,6 @@ from byoqm.qualitymodel.qualitymodel import QualityModel
 
 
 class CodeClimate(QualityModel):
-
     def getDesc(self) -> Dict:
         model = {
             "metrics": {

@@ -9,6 +9,10 @@ from .line import get_line
 
 
 class Dashboard:
+    def __init__(self, start_date: datetime, end_date: datetime):
+        self._start_date = start_date
+        self._end_date = end_date
+
     def show_graphs(self):
         data = self.get_data()
         # consider changing to broader term such as 'figures' if we plan on expanding the list to include other charts
@@ -25,6 +29,8 @@ class Dashboard:
         graph_data = defaultdict(list)
         for filename in os.listdir(path):
             date = datetime.strptime(filename.split(".")[0], "%Y-%m-%d_%H-%M-%S")
+            if self._start_date > date or self._end_date < date:
+                continue
             filepath = os.path.join(path, filename)
             df = pd.read_csv(filepath, header=0, skiprows=1)
             for row in df.itertuples(index=False, name=None):
