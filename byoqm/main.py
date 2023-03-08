@@ -63,6 +63,11 @@ def load(
     start_date: datetime = datetime.min,
     end_date: datetime = datetime.max,
 ):
+    if start_date > end_date:
+        print(
+            "Start date is greater than the end date. Please enter a valid time period."
+        )
+        exit(1)
     runner: Runner = Runner(quality_model, Path(src_root), Path(output), save_file)
     runner.run()
     if show_graphs:
