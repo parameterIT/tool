@@ -36,7 +36,7 @@ def similar_blocks_of_code() -> int | float:
     filestring = filestring[1 : len(filestring) - 1]
     count = 0
     res = subprocess.run(
-        f"metrics/cpd/bin/run.sh cpd --minimum-tokens {TOKENS} --skip-lexical-errors --ignore-identifiers --dir {filestring} --format xml",
+        f"metrics/cpd/bin/run.sh cpd --minimum-tokens {TOKENS} --skip-lexical-errors --ignore-identifiers --ignore-literals --dir {filestring} --format xml",
         shell=True,
         capture_output=True,
         text=True,

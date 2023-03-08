@@ -1,16 +1,20 @@
 def method4():
-    i = 2
-    print(i)
-    print(i)
-    print(i)
-    print(i)
-    print(i)
-    print(i)
-    print(i)
+    z = 3
+    print(z)
+    print(z)
+    print(z)
+    print(z)
+    print(z)
+    print(z)
+    print(z)
+    print(z)
+    print(z)
 
 
 def method5():
     i = 2
+    print(i)
+    print(i)
     print(i)
     print(i)
     print(i)
