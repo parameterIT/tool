@@ -21,3 +21,9 @@ class TestSourceCoordinator(unittest.TestCase):
     def test_get_ast_given_a_sibling_file_fails(self):
         target = Path("./byoqm/source_coordinator/source_coordinator.py")
         self.assertRaises(ValueError, self.source_coordinator.getAst, target)
+
+    def test_get_ast_returns_tree_with_2_elements(self):
+        target = Path("./byoqm/source_coordinator/test/data/a_file.py")
+        tree = self.source_coordinator.getAst(target)
+        actual = len(tree.root_node.children)
+        self.assertEqual(actual, 2)

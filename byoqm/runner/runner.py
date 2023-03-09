@@ -10,8 +10,10 @@ from pathlib import Path
 from typing import Dict
 
 from test.test_support import os
+from byoqm.metric.metric import Metric
 
 from byoqm.qualitymodel.qualitymodel import QualityModel
+from byoqm.source_coordinator.source_coordinator import SourceCoordinator
 
 
 class Runner:
@@ -25,6 +27,7 @@ class Runner:
         self._model_name: str = model_name
         self._output_dir = output_path
         self._save_file = save_file
+        self._coordinator = SourceCoordinator(self._src_root, "python")
 
     def _load(self, model_name: str) -> QualityModel:
         """
@@ -75,11 +78,13 @@ class Runner:
         results = {}
 
         metrics = self._model.getDesc()["metrics"]
-        for metric, exec_path in metrics.items():
-            cmd = [f"./{exec_path}", self._src_root]
-            process = subprocess.run(cmd, stdout=subprocess.PIPE)
-            result = process.stdout.decode("utf-8").strip()
-            results[metric] = int(result)
+        for metric, metric_file in metrics.items():
+            spec = importlib.util.spec_from_file_location("metric", metric_file)
+            module = importlib.util.module_from_spec(spec)
+            sys.modules[metric] = module
+            spec.loader.exec_module(module)
+            module.metric.coordinator = self._coordinator
+            results[metric] = int(module.metric.run())
 
         return results
 

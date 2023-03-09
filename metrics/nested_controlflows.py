@@ -1,113 +1,86 @@
-#!/usr/bin/env python
-from pathlib import Path
-from tree_sitter import Language, Parser
-import sys
+from byoqm.metric.metric import Metric
+from byoqm.source_coordinator.source_coordinator import SourceCoordinator
 
 
-def parse_src_root() -> Path:
-    if len(sys.argv) == 1:
-        print("Make sure to provide the path to source code")
-        exit(1)
+class NestedControlflows(Metric):
+    def __init__(self):
+        self.coordinator: SourceCoordinator = None
 
-    path_to_src = Path(sys.argv[1])
-    if not path_to_src.exists():
-        print(f"The source code at {path_to_src.resolve()} does not exist")
-        exit(1)
+    def run(self):
+        count = 0
+        for file in self.coordinator.src_paths:
+            count += self._parse(self.coordinator.getAst(file))
+        return count
 
-    return path_to_src
+    def _unique(self, not_unique_list):
+        unique_list = []
 
+        for x in not_unique_list:
+            if x not in unique_list:
+                unique_list.append(x)
+        return unique_list
 
-def unique(not_unique_list):
-    unique_list = []
-
-    for x in not_unique_list:
-        if x not in unique_list:
-            unique_list.append(x)
-    return unique_list
-
-
-PY_LANGUAGE = Language("./build/my-languages.so", "python")
-parser = Parser()
-parser.set_language(PY_LANGUAGE)
-src = parse_src_root()
-py_files = src.glob("**/*.py")
-
-
-def parse():
-    count = 0
-    if src.is_file():
-        with src.open() as f:
-            count = _parse(f)
-    else:
-        py_files = src.glob("**/*.py")
-        for file in py_files:
-            with open(file) as f:
-                count += _parse(f)
-    return count
-
-
-def _parse(file) -> int:
-    count = 0
-    tree = parser.parse(bytes(file.read(), "utf-8"))
-    query = PY_LANGUAGE.query(
-        """
-            (module [
-            (if_statement 
-                consequence: (block) @cons
-                    )
-            (if_statement 
-                consequence: (block) @cons
-                alternative: (_ [body: (block) consequence: (block) ] @cons) 
-                    )
-            (while_statement body: (block) @cons)
-            (for_statement body: (block) @cons)]
-            )
-            
-            (function_definition
-            body: (block [
+    def _parse(self, ast) -> int:
+        count = 0
+        query = self.coordinator.language.query(
+            """
+                (module [
                 (if_statement 
                     consequence: (block) @cons
                         )
                 (if_statement 
                     consequence: (block) @cons
-                    alternative: (_ [body: (block) consequence: (block)] @cons)
+                    alternative: (_ [body: (block) consequence: (block) ] @cons) 
                         )
                 (while_statement body: (block) @cons)
-                (for_statement body: (block) @cons)])
-            )
-                """
-    )
-    inital_nodes = unique(query.captures(tree.root_node))
-    sub_node_query = PY_LANGUAGE.query(
-        """
-            (_ [
-            (if_statement 
-                consequence: (block) @cons
-                    )
-            (if_statement 
-                consequence: (block) @cons
-                alternative: (_ [body: (block) consequence: (block) ] @cons) 
-                    )
-            (while_statement body: (block) @cons)
-            (for_statement body: (block) @cons)]
-            )
-                """
-    )
-    for node, _ in inital_nodes:
-        found = False
-        nodes2 = sub_node_query.captures(node)
-        for node2, _ in nodes2:
-            if found:
-                break
-            nodes3 = sub_node_query.captures(node2)
-            for node3, _ in nodes3:
+                (for_statement body: (block) @cons)]
+                )
+                
+                (function_definition
+                body: (block [
+                    (if_statement 
+                        consequence: (block) @cons
+                            )
+                    (if_statement 
+                        consequence: (block) @cons
+                        alternative: (_ [body: (block) consequence: (block)] @cons)
+                            )
+                    (while_statement body: (block) @cons)
+                    (for_statement body: (block) @cons)])
+                )
+                    """
+        )
+        inital_nodes = self._unique(query.captures(ast.root_node))
+        sub_node_query = self.coordinator.language.query(
+            """
+                (_ [
+                (if_statement 
+                    consequence: (block) @cons
+                        )
+                (if_statement 
+                    consequence: (block) @cons
+                    alternative: (_ [body: (block) consequence: (block) ] @cons) 
+                        )
+                (while_statement body: (block) @cons)
+                (for_statement body: (block) @cons)]
+                )
+                    """
+        )
+        for node, _ in inital_nodes:
+            found = False
+            nodes2 = sub_node_query.captures(node)
+            for node2, _ in nodes2:
                 if found:
                     break
-                if len(sub_node_query.captures(node3)) > 0:
-                    count += 1
-                    found = True
+                nodes3 = sub_node_query.captures(node2)
+                for node3, _ in nodes3:
+                    if found:
+                        break
+                    if len(sub_node_query.captures(node3)) > 0:
+                        count += 1
+                        found = True
 
-    return count
+        return count
 
 
-print(parse())
+metric = NestedControlflows()
