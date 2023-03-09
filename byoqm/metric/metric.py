@@ -8,4 +8,7 @@ class Metric(ABC):
 
     @abstractmethod
     def run(self) -> int | float:
+        """
+        run returns a number that is the measurement of that specific metric.
+        """
         pass
