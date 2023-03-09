@@ -14,6 +14,13 @@ class Dashboard:
         self._end_date = end_date
 
     def show_graphs(self):
+        """
+        This method is used to display the graphs chosen. At the moment, only line graphs can be chosen,
+        however this can be easily expanded upon.
+
+        The method makes use of Bokeh to generate figures, which are then added to a gridplot in the
+        arrangement of an arbitrary amount of rows where each row contains two figures.
+        """
         data = self.get_data()
         # consider changing to broader term such as 'figures' if we plan on expanding the list to include other charts
         line_figures = [get_line(data, key) for key in data]
@@ -26,6 +33,16 @@ class Dashboard:
         show(gridplots)
 
     def get_data(self, path="./output"):
+        """
+        Gets data from specified path. The path is defaulted to the output folder, but if you want to run
+        BYOQM using a different path, this can be changed in the CLI.
+
+        Each file has an arbitrary number of metrics, their matching values and are named after the date at
+        which they were run. This data is collected in a dict, matching every single metric to a list containing
+        tuples of dates and values.
+
+        The data is then sorted to ensure that the dates appear in chronological order
+        """
         graph_data = defaultdict(list)
         for filename in os.listdir(path):
             date = datetime.strptime(filename.split(".")[0], "%Y-%m-%d_%H-%M-%S")
