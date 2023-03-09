@@ -5,20 +5,17 @@ from byoqm.source_coordinator.source_coordinator import SourceCoordinator
 
 class MethodLength(Metric):
     def __init__(self):
-        self._coordinator = None
-
-    def set_coordinator(self, coordinator: SourceCoordinator):
-        self._coordinator = coordinator
+        self.coordinator: SourceCoordinator = None
 
     def run(self):
         count = 0
-        for file in self._coordinator.src_paths:
-            count += self._parse(self._coordinator.getAst(file))
+        for file in self.coordinator.src_paths:
+            count += self._parse(self.coordinator.getAst(file))
         return count
 
     def _parse(self, ast):
         count = 0
-        query = self._coordinator.language.query(
+        query = self.coordinator.language.query(
             """
                 (function_definition
                     body: (block) @function.block)

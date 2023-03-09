@@ -12,7 +12,7 @@ class TestComplexLogic(unittest.TestCase):
             Path("./metrics/test/data/test_data_complex_logic"), "python"
         )
         self._complexlogic = ComplexLogic()
-        self._complexlogic.set_coordinator(self._coordinator)
+        self._complexlogic.coordinator = self._coordinator
 
     def test_complex_logic_given_file_returns_4(self):
         result = self._complexlogic.run()

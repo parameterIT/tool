@@ -10,14 +10,11 @@ TOKENS = 35
 
 class IdenticalBlocksofCode(Metric):
     def __init__(self):
-        self._coordinator = None
-
-    def set_coordinator(self, coordinator: SourceCoordinator):
-        self._coordinator = coordinator
+        self.coordinator: SourceCoordinator = None
 
     def run(self):
         count = self.identical_blocks_of_code(
-            [str(file) for file in self._coordinator.src_paths]
+            [str(file) for file in self.coordinator.src_paths]
         )
         return count
 

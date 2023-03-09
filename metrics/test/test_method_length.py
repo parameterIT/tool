@@ -12,7 +12,7 @@ class TestMethodLength(unittest.TestCase):
             Path("./metrics/test/data/test_data_method_length"), "python"
         )
         self._methodlength = MethodLength()
-        self._methodlength.set_coordinator(self._coordinator)
+        self._methodlength.coordinator = self._coordinator
 
     def test_method_length_given_file_returns_2(self):
         result = self._methodlength.run()

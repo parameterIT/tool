@@ -12,7 +12,7 @@ class TestNestedControlFlows(unittest.TestCase):
             Path("./metrics/test/data/test_data_nested_controlflows"), "python"
         )
         self._nestedflow = NestedControlflows()
-        self._nestedflow.set_coordinator(self._coordinator)
+        self._nestedflow.coordinator = self._coordinator
 
     @unittest.expectedFailure
     def test_nested_controlflow_given_test_directory_returns_9(self):

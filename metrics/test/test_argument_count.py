@@ -12,7 +12,7 @@ class TestArgumentCount(unittest.TestCase):
             Path("./metrics/test/data/test_data_argument_count"), "python"
         )
         self._argumentcount = ArgumentCount()
-        self._argumentcount.set_coordinator(self._coordinator)
+        self._argumentcount.coordinator = self._coordinator
 
     def test_argument_count_given_directory_returns_2(self):
         result = self._argumentcount.run()

@@ -12,7 +12,7 @@ class TestSimilarCodeBlocks(unittest.TestCase):
             Path("./metrics/test/data/test_data_similar_codeblocks"), "python"
         )
         self._similarcode = SimilarBlocksofCode()
-        self._similarcode.set_coordinator(self._coordinator)
+        self._similarcode.coordinator = self._coordinator
 
     @unittest.skipIf(
         not os.path.exists("../../metrics/cpd"),

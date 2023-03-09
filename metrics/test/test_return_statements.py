@@ -12,7 +12,7 @@ class TestReturnStatements(unittest.TestCase):
             Path("./metrics/test/data/test_data_return_statements"), "python"
         )
         self._returnstmnt = ReturnStatements()
-        self._returnstmnt.set_coordinator(self._coordinator)
+        self._returnstmnt.coordinator = self._coordinator
 
     def test_return_statements_given_file_returns_2(self):
         result = self._returnstmnt.run()

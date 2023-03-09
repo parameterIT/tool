@@ -12,7 +12,7 @@ class TestFileLength(unittest.TestCase):
             Path("./metrics/test/data/test_data_file_length"), "python"
         )
         self._filelength = FileLength()
-        self._filelength.set_coordinator(self._coordinator)
+        self._filelength.coordinator = self._coordinator
 
     def test_file_length_given_file_returns_1(self):
         result = self._filelength.run()

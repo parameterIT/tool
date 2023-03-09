@@ -5,15 +5,12 @@ from byoqm.source_coordinator.source_coordinator import SourceCoordinator
 
 class NestedControlflows(Metric):
     def __init__(self):
-        self._coordinator = None
-
-    def set_coordinator(self, coordinator: SourceCoordinator):
-        self._coordinator = coordinator
+        self.coordinator: SourceCoordinator = None
 
     def run(self):
         count = 0
-        for file in self._coordinator.src_paths:
-            count += self._parse(self._coordinator.getAst(file))
+        for file in self.coordinator.src_paths:
+            count += self._parse(self.coordinator.getAst(file))
         return count
 
     def _unique(self, not_unique_list):
@@ -26,7 +23,7 @@ class NestedControlflows(Metric):
 
     def _parse(self, ast) -> int:
         count = 0
-        query = self._coordinator.language.query(
+        query = self.coordinator.language.query(
             """
                 (module [
                 (if_statement 
@@ -55,7 +52,7 @@ class NestedControlflows(Metric):
                     """
         )
         inital_nodes = self._unique(query.captures(ast.root_node))
-        sub_node_query = self._coordinator.language.query(
+        sub_node_query = self.coordinator.language.query(
             """
                 (_ [
                 (if_statement 

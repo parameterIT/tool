@@ -12,7 +12,7 @@ class TestMethodCount(unittest.TestCase):
             Path("./metrics/test/data/test_data_method_count"), "python"
         )
         self._methodcount = MethodCount()
-        self._methodcount.set_coordinator(self._coordinator)
+        self._methodcount.coordinator = self._coordinator
 
     def test_method_count_given_file_returns_1(self):
         result = self._methodcount.run()

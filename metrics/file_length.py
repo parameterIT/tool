@@ -5,14 +5,11 @@ from byoqm.source_coordinator.source_coordinator import SourceCoordinator
 
 class FileLength(Metric):
     def __init__(self):
-        self._coordinator = None
-
-    def set_coordinator(self, coordinator: SourceCoordinator):
-        self._coordinator = coordinator
+        self.coordinator: SourceCoordinator = None
 
     def run(self):
         count = 0
-        for file in self._coordinator.src_paths:
+        for file in self.coordinator.src_paths:
             with open(file) as f:
                 count += self._parse(f)
         return count

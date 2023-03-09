@@ -83,7 +83,7 @@ class Runner:
             module = importlib.util.module_from_spec(spec)
             sys.modules[metric] = module
             spec.loader.exec_module(module)
-            module.metric.set_coordinator(self._coordinator)
+            module.metric.coordinator = self._coordinator
             results[metric] = int(module.metric.run())
 
         return results
