@@ -7,6 +7,8 @@ from metrics.complex_logic import ComplexLogic
 
 class TestComplexLogic(unittest.TestCase):
     def setUp(self):
+        # chdir because paths are assumed to be relative from the project root but test
+        # paths start at the test file
         os.chdir("../../")
         self._coordinator = SourceCoordinator(
             Path("./metrics/test/data/test_data_complex_logic"), "python"

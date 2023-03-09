@@ -7,6 +7,8 @@ from metrics.method_length import MethodLength
 
 class TestMethodLength(unittest.TestCase):
     def setUp(self):
+        # chdir because paths are assumed to be relative from the project root but test
+        # paths start at the test file
         os.chdir("../../")
         self._coordinator = SourceCoordinator(
             Path("./metrics/test/data/test_data_method_length"), "python"
