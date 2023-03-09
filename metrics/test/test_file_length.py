@@ -1,18 +1,24 @@
 from pathlib import Path
-import subprocess
 import unittest
 import os
+from byoqm.source_coordinator.source_coordinator import SourceCoordinator
+from metrics.file_length import FileLength
 
 
 class TestFileLength(unittest.TestCase):
     def setUp(self):
+        # chdir because paths are assumed to be relative from the project root but test
+        # paths start at the test file
         os.chdir("../../")
+        self._coordinator = SourceCoordinator(
+            Path("./metrics/test/data/test_data_file_length"), "python"
+        )
+        self._filelength = FileLength()
+        self._filelength.coordinator = self._coordinator
 
     def test_file_length_given_file_returns_1(self):
-        cmd = ["./metrics/file_length.py", "./metrics/test/data/test_data_file_length"]
-        process = subprocess.run(cmd, stdout=subprocess.PIPE)
-        result = process.stdout.decode("utf-8").strip()
-        self.assertEqual(result, "1")
+        result = self._filelength.run()
+        self.assertEqual(result, 1)
 
     def tearDown(self):
         os.chdir(Path("metrics/test").resolve())

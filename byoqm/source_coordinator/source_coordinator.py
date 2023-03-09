@@ -3,12 +3,16 @@ from tree_sitter import Language, Parser
 import tree_sitter
 
 
-_TREESITTER_BUILD: Path = Path("build/my-languages.so").resolve()
+_TREESITTER_BUILD: Path = Path("build/my-languages.so")
 
 
 class SourceCoordinator:
     def __init__(self, src_root: Path, langauge: str):
-        self.src_root = src_root
+        if src_root.is_file():
+            self.src_paths = [src_root]
+        else:
+            self.src_paths = [file for file in src_root.glob("**/*.py")]
+
         self.language = Language(_TREESITTER_BUILD.__str__(), langauge)
         self.asts = {}
 
@@ -24,7 +28,7 @@ class SourceCoordinator:
         Throws a ValueError when the file to parse is not a child path of the given
         src_root.
         """
-        if not for_file.is_relative_to(self.src_root):
+        if for_file not in self.src_paths:
             raise ValueError(
                 "The file to parse must be a child path of of the src_root"
             )

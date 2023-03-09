@@ -6,15 +6,6 @@ from byoqm.visuals.dashboard import Dashboard
 import click
 
 
-def parse_src_root() -> Path:
-    path_to_src = Path(sys.argv[1])
-    if not path_to_src.exists():
-        print(f"The source code at {path_to_src.resolve()} does not exist")
-        exit(1)
-
-    return path_to_src
-
-
 @click.command()
 @click.argument("src_root", required=True)
 @click.argument("quality_model", required=True)
