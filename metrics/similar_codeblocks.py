@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 from io import StringIO
 import subprocess
 from byoqm.metric.metric import Metric

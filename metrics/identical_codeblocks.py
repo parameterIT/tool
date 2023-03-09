@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 from byoqm.metric.metric import Metric
 from byoqm.source_coordinator.source_coordinator import SourceCoordinator
 from defusedxml.ElementTree import parse
