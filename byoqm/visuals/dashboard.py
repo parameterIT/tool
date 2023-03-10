@@ -50,7 +50,7 @@ class Dashboard:
             if self._start_date > date or self._end_date < date:
                 continue
             filepath = os.path.join(path, filename)
-            df = pd.read_csv(filepath, header=0, skiprows=1)
+            df = pd.read_csv(filepath, header=0, skiprows=2)
             for row in df.itertuples(index=False, name=None):
                 graph_data[row[0]].append((date, row[1]))
         for _, v in graph_data.items():
