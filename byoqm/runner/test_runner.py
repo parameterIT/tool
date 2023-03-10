@@ -19,6 +19,7 @@ class TestRunner(unittest.TestCase):
             Path("byoqm/"),
             _OUTPUT_FOLDER,
             True,
+            "python"
         )
 
     def tearDown(self):
