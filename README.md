@@ -21,8 +21,10 @@ You can download cpd from the following link (check if there is a newer release)
 This is all done using poetry. To run:
 
 ```sh
-poetry run main <path/to/source/code> <Quality_model>
+poetry run main <path/to/source/code> <Quality_model> <language>
 ```
+
+To see supported languages please refer to: `byoqm/source_coordinator/languages.py`
 
 Optional values can be gotten by running: 
 
@@ -55,7 +57,7 @@ Clone the python grammar into `grammars/`:
 
 
 ```sh
-cd grammars && git clone https://github.com/tree-sitter/tree-sitter-python && cd -
+cd grammars && git clone https://github.com/tree-sitter/tree-sitter-python && git clone https://github.com/tree-sitter/tree-sitter-c-sharp && git clone https://github.com/tree-sitter/tree-sitter-java && cd -
 ```
 
 Build the grammar file:
