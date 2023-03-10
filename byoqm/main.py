@@ -37,14 +37,14 @@ import click
     type=click.DateTime(formats=["%Y-%m-%d"]),
     required=False,
     help="The point in time that the graphs should display from",
-    default=str(datetime.min.strftime("%Y-%m-%d")),
+    default= datetime(1,1,1)
 )
 @click.option(
     "--end-date",
     type=click.DateTime(formats=["%Y-%m-%d"]),
     required=False,
     help="The point in time that the graphs should display from",
-    default=str(datetime.max.strftime("%Y-%m-%d")),
+    default= datetime(9999,1,1)
 )
 def load(
     src_root: str,
