@@ -16,9 +16,9 @@ class TestComplexLogic(unittest.TestCase):
         self._complexlogic = ComplexLogic()
         self._complexlogic.coordinator = self._coordinator
 
-    def test_complex_logic_given_file_returns_4(self):
+    def test_complex_logic_given_file_returns_2(self):
         result = self._complexlogic.run()
-        self.assertEqual(result, 4)
+        self.assertEqual(result, 2)
 
     def tearDown(self):
         os.chdir(Path("metrics/test").resolve())

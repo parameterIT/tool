@@ -13,7 +13,9 @@ class MethodCount(Metric):
         return count
 
     def _parse(self, ast):
-        count = 0
+        """
+        Finds the amount of methods for a file, and returns whether or not the method count is greater than 20
+        """
         query = self.coordinator.language.query(
             """
             (_ (function_definition) @function)
@@ -21,8 +23,8 @@ class MethodCount(Metric):
         )
         captures = query.captures(ast.root_node)
         if len(captures) > 20:
-            count += 1
-        return count
+            return 1
+        return 0
 
 
 metric = MethodCount()

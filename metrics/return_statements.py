@@ -13,6 +13,10 @@ class ReturnStatements(Metric):
         return count
 
     def _parse(self, ast):
+        """
+        Finds the amount of return statements in a file and returns the amount of functions that have more
+        than 4 return statements
+        """
         count = 0
         query_functions = self.coordinator.language.query(
             """

@@ -21,14 +21,19 @@ class Runner:
     _MODELS_DIR = "models"
 
     def __init__(
-        self, model_name: str, src_root: Path, output_path: Path, save_file: bool
+        self,
+        model_name: str,
+        src_root: Path,
+        output_path: Path,
+        save_file: bool,
+        language: str,
     ):
         self._src_root: Path = src_root.resolve()
         self._model: QualityModel = self._load(model_name)
         self._model_name: str = model_name
         self._output_dir = output_path
         self._save_file = save_file
-        self._coordinator = SourceCoordinator(self._src_root, "python")
+        self._coordinator = SourceCoordinator(self._src_root, language)
 
     def _load(self, model_name: str) -> QualityModel:
         """

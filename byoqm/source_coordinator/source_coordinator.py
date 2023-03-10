@@ -1,8 +1,8 @@
 import logging
 from pathlib import Path
-from tree_sitter import Language, Parser
+from tree_sitter import Parser, Language
 import tree_sitter
-
+from byoqm.source_coordinator.languages import languages
 
 _TREESITTER_BUILD: Path = Path("build/my-languages.so")
 
@@ -12,7 +12,7 @@ class SourceCoordinator:
         if src_root.is_file():
             self.src_paths = [src_root]
         else:
-            self.src_paths = [file for file in src_root.glob("**/*.py")]
+            self.src_paths = [file for file in src_root.glob(languages[langauge])]
         logging.info(f"Language set to: {langauge}")
         self.language = Language(_TREESITTER_BUILD.__str__(), langauge)
         self.asts = {}
