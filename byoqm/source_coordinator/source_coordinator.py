@@ -13,7 +13,6 @@ class SourceCoordinator:
         else:
             self.src_paths = [file for file in src_root.glob(languages[langauge])]
 
-        print(langauge)
         self.language = Language(_TREESITTER_BUILD.__str__(), langauge)
         self.asts = {}
 
