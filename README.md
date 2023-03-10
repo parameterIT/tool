@@ -55,7 +55,7 @@ Clone the python grammar into `grammars/`:
 
 
 ```sh
-cd grammars && git clone https://github.com/tree-sitter/tree-sitter-python && cd -
+cd grammars && git clone https://github.com/tree-sitter/tree-sitter-python && git clone https://github.com/tree-sitter/tree-sitter-c-sharp && git clone https://github.com/tree-sitter/tree-sitter-java && cd -
 ```
 
 Build the grammar file:
