@@ -54,8 +54,7 @@ class Runner:
             logging.error(
                 f"Path to model file doesnt exist. Path given: {path_to_model}"
             )
-            exit(1)
-
+            raise FileNotFoundError
         return path_to_model
 
     def run(self) -> Path:

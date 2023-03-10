@@ -31,7 +31,7 @@ class SourceCoordinator:
         """
         if for_file not in self.src_paths:
             logging.error("The file to parse must be a child path of of the src_root")
-            exit(1)
+            raise ValueError
 
         ast = None
         try:
