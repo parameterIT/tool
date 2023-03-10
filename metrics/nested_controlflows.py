@@ -21,6 +21,10 @@ class NestedControlflows(Metric):
         return unique_list
 
     def _parse(self, ast) -> int:
+        """
+        Finds the control statements of a file and returns the amount of control statements that have a nested
+        control flow depth of at least 4
+        """
         count = 0
         query = self.coordinator.language.query(
             """

@@ -15,12 +15,12 @@ def return_false():
 if return_false() or returns_true():
     print(1)
 
-if a or b or c:
+if a or b or c or d:
     print(2)
-elif b or c or d or a:
+elif b or c or d or a or e:
     print(3)
 
-while b or c:
+while b or c or d or a or e or f or g:
     print(3)
 
 
