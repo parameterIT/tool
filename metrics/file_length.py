@@ -11,7 +11,7 @@ class FileLength(Metric):
         count = 0
         for file in self.coordinator.src_paths:
             with open(file) as f:
-                count += self._parse(f,self.coordinator.getAst(file))
+                count += self._parse(f, self.coordinator.getAst(file))
         return count
 
     def _parse(self, file, ast):
@@ -28,8 +28,8 @@ class FileLength(Metric):
         for node in captures:
             n = node[0]
             count_comments += (
-                (n.end_point[0] - n.start_point[0]) + 1
-            )  # length is zero indexed - therefore we add 1 at the end
+                n.end_point[0] - n.start_point[0]
+            ) + 1  # length is zero indexed - therefore we add 1 at the end
         loc = sum(1 for line in file if line.rstrip()) - count_comments
         if loc > 250:
             return 1
