@@ -14,11 +14,13 @@ class FileLength(Metric):
         return count
 
     def _parse(self, file):
-        count = 0
+        """
+        Finds out whether or not a file is more than 250 lines long
+        """
         loc = sum(1 for line in file if line.rstrip())
         if loc > 250:
-            count += 1
-        return count
+            return 1
+        return 0
 
 
 metric = FileLength()

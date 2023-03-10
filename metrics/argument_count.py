@@ -13,6 +13,9 @@ class ArgumentCount(Metric):
         return count
 
     def _parse(self, ast):
+        """
+        Finds the number of functions that have more than 4 parameters
+        """
         count = 0
         query = self.coordinator.language.query(
             """
