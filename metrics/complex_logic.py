@@ -14,7 +14,7 @@ class ComplexLogic(Metric):
 
     def _parse(self, ast):
         """
-        Gets all conditionals, and then returns the amount of violations to the 
+        Finds the conditionals of a file and returns the number of conditionals that have more than 4 conditions
         """
         count = 0
         query = self.coordinator.language.query(

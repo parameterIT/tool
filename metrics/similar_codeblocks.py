@@ -18,6 +18,9 @@ class SimilarBlocksofCode(Metric):
         return count
 
     def similar_blocks_of_code(self, files) -> int | float:
+        """
+        Finds the amount of similar code blocks in a given repository 
+        """
         filestring = f"{files}"
         filestring = filestring[1 : len(filestring) - 1]
         count = 0
