@@ -27,3 +27,13 @@ class TestSourceCoordinator(unittest.TestCase):
         tree = self.source_coordinator.getAst(target)
         actual = len(tree.root_node.children)
         self.assertEqual(actual, 2)
+
+    def test_new_source_coordinator_findes_c_sharp_files(self):
+        new_coordinator = SourceCoordinator(
+            Path("byoqm/source_coordinator/test/data"), "c_sharp"
+        )
+        actual = new_coordinator.src_paths
+
+        self.assertEqual(
+            actual, [Path("byoqm/source_coordinator/test/data/a_nother_file.cs")]
+        )
