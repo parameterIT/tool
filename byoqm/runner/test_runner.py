@@ -14,13 +14,7 @@ class TestRunner(unittest.TestCase):
     def setUp(self):
         _OUTPUT_FOLDER.mkdir(parents=True, exist_ok=True)
 
-        self._runner = Runner(
-            "no_cpd",
-            Path("byoqm/"),
-            _OUTPUT_FOLDER,
-            True,
-            "python"
-        )
+        self._runner = Runner("no_cpd", Path("byoqm/"), _OUTPUT_FOLDER, True, "python")
 
     def tearDown(self):
         # shutil over os.rmdir, because it allows you to remove non/empty directories
