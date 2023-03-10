@@ -37,8 +37,9 @@ class Dashboard:
         Gets data from specified path. The path is defaulted to the output folder, but if you want to run
         BYOQM using a different path, this can be changed in the CLI.
 
-        Each file has an arbitrary number of metrics, their matching values and are named after the date at
-        which they were run. This data is collected in a dict, matching every single metric to a list containing
+        The name of the file depicts the date at which the tool was run. The content of the file consists
+        of an arbitrary amount of metrics, together with their respective values.
+        This data is collected in a dict, matching every single metric to a list containing
         tuples of dates and values.
 
         The data is then sorted to ensure that the dates appear in chronological order
