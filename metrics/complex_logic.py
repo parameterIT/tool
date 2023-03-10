@@ -13,6 +13,9 @@ class ComplexLogic(Metric):
         return count
 
     def _parse(self, ast):
+        """
+        Gets all conditionals, and then returns the amount of violations to the 
+        """
         count = 0
         query = self.coordinator.language.query(
             """
@@ -33,7 +36,7 @@ class ComplexLogic(Metric):
                 boolean_count += 1
                 node = node.child_by_field_name("left")
                 # change the value below to a parameter when parameterizing
-            if boolean_count > 2:
+            if boolean_count > 4:
                 count += 1
         return count
 
