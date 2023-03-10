@@ -14,11 +14,13 @@ class FileLength(Metric):
         return count
 
     def _parse(self, file):
-        count = 0
+        """
+        Finds 
+        """
         loc = sum(1 for line in file if line.rstrip())
         if loc > 250:
-            count += 1
-        return count
+            return 1
+        return 0
 
 
 metric = FileLength()
