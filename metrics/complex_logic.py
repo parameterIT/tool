@@ -1,5 +1,6 @@
 from byoqm.metric.metric import Metric
 from byoqm.source_coordinator.source_coordinator import SourceCoordinator
+from byoqm.source_coordinator.query_translations import query_lang
 
 
 class ComplexLogic(Metric):
@@ -18,12 +19,8 @@ class ComplexLogic(Metric):
         """
         count = 0
         query = self.coordinator.language.query(
-            """
-            (_
-                condition: (boolean_operator) @function.boolean_operator)
-            (_
-                right: (boolean_operator) @function.boolean_operator)
-
+            f"""
+            (_ [{query_lang[self.coordinator.prog_lang]["bool_operator"]}] @bool_operator)
             """
         )
         captures = query.captures(ast.root_node)

@@ -1,5 +1,6 @@
 from byoqm.metric.metric import Metric
 from byoqm.source_coordinator.source_coordinator import SourceCoordinator
+from byoqm.source_coordinator.query_translations import query_lang
 
 
 class ReturnStatements(Metric):
@@ -19,13 +20,13 @@ class ReturnStatements(Metric):
         """
         count = 0
         query_functions = self.coordinator.language.query(
-            """
-        (_ (function_definition) @function)
+            f"""
+        (_ [{query_lang[self.coordinator.prog_lang]["function"]}] @function)
         """
         )
         query_return = self.coordinator.language.query(
-            """
-            (_ (return_statement) @return)
+            f"""
+            (_ [{query_lang[self.coordinator.prog_lang]["return"]}] @return)
             """
         )
 

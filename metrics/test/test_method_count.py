@@ -20,6 +20,15 @@ class TestMethodCount(unittest.TestCase):
         result = self._methodcount.run()
         self.assertEqual(result, 1)
 
+    def test_method_count_given_java_file_returns_1(self):
+        new_coordinator = SourceCoordinator(
+            Path("./metrics/test/data/test_data_method_count"), "java"
+        )
+        new_method_counter = MethodCount()
+        new_method_counter.coordinator = new_coordinator
+        result = new_method_counter.run()
+        self.assertEqual(result, 1)
+
     def tearDown(self):
         os.chdir(Path("metrics/test").resolve())
 

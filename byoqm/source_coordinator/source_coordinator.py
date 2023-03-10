@@ -15,7 +15,7 @@ class SourceCoordinator:
 
         self.language = Language(_TREESITTER_BUILD.__str__(), langauge)
         self.asts = {}
-
+        self.prog_lang = langauge
         self._parser = Parser()
         self._parser.set_language(self.language)
 
