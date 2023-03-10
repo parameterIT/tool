@@ -9,6 +9,7 @@ import click
 @click.command()
 @click.argument("src_root", required=True)
 @click.argument("quality_model", required=True)
+@click.argument("language", required=True)
 @click.option(
     "--output",
     "-o",
@@ -48,6 +49,7 @@ import click
 def load(
     src_root: str,
     quality_model: str,
+    language: str,
     output: str = "./output",
     save_file: bool = True,
     show_graphs: bool = True,
@@ -59,7 +61,9 @@ def load(
             "Start date is greater than the end date. Please enter a valid time period."
         )
         exit(1)
-    runner: Runner = Runner(quality_model, Path(src_root), Path(output), save_file)
+    runner: Runner = Runner(
+        quality_model, Path(src_root), Path(output), save_file, language.lower()
+    )
     runner.run()
     if show_graphs:
         dashboard = Dashboard(start_date, end_date)
