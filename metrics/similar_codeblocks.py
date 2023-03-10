@@ -19,7 +19,7 @@ class SimilarBlocksofCode(Metric):
 
     def similar_blocks_of_code(self, files) -> int | float:
         """
-        Finds the amount of similar code blocks in a given repository 
+        Finds the amount of similar code blocks in a given repository
         """
         filestring = f"{files}"
         filestring = filestring[1 : len(filestring) - 1]

@@ -19,8 +19,8 @@ class IdenticalBlocksofCode(Metric):
 
     def identical_blocks_of_code(self, files) -> int | float:
         """
-        Finds the amount of identical code blocks that exist in the given code base. 
-        
+        Finds the amount of identical code blocks that exist in the given code base.
+
         Makes use of Copy Paste Detector (CPD)
         """
         filestring = f"{files}"

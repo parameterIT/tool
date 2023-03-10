@@ -14,7 +14,7 @@ class MethodLength(Metric):
 
     def _parse(self, ast):
         """
-        Finds the length of all methods in a file and returns the amount of methods that have a length 
+        Finds the length of all methods in a file and returns the amount of methods that have a length
         that is greater than 25
         """
         count = 0
