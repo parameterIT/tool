@@ -6,6 +6,7 @@ from .line import get_line
 from bokeh.layouts import gridplot
 from bokeh.plotting import show
 from .line import get_line
+import logging
 
 
 class Dashboard:
@@ -26,15 +27,27 @@ class Dashboard:
         show(gridplots)
 
     def get_data(self, path="./output"):
+        logging.info(f"Getting data from: {path}")
         graph_data = defaultdict(list)
         for filename in os.listdir(path):
-            date = datetime.strptime(filename.split(".")[0], "%Y-%m-%d_%H-%M-%S")
-            if self._start_date > date or self._end_date < date:
-                continue
-            filepath = os.path.join(path, filename)
-            df = pd.read_csv(filepath, header=0, skiprows=1)
-            for row in df.itertuples(index=False, name=None):
-                graph_data[row[0]].append((date, row[1]))
+            try:
+                date = datetime.strptime(filename.split(".")[0], "%Y-%m-%d_%H-%M-%S")
+                if self._start_date > date or self._end_date < date:
+                    continue
+                filepath = os.path.join(path, filename)
+                df = pd.read_csv(filepath, header=0, skiprows=1)
+                for row in df.itertuples(index=False, name=None):
+                    graph_data[row[0]].append((date, row[1]))
+            except:
+                logging.error(
+                    f"Failed to parse file with filename: {filename} - invalid format. Check the naming convention of the file or the content of the file"
+                )
+                exit(1)
         for _, v in graph_data.items():
-            v.sort()
+            try:
+                v.sort()
+            except:
+                logging.error("Failed to sort data")
+                exit(1)
+        logging.info("Finished getting data")
         return graph_data
