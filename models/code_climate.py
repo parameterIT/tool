@@ -20,36 +20,28 @@ class CodeClimate(QualityModel):
                 "nested_controlflows": "./metrics/nested_controlflows.py",
             },
             "aggregations": {
-                "cyclomatic_complexity": self.cyclomatic_complexity,
-                "structural_issues": self.structural_issues,
                 "cognitive_complexity": self.cognitive_complexity,
+                "complexity": self.complexity,
                 "duplication": self.duplication,
-                "maintainability": self.maintainability,
             },
         }
         return model
 
-    def maintainability(self, results: Dict) -> int | float:
+    def complexity(self, results: Dict) -> int | float:
         return (
-            results["duplication"]
-            + results["cognitive_complexity"]
-            + results["structural_issues"]
-            + results["cyclomatic_complexity"]
+            results["cognitive_complexity"]
+            + results["return_statements"]
+            + results["nested_controlflows"]
+            + results["argument_count"]
+            + results["method_length"]
+            + results["file_length"]
         )
 
     def duplication(self, results: Dict) -> int | float:
         return results["identical_blocks_of_code"] + results["similar_blocks_of_code"]
 
     def cognitive_complexity(self, results: Dict):
-        return results["complex_logic"] + results["nested_controlflows"]
-
-    def structural_issues(self, results: Dict):
-        return (
-            results["argument_count"] + results["file_length"] + results["method_count"]
-        )
-
-    def cyclomatic_complexity(self, results: Dict):
-        return results["return_statements"]
+        return results["complex_logic"]
 
 
 model = CodeClimate()
