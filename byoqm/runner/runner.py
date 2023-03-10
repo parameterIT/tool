@@ -103,8 +103,7 @@ class Runner:
 
         with open(file_location, "w") as results_file:
             writer = csv.writer(results_file)
-            writer.writerow([f"qualitymodel={self._model_name}"])
-            writer.writerow([f"src_root={self._src_root}"])
+            writer.writerow([f"qualitymodel={self._model_name} & srcroot={self._src_root}"])
             writer.writerow(["metric", "value"])
             for description, value in results.items():
                 writer.writerow([description, value])
