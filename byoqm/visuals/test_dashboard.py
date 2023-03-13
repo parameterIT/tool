@@ -30,6 +30,7 @@ class TestDashboard(unittest.TestCase):
             with open(filepath, "w") as results_file:
                 writer = csv.writer(results_file)
                 writer.writerow(["qualitymodel=some_model"])
+                writer.writerow(["src_root=dummy_test"])
                 writer.writerow(["metric", "value"])
                 writer.writerow([_METRIC_NAME, 4])
 
