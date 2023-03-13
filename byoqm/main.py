@@ -66,7 +66,6 @@ def load(
     end_date: datetime = datetime.max,
     verbose: bool = False,
 ):
-    print(start_date)
     if start_date > end_date:
         logging.error(
             "Start date is greater than the end date. Please enter a valid time period."
