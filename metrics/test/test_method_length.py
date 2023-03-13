@@ -27,7 +27,7 @@ class TestMethodLength(unittest.TestCase):
         new_method_counter = MethodLength()
         new_method_counter.coordinator = new_coordinator
         result = new_method_counter.run()
-        self.assertEqual(result,1)
+        self.assertEqual(result, 1)
 
     def test_method_length_given_c_sharp_file_returns_3(self):
         new_coordinator = SourceCoordinator(
@@ -36,7 +36,7 @@ class TestMethodLength(unittest.TestCase):
         new_method_counter = MethodLength()
         new_method_counter.coordinator = new_coordinator
         result = new_method_counter.run()
-        self.assertEqual(result,3)
+        self.assertEqual(result, 3)
 
     def tearDown(self):
         os.chdir(Path("metrics/test").resolve())
