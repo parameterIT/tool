@@ -1,5 +1,6 @@
 from byoqm.metric.metric import Metric
 from byoqm.source_coordinator.source_coordinator import SourceCoordinator
+from byoqm.source_coordinator.query_translations import query_lang
 
 
 class ArgumentCount(Metric):
@@ -18,16 +19,14 @@ class ArgumentCount(Metric):
         """
         count = 0
         query = self.coordinator.language.query(
-            """
-            (function_definition
-                parameters: (parameters) @function.parameters)
+            f"""
+            (_ [{query_lang[self.coordinator.prog_lang]["parameters"]}] @parameters)
             """
         )
         captures = query.captures(ast.root_node)
         for node, _ in captures:
             if node.named_child_count > 4:
                 count += 1
-
         return count
 
 
