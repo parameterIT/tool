@@ -59,10 +59,12 @@ query_lang = {
                                 (method_declaration
                                     body: (block [
                                     (if_statement
-                                        consequence: (block) @cons)
+                                        consequence: (_) @cons)
                                     (if_statement
-                                        consequence: (block) @cons
-                                        alternative: (_ [alternative: (block) consequence: (block) ] @cons))
+                                        consequence: (_) @cons
+                                        alternative: [
+                                            (_ [alternative: (_) consequence: (_) ] @cons)
+                                            (block) @cons])
                                     (for_statement
                                         body: (block) @cons)
                                     (for_each_statement
@@ -72,10 +74,12 @@ query_lang = {
 
                                 (global_statement [
                                     (if_statement
-                                        consequence: (block) @cons)
+                                        consequence: (_) @cons)
                                     (if_statement
-                                        consequence: (block) @cons
-                                        alternative: (_ [alternative: (block) consequence: (block) ] @cons))
+                                        consequence: (_) @cons
+                                        alternative: [
+                                            (_ [alternative: (_) consequence: (_) ] @cons)
+                                            (block) @cons])
                                     (for_statement
                                         body: (block) @cons)
                                     (for_each_statement
@@ -84,19 +88,20 @@ query_lang = {
                                         (block) @cons)])
                                 """,
         "nested_controlflow2": """
-                                (_
-                                    body: (block [
+                                (_ [
                                     (if_statement
-                                        consequence: (block) @cons)
+                                        consequence: (_) @cons)
                                     (if_statement
-                                        consequence: (block) @cons
-                                        alternative: (_ [alternative: (block) consequence: (block) ] @if))
+                                        consequence: (_) @cons
+                                        alternative: [
+                                            (_ [alternative: (_) consequence: (_) ] @cons)
+                                            (block) @cons])
                                     (for_statement
                                         body: (block) @cons)
-                                        (for_each_statement
-                                                body: (block) @cons)
+                                    (for_each_statement
+                                        body: (block) @cons)
                                     (while_statement
-                                        (block) @cons)]))
+                                        (block) @cons)])
                                 """,
     },
     "java": {
@@ -108,30 +113,33 @@ query_lang = {
         "function_block": "(method_declaration body: (block) @function.block) (constructor_declaration body: (constructor_body) @function.block)",
         "return": "(return_statement)",
         "nested_controlflow1": """
-                                (method_declaration
-                                    body: (block [
-                                    (if_statement
-                                        consequence: (block) @cons)
-                                    (if_statement
-                                        consequence: (block) @cons
-                                        alternative: (_ [alternative: (block) consequence: (block) ] @if))
-                                    (for_statement
-                                        body: (block) @cons)
-                                    (while_statement
-                                        (block) @cons)]))
-                                """,
-        "nested_controlflow2": """
                                 (_
                                     body: (block [
                                     (if_statement
                                         consequence: (block) @cons)
                                     (if_statement
                                         consequence: (block) @cons
-                                        alternative: (_ [alternative: (block) consequence: (block) ] @if))
+                                        alternative: [
+                                            (_ [alternative: (_) consequence: (_) ] @cons)
+                                            (block) @cons])
                                     (for_statement
                                         body: (block) @cons)
                                     (while_statement
                                         (block) @cons)]))
+                                """,
+        "nested_controlflow2": """
+                                (_ [
+                                    (if_statement
+                                        consequence: (_) @cons)
+                                    (if_statement
+                                        consequence: (_) @cons
+                                        alternative: [
+                                            (_ [alternative: (_) consequence: (_) ] @cons)
+                                            (block) @cons])
+                                    (for_statement
+                                        body: (block) @cons)
+                                    (while_statement
+                                        (block) @cons)])
                                 """,
     },
 }
