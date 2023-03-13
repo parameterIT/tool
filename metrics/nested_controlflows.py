@@ -27,7 +27,7 @@ class NestedControlflows(Metric):
         control flow depth of at least 4
         """
         count = 0
-        
+
         query = self.coordinator.language.query(
             query_lang[self.coordinator.prog_lang]["nested_controlflow1"]
         )

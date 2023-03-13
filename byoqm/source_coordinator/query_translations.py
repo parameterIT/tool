@@ -6,7 +6,7 @@ query_lang = {
         "function": "(function_definition)",
         "function_block": "(function_definition body: (block) @function.block)",
         "return": "(return_statement)",
-        "nested_controlflow1" : """
+        "nested_controlflow1": """
                                 (module [
                                 (if_statement 
                                     consequence: (block) @cons
@@ -32,7 +32,7 @@ query_lang = {
                                     (for_statement body: (block) @cons)])
                                 )
                                 """,
-        "nested_controlflow2" : """
+        "nested_controlflow2": """
                                 (_ [
                                 (if_statement 
                                     consequence: (block) @cons
@@ -53,7 +53,7 @@ query_lang = {
         "function": "(method_declaration) (constructor_declaration)",
         "function_block": "(method_declaration body: (block) @function.block) (constructor_declaration body: (block) @function.block)",
         "return": "(return_statement)",
-        "nested_controlflow1" : """
+        "nested_controlflow1": """
                                 (method_declaration
                                     body: (block [
                                     (if_statement
@@ -81,7 +81,7 @@ query_lang = {
                                     (while_statement
                                         (block) @cons)])
                                 """,
-        "nested_controlflow2" : """
+        "nested_controlflow2": """
                                 (_
                                     body: (block [
                                     (if_statement
@@ -95,7 +95,7 @@ query_lang = {
                                                 body: (block) @cons)
                                     (while_statement
                                         (block) @cons)]))
-                                """
+                                """,
     },
     "java": {
         "parameters": "parameters: (formal_parameters)",
@@ -104,7 +104,7 @@ query_lang = {
         "function": "(method_declaration) (constructor_declaration)",
         "function_block": "(method_declaration body: (block) @function.block) (constructor_declaration body: (constructor_body) @function.block)",
         "return": "(return_statement)",
-        "nested_controlflow1" : """
+        "nested_controlflow1": """
                                 (method_declaration
                                     body: (block [
                                     (if_statement
@@ -117,7 +117,7 @@ query_lang = {
                                     (while_statement
                                         (block) @cons)]))
                                 """,
-        "nested_controlflow2" : """
+        "nested_controlflow2": """
                                 (_
                                     body: (block [
                                     (if_statement

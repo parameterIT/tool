@@ -28,7 +28,7 @@ class TestMethodCount(unittest.TestCase):
         new_method_counter.coordinator = new_coordinator
         result = new_method_counter.run()
         self.assertEqual(result, 1)
-        
+
     def test_method_count_given_c_sharp_file_returns_1(self):
         new_coordinator = SourceCoordinator(
             Path("./metrics/test/data/test_data_method_count"), "c_sharp"
