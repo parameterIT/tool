@@ -1,4 +1,5 @@
 from collections import defaultdict
+import csv
 from datetime import datetime
 import os
 from pathlib import Path
@@ -34,8 +35,6 @@ class Dashboard:
         show(gridplots)
 
     def get_data(self, inUseQM: str, targetPath: Path, path="./output"):
-        print("Target path:", targetPath)
-        print("In use QM:", inUseQM)
         """
         Gets data from specified path. The path is defaulted to the output folder, but if you want to run
         BYOQM using a different path, this can be changed in the CLI.
@@ -49,20 +48,25 @@ class Dashboard:
         """
         graph_data = defaultdict(list)
         for filename in os.listdir(path):
+            filepath = os.path.join(path, filename)
             date = datetime.strptime(filename.split(".")[0], "%Y-%m-%d_%H-%M-%S")
-            currentCSV = pd.read_csv(filepath)
             if self._start_date > date or self._end_date < date:
                 continue
-            if currentCSV.__getattr__("qualitymodel") != inUseQM:
-                print("I'm here at QM check!")
-                continue
-            if currentCSV.__getattr__("targetpath") != targetPath:
-                print("I'm here at targetpath check!")
-                continue
-            filepath = os.path.join(path, filename)
+                
+            with open(filepath) as f:
+                reader = csv.reader(f)
+                for row in reader:
+                    if row[0] == "qualitymodel" and row[1] != "{'"+inUseQM+"'}":
+                        print("BONK QM")
+                        continue
+                    if row[0] == "src_root" and row[1] != "{'"+targetPath+"'}":
+                        print("BONK PATH")
+                        continue
+                
             df = pd.read_csv(filepath, header=0, skiprows=2)
             for row in df.itertuples(index=False, name=None):
                 graph_data[row[0]].append((date, row[1]))
         for _, v in graph_data.items():
             v.sort()
         return graph_data
+ 
