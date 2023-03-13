@@ -15,7 +15,22 @@ class Dashboard:
         self._start_date = start_date
         self._end_date = end_date
 
-    def show_graphs(self, inUseQM: str, targetPath: Path):
+    def _check_data(self, filepath, in_use_qm, target_path):
+        with open(filepath) as f:
+                reader = csv.reader(f)
+                for row in reader:
+                    if row[0] == "qualitymodel" and row[1] != "{'" + in_use_qm + "'}":
+                        continue
+                    if row[0] == "src_root" and row[1] != "{'" + target_path + "'}":
+                        continue
+
+
+    def _check_date(self, date, start_date, end_date):
+        if start_date > date or end_date < date:
+            return False
+        return True
+
+    def show_graphs(self, in_use_qm: str, targetPath: Path):
         """
         This method is used to display the graphs chosen. At the moment, only line graphs can be chosen,
         however this can be easily expanded upon.
@@ -23,7 +38,7 @@ class Dashboard:
         The method makes use of Bokeh to generate figures, which are then added to a gridplot in the
         arrangement of an arbitrary amount of rows where each row contains two figures.
         """
-        data = self.get_data(inUseQM, targetPath)
+        data = self.get_data(in_use_qm, targetPath)
         # consider changing to broader term such as 'figures' if we plan on expanding the list to include other charts
         line_figures = [get_line(data, key) for key in data]
         gridplots = gridplot(
@@ -34,7 +49,7 @@ class Dashboard:
         )
         show(gridplots)
 
-    def get_data(self, inUseQM: str, targetPath: Path, path="./output"):
+    def get_data(self, in_use_qm: str, targetPath: Path, path="./output"):
         """
         Gets data from specified path. The path is defaulted to the output folder, but if you want to run
         BYOQM using a different path, this can be changed in the CLI.
@@ -52,16 +67,9 @@ class Dashboard:
         for filename in os.listdir(path):
             filepath = os.path.join(path, filename)
             date = datetime.strptime(filename.split(".")[0], "%Y-%m-%d_%H-%M-%S")
-            if self._start_date > date or self._end_date < date:
+            if not self._check_date(date, self._start_date, self._end_date):
                 continue
-
-            with open(filepath) as f:
-                reader = csv.reader(f)
-                for row in reader:
-                    if row[0] == "qualitymodel" and row[1] != "{'" + inUseQM + "'}":
-                        continue
-                    if row[0] == "src_root" and row[1] != "{'" + targetPath + "'}":
-                        continue
+            self._check_data(filepath, in_use_qm, targetPath)
 
             df = pd.read_csv(filepath, header=0, skiprows=2)
             for row in df.itertuples(index=False, name=None):
