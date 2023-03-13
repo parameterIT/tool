@@ -1,6 +1,7 @@
 from collections import defaultdict
 from datetime import datetime
 import os
+from pathlib import Path
 import pandas as pd
 from .line import get_line
 from bokeh.layouts import gridplot
@@ -13,7 +14,7 @@ class Dashboard:
         self._start_date = start_date
         self._end_date = end_date
 
-    def show_graphs(self):
+    def show_graphs(self, inUseQM: str, targetPath: Path):
         """
         This method is used to display the graphs chosen. At the moment, only line graphs can be chosen,
         however this can be easily expanded upon.
@@ -21,7 +22,7 @@ class Dashboard:
         The method makes use of Bokeh to generate figures, which are then added to a gridplot in the
         arrangement of an arbitrary amount of rows where each row contains two figures.
         """
-        data = self.get_data()
+        data = self.get_data(inUseQM, targetPath)
         # consider changing to broader term such as 'figures' if we plan on expanding the list to include other charts
         line_figures = [get_line(data, key) for key in data]
         gridplots = gridplot(
@@ -32,7 +33,7 @@ class Dashboard:
         )
         show(gridplots)
 
-    def get_data(self, path="./output"):
+    def get_data(self, inUseQM: str, targetPath: Path, path="./output"):
         """
         Gets data from specified path. The path is defaulted to the output folder, but if you want to run
         BYOQM using a different path, this can be changed in the CLI.

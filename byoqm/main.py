@@ -62,12 +62,12 @@ def load(
         )
         exit(1)
     runner: Runner = Runner(
-        quality_model, Path(src_root), Path(output), save_file, language.lower()
+        quality_model, Path(src_root), Path(output), save_file, language.lower(), src_root
     )
     runner.run()
     if show_graphs:
         dashboard = Dashboard(start_date, end_date)
-        dashboard.show_graphs()
+        dashboard.show_graphs(quality_model, src_root)
 
 
 if __name__ == "__main__":
