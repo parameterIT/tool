@@ -1,5 +1,6 @@
 from byoqm.metric.metric import Metric
 from byoqm.source_coordinator.source_coordinator import SourceCoordinator
+from byoqm.source_coordinator.query_translations import query_lang
 
 
 class NestedControlflows(Metric):
@@ -26,49 +27,13 @@ class NestedControlflows(Metric):
         control flow depth of at least 4
         """
         count = 0
+        
         query = self.coordinator.language.query(
-            """
-                (module [
-                (if_statement 
-                    consequence: (block) @cons
-                        )
-                (if_statement 
-                    consequence: (block) @cons
-                    alternative: (_ [body: (block) consequence: (block) ] @cons) 
-                        )
-                (while_statement body: (block) @cons)
-                (for_statement body: (block) @cons)]
-                )
-                
-                (function_definition
-                body: (block [
-                    (if_statement 
-                        consequence: (block) @cons
-                            )
-                    (if_statement 
-                        consequence: (block) @cons
-                        alternative: (_ [body: (block) consequence: (block)] @cons)
-                            )
-                    (while_statement body: (block) @cons)
-                    (for_statement body: (block) @cons)])
-                )
-                    """
+            query_lang[self.coordinator.prog_lang]["nested_controlflow1"]
         )
         inital_nodes = self._unique(query.captures(ast.root_node))
         sub_node_query = self.coordinator.language.query(
-            """
-                (_ [
-                (if_statement 
-                    consequence: (block) @cons
-                        )
-                (if_statement 
-                    consequence: (block) @cons
-                    alternative: (_ [body: (block) consequence: (block) ] @cons) 
-                        )
-                (while_statement body: (block) @cons)
-                (for_statement body: (block) @cons)]
-                )
-                    """
+            query_lang[self.coordinator.prog_lang]["nested_controlflow2"]
         )
         for node, _ in inital_nodes:
             found = False
@@ -88,3 +53,46 @@ class NestedControlflows(Metric):
 
 
 metric = NestedControlflows()
+
+"""
+(method_declaration
+	body: (block [
+    (if_statement
+    	consequence: (block) @cons)
+    (if_statement
+    	consequence: (block) @cons
+        alternative: (_ [alternative: (block) consequence: (block) ] @if))
+    (for_statement
+    	body: (block) @cons)
+    (for_each_statement
+    	body: (block) @cons)
+    (while_statement
+    	(block) @cons)]))
+"""
+
+"""
+(module [
+(if_statement 
+    consequence: (block) @cons
+        )
+(if_statement 
+    consequence: (block) @cons
+    alternative: (_ [body: (block) consequence: (block) ] @cons) 
+        )
+(while_statement body: (block) @cons)
+(for_statement body: (block) @cons)]
+)
+
+(function_definition
+body: (block [
+    (if_statement 
+        consequence: (block) @cons
+            )
+    (if_statement 
+        consequence: (block) @cons
+        alternative: (_ [body: (block) consequence: (block)] @cons)
+            )
+    (while_statement body: (block) @cons)
+    (for_statement body: (block) @cons)])
+)
+"""
