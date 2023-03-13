@@ -62,7 +62,12 @@ def load(
         )
         exit(1)
     runner: Runner = Runner(
-        quality_model, Path(src_root), Path(output), save_file, language.lower(), src_root
+        quality_model,
+        Path(src_root),
+        Path(output),
+        save_file,
+        language.lower(),
+        src_root,
     )
     runner.run()
     if show_graphs:

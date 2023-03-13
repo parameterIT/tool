@@ -44,6 +44,8 @@ class Dashboard:
         This data is collected in a dict, matching every single metric to a list containing
         tuples of dates and values.
 
+        Graphs are only generated for the current chosen quality model and the current target path.
+
         The data is then sorted to ensure that the dates appear in chronological order
         """
         graph_data = defaultdict(list)
@@ -52,21 +54,18 @@ class Dashboard:
             date = datetime.strptime(filename.split(".")[0], "%Y-%m-%d_%H-%M-%S")
             if self._start_date > date or self._end_date < date:
                 continue
-                
+
             with open(filepath) as f:
                 reader = csv.reader(f)
                 for row in reader:
-                    if row[0] == "qualitymodel" and row[1] != "{'"+inUseQM+"'}":
-                        print("BONK QM")
+                    if row[0] == "qualitymodel" and row[1] != "{'" + inUseQM + "'}":
                         continue
-                    if row[0] == "src_root" and row[1] != "{'"+targetPath+"'}":
-                        print("BONK PATH")
+                    if row[0] == "src_root" and row[1] != "{'" + targetPath + "'}":
                         continue
-                
+
             df = pd.read_csv(filepath, header=0, skiprows=2)
             for row in df.itertuples(index=False, name=None):
                 graph_data[row[0]].append((date, row[1]))
         for _, v in graph_data.items():
             v.sort()
         return graph_data
- 
