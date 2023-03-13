@@ -67,7 +67,6 @@ def load(
         Path(output),
         save_file,
         language.lower(),
-        src_root,
     )
     runner.run()
     if show_graphs:

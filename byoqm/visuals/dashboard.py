@@ -19,9 +19,9 @@ class Dashboard:
         with open(filepath) as f:
             reader = csv.reader(f)
             for row in reader:
-                if row[0] == "qualitymodel" and row[1] != "{'" + in_use_qm + "'}":
+                if row[0] == "qualitymodel" and row[1] != in_use_qm:
                     return False
-                if row[0] == "src_root" and row[1] != "{'" + target_path + "'}":
+                if row[0] == "src_root" and ("./" + row[1]) != target_path:
                     return False
         return True
 
