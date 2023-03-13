@@ -20,6 +20,29 @@ class TestComplexLogic(unittest.TestCase):
         result = self._complexlogic.run()
         self.assertEqual(result, 2)
 
+    def test_argument_count_c_sharp_given_directory_returns_4(self):
+        new_coordinator = SourceCoordinator(
+            Path("./metrics/test/data/test_data_complex_logic"), "c_sharp"
+        )
+        complex_logic = ComplexLogic()
+        complex_logic.coordinator = new_coordinator
+        result = complex_logic.run()
+
+        self.assertEqual(result, 4)
+
+    def test_argument_java_sharp_given_directory_returns_4(self):
+        new_coordinator = SourceCoordinator(
+            Path("./metrics/test/data/test_data_complex_logic"), "java"
+        )
+        complex_logic = ComplexLogic()
+        complex_logic.coordinator = new_coordinator
+        result = complex_logic.run()
+
+        self.assertEqual(result, 4)
+
+    def tearDown(self):
+        os.chdir(Path("metrics/test").resolve())
+
     def tearDown(self):
         os.chdir(Path("metrics/test").resolve())
 
