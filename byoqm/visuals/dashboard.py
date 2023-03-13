@@ -34,6 +34,8 @@ class Dashboard:
         show(gridplots)
 
     def get_data(self, inUseQM: str, targetPath: Path, path="./output"):
+        print("Target path:", targetPath)
+        print("In use QM:", inUseQM)
         """
         Gets data from specified path. The path is defaulted to the output folder, but if you want to run
         BYOQM using a different path, this can be changed in the CLI.
@@ -48,7 +50,14 @@ class Dashboard:
         graph_data = defaultdict(list)
         for filename in os.listdir(path):
             date = datetime.strptime(filename.split(".")[0], "%Y-%m-%d_%H-%M-%S")
+            currentCSV = pd.read_csv(filepath)
             if self._start_date > date or self._end_date < date:
+                continue
+            if currentCSV.__getattr__("qualitymodel") != inUseQM:
+                print("I'm here at QM check!")
+                continue
+            if currentCSV.__getattr__("targetpath") != targetPath:
+                print("I'm here at targetpath check!")
                 continue
             filepath = os.path.join(path, filename)
             df = pd.read_csv(filepath, header=0, skiprows=2)
