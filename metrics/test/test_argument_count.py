@@ -19,6 +19,7 @@ class TestArgumentCount(unittest.TestCase):
     def test_argument_count_python_given_directory_returns_2(self):
         result = self._argumentcount.run()
         self.assertEqual(result, 2)
+
     def test_argument_count_c_sharp_given_directory_returns_2(self):
         new_coordinator = SourceCoordinator(
             Path("./metrics/test/data/test_data_argument_count"), "c_sharp"
@@ -26,9 +27,9 @@ class TestArgumentCount(unittest.TestCase):
         argumentCount = ArgumentCount()
         argumentCount.coordinator = new_coordinator
         result = argumentCount.run()
-        
+
         self.assertEqual(result, 2)
-        
+
     def test_argument_count_java_given_directory_returns_2(self):
         new_coordinator = SourceCoordinator(
             Path("./metrics/test/data/test_data_argument_count"), "java"
@@ -36,9 +37,9 @@ class TestArgumentCount(unittest.TestCase):
         argumentCount = ArgumentCount()
         argumentCount.coordinator = new_coordinator
         result = argumentCount.run()
-        
+
         self.assertEqual(result, 2)
-        
+
     def tearDown(self):
         os.chdir(Path("metrics/test").resolve())
 
