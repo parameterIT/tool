@@ -45,7 +45,8 @@ import logging
     type=click.DateTime(formats=["%Y-%m-%d"]),
     required=False,
     help="The point in time that the graphs should display from",
-    default=datetime(9999, 1, 1)
+    default=datetime(9999, 1, 1),
+)
 @click.option(
     "--verbose",
     "-v",
