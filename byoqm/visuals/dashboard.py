@@ -17,13 +17,13 @@ class Dashboard:
 
     def _check_data(self, filepath, in_use_qm, target_path):
         with open(filepath) as f:
-                reader = csv.reader(f)
-                for row in reader:
-                    if row[0] == "qualitymodel" and row[1] != "{'" + in_use_qm + "'}":
-                        continue
-                    if row[0] == "src_root" and row[1] != "{'" + target_path + "'}":
-                        continue
-
+            reader = csv.reader(f)
+            for row in reader:
+                if row[0] == "qualitymodel" and row[1] != "{'" + in_use_qm + "'}":
+                    return False
+                if row[0] == "src_root" and row[1] != "{'" + target_path + "'}":
+                    return False
+        return True
 
     def _check_date(self, date, start_date, end_date):
         if start_date > date or end_date < date:
@@ -69,8 +69,8 @@ class Dashboard:
             date = datetime.strptime(filename.split(".")[0], "%Y-%m-%d_%H-%M-%S")
             if not self._check_date(date, self._start_date, self._end_date):
                 continue
-            self._check_data(filepath, in_use_qm, targetPath)
-
+            if not self._check_data(filepath, in_use_qm, targetPath):
+                continue
             df = pd.read_csv(filepath, header=0, skiprows=2)
             for row in df.itertuples(index=False, name=None):
                 graph_data[row[0]].append((date, row[1]))
