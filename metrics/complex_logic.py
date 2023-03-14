@@ -19,15 +19,12 @@ class ComplexLogic(Metric):
         count = 0
         query = self.coordinator.language.query(
             """
-            (_
-                condition: (boolean_operator) @function.boolean_operator)
-            (_
-                right: (boolean_operator) @function.boolean_operator)
-
-            """
+        (_	[
+            condition: (boolean_operator)
+            right: (boolean_operator)] @bool_operator)
+        """
         )
         captures = query.captures(ast.root_node)
-        count = 0
         for capture in captures:
             # initial count is always at least 2 (right and left)
             boolean_count = 2
