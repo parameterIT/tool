@@ -9,7 +9,6 @@ from bokeh.layouts import gridplot
 from bokeh.plotting import show
 from .line import get_line
 import logging
-import logging
 
 
 class Dashboard:
