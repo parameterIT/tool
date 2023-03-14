@@ -43,9 +43,6 @@ class TestComplexLogic(unittest.TestCase):
     def tearDown(self):
         os.chdir(Path("metrics/test").resolve())
 
-    def tearDown(self):
-        os.chdir(Path("metrics/test").resolve())
-
 
 if __name__ == "__main__":
     unittest.main()
