@@ -1,4 +1,4 @@
-query_lang = {
+translate_to = {
     "python": {
         "parameters": "parameters: (parameters)",
         "bool_operator": "condition: (boolean_operator) right: (boolean_operator)",

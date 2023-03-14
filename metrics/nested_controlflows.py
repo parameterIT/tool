@@ -1,6 +1,6 @@
 from byoqm.metric.metric import Metric
 from byoqm.source_coordinator.source_coordinator import SourceCoordinator
-from byoqm.source_coordinator.query_translations import query_lang
+from byoqm.source_coordinator.query_translations import translate_to
 
 
 class NestedControlflows(Metric):
@@ -29,11 +29,11 @@ class NestedControlflows(Metric):
         count = 0
 
         query = self.coordinator.language.query(
-            query_lang[self.coordinator.prog_lang]["nested_controlflow1"]
+            translate_to[self.coordinator.prog_lang]["nested_controlflow1"]
         )
         inital_nodes = self._unique(query.captures(ast.root_node))
         sub_node_query = self.coordinator.language.query(
-            query_lang[self.coordinator.prog_lang]["nested_controlflow2"]
+            translate_to[self.coordinator.prog_lang]["nested_controlflow2"]
         )
         for node, _ in inital_nodes:
             found = False

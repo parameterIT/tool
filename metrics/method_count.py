@@ -1,6 +1,6 @@
 from byoqm.metric.metric import Metric
 from byoqm.source_coordinator.source_coordinator import SourceCoordinator
-from byoqm.source_coordinator.query_translations import query_lang
+from byoqm.source_coordinator.query_translations import translate_to
 
 
 class MethodCount(Metric):
@@ -19,7 +19,7 @@ class MethodCount(Metric):
         """
         query = self.coordinator.language.query(
             f"""
-            (_ [{query_lang[self.coordinator.prog_lang]["function"]}] @function)
+            (_ [{translate_to[self.coordinator.prog_lang]["function"]}] @function)
             """
         )
         captures = query.captures(ast.root_node)

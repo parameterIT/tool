@@ -1,6 +1,6 @@
 from byoqm.metric.metric import Metric
 from byoqm.source_coordinator.source_coordinator import SourceCoordinator
-from byoqm.source_coordinator.query_translations import query_lang
+from byoqm.source_coordinator.query_translations import translate_to
 
 
 class ComplexLogic(Metric):
@@ -20,7 +20,7 @@ class ComplexLogic(Metric):
         count = 0
         query = self.coordinator.language.query(
             f"""
-            (_ [{query_lang[self.coordinator.prog_lang]["bool_operator"]}] @bool_operator)
+            (_ [{translate_to[self.coordinator.prog_lang]["bool_operator"]}] @bool_operator)
             """
         )
         captures = query.captures(ast.root_node)
@@ -29,7 +29,7 @@ class ComplexLogic(Metric):
             # initial count is always at least 2 (right and left)
             boolean_count = 2
             node = capture[0]
-            bool_operator = query_lang[self.coordinator.prog_lang][
+            bool_operator = translate_to[self.coordinator.prog_lang][
                 "bool_operator_child"
             ]
             children = [
