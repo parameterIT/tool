@@ -78,6 +78,7 @@ def load(
             datefmt="%Y-%m-%d %H:%M:%S",
         )
     logging.info(f"Started running")
+    runner: Runner = Runner(
         quality_model, Path(src_root), Path(output), save_file, language.lower()
     )
     runner.run()
