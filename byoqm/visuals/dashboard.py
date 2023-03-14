@@ -69,13 +69,16 @@ class Dashboard:
         for filename in os.listdir(path):
             filepath = os.path.join(path, filename)
             date = datetime.strptime(filename.split(".")[0], "%Y-%m-%d_%H-%M-%S")
+
             if not self._check_date(date, self._start_date, self._end_date):
                 continue
             if not self._check_data(filepath, in_use_qm, targetPath):
                 continue
+            
             df = pd.read_csv(filepath, header=0, skiprows=2)
             for row in df.itertuples(index=False, name=None):
                 graph_data[row[0]].append((date, row[1]))
+
         for _, v in graph_data.items():
             try:
                 v.sort()
