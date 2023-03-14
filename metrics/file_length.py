@@ -16,7 +16,7 @@ class FileLength(Metric):
 
     def _parse(self, file, ast):
         """
-        Finds out whether or not a file is more than 250 lines long
+        Finds out whether or not a file is more than 250 lines long excluding comments
         """
         query = self.coordinator.language.query(
             f"""
