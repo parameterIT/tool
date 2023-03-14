@@ -77,7 +77,7 @@ def load(
             format="%(asctime)s %(levelname)-8s %(message)s",
             datefmt="%Y-%m-%d %H:%M:%S",
         )
-    logging.info("Started running")
+    logging.info(f"Started running")
     runner: Runner = Runner(
         quality_model,
         Path(src_root),
