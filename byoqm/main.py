@@ -4,6 +4,7 @@ import sys
 from byoqm.runner import Runner
 from byoqm.visuals.dashboard import Dashboard
 import click
+import logging
 
 
 @click.command()
@@ -46,6 +47,14 @@ import click
     help="The point in time that the graphs should display from",
     default=datetime(9999, 1, 1),
 )
+@click.option(
+    "--verbose",
+    "-v",
+    type=bool,
+    required=False,
+    help="Extra logging",
+    default=False,
+)
 def load(
     src_root: str,
     quality_model: str,
@@ -55,16 +64,25 @@ def load(
     show_graphs: bool = True,
     start_date: datetime = datetime.min,
     end_date: datetime = datetime.max,
+    verbose: bool = False,
 ):
     if start_date > end_date:
-        print(
+        logging.error(
             "Start date is greater than the end date. Please enter a valid time period."
         )
         exit(1)
+    if verbose:
+        logging.basicConfig(
+            level=logging.INFO,
+            format="%(asctime)s %(levelname)-8s %(message)s",
+            datefmt="%Y-%m-%d %H:%M:%S",
+        )
+    logging.info("Started running")
     runner: Runner = Runner(
         quality_model, Path(src_root), Path(output), save_file, language.lower()
     )
     runner.run()
+    logging.info("Finished running")
     if show_graphs:
         dashboard = Dashboard(start_date, end_date)
         dashboard.show_graphs()
