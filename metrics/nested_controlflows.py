@@ -28,12 +28,12 @@ class NestedControlflows(Metric):
         """
         count = 0
 
-        query = self.coordinator.language.query(
-            translate_to[self.coordinator.prog_lang]["nested_controlflow1"]
+        query = self.coordinator.tree_sitter_language.query(
+            translate_to[self.coordinator.language]["nested_controlflow1"]
         )
         inital_nodes = self._unique(query.captures(ast.root_node))
-        sub_node_query = self.coordinator.language.query(
-            translate_to[self.coordinator.prog_lang]["nested_controlflow2"]
+        sub_node_query = self.coordinator.tree_sitter_language.query(
+            translate_to[self.coordinator.language]["nested_controlflow2"]
         )
         for node, _ in inital_nodes:
             found = False

@@ -18,9 +18,9 @@ class ComplexLogic(Metric):
         Finds the conditionals of a file and returns the number of conditionals that have more than 4 conditions
         """
         count = 0
-        query = self.coordinator.language.query(
+        query = self.coordinator.tree_sitter_language.query(
             f"""
-            (_ [{translate_to[self.coordinator.prog_lang]["bool_operator"]}] @bool_operator)
+            (_ [{translate_to[self.coordinator.language]["bool_operator"]}] @bool_operator)
             """
         )
         captures = query.captures(ast.root_node)
@@ -29,7 +29,7 @@ class ComplexLogic(Metric):
             # initial count is always at least 2 (right and left)
             boolean_count = 2
             node = capture[0]
-            bool_operator = translate_to[self.coordinator.prog_lang][
+            bool_operator = translate_to[self.coordinator.language][
                 "bool_operator_child"
             ]
             children = [

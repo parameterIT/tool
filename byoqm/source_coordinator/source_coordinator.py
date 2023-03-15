@@ -13,11 +13,11 @@ class SourceCoordinator:
         else:
             self.src_paths = [file for file in src_root.glob(languages[langauge])]
 
-        self.language = Language(_TREESITTER_BUILD.__str__(), langauge)
+        self.tree_sitter_language = Language(_TREESITTER_BUILD.__str__(), langauge)
         self.asts = {}
-        self.prog_lang = langauge
+        self.language = langauge
         self._parser = Parser()
-        self._parser.set_language(self.language)
+        self._parser.set_language(self.tree_sitter_language)
 
     def getAst(self, for_file: Path) -> tree_sitter.Tree:
         """

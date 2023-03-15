@@ -19,9 +19,9 @@ class MethodLength(Metric):
         that is greater than 25
         """
         count = 0
-        query = self.coordinator.language.query(
+        query = self.coordinator.tree_sitter_language.query(
             f"""
-                (_ [{translate_to[self.coordinator.prog_lang]["function_block"]}])
+                (_ [{translate_to[self.coordinator.language]["function_block"]}])
             """
         )
         captures = query.captures(ast.root_node)

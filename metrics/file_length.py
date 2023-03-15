@@ -18,9 +18,9 @@ class FileLength(Metric):
         """
         Finds out whether or not a file is more than 250 lines long excluding comments
         """
-        query = self.coordinator.language.query(
+        query = self.coordinator.tree_sitter_language.query(
             f"""
-            (_ [{translate_to[self.coordinator.prog_lang]["comment"]}] @comment)
+            (_ [{translate_to[self.coordinator.language]["comment"]}] @comment)
             """
         )
         captures = query.captures(ast.root_node)

@@ -18,9 +18,9 @@ class ArgumentCount(Metric):
         Finds the number of functions that have more than 4 parameters
         """
         count = 0
-        query = self.coordinator.language.query(
+        query = self.coordinator.tree_sitter_language.query(
             f"""
-            (_ [{translate_to[self.coordinator.prog_lang]["parameters"]}] @parameters)
+            (_ [{translate_to[self.coordinator.language]["parameters"]}] @parameters)
             """
         )
         captures = query.captures(ast.root_node)

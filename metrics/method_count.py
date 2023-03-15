@@ -17,9 +17,9 @@ class MethodCount(Metric):
         """
         Finds the amount of methods for a file, and returns whether or not the method count is greater than 20
         """
-        query = self.coordinator.language.query(
+        query = self.coordinator.tree_sitter_language.query(
             f"""
-            (_ [{translate_to[self.coordinator.prog_lang]["function"]}] @function)
+            (_ [{translate_to[self.coordinator.language]["function"]}] @function)
             """
         )
         captures = query.captures(ast.root_node)

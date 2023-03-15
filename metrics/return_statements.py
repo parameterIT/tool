@@ -19,14 +19,14 @@ class ReturnStatements(Metric):
         than 4 return statements
         """
         count = 0
-        query_functions = self.coordinator.language.query(
+        query_functions = self.coordinator.tree_sitter_language.query(
             f"""
-        (_ [{translate_to[self.coordinator.prog_lang]["function"]}] @function)
+        (_ [{translate_to[self.coordinator.language]["function"]}] @function)
         """
         )
-        query_return = self.coordinator.language.query(
+        query_return = self.coordinator.tree_sitter_language.query(
             f"""
-            (_ [{translate_to[self.coordinator.prog_lang]["return"]}] @return)
+            (_ [{translate_to[self.coordinator.language]["return"]}] @return)
             """
         )
 
