@@ -3,12 +3,13 @@ import subprocess
 import time
 import csv
 import sys
+import pandas as pd
 
 import importlib.util
 import importlib.machinery
 
 from pathlib import Path
-from typing import Dict
+from typing import Dict, Tuple
 
 from test.test_support import os
 from byoqm.metric.metric import Metric
@@ -67,7 +68,7 @@ class Runner:
             output = self._write_to_csv(results)
         return output
 
-    def _run_aggregations(self) -> Dict:
+    def _run_aggregations(self) -> Tuple:
         """
         Runs all the aggergations defined by the quality model.
         The `results` dictionary is updated as each aggregation is run, meaning that
@@ -78,12 +79,13 @@ class Runner:
         logging.info("Started running aggregations")
         aggregations = self._model.getDesc()["aggregations"]
         for aggregation, aggregation_function in aggregations.items():
-            results[aggregation] = aggregation_function(results)
+            results[0][aggregation] = aggregation_function(results[0])
         logging.info("Finished running aggregations")
         return results
 
-    def _run_metrics(self) -> Dict:
+    def _run_metrics(self) -> Tuple:
         results = {}
+        violation_ids = []
         logging.info("Started running metrics")
         metrics = self._model.getDesc()["metrics"]
         for metric, metric_file in metrics.items():
@@ -92,25 +94,36 @@ class Runner:
             sys.modules[metric] = module
             spec.loader.exec_module(module)
             module.metric.coordinator = self._coordinator
-            results[metric] = int(module.metric.run())
+            result = module.metric.run()
+            results[metric] = int(result[0])
+            violation_ids = violation_ids + result[1]
         logging.info("Finished running metrics")
-        return results
+        return (results,violation_ids)
+    
+    def _generate_violations_table(self, violations : pd.DataFrame, time: str):
+        violations = pd.DataFrame(violations,columns=['type','file','start','end'])
+        violations.attrs = {'model':self._model_name, 'root': self._src_root}
+        file_location = Path(self._output_dir / Path(time + "_location.csv"))
+        violations.to_csv(file_location)
 
-    def _write_to_csv(self, results: Dict):
+
+    def _write_to_csv(self, results: Tuple):
         # See https://docs.python.org/3/library/time.html#time.strftime for table
         # explaining formattng
         # Format: YYYY-MM-DD_HH-MM-SS
         logging.info("Writing to csv")
         current_time: str = time.strftime("%Y-%m-%d_%H-%M-%S", time.gmtime())
         file_name = Path(current_time + ".csv")
+        
+        self._generate_violations_table(results[1],current_time)
+        
         file_location = self._output_dir / file_name
-
         with open(file_location, "w") as results_file:
             writer = csv.writer(results_file)
             writer.writerow([f"qualitymodel={self._model_name}"])
             writer.writerow([f"src_root={self._src_root}"])
             writer.writerow(["metric", "value"])
-            for description, value in results.items():
+            for description, value in results[0].items():
                 writer.writerow([description, value])
         logging.info("Finished writing to csv")
         return file_location
