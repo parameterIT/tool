@@ -11,7 +11,7 @@ class NestedControlflows(Metric):
         count = 0
         for file in self.coordinator.src_paths:
             count += self._parse(self.coordinator.getAst(file))
-        return count
+        return (count,[])
 
     def _unique(self, not_unique_list):
         unique_list = []

@@ -11,7 +11,7 @@ class ArgumentCount(Metric):
         count = 0
         for file in self.coordinator.src_paths:
             count += self._parse(self.coordinator.getAst(file))
-        return count
+        return (count,[])
 
     def _parse(self, ast):
         """
