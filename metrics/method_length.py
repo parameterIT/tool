@@ -8,17 +8,16 @@ class MethodLength(Metric):
         self.coordinator: SourceCoordinator = None
 
     def run(self):
-        count = 0
+        data = []
         for file in self.coordinator.src_paths:
-            count += self._parse(self.coordinator.getAst(file))
-        return (count, [])
+            self._parse(self.coordinator.getAst(file), file, data)
+        return data
 
-    def _parse(self, ast):
+    def _parse(self, ast, file, data):
         """
         Finds the length of all methods in a file and returns the amount of methods that have a length
         that is greater than 25
         """
-        count = 0
         query = self.coordinator.tree_sitter_language.query(
             f"""
                 (_ [{translate_to[self.coordinator.language]["function_block"]}])
@@ -31,8 +30,8 @@ class MethodLength(Metric):
                 n.end_point[0] - n.start_point[0] + 1
             )  # length is zero indexed - therefore we add 1 at the end
             if length > 25:
-                count += 1
-        return count
+                data.append(["Method Length", file, 1, 1])
+        return
 
 
 metric = MethodLength()

@@ -8,12 +8,12 @@ class MethodCount(Metric):
         self.coordinator: SourceCoordinator = None
 
     def run(self):
-        count = 0
+        data = []
         for file in self.coordinator.src_paths:
-            count += self._parse(self.coordinator.getAst(file))
-        return (count, [])
+            self._parse(self.coordinator.getAst(file), file, data)
+        return data
 
-    def _parse(self, ast):
+    def _parse(self, ast, file, data):
         """
         Finds the amount of methods for a file, and returns whether or not the method count is greater than 20
         """
@@ -24,8 +24,8 @@ class MethodCount(Metric):
         )
         captures = query.captures(ast.root_node)
         if len(captures) > 20:
-            return 1
-        return 0
+            data.append(["Method Count", file, 1, 1])
+        return
 
 
 metric = MethodCount()

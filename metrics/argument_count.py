@@ -8,16 +8,15 @@ class ArgumentCount(Metric):
         self.coordinator: SourceCoordinator = None
 
     def run(self):
-        count = 0
+        data = []
         for file in self.coordinator.src_paths:
-            count += self._parse(self.coordinator.getAst(file))
-        return (count, [])
+            self._parse(self.coordinator.getAst(file), data, file)
+        return data
 
-    def _parse(self, ast):
+    def _parse(self, ast, data, file):
         """
         Finds the number of functions that have more than 4 parameters
         """
-        count = 0
         query = self.coordinator.tree_sitter_language.query(
             f"""
             (_ [{translate_to[self.coordinator.language]["parameters"]}] @parameters)
@@ -26,8 +25,8 @@ class ArgumentCount(Metric):
         captures = query.captures(ast.root_node)
         for node, _ in captures:
             if node.named_child_count > 4:
-                count += 1
-        return count
+                data.append(["Argument Count", file, 1, 1])
+        return
 
 
 metric = ArgumentCount()
