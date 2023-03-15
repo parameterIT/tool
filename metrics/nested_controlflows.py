@@ -38,7 +38,7 @@ class NestedControlflows(Metric):
         for node, _ in inital_nodes:
             found = False
             nodes2 = sub_node_query.captures(node)
-            for node2, _ in nodes2:  
+            for node2, _ in nodes2:
                 if found:
                     break
                 nodes3 = sub_node_query.captures(node2)
