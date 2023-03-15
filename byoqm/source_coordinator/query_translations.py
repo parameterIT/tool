@@ -59,7 +59,7 @@ translate_to = {
                                 (method_declaration
                                     body: (block [
                                     (if_statement
-                                        consequence: (_) @cons)
+                                        consequence: (block) @cons)
                                     (if_statement
                                         consequence: (_) @cons
                                         alternative: [
@@ -70,11 +70,13 @@ translate_to = {
                                     (for_each_statement
                                         body: (block) @cons)
                                     (while_statement
-                                        (block) @cons)]))
+                                        (block) @cons)
+                                    (switch_statement
+                                        body: (switch_body (switch_section) @cons))]))
 
                                 (global_statement [
                                     (if_statement
-                                        consequence: (_) @cons)
+                                        consequence: (block) @cons)
                                     (if_statement
                                         consequence: (_) @cons
                                         alternative: [
@@ -85,7 +87,9 @@ translate_to = {
                                     (for_each_statement
                                         body: (block) @cons)
                                     (while_statement
-                                        (block) @cons)])
+                                        (block) @cons)
+                                    (switch_statement
+                                        body: (switch_body (switch_section) @cons))])
                                 """,
         "nested_controlflow2": """
                                 (_ [
@@ -101,7 +105,9 @@ translate_to = {
                                     (for_each_statement
                                         body: (block) @cons)
                                     (while_statement
-                                        (block) @cons)])
+                                        (block) @cons)
+                                    (switch_statement
+                                        body: (switch_body (switch_section) @cons))])
                                 """,
     },
     "java": {
@@ -113,19 +119,21 @@ translate_to = {
         "function_block": "(method_declaration body: (block) @function.block) (constructor_declaration body: (constructor_body) @function.block)",
         "return": "(return_statement)",
         "nested_controlflow1": """
-                                (_
+                                (method_declaration
                                     body: (block [
                                     (if_statement
-                                        consequence: (block) @cons)
+                                        consequence: (_) @cons)
                                     (if_statement
-                                        consequence: (block) @cons
+                                        consequence: (_) @cons
                                         alternative: [
                                             (_ [alternative: (_) consequence: (_) ] @cons)
                                             (block) @cons])
                                     (for_statement
                                         body: (block) @cons)
                                     (while_statement
-                                        (block) @cons)]))
+                                        (block) @cons)
+                                    (switch_expression
+                                        body: (switch_block (switch_block_statement_group) @cons))]))
                                 """,
         "nested_controlflow2": """
                                 (_ [
@@ -139,7 +147,9 @@ translate_to = {
                                     (for_statement
                                         body: (block) @cons)
                                     (while_statement
-                                        (block) @cons)])
+                                        (block) @cons)
+                                    (switch_expression
+                                        body: (switch_block (switch_block_statement_group) @cons))])
                                 """,
     },
 }

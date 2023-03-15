@@ -21,25 +21,25 @@ class TestNestedControlFlows(unittest.TestCase):
         result = self._nestedflow.run()
         self.assertEqual(result, 9)
 
-    def test_method_length_given_c_sharp_file_returns_3(self):
+    def test_nested_control_flow_given_c_sharp_file_returns_5(self):
         new_coordinator = SourceCoordinator(
             Path("./metrics/test/data/test_data_nested_controlflows"), "c_sharp"
         )
-        self.assertEqual(len(new_coordinator.src_paths), 1)
-        nested_control_flow = NestedControlflows()
-        nested_control_flow.coordinator = new_coordinator
-        result = nested_control_flow.run()
-        self.assertEqual(result, 3)
-
-    def test_method_length_given_java_file_returns_5(self):
-        new_coordinator = SourceCoordinator(
-            Path("./metrics/test/data/test_data_nested_controlflows"), "java"
-        )
-        self.assertEqual(len(new_coordinator.src_paths), 1)
+        self.assertEqual(len(new_coordinator.src_paths), 3)
         nested_control_flow = NestedControlflows()
         nested_control_flow.coordinator = new_coordinator
         result = nested_control_flow.run()
         self.assertEqual(result, 5)
+
+    def test_nested_control_flow_given_java_file_returns_6(self):
+        new_coordinator = SourceCoordinator(
+            Path("./metrics/test/data/test_data_nested_controlflows"), "java"
+        )
+        self.assertEqual(len(new_coordinator.src_paths), 2)
+        nested_control_flow = NestedControlflows()
+        nested_control_flow.coordinator = new_coordinator
+        result = nested_control_flow.run()
+        self.assertEqual(result, 6)
 
     def tearDown(self):
         os.chdir(Path("metrics/test").resolve())
