@@ -13,8 +13,8 @@ class FileLength(Metric):
         for file in self.coordinator.src_paths:
             with open(file) as f:
                 count += self._parse(f, self.coordinator.getAst(file))
-                data.append(["LOC",file, -1,-1])
-        return (count,data)
+                data.append(["LOC", file, -1, -1])
+        return (count, data)
 
     def _parse(self, file, ast):
         """

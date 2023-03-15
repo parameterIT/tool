@@ -15,7 +15,7 @@ class IdenticalBlocksofCode(Metric):
         count = self.identical_blocks_of_code(
             [str(file) for file in self.coordinator.src_paths]
         )
-        return (count,[])
+        return (count, [])
 
     def identical_blocks_of_code(self, files) -> int | float:
         """

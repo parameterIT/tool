@@ -98,14 +98,13 @@ class Runner:
             results[metric] = int(result[0])
             violation_ids = violation_ids + result[1]
         logging.info("Finished running metrics")
-        return (results,violation_ids)
-    
-    def _generate_violations_table(self, violations : pd.DataFrame, time: str):
-        violations = pd.DataFrame(violations,columns=['type','file','start','end'])
-        violations.attrs = {'model':self._model_name, 'root': self._src_root}
+        return (results, violation_ids)
+
+    def _generate_violations_table(self, violations: pd.DataFrame, time: str):
+        violations = pd.DataFrame(violations, columns=["type", "file", "start", "end"])
+        violations.attrs = {"model": self._model_name, "root": self._src_root}
         file_location = Path(self._output_dir / Path(time + "_location.csv"))
         violations.to_csv(file_location)
-
 
     def _write_to_csv(self, results: Tuple):
         # See https://docs.python.org/3/library/time.html#time.strftime for table
@@ -114,9 +113,9 @@ class Runner:
         logging.info("Writing to csv")
         current_time: str = time.strftime("%Y-%m-%d_%H-%M-%S", time.gmtime())
         file_name = Path(current_time + ".csv")
-        
-        self._generate_violations_table(results[1],current_time)
-        
+
+        self._generate_violations_table(results[1], current_time)
+
         file_location = self._output_dir / file_name
         with open(file_location, "w") as results_file:
             writer = csv.writer(results_file)
