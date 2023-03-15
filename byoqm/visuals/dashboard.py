@@ -57,15 +57,13 @@ class Dashboard:
                 for row in df.itertuples(index=False, name=None):
                     graph_data[row[0]].append((date, row[1]))
             except:
-                logging.error(
+                logging.warning(
                     f"Failed to parse file with filename: {filename} - invalid format. Check the naming convention of the file or the content of the file"
                 )
-                exit(1)
-        for _, v in graph_data.items():
+        for key, v in graph_data.items():
             try:
                 v.sort()
             except:
-                logging.error("Failed to sort data")
-                exit(1)
+                logging.warning(f"Failed to sort data for {key} in graph_data")
         logging.info("Finished getting data")
         return graph_data
