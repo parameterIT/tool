@@ -9,7 +9,7 @@ import importlib.util
 import importlib.machinery
 
 from pathlib import Path
-from typing import Dict, Tuple
+from typing import Dict, List, Tuple
 
 from test.test_support import os
 from byoqm.metric.metric import Metric
@@ -79,13 +79,12 @@ class Runner:
         logging.info("Started running aggregations")
         aggregations = self._model.getDesc()["aggregations"]
         for aggregation, aggregation_function in aggregations.items():
-            results[0][aggregation] = aggregation_function(results[0])
+            results[aggregation] = aggregation_function(results)
         logging.info("Finished running aggregations")
         return results
 
     def _run_metrics(self) -> Tuple:
         results = {}
-        violation_ids = []
         logging.info("Started running metrics")
         metrics = self._model.getDesc()["metrics"]
         for metric, metric_file in metrics.items():
@@ -94,11 +93,9 @@ class Runner:
             sys.modules[metric] = module
             spec.loader.exec_module(module)
             module.metric.coordinator = self._coordinator
-            result = module.metric.run()
-            results[metric] = int(result[0])
-            violation_ids = violation_ids + result[1]
+            results[metric] = module.metric.run()
         logging.info("Finished running metrics")
-        return (results, violation_ids)
+        return results
 
     def _generate_violations_table(self, violations: pd.DataFrame, time: str):
         violations = pd.DataFrame(violations, columns=["type", "file", "start", "end"])
@@ -114,7 +111,7 @@ class Runner:
         current_time: str = time.strftime("%Y-%m-%d_%H-%M-%S", time.gmtime())
         file_name = Path(current_time + ".csv")
 
-        self._generate_violations_table(results[1], current_time)
+        self._generate_violations_table(results, current_time)
 
         file_location = self._output_dir / file_name
         with open(file_location, "w") as results_file:
@@ -122,7 +119,10 @@ class Runner:
             writer.writerow([f"qualitymodel={self._model_name}"])
             writer.writerow([f"src_root={self._src_root}"])
             writer.writerow(["metric", "value"])
-            for description, value in results[0].items():
-                writer.writerow([description, value])
+            for description, value in results.items():
+                v = value
+                if type(value) is List:
+                    v = len(value)
+                writer.writerow([description, v])
         logging.info("Finished writing to csv")
         return file_location
