@@ -8,17 +8,18 @@ _TREESITTER_BUILD: Path = Path("build/my-languages.so")
 
 
 class SourceCoordinator:
-    def __init__(self, src_root: Path, langauge: str):
+    def __init__(self, src_root: Path, language: str):
         if src_root.is_file():
             self.src_paths = [src_root]
         else:
-            self.src_paths = [file for file in src_root.glob(languages[langauge])]
-        logging.info(f"Language set to: {langauge}")
-        self.language = Language(_TREESITTER_BUILD.__str__(), langauge)
-        self.asts = {}
+            self.src_paths = [file for file in src_root.glob(languages[language])]
 
+        self.tree_sitter_language = Language(_TREESITTER_BUILD.__str__(), language)
+        logging.info(f"Language set to: {language}")
+        self.asts = {}
+        self.language = language
         self._parser = Parser()
-        self._parser.set_language(self.language)
+        self._parser.set_language(self.tree_sitter_language)
 
     def getAst(self, for_file: Path) -> tree_sitter.Tree:
         """

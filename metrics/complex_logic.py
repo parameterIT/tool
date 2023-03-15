@@ -1,5 +1,6 @@
 from byoqm.metric.metric import Metric
 from byoqm.source_coordinator.source_coordinator import SourceCoordinator
+from byoqm.source_coordinator.query_translations import translate_to
 
 
 class ComplexLogic(Metric):
@@ -17,22 +18,35 @@ class ComplexLogic(Metric):
         Finds the conditionals of a file and returns the number of conditionals that have more than 4 conditions
         """
         count = 0
-        query = self.coordinator.language.query(
+        query = self.coordinator.tree_sitter_language.query(
+            f"""
+            (_ [{translate_to[self.coordinator.language]["bool_operator"]}] @bool_operator)
             """
-        (_	[
-            condition: (boolean_operator)
-            right: (boolean_operator)] @bool_operator)
-        """
         )
         captures = query.captures(ast.root_node)
         for capture in captures:
             # initial count is always at least 2 (right and left)
             boolean_count = 2
             node = capture[0]
-            while node.child_by_field_name("left").type == "boolean_operator":
-                boolean_count += 1
-                node = node.child_by_field_name("left")
-                # change the value below to a parameter when parameterizing
+            bool_operator = translate_to[self.coordinator.language][
+                "bool_operator_child"
+            ]
+            children = [
+                node.child_by_field_name("left"),
+                node.child_by_field_name("right"),
+            ]
+            while len(children) > 0:
+                if boolean_count > 4:
+                    break
+                child = children.pop()
+                if child.type == bool_operator:
+                    boolean_count += 1
+                    children.extend(
+                        [
+                            child.child_by_field_name("left"),
+                            child.child_by_field_name("right"),
+                        ]
+                    )
             if boolean_count > 4:
                 count += 1
         return count
