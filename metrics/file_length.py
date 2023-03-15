@@ -33,6 +33,7 @@ class FileLength(Metric):
         loc = sum(1 for line in file if line.rstrip()) - count_comments
         if loc > 250:
             data.append(["LOC", path, -1, -1])
+        return
 
 
 metric = FileLength()

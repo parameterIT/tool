@@ -9,7 +9,7 @@ import importlib.util
 import importlib.machinery
 
 from pathlib import Path
-from typing import Dict, List, Tuple
+from typing import Dict, List
 
 from test.test_support import os
 from byoqm.metric.metric import Metric
@@ -68,7 +68,7 @@ class Runner:
             output = self._write_to_csv(results)
         return output
 
-    def _run_aggregations(self) -> Tuple:
+    def _run_aggregations(self) -> Dict:
         """
         Runs all the aggergations defined by the quality model.
         The `results` dictionary is updated as each aggregation is run, meaning that
@@ -83,7 +83,7 @@ class Runner:
         logging.info("Finished running aggregations")
         return results
 
-    def _run_metrics(self) -> Tuple:
+    def _run_metrics(self) -> Dict:
         results = {}
         logging.info("Started running metrics")
         metrics = self._model.getDesc()["metrics"]
@@ -103,7 +103,7 @@ class Runner:
         file_location = Path(self._output_dir / Path(time + "_location.csv"))
         violations.to_csv(file_location)
 
-    def _write_to_csv(self, results: Tuple):
+    def _write_to_csv(self, results: Dict):
         # See https://docs.python.org/3/library/time.html#time.strftime for table
         # explaining formattng
         # Format: YYYY-MM-DD_HH-MM-SS
