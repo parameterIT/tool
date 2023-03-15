@@ -97,8 +97,14 @@ class Runner:
         logging.info("Finished running metrics")
         return results
 
-    def _generate_violations_table(self, violations: pd.DataFrame, time: str):
-        violations = pd.DataFrame(violations, columns=["type", "file", "start", "end"])
+    def _generate_violations_table(self, results: Dict, time: str):
+        list_of_violations = []
+        for _, violations in results.items():
+            if type(violations) is list:
+                list_of_violations = list_of_violations + violations
+        violations = pd.DataFrame(
+            list_of_violations, columns=["type", "file", "start", "end"]
+        )
         violations.attrs = {"model": self._model_name, "root": self._src_root}
         file_location = Path(self._output_dir / Path(time + "_location.csv"))
         violations.to_csv(file_location)
@@ -121,7 +127,7 @@ class Runner:
             writer.writerow(["metric", "value"])
             for description, value in results.items():
                 v = value
-                if type(value) is List:
+                if type(value) is list:
                     v = len(value)
                 writer.writerow([description, v])
         logging.info("Finished writing to csv")
