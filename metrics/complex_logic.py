@@ -24,7 +24,6 @@ class ComplexLogic(Metric):
             """
         )
         captures = query.captures(ast.root_node)
-        count = 0
         for capture in captures:
             # initial count is always at least 2 (right and left)
             boolean_count = 2

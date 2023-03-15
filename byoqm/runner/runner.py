@@ -1,3 +1,4 @@
+import logging
 import subprocess
 import time
 import csv
@@ -50,8 +51,10 @@ class Runner:
     def _find_model_file(self, model_name):
         path_to_model = self._MODELS_DIR + "/" + model_name + ".py"
         if not os.path.exists(path_to_model):
+            logging.error(
+                f"Path to model file doesnt exist. Path given: {path_to_model}"
+            )
             raise FileNotFoundError
-
         return path_to_model
 
     def run(self) -> Path:
@@ -72,16 +75,16 @@ class Runner:
         dependencies in the dictionary returned by a model's getDesc()
         """
         results = self._run_metrics()
-
+        logging.info("Started running aggregations")
         aggregations = self._model.getDesc()["aggregations"]
         for aggregation, aggregation_function in aggregations.items():
             results[aggregation] = aggregation_function(results)
-
+        logging.info("Finished running aggregations")
         return results
 
     def _run_metrics(self) -> Dict:
         results = {}
-
+        logging.info("Started running metrics")
         metrics = self._model.getDesc()["metrics"]
         for metric, metric_file in metrics.items():
             spec = importlib.util.spec_from_file_location("metric", metric_file)
@@ -90,13 +93,14 @@ class Runner:
             spec.loader.exec_module(module)
             module.metric.coordinator = self._coordinator
             results[metric] = int(module.metric.run())
-
+        logging.info("Finished running metrics")
         return results
 
     def _write_to_csv(self, results: Dict):
         # See https://docs.python.org/3/library/time.html#time.strftime for table
         # explaining formattng
         # Format: YYYY-MM-DD_HH-MM-SS
+        logging.info("Writing to csv")
         current_time: str = time.strftime("%Y-%m-%d_%H-%M-%S", time.gmtime())
         file_name = Path(current_time + ".csv")
         file_location = self._output_dir / file_name
@@ -104,8 +108,9 @@ class Runner:
         with open(file_location, "w") as results_file:
             writer = csv.writer(results_file)
             writer.writerow([f"qualitymodel={self._model_name}"])
+            writer.writerow([f"src_root={self._src_root}"])
             writer.writerow(["metric", "value"])
             for description, value in results.items():
                 writer.writerow([description, value])
-
+        logging.info("Finished writing to csv")
         return file_location

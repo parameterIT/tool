@@ -1,3 +1,4 @@
+import logging
 from pathlib import Path
 from tree_sitter import Parser, Language
 import tree_sitter
@@ -7,15 +8,16 @@ _TREESITTER_BUILD: Path = Path("build/my-languages.so")
 
 
 class SourceCoordinator:
-    def __init__(self, src_root: Path, langauge: str):
+    def __init__(self, src_root: Path, language: str):
         if src_root.is_file():
             self.src_paths = [src_root]
         else:
-            self.src_paths = [file for file in src_root.glob(languages[langauge])]
+            self.src_paths = [file for file in src_root.glob(languages[language])]
 
-        self.tree_sitter_language = Language(_TREESITTER_BUILD.__str__(), langauge)
+        self.tree_sitter_language = Language(_TREESITTER_BUILD.__str__(), language)
+        logging.info(f"Language set to: {language}")
         self.asts = {}
-        self.language = langauge
+        self.language = language
         self._parser = Parser()
         self._parser.set_language(self.tree_sitter_language)
 
@@ -29,9 +31,8 @@ class SourceCoordinator:
         src_root.
         """
         if for_file not in self.src_paths:
-            raise ValueError(
-                "The file to parse must be a child path of of the src_root"
-            )
+            logging.error("The file to parse must be a child path of of the src_root")
+            raise ValueError
 
         ast = None
         try:
