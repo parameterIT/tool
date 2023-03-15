@@ -17,25 +17,25 @@ class TestFileLength(unittest.TestCase):
         self._filelength.coordinator = self._coordinator
 
     def test_file_length_given_python_file_returns_1(self):
-        result = self._filelength.run()[0]
+        result = len(self._filelength.run())
         self.assertEqual(result, 1)
 
     def test_file_length_given_java_file_returns_1(self):
         new_coordinator = SourceCoordinator(
             Path("./metrics/test/data/test_data_file_length"), "java"
         )
-        new_method_counter = FileLength()
-        new_method_counter.coordinator = new_coordinator
-        result = new_method_counter.run()[0]
+        file_length = FileLength()
+        file_length.coordinator = new_coordinator
+        result = len(file_length.run())
         self.assertEqual(result, 1)
 
     def test_file_length_given_csharp_file_returns_1(self):
         new_coordinator = SourceCoordinator(
             Path("./metrics/test/data/test_data_file_length"), "c_sharp"
         )
-        new_method_counter = FileLength()
-        new_method_counter.coordinator = new_coordinator
-        result = new_method_counter.run()[0]
+        file_length = FileLength()
+        file_length.coordinator = new_coordinator
+        result = len(file_length.run())
         self.assertEqual(result, 1)
 
     def tearDown(self):
