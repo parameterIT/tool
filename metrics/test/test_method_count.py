@@ -17,7 +17,7 @@ class TestMethodCount(unittest.TestCase):
         self._methodcount.coordinator = self._coordinator
 
     def test_method_count_given__python_file_returns_1(self):
-        result = self._methodcount.run()
+        result = self._methodcount.run()[0]
         self.assertEqual(result, 1)
 
     def test_method_count_given_java_file_returns_1(self):
@@ -26,7 +26,7 @@ class TestMethodCount(unittest.TestCase):
         )
         new_method_counter = MethodCount()
         new_method_counter.coordinator = new_coordinator
-        result = new_method_counter.run()
+        result = new_method_counter.run()[0]
         self.assertEqual(result, 1)
 
     def test_method_count_given_c_sharp_file_returns_1(self):
@@ -35,7 +35,7 @@ class TestMethodCount(unittest.TestCase):
         )
         new_method_counter = MethodCount()
         new_method_counter.coordinator = new_coordinator
-        result = new_method_counter.run()
+        result = new_method_counter.run()[0]
         self.assertEqual(result, 1)
 
     def tearDown(self):

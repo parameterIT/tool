@@ -17,7 +17,7 @@ class TestArgumentCount(unittest.TestCase):
         self._argumentcount.coordinator = self._coordinator
 
     def test_argument_count_python_given_directory_returns_2(self):
-        result = self._argumentcount.run()
+        result = self._argumentcount.run()[0]
         self.assertEqual(result, 2)
 
     def test_argument_count_c_sharp_given_directory_returns_2(self):
@@ -26,7 +26,7 @@ class TestArgumentCount(unittest.TestCase):
         )
         argumentCount = ArgumentCount()
         argumentCount.coordinator = new_coordinator
-        result = argumentCount.run()
+        result = argumentCount.run()[0]
 
         self.assertEqual(result, 2)
 
@@ -36,7 +36,7 @@ class TestArgumentCount(unittest.TestCase):
         )
         argumentCount = ArgumentCount()
         argumentCount.coordinator = new_coordinator
-        result = argumentCount.run()
+        result = argumentCount.run()[0]
 
         self.assertEqual(result, 2)
 

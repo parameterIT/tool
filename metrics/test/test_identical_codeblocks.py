@@ -21,7 +21,7 @@ class TestIdenticalCodeBlocks(unittest.TestCase):
         "CPD doesn't exist in the environment",
     )
     def test_identical_codeblocks_given_file_returns_1(self):
-        result = self._identicalcode.run()
+        result = self._identicalcode.run()[0]
         self.assertEqual(result, 1)
 
     def tearDown(self):

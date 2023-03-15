@@ -17,7 +17,7 @@ class TestComplexLogic(unittest.TestCase):
         self._complexlogic.coordinator = self._coordinator
 
     def test_complex_logic_given_file_returns_2(self):
-        result = self._complexlogic.run()
+        result = self._complexlogic.run()[0]
         self.assertEqual(result, 2)
 
     def test_argument_count_c_sharp_given_directory_returns_4(self):
@@ -26,7 +26,7 @@ class TestComplexLogic(unittest.TestCase):
         )
         complex_logic = ComplexLogic()
         complex_logic.coordinator = new_coordinator
-        result = complex_logic.run()
+        result = complex_logic.run()[0]
 
         self.assertEqual(result, 4)
 
@@ -36,7 +36,7 @@ class TestComplexLogic(unittest.TestCase):
         )
         complex_logic = ComplexLogic()
         complex_logic.coordinator = new_coordinator
-        result = complex_logic.run()
+        result = complex_logic.run()[0]
 
         self.assertEqual(result, 4)
 
