@@ -17,9 +17,9 @@ class TestNestedControlFlows(unittest.TestCase):
         self._nestedflow.coordinator = self._coordinator
 
     @unittest.expectedFailure
-    def test_nested_controlflow_given_test_directory_returns_9(self):
+    def test_nested_controlflow_given_test_directory_returns_10(self):
         result = self._nestedflow.run()
-        self.assertEqual(result, 9)
+        self.assertEqual(result, 10)
 
     def test_nested_control_flow_given_c_sharp_file_returns_5(self):
         new_coordinator = SourceCoordinator(
