@@ -65,7 +65,8 @@ class Runner:
         results = self._run_aggregations()
         if self._save_file:
             output = self._write_to_csv(results)
-        return output
+            return output
+        return None
 
     def _run_aggregations(self) -> Dict:
         """
