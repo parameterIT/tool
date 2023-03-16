@@ -12,10 +12,10 @@ if i == 2:
                 print("?????????")
             else:
                 while True:
-                    if (j == 2):
-                        if (j == 0):
-                            if (j == 8):
-                                if (j == 7):
+                    if j == 2:
+                        if j == 0:
+                            if j == 8:
+                                if j == 7:
                                     print("doing very cool things forever and ever")
 elif i == 3:
     if i == 2:
@@ -48,14 +48,14 @@ else:
             for k in range(10):
                 pass
 
-if (j == 2):
-    if (j == 0):
-        if (j == 8):
-            if (j == 7):
-                if (j == 2):
-                    if (j == 0):
-                        if (j == 8):
-                            if (j == 7):
+if j == 2:
+    if j == 0:
+        if j == 8:
+            if j == 7:
+                if j == 2:
+                    if j == 0:
+                        if j == 8:
+                            if j == 7:
                                 print("doing very cool things forever and ever")
 if i == 2:
     for j in range(10):
