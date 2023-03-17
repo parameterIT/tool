@@ -106,7 +106,9 @@ class Runner:
             list_of_violations, columns=["type", "file", "start", "end"]
         )
         violations.attrs = {"model": self._model_name, "root": self._src_root}
-        file_location = Path(self._output_dir / Path("violations") / Path(time + ".csv"))
+        file_location = Path(
+            self._output_dir / Path("violations") / Path(time + ".csv")
+        )
         violations.to_csv(file_location)
 
     def _write_to_csv(self, results: Dict):
