@@ -1,25 +1,25 @@
 from byoqm.metric.metric import Metric
-from byoqm.source_coordinator.source_coordinator import SourceCoordinator
-from byoqm.source_coordinator.query_translations import translate_to
+from byoqm.source_repository.source_repository import SourceRepository
+from byoqm.source_repository.query_translations import translate_to
 
 
 class ArgumentCount(Metric):
     def __init__(self):
-        self.coordinator: SourceCoordinator = None
+        self._source_repository: SourceRepository = None
 
     def run(self):
         data = []
-        for file in self.coordinator.src_paths:
-            self._parse(self.coordinator.getAst(file), data, file)
+        for file in self._source_repository.src_paths:
+            self._parse(self._source_repository.getAst(file), data, file)
         return data
 
     def _parse(self, ast, data, file):
         """
         Finds the number of functions that have more than 4 parameters
         """
-        query = self.coordinator.tree_sitter_language.query(
+        query = self._source_repository.tree_sitter_language.query(
             f"""
-            (_ [{translate_to[self.coordinator.language]["parameters"]}] @parameters)
+            (_ [{translate_to[self._source_repository.language]["parameters"]}] @parameters)
             """
         )
         captures = query.captures(ast.root_node)

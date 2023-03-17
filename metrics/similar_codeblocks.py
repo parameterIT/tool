@@ -1,7 +1,7 @@
 from io import StringIO
 import subprocess
 from byoqm.metric.metric import Metric
-from byoqm.source_coordinator.source_coordinator import SourceCoordinator
+from byoqm.source_repository.source_repository import SourceRepository
 from defusedxml.ElementTree import parse
 
 TOKENS = 35
@@ -9,11 +9,11 @@ TOKENS = 35
 
 class SimilarBlocksofCode(Metric):
     def __init__(self):
-        self.coordinator: SourceCoordinator = None
+        self._source_repository: SourceRepository = None
 
     def run(self):
         return self.similar_blocks_of_code(
-            [str(file) for file in self.coordinator.src_paths]
+            [str(file) for file in self._source_repository.src_paths]
         )
 
     def similar_blocks_of_code(self, files) -> list:
