@@ -128,9 +128,9 @@ class Runner:
             writer.writerow([f"src_root={self._src_root}"])
             writer.writerow(["metric", "value"])
             for description, value in results.items():
-                v = value
+                frequency = value
                 if type(value) is list:
-                    v = len(value)
-                writer.writerow([description, v])
+                    frequency = len(value)
+                writer.writerow([description, frequency])
         logging.info("Finished writing to csv")
         return file_location
