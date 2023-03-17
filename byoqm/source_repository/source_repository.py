@@ -2,7 +2,7 @@ import logging
 from pathlib import Path
 from tree_sitter import Parser, Language
 import tree_sitter
-from byoqm.source_coordinator.languages import languages
+from byoqm.source_repository.languages import languages
 
 _TREESITTER_BUILD: Path = Path("build/my-languages.so")
 
