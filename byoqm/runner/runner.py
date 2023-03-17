@@ -106,7 +106,7 @@ class Runner:
             list_of_violations, columns=["type", "file", "start", "end"]
         )
         violations.attrs = {"model": self._model_name, "root": self._src_root}
-        file_location = Path(self._output_dir / Path(time + "_location.csv"))
+        file_location = Path(self._output_dir / Path("violations") / Path(time + ".csv"))
         violations.to_csv(file_location)
 
     def _write_to_csv(self, results: Dict):
@@ -119,7 +119,7 @@ class Runner:
 
         self._generate_violations_table(results, current_time)
 
-        file_location = self._output_dir / file_name
+        file_location = self._output_dir / Path("frequencies") / file_name
         with open(file_location, "w") as results_file:
             writer = csv.writer(results_file)
             writer.writerow([f"qualitymodel={self._model_name}"])

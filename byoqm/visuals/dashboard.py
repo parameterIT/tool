@@ -33,7 +33,7 @@ class Dashboard:
         )
         show(gridplots)
 
-    def get_data(self, path="./output"):
+    def get_data(self, path="./output/frequencies"):
         """
         Gets data from specified path. The path is defaulted to the output folder, but if you want to run
         BYOQM using a different path, this can be changed in the CLI.
