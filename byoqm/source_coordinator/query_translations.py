@@ -7,7 +7,7 @@ translate_to = {
         "function": "(function_definition)",
         "function_block": "(function_definition body: (block) @function.block)",
         "return": "(return_statement)",
-        "nested_controlflow1": """
+        "nested_controlflow_initial_nodes": """
                                 (module [
                                 (if_statement 
                                     consequence: (block) @cons
@@ -33,7 +33,7 @@ translate_to = {
                                     (for_statement body: (block) @cons)])
                                 )
                                 """,
-        "nested_controlflow2": """
+        "nested_controlflow_subsequent_nodes": """
                                 (_ [
                                 (if_statement 
                                     consequence: (block) @cons
@@ -55,7 +55,7 @@ translate_to = {
         "function": "(method_declaration) (constructor_declaration)",
         "function_block": "(method_declaration body: (block) @function.block) (constructor_declaration body: (block) @function.block)",
         "return": "(return_statement)",
-        "nested_controlflow1": """
+        "nested_controlflow_initial_nodes": """
                                 (method_declaration
                                     body: (block [
                                     (if_statement
@@ -109,7 +109,7 @@ translate_to = {
                                     (switch_statement
                                         body: (switch_body (switch_section) @cons))])
                                 """,
-        "nested_controlflow2": """
+        "nested_controlflow_subsequent_nodes": """
                                 (_ [
                                     (if_statement
                                         consequence: (_) @cons)
@@ -136,7 +136,7 @@ translate_to = {
         "function": "(method_declaration) (constructor_declaration)",
         "function_block": "(method_declaration body: (block) @function.block) (constructor_declaration body: (constructor_body) @function.block)",
         "return": "(return_statement)",
-        "nested_controlflow1": """
+        "nested_controlflow_initial_nodes": """
                                 (method_declaration
                                     body: (block [
                                     (if_statement
@@ -169,7 +169,7 @@ translate_to = {
                                     (switch_expression
                                         body: (switch_block (switch_block_statement_group) @cons))]))
                                 """,
-        "nested_controlflow2": """
+        "nested_controlflow_subsequent_nodes": """
                                 (_ [
                                     (if_statement
                                         consequence: (_) @cons)
