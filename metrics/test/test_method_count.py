@@ -17,8 +17,9 @@ class TestMethodCount(unittest.TestCase):
         self._methodcount._source_repository = self._source_repository
 
     def test_method_count_given__python_file_returns_1(self):
-        result = len(self._methodcount.run())
-        self.assertEqual(result, 1)
+        result = self._methodcount.run()
+        self.assertEqual(len(result), 1)
+        self.assertEqual((result[0][2], result[0][3]), ("1", "81"))
 
     def test_method_count_given_java_file_returns_1(self):
         new_source_repository = SourceRepository(
@@ -26,8 +27,9 @@ class TestMethodCount(unittest.TestCase):
         )
         new_method_counter = MethodCount()
         new_method_counter._source_repository = new_source_repository
-        result = len(new_method_counter.run())
-        self.assertEqual(result, 1)
+        result = new_method_counter.run()
+        self.assertEqual(len(result), 1)
+        self.assertEqual((result[0][2], result[0][3]), ("2", "65"))
 
     def test_method_count_given_c_sharp_file_returns_1(self):
         new_source_repository = SourceRepository(
@@ -37,7 +39,7 @@ class TestMethodCount(unittest.TestCase):
         new_method_counter._source_repository = new_source_repository
         result = new_method_counter.run()
         self.assertEqual(len(result), 1)
-        self.assertEqual(result[2], result[3], ("5", "96"))
+        self.assertEqual((result[0][2], result[0][3]), ("3", "98"))
 
     def tearDown(self):
         os.chdir(Path("metrics/test").resolve())
