@@ -8,10 +8,10 @@ class NestedControlflows(Metric):
         self.coordinator: SourceCoordinator = None
 
     def run(self):
-        count = 0
+        data = []
         for file in self.coordinator.src_paths:
-            count += self._parse(self.coordinator.getAst(file))
-        return count
+            self._parse(self.coordinator.getAst(file), file, data)
+        return data
 
     def _unique(self, not_unique_list):
         unique_list = []
@@ -21,13 +21,11 @@ class NestedControlflows(Metric):
                 unique_list.append(x)
         return unique_list
 
-    def _parse(self, ast) -> int:
+    def _parse(self, ast, file, data):
         """
         Finds the control statements of a file and returns the amount of control statements that have a nested
         control flow depth of at least 4
         """
-        count = 0
-
         query = self.coordinator.tree_sitter_language.query(
             translate_to[self.coordinator.language]["nested_controlflow_initial_nodes"]
         )
@@ -48,10 +46,10 @@ class NestedControlflows(Metric):
                     if found:
                         break
                     if len(sub_node_query.captures(node3)) > 0:
-                        count += 1
+                        data.append(["Nested Controlflows", file, 1, 1])
                         found = True
 
-        return count
+        return
 
 
 metric = NestedControlflows()

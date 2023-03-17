@@ -8,16 +8,15 @@ class ComplexLogic(Metric):
         self.coordinator: SourceCoordinator = None
 
     def run(self):
-        count = 0
+        data = []
         for file in self.coordinator.src_paths:
-            count += self._parse(self.coordinator.getAst(file))
-        return count
+            self._parse(self.coordinator.getAst(file), file, data)
+        return data
 
-    def _parse(self, ast):
+    def _parse(self, ast, file, data):
         """
         Finds the conditionals of a file and returns the number of conditionals that have more than 4 conditions
         """
-        count = 0
         query = self.coordinator.tree_sitter_language.query(
             f"""
             (_ [{translate_to[self.coordinator.language]["bool_operator"]}] @bool_operator)
@@ -48,8 +47,8 @@ class ComplexLogic(Metric):
                         ]
                     )
             if boolean_count > 4:
-                count += 1
-        return count
+                data.append(["Complex Logic", file, 1, 1])
+        return
 
 
 metric = ComplexLogic()

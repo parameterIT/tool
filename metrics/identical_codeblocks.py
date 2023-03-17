@@ -12,20 +12,19 @@ class IdenticalBlocksofCode(Metric):
         self.coordinator: SourceCoordinator = None
 
     def run(self):
-        count = self.identical_blocks_of_code(
+        return self.identical_blocks_of_code(
             [str(file) for file in self.coordinator.src_paths]
         )
-        return count
 
-    def identical_blocks_of_code(self, files) -> int | float:
+    def identical_blocks_of_code(self, files) -> list:
         """
         Finds the amount of identical code blocks that exist in the given code base.
 
         Makes use of Copy Paste Detector (CPD)
         """
+        data = []
         filestring = f"{files}"
         filestring = filestring[1 : len(filestring) - 1]
-        count = 0
         res = subprocess.run(
             f"metrics/cpd/bin/run.sh cpd --minimum-tokens {TOKENS} --skip-lexical-errors --dir {filestring} --format xml",
             shell=True,
@@ -35,8 +34,8 @@ class IdenticalBlocksofCode(Metric):
         et = parse(StringIO(res.stdout))
         for child in et.getroot():
             if child.tag == "duplication":
-                count += 1
-        return count
+                data.append(["Identical Code", "Find way to get file", 1, 1])
+        return data
 
 
 metric = IdenticalBlocksofCode()

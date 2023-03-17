@@ -12,18 +12,17 @@ class SimilarBlocksofCode(Metric):
         self.coordinator: SourceCoordinator = None
 
     def run(self):
-        count = self.similar_blocks_of_code(
+        return self.similar_blocks_of_code(
             [str(file) for file in self.coordinator.src_paths]
         )
-        return count
 
-    def similar_blocks_of_code(self, files) -> int | float:
+    def similar_blocks_of_code(self, files) -> list:
         """
         Finds the amount of similar code blocks in a given repository
         """
+        data = []
         filestring = f"{files}"
         filestring = filestring[1 : len(filestring) - 1]
-        count = 0
         res = subprocess.run(
             f"metrics/cpd/bin/run.sh cpd --minimum-tokens {TOKENS} --skip-lexical-errors --ignore-identifiers --ignore-literals --dir {filestring} --format xml",
             shell=True,
@@ -33,8 +32,8 @@ class SimilarBlocksofCode(Metric):
         et = parse(StringIO(res.stdout))
         for child in et.getroot():
             if child.tag == "duplication":
-                count += 1
-        return count
+                data.append(["Similar Codeblocks", "find way to get file", 1, 1])
+        return data
 
 
 metric = SimilarBlocksofCode()

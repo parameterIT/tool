@@ -36,15 +36,17 @@ class NoCpd(QualityModel):
         )
 
     def cognitive_complexity(self, results: Dict):
-        return results["complex_logic"] + results["nested_controlflows"]
+        return len(results["complex_logic"]) + len(results["nested_controlflows"])
 
     def structural_issues(self, results: Dict):
         return (
-            results["argument_count"] + results["file_length"] + results["method_count"]
+            len(results["argument_count"])
+            + len(results["file_length"])
+            + len(results["method_count"])
         )
 
     def cyclomatic_complexity(self, results: Dict):
-        return results["return_statements"]
+        return len(results["return_statements"])
 
 
 model = NoCpd()

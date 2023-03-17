@@ -9,12 +9,15 @@ from byoqm.runner import Runner
 
 _TEST_FOLDER = Path("byoqm/runner/test")
 _OUTPUT_FOLDER = _TEST_FOLDER / Path("test")
+_FREQ_FOLDER = _OUTPUT_FOLDER / Path("frequencies")
+_VIOLATION_FOLDER = _OUTPUT_FOLDER / Path("violations")
 
 
 class TestRunner(unittest.TestCase):
     def setUp(self):
         _OUTPUT_FOLDER.mkdir(parents=True, exist_ok=True)
-
+        _FREQ_FOLDER.mkdir(parents=True, exist_ok=True)
+        _VIOLATION_FOLDER.mkdir(parents=True, exist_ok=True)
         self._runner = Runner("no_cpd", Path("byoqm/"), _OUTPUT_FOLDER, True, "python")
         logging.disable()
 

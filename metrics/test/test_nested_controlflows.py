@@ -18,7 +18,7 @@ class TestNestedControlFlows(unittest.TestCase):
 
     @unittest.expectedFailure
     def test_nested_controlflow_given_test_directory_returns_10(self):
-        result = self._nestedflow.run()
+        result = len(self._nestedflow.run())
         self.assertEqual(result, 10)
 
     def test_nested_control_flow_given_c_sharp_file_returns_6(self):
@@ -28,7 +28,7 @@ class TestNestedControlFlows(unittest.TestCase):
         self.assertEqual(len(new_coordinator.src_paths), 3)
         nested_control_flow = NestedControlflows()
         nested_control_flow.coordinator = new_coordinator
-        result = nested_control_flow.run()
+        result = len(nested_control_flow.run())
         self.assertEqual(result, 6)
 
     def test_nested_control_flow_given_java_file_returns_7(self):
@@ -38,7 +38,7 @@ class TestNestedControlFlows(unittest.TestCase):
         self.assertEqual(len(new_coordinator.src_paths), 2)
         nested_control_flow = NestedControlflows()
         nested_control_flow.coordinator = new_coordinator
-        result = nested_control_flow.run()
+        result = len(nested_control_flow.run())
         self.assertEqual(result, 7)
 
     def tearDown(self):
