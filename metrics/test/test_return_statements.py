@@ -17,8 +17,10 @@ class TestReturnStatements(unittest.TestCase):
         self._returnstmnt._source_repository = self._source_repository
 
     def test_return_statements_given_python_fil_returns_2(self):
-        result = len(self._returnstmnt.run())
-        self.assertEqual(result, 2)
+        result = self._returnstmnt.run()
+        self.assertEqual(len(result), 2)
+        self.assertEqual((result[0][2],result[0][3]),('5','15'))
+        self.assertEqual((result[1][2],result[1][3]),('18','35'))
 
     def test_argument_count_c_sharp_given_directory_returns_2(self):
         new_source_repository = SourceRepository(
@@ -26,8 +28,8 @@ class TestReturnStatements(unittest.TestCase):
         )
         return_statements = ReturnStatements()
         return_statements._source_repository = new_source_repository
-        result = len(return_statements.run())
-        self.assertEqual(result, 2)
+        result = return_statements.run()
+        self.assertEqual(len(result), 2)
 
     def test_argument_count_java_given_directory_returns_2(self):
         new_source_repository = SourceRepository(
@@ -35,8 +37,8 @@ class TestReturnStatements(unittest.TestCase):
         )
         return_statements = ReturnStatements()
         return_statements._source_repository = new_source_repository
-        result = len(return_statements.run())
-        self.assertEqual(result, 2)
+        result = return_statements.run()
+        self.assertEqual(len(result), 2)
 
     def tearDown(self):
         os.chdir(Path("metrics/test").resolve())
