@@ -38,7 +38,8 @@ class SimilarBlocksofCode(Metric):
                         child.attrib["line"],
                         child.attrib["endline"],
                     ]
-                    for child in child if child.tag == 'file'
+                    for child in child
+                    if child.tag == "file"
                 ]
                 data.append(["Similar Code", duplicates])
         return data

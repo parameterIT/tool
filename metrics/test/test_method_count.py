@@ -35,8 +35,9 @@ class TestMethodCount(unittest.TestCase):
         )
         new_method_counter = MethodCount()
         new_method_counter._source_repository = new_source_repository
-        result = len(new_method_counter.run())
-        self.assertEqual(result, 1)
+        result = new_method_counter.run()
+        self.assertEqual(len(result), 1)
+        self.assertEqual(result[2], result[3], ("5", "96"))
 
     def tearDown(self):
         os.chdir(Path("metrics/test").resolve())

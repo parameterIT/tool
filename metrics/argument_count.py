@@ -26,7 +26,12 @@ class ArgumentCount(Metric):
         for node, _ in captures:
             if node.named_child_count > 4:
                 data.append(
-                    ["Argument Count", file, str(node.start_point[0] + 1), str(node.end_point[0])]
+                    [
+                        "Argument Count",
+                        file,
+                        str(node.start_point[0] + 1),
+                        str(node.end_point[0]),
+                    ]
                 )
         return
 
