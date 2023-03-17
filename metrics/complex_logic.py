@@ -52,7 +52,7 @@ class ComplexLogic(Metric):
                         "Complex Logic",
                         file,
                         str(node.start_point[0] + 1),
-                        str(node.end_point[0]),
+                        str(node.end_point[0] + 1),
                     ]
                 )
         return
