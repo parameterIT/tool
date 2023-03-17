@@ -3,7 +3,7 @@ import unittest
 
 from pathlib import Path
 
-from test.test_support import os, shutil
+from test.test_support import shutil
 
 from byoqm.runner import Runner
 
