@@ -1,6 +1,19 @@
 public class TestClass
 {
-    public TestClass() {}
+    public TestClass() 
+    {
+        var e,r,t,y = true;
+        if (e) 
+        {
+        	if (r) 
+            {
+           		if (t) 
+                {
+                	if (y) Console.WriteLine("violation");
+                }
+            }
+        }
+    }
 
     public void method1()
     {
