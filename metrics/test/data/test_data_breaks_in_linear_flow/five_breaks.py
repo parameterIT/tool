@@ -10,7 +10,7 @@ if False:
         pass
     elif "nested" == "elif":
         pass
-    else "nested" == "else":
+    else:
         pass
 elif True:
     print("False")
