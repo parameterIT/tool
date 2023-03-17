@@ -1,26 +1,26 @@
 from byoqm.metric.metric import Metric
-from byoqm.source_coordinator.source_coordinator import SourceCoordinator
-from byoqm.source_coordinator.query_translations import translate_to
+from byoqm.source_repository.source_repository import SourceRepository
+from byoqm.source_repository.query_translations import translate_to
 
 
 class FileLength(Metric):
     def __init__(self):
-        self.coordinator: SourceCoordinator = None
+        self._source_repository: SourceRepository = None
 
     def run(self):
         data = []
-        for file in self.coordinator.src_paths:
+        for file in self._source_repository.src_paths:
             with open(file) as f:
-                self._parse(f, self.coordinator.getAst(file), file, data)
+                self._parse(f, self._source_repository.getAst(file), file, data)
         return data
 
     def _parse(self, file, ast, path, data):
         """
         Finds out whether or not a file is more than 250 lines long excluding comments
         """
-        query = self.coordinator.tree_sitter_language.query(
+        query = self._source_repository.tree_sitter_language.query(
             f"""
-            (_ [{translate_to[self.coordinator.language]["comment"]}] @comment)
+            (_ [{translate_to[self._source_repository.language]["comment"]}] @comment)
             """
         )
         captures = query.captures(ast.root_node)

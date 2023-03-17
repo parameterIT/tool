@@ -1,7 +1,7 @@
 from pathlib import Path
 import unittest
 import os
-from byoqm.source_coordinator.source_coordinator import SourceCoordinator
+from byoqm.source_repository.source_repository import SourceRepository
 from metrics.file_length import FileLength
 
 
@@ -10,31 +10,31 @@ class TestFileLength(unittest.TestCase):
         # chdir because paths are assumed to be relative from the project root but test
         # paths start at the test file
         os.chdir("../../")
-        self._coordinator = SourceCoordinator(
+        self._source_repository = SourceRepository(
             Path("./metrics/test/data/test_data_file_length"), "python"
         )
         self._filelength = FileLength()
-        self._filelength.coordinator = self._coordinator
+        self._filelength._source_repository = self._source_repository
 
     def test_file_length_given_python_file_returns_1(self):
         result = len(self._filelength.run())
         self.assertEqual(result, 1)
 
     def test_file_length_given_java_file_returns_1(self):
-        new_coordinator = SourceCoordinator(
+        new_source_repository = SourceRepository(
             Path("./metrics/test/data/test_data_file_length"), "java"
         )
         file_length = FileLength()
-        file_length.coordinator = new_coordinator
+        file_length._source_repository = new_source_repository
         result = len(file_length.run())
         self.assertEqual(result, 1)
 
     def test_file_length_given_csharp_file_returns_1(self):
-        new_coordinator = SourceCoordinator(
+        new_source_repository = SourceRepository(
             Path("./metrics/test/data/test_data_file_length"), "c_sharp"
         )
         file_length = FileLength()
-        file_length.coordinator = new_coordinator
+        file_length._source_repository = new_source_repository
         result = len(file_length.run())
         self.assertEqual(result, 1)
 
