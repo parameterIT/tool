@@ -27,11 +27,13 @@ class NestedControlflows(Metric):
         control flow depth of at least 4
         """
         query = self.coordinator.tree_sitter_language.query(
-            translate_to[self.coordinator.language]["nested_controlflow1"]
+            translate_to[self.coordinator.language]["nested_controlflow_initial_nodes"]
         )
         inital_nodes = self._unique(query.captures(ast.root_node))
         sub_node_query = self.coordinator.tree_sitter_language.query(
-            translate_to[self.coordinator.language]["nested_controlflow2"]
+            translate_to[self.coordinator.language][
+                "nested_controlflow_subsequent_nodes"
+            ]
         )
         for node, _ in inital_nodes:
             found = False

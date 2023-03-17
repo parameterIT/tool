@@ -1,8 +1,9 @@
+import logging
 import unittest
 
 from pathlib import Path
 
-from test.test_support import os, shutil
+from test.test_support import shutil
 
 from byoqm.runner import Runner
 
@@ -18,6 +19,7 @@ class TestRunner(unittest.TestCase):
         _FREQ_FOLDER.mkdir(parents=True, exist_ok=True)
         _VIOLATION_FOLDER.mkdir(parents=True, exist_ok=True)
         self._runner = Runner("no_cpd", Path("byoqm/"), _OUTPUT_FOLDER, True, "python")
+        logging.disable()
 
     def tearDown(self):
         # shutil over os.rmdir, because it allows you to remove non/empty directories
