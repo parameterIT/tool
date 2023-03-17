@@ -1,5 +1,16 @@
 public class data_nested_control_flows {
-    public Main() {}
+    public Main() {
+        Boolean e,r,t,y = true;
+        if (e) {
+            if (r) {
+                if (t) {
+                    if (y) {
+                        System.out.println("Violation");
+                    }
+                }
+            }
+        }
+    }
 
     public void method1() {
         Boolean a,b,c = true;
