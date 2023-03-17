@@ -1,5 +1,6 @@
 from byoqm.metric.metric import Metric
 from byoqm.source_coordinator.source_coordinator import SourceCoordinator
+from byoqm.source_coordinator.query_translations import translate_to
 
 
 class ArgumentCount(Metric):
@@ -17,17 +18,15 @@ class ArgumentCount(Metric):
         Finds the number of functions that have more than 4 parameters
         """
         count = 0
-        query = self.coordinator.language.query(
-            """
-            (function_definition
-                parameters: (parameters) @function.parameters)
+        query = self.coordinator.tree_sitter_language.query(
+            f"""
+            (_ [{translate_to[self.coordinator.language]["parameters"]}] @parameters)
             """
         )
         captures = query.captures(ast.root_node)
         for node, _ in captures:
             if node.named_child_count > 4:
                 count += 1
-
         return count
 
 

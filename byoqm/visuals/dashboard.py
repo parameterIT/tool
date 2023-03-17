@@ -8,6 +8,7 @@ from .line import get_line
 from bokeh.layouts import gridplot
 from bokeh.plotting import show
 from .line import get_line
+import logging
 
 
 class Dashboard:
@@ -63,6 +64,7 @@ class Dashboard:
 
         The data is then sorted to ensure that the dates appear in chronological order
         """
+        logging.info(f"Getting data from: {path}")
         graph_data = defaultdict(list)
         for filename in os.listdir(path):
             filepath = os.path.join(path, filename)
@@ -75,5 +77,10 @@ class Dashboard:
             for row in df.itertuples(index=False, name=None):
                 graph_data[row[0]].append((date, row[1]))
         for _, v in graph_data.items():
-            v.sort()
+            try:
+                v.sort()
+            except:
+                logging.error("Failed to sort data")
+                exit(1)
+        logging.info("Finished getting data")
         return graph_data

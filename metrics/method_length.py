@@ -1,5 +1,6 @@
 from byoqm.metric.metric import Metric
 from byoqm.source_coordinator.source_coordinator import SourceCoordinator
+from byoqm.source_coordinator.query_translations import translate_to
 
 
 class MethodLength(Metric):
@@ -18,17 +19,15 @@ class MethodLength(Metric):
         that is greater than 25
         """
         count = 0
-        query = self.coordinator.language.query(
+        query = self.coordinator.tree_sitter_language.query(
+            f"""
+                (_ [{translate_to[self.coordinator.language]["function_block"]}])
             """
-                (function_definition
-                    body: (block) @function.block)
-                """
         )
         captures = query.captures(ast.root_node)
-        for node in captures:
-            n = node[0]
+        for node, _ in captures:
             length = (
-                n.end_point[0] - n.start_point[0] + 1
+                node.end_point[0] - node.start_point[0] + 1
             )  # length is zero indexed - therefore we add 1 at the end
             if length > 25:
                 count += 1
