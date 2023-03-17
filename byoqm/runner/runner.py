@@ -3,12 +3,13 @@ import subprocess
 import time
 import csv
 import sys
+import pandas as pd
 
 import importlib.util
 import importlib.machinery
 
 from pathlib import Path
-from typing import Dict
+from typing import Dict, List
 
 from test.test_support import os
 from byoqm.metric.metric import Metric
@@ -94,9 +95,23 @@ class Runner:
             sys.modules[metric] = module
             spec.loader.exec_module(module)
             module.metric.coordinator = self._coordinator
-            results[metric] = int(module.metric.run())
+            results[metric] = module.metric.run()
         logging.info("Finished running metrics")
         return results
+
+    def _generate_violations_table(self, results: Dict, time: str):
+        list_of_violations = []
+        for _, violations in results.items():
+            if type(violations) is list:
+                list_of_violations.extend(violations)
+        violations = pd.DataFrame(
+            list_of_violations, columns=["type", "file", "start", "end"]
+        )
+        violations.attrs = {"model": self._model_name, "root": self._src_root}
+        file_location = Path(
+            self._output_dir / Path("violations") / Path(time + ".csv")
+        )
+        violations.to_csv(file_location)
 
     def _write_to_csv(self, results: Dict):
         # See https://docs.python.org/3/library/time.html#time.strftime for table
@@ -105,14 +120,19 @@ class Runner:
         logging.info("Writing to csv")
         current_time: str = time.strftime("%Y-%m-%d_%H-%M-%S", time.gmtime())
         file_name = Path(current_time + ".csv")
-        file_location = self._output_dir / file_name
 
+        self._generate_violations_table(results, current_time)
+
+        file_location = self._output_dir / Path("frequencies") / file_name
         with open(file_location, "w") as results_file:
             writer = csv.writer(results_file)
             writer.writerow([f"qualitymodel", self._model_name])
             writer.writerow([f"src_root", self._shortenPath.__str__()])
             writer.writerow(["metric", "value"])
             for description, value in results.items():
-                writer.writerow([description, value])
+                frequency = value
+                if type(value) is list:
+                    frequency = len(value)
+                writer.writerow([description, frequency])
         logging.info("Finished writing to csv")
         return file_location

@@ -17,7 +17,7 @@ class TestReturnStatements(unittest.TestCase):
         self._returnstmnt.coordinator = self._coordinator
 
     def test_return_statements_given_python_fil_returns_2(self):
-        result = self._returnstmnt.run()
+        result = len(self._returnstmnt.run())
         self.assertEqual(result, 2)
 
     def test_argument_count_c_sharp_given_directory_returns_2(self):
@@ -26,7 +26,7 @@ class TestReturnStatements(unittest.TestCase):
         )
         return_statements = ReturnStatements()
         return_statements.coordinator = new_coordinator
-        result = return_statements.run()
+        result = len(return_statements.run())
         self.assertEqual(result, 2)
 
     def test_argument_count_java_given_directory_returns_2(self):
@@ -35,7 +35,7 @@ class TestReturnStatements(unittest.TestCase):
         )
         return_statements = ReturnStatements()
         return_statements.coordinator = new_coordinator
-        result = return_statements.run()
+        result = len(return_statements.run())
         self.assertEqual(result, 2)
 
     def tearDown(self):
