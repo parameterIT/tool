@@ -22,12 +22,12 @@ class Dashboard:
                     self._check_src_root(row[1], target_path)
         return True
 
-    def _check_src_root(targetSrc, actualSrc):
+    def _check_src_root(self, targetSrc, actualSrc):
         if ("./" + targetSrc) != actualSrc:
             return False
         return True
 
-    def _check_qm(targetQM, actualQM):
+    def _check_qm(self, targetQM, actualQM):
         if targetQM != actualQM:
             return False
         return True
