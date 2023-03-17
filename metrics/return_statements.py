@@ -34,7 +34,14 @@ class ReturnStatements(Metric):
         for node, _ in functions:
             captures = query_return.captures(node)
             if len(captures) > 4:
-                data.append(["Return Statements", file, node.start_point[0]+1, node.end_point[0]])
+                data.append(
+                    [
+                        "Return Statements",
+                        file,
+                        node.start_point[0] + 1,
+                        node.end_point[0],
+                    ]
+                )
         return
 
 

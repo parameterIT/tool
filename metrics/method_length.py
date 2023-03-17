@@ -29,7 +29,9 @@ class MethodLength(Metric):
                 node.end_point[0] - node.start_point[0] + 1
             )  # length is zero indexed - therefore we add 1 at the end
             if length > 25:
-                data.append(["Method Length", file, node.start_point[0]+1, node.end_point[0]])
+                data.append(
+                    ["Method Length", file, node.start_point[0] + 1, node.end_point[0]]
+                )
         return
 
 

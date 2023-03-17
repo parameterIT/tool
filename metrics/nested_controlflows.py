@@ -48,7 +48,14 @@ class NestedControlflows(Metric):
                     if found:
                         break
                     if len(sub_node_query.captures(node3)) > 0:
-                        data.append(["Nested Controlflows", file, node.start_point[0]+1, node3.end_point[0]])
+                        data.append(
+                            [
+                                "Nested Controlflows",
+                                file,
+                                node.start_point[0] + 1,
+                                node3.end_point[0],
+                            ]
+                        )
                         found = True
 
         return

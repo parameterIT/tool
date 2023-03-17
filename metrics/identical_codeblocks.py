@@ -34,8 +34,15 @@ class IdenticalBlocksofCode(Metric):
         et = parse(StringIO(res.stdout))
         for child in et.getroot():
             if child.tag == "duplication":
-                child.child.
-                data.append(["Identical Code", "Find way to get file", 1, 1])
+                duplicates = [
+                    [
+                        child.attrib["path"],
+                        child.attrib["line"],
+                        child.attrib["endline"],
+                    ]
+                    for child in child if child.tag == 'file'
+                ]
+                data.append(["Identical Code", duplicates])
         return data
 
 
