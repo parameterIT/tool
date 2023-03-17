@@ -38,8 +38,8 @@ class ReturnStatements(Metric):
                     [
                         "Return Statements",
                         file,
-                        node.start_point[0] + 1,
-                        node.end_point[0],
+                        str(node.start_point[0] + 1),
+                        str(node.end_point[0]),
                     ]
                 )
         return

@@ -31,7 +31,7 @@ class FileLength(Metric):
             ) + 1  # length is zero indexed - therefore we add 1 at the end
         loc = sum(1 for line in file if line.rstrip()) - count_comments
         if loc > 250:
-            data.append(["LOC", path, -1, -1])
+            data.append(["LOC", path, str(-1), str(-1)])
         return
 
 

@@ -28,8 +28,8 @@ class MethodCount(Metric):
                 [
                     "Method Count",
                     file,
-                    captures[0][0].start_point[0] + 1,
-                    captures[len(captures) - 1][len(captures) - 1].end_point[0],
+                    str(captures[0][0].start_point[0] + 1),
+                    str(captures[len(captures) - 1][len(captures) - 1].end_point[0]),
                 ]
             )
         return
