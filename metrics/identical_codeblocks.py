@@ -9,11 +9,11 @@ TOKENS = 35
 
 class IdenticalBlocksofCode(Metric):
     def __init__(self):
-        self.coordinator: SourceRepository = None
+        self._source_repository: SourceRepository = None
 
     def run(self):
         return self.identical_blocks_of_code(
-            [str(file) for file in self.coordinator.src_paths]
+            [str(file) for file in self._source_repository.src_paths]
         )
 
     def identical_blocks_of_code(self, files) -> list:

@@ -1,15 +1,16 @@
 from byoqm.metric.metric import Metric
-from byoqm.source_repository.source_repository import SourceRepository, translate_to
+from byoqm.source_repository.source_repository import SourceRepository
+from byoqm.source_repository.query_translations import translate_to
 
 
 class MethodLength(Metric):
     def __init__(self):
-        self.coordinator: SourceRepository = None
+        self._source_repository: SourceRepository = None
 
     def run(self):
         data = []
-        for file in self.coordinator.src_paths:
-            self._parse(self.coordinator.getAst(file), file, data)
+        for file in self._source_repository.src_paths:
+            self._parse(self._source_repository.getAst(file), file, data)
         return data
 
     def _parse(self, ast, file, data):
@@ -17,9 +18,9 @@ class MethodLength(Metric):
         Finds the length of all methods in a file and returns the amount of methods that have a length
         that is greater than 25
         """
-        query = self.coordinator.tree_sitter_language.query(
+        query = self._source_repository.tree_sitter_language.query(
             f"""
-                (_ [{translate_to[self.coordinator.language]["function_block"]}])
+                (_ [{translate_to[self._source_repository.language]["function_block"]}])
             """
         )
         captures = query.captures(ast.root_node)

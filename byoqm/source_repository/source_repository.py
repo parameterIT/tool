@@ -7,7 +7,7 @@ from byoqm.source_repository.languages import languages
 _TREESITTER_BUILD: Path = Path("build/my-languages.so")
 
 
-class SourceCoordinator:
+class SourceRepository:
     def __init__(self, src_root: Path, language: str):
         if src_root.is_file():
             self.src_paths = [src_root]

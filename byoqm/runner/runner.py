@@ -15,7 +15,7 @@ from test.test_support import os
 from byoqm.metric.metric import Metric
 
 from byoqm.qualitymodel.qualitymodel import QualityModel
-from byoqm.source_coordinator.source_coordinator import SourceCoordinator
+from byoqm.source_repository.source_repository import SourceRepository
 
 
 class Runner:
@@ -35,7 +35,7 @@ class Runner:
         self._model_name: str = model_name
         self._output_dir = output_path
         self._save_file = save_file
-        self._coordinator = SourceCoordinator(self._src_root, language)
+        self._source_repository = SourceRepository(self._src_root, language)
 
     def _load(self, model_name: str) -> QualityModel:
         """
@@ -94,7 +94,7 @@ class Runner:
             module = importlib.util.module_from_spec(spec)
             sys.modules[metric] = module
             spec.loader.exec_module(module)
-            module.metric.coordinator = self._coordinator
+            module.metric._source_repository = self._source_repository
             results[metric] = module.metric.run()
         logging.info("Finished running metrics")
         return results
