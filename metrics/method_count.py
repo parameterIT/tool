@@ -24,7 +24,14 @@ class MethodCount(Metric):
         )
         captures = query.captures(ast.root_node)
         if len(captures) > 20:
-            data.append(["Method Count", file, 1, 1])
+            data.append(
+                [
+                    "Method Count",
+                    file,
+                    captures[0][0].start_point[0] + 1,
+                    captures[len(captures) - 1][len(captures) - 1].end_point[0],
+                ]
+            )
         return
 
 

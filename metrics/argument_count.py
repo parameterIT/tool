@@ -25,7 +25,9 @@ class ArgumentCount(Metric):
         captures = query.captures(ast.root_node)
         for node, _ in captures:
             if node.named_child_count > 4:
-                data.append(["Argument Count", file, 1, 1])
+                data.append(
+                    ["Argument Count", file, node.start_point[0] + 1, node.end_point[0]]
+                )
         return
 
 

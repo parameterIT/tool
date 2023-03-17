@@ -47,7 +47,9 @@ class ComplexLogic(Metric):
                         ]
                     )
             if boolean_count > 4:
-                data.append(["Complex Logic", file, 1, 1])
+                data.append(
+                    ["Complex Logic", file, node.start_point[0] + 1, node.end_point[0]]
+                )
         return
 
 
