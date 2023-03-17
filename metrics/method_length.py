@@ -1,11 +1,10 @@
 from byoqm.metric.metric import Metric
-from byoqm.source_coordinator.source_coordinator import SourceCoordinator
-from byoqm.source_coordinator.query_translations import translate_to
+from byoqm.source_repository.source_repository import SourceRepository, translate_to
 
 
 class MethodLength(Metric):
     def __init__(self):
-        self.coordinator: SourceCoordinator = None
+        self.coordinator: SourceRepository = None
 
     def run(self):
         data = []
