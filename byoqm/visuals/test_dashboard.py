@@ -41,27 +41,39 @@ class TestDashboard(unittest.TestCase):
     def test_get_data_given_min_and_max_dates_returns_5(self):
         start_date = datetime.min
         end_date = datetime.max
-        dashboard = Dashboard(start_date, end_date)
+        dashboard = Dashboard()
         data = dashboard.get_data(
-            path=_OUTPUT_FOLDER, in_use_qm="some_model", targetPath="dummy_test"
+            path=_OUTPUT_FOLDER,
+            in_use_qm="some_model",
+            targetPath="dummy_test",
+            start_date=start_date,
+            end_date=end_date,
         )
         self.assertEqual(len(data[_METRIC_NAME]), 5)
 
     def test_get_data_given_2023_returns_4(self):
         start_date = datetime.strptime("2023-01-01", "%Y-%m-%d")
         end_date = datetime.strptime("2023-12-31", "%Y-%m-%d")
-        dashboard = Dashboard(start_date, end_date)
+        dashboard = Dashboard()
         data = dashboard.get_data(
-            path=_OUTPUT_FOLDER, in_use_qm="some_model", targetPath="dummy_test"
+            path=_OUTPUT_FOLDER,
+            in_use_qm="some_model",
+            targetPath="dummy_test",
+            start_date=start_date,
+            end_date=end_date,
         )
         self.assertEqual(len(data[_METRIC_NAME]), 4)
 
     def test_get_data_given_1_day_seperation_returns_2(self):
         start_date = datetime.strptime("2023-03-02", "%Y-%m-%d")
         end_date = datetime.strptime("2023-03-03", "%Y-%m-%d")
-        dashboard = Dashboard(start_date, end_date)
+        dashboard = Dashboard()
         data = dashboard.get_data(
-            path=_OUTPUT_FOLDER, in_use_qm="some_model", targetPath="dummy_test"
+            path=_OUTPUT_FOLDER,
+            in_use_qm="some_model",
+            targetPath="dummy_test",
+            start_date=start_date,
+            end_date=end_date,
         )
         self.assertEqual(len(data[_METRIC_NAME]), 2)
 

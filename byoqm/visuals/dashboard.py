@@ -12,18 +12,24 @@ import logging
 
 
 class Dashboard:
-    def __init__(self, start_date: datetime, end_date: datetime):
-        self._start_date = start_date
-        self._end_date = end_date
-
     def _check_data(self, filepath, in_use_qm, target_path):
         with open(filepath) as f:
             reader = csv.reader(f)
             for row in reader:
-                if row[0] == "qualitymodel" and row[1] != in_use_qm:
-                    return False
-                if row[0] == "src_root" and ("./" + row[1]) != target_path:
-                    return False
+                if row[0] == "qualitymodel":
+                    self._check_qm(row[1], in_use_qm)
+                if row[0] == "src_root":
+                    self._check_src_root(row[1], target_path)
+        return True
+
+    def _check_src_root(targetSrc, actualSrc):
+        if ("./" + targetSrc) != actualSrc:
+            return False
+        return True
+
+    def _check_qm(targetQM, actualQM):
+        if targetQM != actualQM:
+            return False
         return True
 
     def _check_date(self, date, start_date, end_date):
@@ -31,7 +37,9 @@ class Dashboard:
             return False
         return True
 
-    def show_graphs(self, in_use_qm: str, targetPath: Path):
+    def show_graphs(
+        self, in_use_qm: str, targetPath: Path, start_date: datetime, end_date: datetime
+    ):
         """
         This method is used to display the graphs chosen. At the moment, only line graphs can be chosen,
         however this can be easily expanded upon.
@@ -39,7 +47,7 @@ class Dashboard:
         The method makes use of Bokeh to generate figures, which are then added to a gridplot in the
         arrangement of an arbitrary amount of rows where each row contains two figures.
         """
-        data = self.get_data(in_use_qm, targetPath)
+        data = self.get_data(in_use_qm, targetPath, start_date, end_date)
         # consider changing to broader term such as 'figures' if we plan on expanding the list to include other charts
         line_figures = [get_line(data, key) for key in data]
         gridplots = gridplot(
@@ -50,7 +58,14 @@ class Dashboard:
         )
         show(gridplots)
 
-    def get_data(self, in_use_qm: str, targetPath: Path, path="./output"):
+    def get_data(
+        self,
+        in_use_qm: str,
+        targetPath: Path,
+        start_date: datetime,
+        end_date: datetime,
+        path="./output",
+    ):
         """
         Gets data from specified path. The path is defaulted to the output folder, but if you want to run
         BYOQM using a different path, this can be changed in the CLI.
@@ -71,7 +86,7 @@ class Dashboard:
                 filepath = os.path.join(path, filename)
                 date = datetime.strptime(filename.split(".")[0], "%Y-%m-%d_%H-%M-%S")
 
-                if not self._check_date(date, self._start_date, self._end_date):
+                if not self._check_date(date, start_date, end_date):
                     continue
                 if not self._check_data(filepath, in_use_qm, targetPath):
                     continue

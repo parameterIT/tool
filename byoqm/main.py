@@ -88,8 +88,8 @@ def load(
     runner.run()
     logging.info("Finished running")
     if show_graphs:
-        dashboard = Dashboard(start_date, end_date)
-        dashboard.show_graphs(quality_model, src_root)
+        dashboard = Dashboard()
+        dashboard.show_graphs(quality_model, src_root, start_date, end_date)
 
 
 if __name__ == "__main__":
