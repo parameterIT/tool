@@ -1,7 +1,7 @@
 from pathlib import Path
 import unittest
 import os
-from byoqm.source_coordinator.source_coordinator import SourceCoordinator
+from byoqm.source_repository.source_repository import SourceRepository
 from metrics.method_count import MethodCount
 
 
@@ -10,31 +10,31 @@ class TestMethodCount(unittest.TestCase):
         # chdir because paths are assumed to be relative from the project root but test
         # paths start at the test file
         os.chdir("../../")
-        self._coordinator = SourceCoordinator(
+        self._source_repository = SourceRepository(
             Path("./metrics/test/data/test_data_method_count"), "python"
         )
         self._methodcount = MethodCount()
-        self._methodcount.coordinator = self._coordinator
+        self._methodcount._source_repository = self._source_repository
 
     def test_method_count_given__python_file_returns_1(self):
         result = len(self._methodcount.run())
         self.assertEqual(result, 1)
 
     def test_method_count_given_java_file_returns_1(self):
-        new_coordinator = SourceCoordinator(
+        new_source_repository = SourceRepository(
             Path("./metrics/test/data/test_data_method_count"), "java"
         )
         new_method_counter = MethodCount()
-        new_method_counter.coordinator = new_coordinator
+        new_method_counter._source_repository = new_source_repository
         result = len(new_method_counter.run())
         self.assertEqual(result, 1)
 
     def test_method_count_given_c_sharp_file_returns_1(self):
-        new_coordinator = SourceCoordinator(
+        new_source_repository = SourceRepository(
             Path("./metrics/test/data/test_data_method_count"), "c_sharp"
         )
         new_method_counter = MethodCount()
-        new_method_counter.coordinator = new_coordinator
+        new_method_counter._source_repository = new_source_repository
         result = len(new_method_counter.run())
         self.assertEqual(result, 1)
 

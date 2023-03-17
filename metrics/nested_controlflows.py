@@ -1,16 +1,16 @@
 from byoqm.metric.metric import Metric
-from byoqm.source_coordinator.source_coordinator import SourceCoordinator
-from byoqm.source_coordinator.query_translations import translate_to
+from byoqm.source_repository.source_repository import SourceRepository
+from byoqm.source_repository.query_translations import translate_to
 
 
 class NestedControlflows(Metric):
     def __init__(self):
-        self.coordinator: SourceCoordinator = None
+        self._source_repository: SourceRepository = None
 
     def run(self):
         data = []
-        for file in self.coordinator.src_paths:
-            self._parse(self.coordinator.getAst(file), file, data)
+        for file in self._source_repository.src_paths:
+            self._parse(self._source_repository.getAst(file), file, data)
         return data
 
     def _unique(self, not_unique_list):
@@ -26,12 +26,14 @@ class NestedControlflows(Metric):
         Finds the control statements of a file and returns the amount of control statements that have a nested
         control flow depth of at least 4
         """
-        query = self.coordinator.tree_sitter_language.query(
-            translate_to[self.coordinator.language]["nested_controlflow_initial_nodes"]
+        query = self._source_repository.tree_sitter_language.query(
+            translate_to[self._source_repository.language][
+                "nested_controlflow_initial_nodes"
+            ]
         )
         inital_nodes = self._unique(query.captures(ast.root_node))
-        sub_node_query = self.coordinator.tree_sitter_language.query(
-            translate_to[self.coordinator.language][
+        sub_node_query = self._source_repository.tree_sitter_language.query(
+            translate_to[self._source_repository.language][
                 "nested_controlflow_subsequent_nodes"
             ]
         )

@@ -1,16 +1,16 @@
 from byoqm.metric.metric import Metric
-from byoqm.source_coordinator.source_coordinator import SourceCoordinator
-from byoqm.source_coordinator.query_translations import translate_to
+from byoqm.source_repository.source_repository import SourceRepository
+from byoqm.source_repository.query_translations import translate_to
 
 
 class ReturnStatements(Metric):
     def __init__(self):
-        self.coordinator: SourceCoordinator = None
+        self._source_repository: SourceRepository = None
 
     def run(self):
         data = []
-        for file in self.coordinator.src_paths:
-            self._parse(self.coordinator.getAst(file), file, data)
+        for file in self._source_repository.src_paths:
+            self._parse(self._source_repository.getAst(file), file, data)
         return data
 
     def _parse(self, ast, file, data):
@@ -19,14 +19,14 @@ class ReturnStatements(Metric):
         than 4 return statements
         """
         count = 0
-        query_functions = self.coordinator.tree_sitter_language.query(
+        query_functions = self._source_repository.tree_sitter_language.query(
             f"""
-        (_ [{translate_to[self.coordinator.language]["function"]}] @function)
+        (_ [{translate_to[self._source_repository.language]["function"]}] @function)
         """
         )
-        query_return = self.coordinator.tree_sitter_language.query(
+        query_return = self._source_repository.tree_sitter_language.query(
             f"""
-            (_ [{translate_to[self.coordinator.language]["return"]}] @return)
+            (_ [{translate_to[self._source_repository.language]["return"]}] @return)
             """
         )
 
