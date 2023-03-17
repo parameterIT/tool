@@ -4,7 +4,7 @@ import unittest
 from pathlib import Path
 
 from test.test_support import os, shutil
-from byoqm.visuals import Dashboard
+from byoqm.dashboard import Dashboard
 from datetime import datetime
 
 _TEST_FOLDER = Path("./test")

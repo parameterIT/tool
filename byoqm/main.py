@@ -2,7 +2,7 @@ from datetime import datetime
 from pathlib import Path
 import sys
 from byoqm.runner import Runner
-from byoqm.visuals.dashboard import Dashboard
+from byoqm.dashboard.dashboard import Dashboard
 import click
 import logging
 
