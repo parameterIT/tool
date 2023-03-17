@@ -24,10 +24,9 @@ class MethodLength(Metric):
             """
         )
         captures = query.captures(ast.root_node)
-        for node in captures:
-            n = node[0]
+        for node, _ in captures:
             length = (
-                n.end_point[0] - n.start_point[0] + 1
+                node.end_point[0] - node.start_point[0] + 1
             )  # length is zero indexed - therefore we add 1 at the end
             if length > 25:
                 data.append(["Method Length", file, 1, 1])

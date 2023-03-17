@@ -31,8 +31,8 @@ class ReturnStatements(Metric):
         )
 
         functions = query_functions.captures(ast.root_node)
-        for function_node, _ in functions:
-            captures = query_return.captures(function_node)
+        for node, _ in functions:
+            captures = query_return.captures(node)
             if len(captures) > 4:
                 data.append(["Return Statements", file, 1, 1])
         return

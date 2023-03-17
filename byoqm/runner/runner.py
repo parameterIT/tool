@@ -29,6 +29,7 @@ class Runner:
         save_file: bool,
         language: str,
     ):
+        self._shortenPath = src_root
         self._src_root: Path = src_root.resolve()
         self._model: QualityModel = self._load(model_name)
         self._model_name: str = model_name
@@ -66,7 +67,8 @@ class Runner:
         results = self._run_aggregations()
         if self._save_file:
             output = self._write_to_csv(results)
-        return output
+            return output
+        return None
 
     def _run_aggregations(self) -> Dict:
         """
@@ -124,8 +126,8 @@ class Runner:
         file_location = self._output_dir / Path("frequencies") / file_name
         with open(file_location, "w") as results_file:
             writer = csv.writer(results_file)
-            writer.writerow([f"qualitymodel={self._model_name}"])
-            writer.writerow([f"src_root={self._src_root}"])
+            writer.writerow([f"qualitymodel", self._model_name])
+            writer.writerow([f"src_root", self._shortenPath.__str__()])
             writer.writerow(["metric", "value"])
             for description, value in results.items():
                 frequency = value

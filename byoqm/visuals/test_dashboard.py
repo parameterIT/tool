@@ -29,8 +29,8 @@ class TestDashboard(unittest.TestCase):
             filepath = _OUTPUT_FOLDER / file
             with open(filepath, "w") as results_file:
                 writer = csv.writer(results_file)
-                writer.writerow(["qualitymodel=some_model"])
-                writer.writerow(["src_root=dummy_test"])
+                writer.writerow(["qualitymodel, some_model"])
+                writer.writerow(["src_root, dummy_test"])
                 writer.writerow(["metric", "value"])
                 writer.writerow([_METRIC_NAME, 4])
 
@@ -41,22 +41,40 @@ class TestDashboard(unittest.TestCase):
     def test_get_data_given_min_and_max_dates_returns_5(self):
         start_date = datetime.min
         end_date = datetime.max
-        dashboard = Dashboard(start_date, end_date)
-        data = dashboard.get_data(_OUTPUT_FOLDER)
+        dashboard = Dashboard()
+        data = dashboard.get_data(
+            path=_OUTPUT_FOLDER,
+            in_use_qm="some_model",
+            targetPath="dummy_test",
+            start_date=start_date,
+            end_date=end_date,
+        )
         self.assertEqual(len(data[_METRIC_NAME]), 5)
 
     def test_get_data_given_2023_returns_4(self):
         start_date = datetime.strptime("2023-01-01", "%Y-%m-%d")
         end_date = datetime.strptime("2023-12-31", "%Y-%m-%d")
-        dashboard = Dashboard(start_date, end_date)
-        data = dashboard.get_data(_OUTPUT_FOLDER)
+        dashboard = Dashboard()
+        data = dashboard.get_data(
+            path=_OUTPUT_FOLDER,
+            in_use_qm="some_model",
+            targetPath="dummy_test",
+            start_date=start_date,
+            end_date=end_date,
+        )
         self.assertEqual(len(data[_METRIC_NAME]), 4)
 
     def test_get_data_given_1_day_seperation_returns_2(self):
         start_date = datetime.strptime("2023-03-02", "%Y-%m-%d")
         end_date = datetime.strptime("2023-03-03", "%Y-%m-%d")
-        dashboard = Dashboard(start_date, end_date)
-        data = dashboard.get_data(_OUTPUT_FOLDER)
+        dashboard = Dashboard()
+        data = dashboard.get_data(
+            path=_OUTPUT_FOLDER,
+            in_use_qm="some_model",
+            targetPath="dummy_test",
+            start_date=start_date,
+            end_date=end_date,
+        )
         self.assertEqual(len(data[_METRIC_NAME]), 2)
 
 

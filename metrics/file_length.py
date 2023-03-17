@@ -25,10 +25,9 @@ class FileLength(Metric):
         )
         captures = query.captures(ast.root_node)
         count_comments = 0
-        for node in captures:
-            n = node[0]
+        for node, _ in captures:
             count_comments += (
-                n.end_point[0] - n.start_point[0]
+                node.end_point[0] - node.start_point[0]
             ) + 1  # length is zero indexed - therefore we add 1 at the end
         loc = sum(1 for line in file if line.rstrip()) - count_comments
         if loc > 250:
