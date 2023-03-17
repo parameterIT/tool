@@ -103,7 +103,7 @@ class Runner:
         list_of_violations = []
         for _, violations in results.items():
             if type(violations) is list:
-                list_of_violations = list_of_violations + violations
+                list_of_violations.extend(violations)
         violations = pd.DataFrame(
             list_of_violations, columns=["type", "file", "start", "end"]
         )
