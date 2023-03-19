@@ -20,7 +20,7 @@ class TestNestedControlFlows(unittest.TestCase):
     def test_nested_controlflow_given_test_directory_returns_10(self):
         result = self._nestedflow.run()
         self.assertEqual(len(result), 10)
-    
+
     def test_nested_controlflow_given_test_directory_returns_9(self):
         result = self._nestedflow.run()
         self.assertEqual(len(result), 9)
@@ -33,8 +33,6 @@ class TestNestedControlFlows(unittest.TestCase):
         self.assertEqual((result[6][2], result[6][3]), ("20", "32"))
         self.assertEqual((result[7][2], result[7][3]), ("45", "49"))
         self.assertEqual((result[8][2], result[8][3]), ("51", "59"))
-
-
 
     def test_nested_control_flow_given_c_sharp_file_returns_6(self):
         new_source_repository = SourceRepository(

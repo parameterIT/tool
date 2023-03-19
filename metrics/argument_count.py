@@ -29,8 +29,8 @@ class ArgumentCount(Metric):
                     [
                         "Argument Count",
                         file,
-                        str(node.start_point[0]+1),
-                        str(node.end_point[0]+1),
+                        str(node.start_point[0] + 1),
+                        str(node.end_point[0] + 1),
                     ]
                 )
         return

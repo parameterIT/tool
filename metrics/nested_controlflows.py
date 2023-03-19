@@ -53,7 +53,7 @@ class NestedControlflows(Metric):
                                 "Nested Controlflows",
                                 file,
                                 str(node.start_point[0]),
-                                str(node3.end_point[0]+1),
+                                str(node3.end_point[0] + 1),
                             ]
                         )
                         found = True

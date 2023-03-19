@@ -32,7 +32,6 @@ class TestArgumentCount(unittest.TestCase):
         self.assertEqual(len(result), 2)
         self.assertEqual((result[0][2], result[0][3]), ("9", "9"))
         self.assertEqual((result[1][2], result[1][3]), ("10", "10"))
-        
 
     def test_argument_count_java_given_directory_returns_2(self):
         new_source_repository = SourceRepository(

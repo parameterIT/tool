@@ -34,7 +34,7 @@ class MethodLength(Metric):
                         "Method Length",
                         file,
                         str(node.start_point[0]),
-                        str(node.end_point[0]+1),
+                        str(node.end_point[0] + 1),
                     ]
                 )
         return
