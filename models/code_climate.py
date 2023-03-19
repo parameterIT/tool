@@ -18,9 +18,10 @@ class CodeClimate(QualityModel):
                 "identical-code": "./metrics/identical_codeblocks.py",
                 "similar-code": "./metrics/similar_codeblocks.py",
                 "nested_control_flow": "./metrics/nested_controlflows.py",
+                "breaks_in_linear_flow": "./metrics/breaks_in_linear_flow.py",
             },
             "aggregations": {
-                "method_complexity": self.cognitive_complexity,
+                "cognitive_complexity": self.cognitive_complexity,
                 "Complexity": self.complexity,
                 "Duplication": self.duplication,
             },
@@ -29,7 +30,7 @@ class CodeClimate(QualityModel):
 
     def complexity(self, results: Dict) -> int | float:
         return (
-            results["method_complexity"]
+            results["cognitive_complexity"]
             + len(results["return_statements"])
             + len(results["nested_control_flow"])
             + len(results["argument_count"])
@@ -41,7 +42,7 @@ class CodeClimate(QualityModel):
         return len(results["identical-code"]) + len(results["similar-code"])
 
     def cognitive_complexity(self, results: Dict):
-        return len(results["complex_logic"])
+        return len(results["complex_logic"]) + len(results["breaks_in_linear_flow"])
 
 
 model = CodeClimate()
