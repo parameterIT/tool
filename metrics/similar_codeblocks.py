@@ -12,11 +12,11 @@ class SimilarBlocksofCode(Metric):
         self._source_repository: SourceRepository = None
 
     def run(self):
-        return self.similar_blocks_of_code(
+        return self._similar_blocks_of_code(
             [str(file) for file in self._source_repository.src_paths]
         )
 
-    def similar_blocks_of_code(self, files) -> list:
+    def _similar_blocks_of_code(self, files) -> list:
         """
         Finds the amount of similar code blocks in a given repository
         """

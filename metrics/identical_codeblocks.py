@@ -12,11 +12,11 @@ class IdenticalBlocksofCode(Metric):
         self._source_repository: SourceRepository = None
 
     def run(self):
-        return self.identical_blocks_of_code(
+        return self._identical_blocks_of_code(
             [str(file) for file in self._source_repository.src_paths]
         )
 
-    def identical_blocks_of_code(self, files) -> list:
+    def _identical_blocks_of_code(self, files) -> list:
         """
         Finds the amount of identical code blocks that exist in the given code base.
 
