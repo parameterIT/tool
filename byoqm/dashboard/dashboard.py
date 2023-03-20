@@ -1,6 +1,7 @@
 from collections import defaultdict
 import csv
 from datetime import datetime
+import importlib
 import os
 from pathlib import Path
 import pandas as pd
@@ -37,8 +38,17 @@ class Dashboard:
             return False
         return True
 
+    def _get_desc(self):
+        figuresPaths = {
+            "linecharts": "./figures/line.py"
+        }
+        return figuresPaths
     # Returns bokeh objects, for input in gridplot.
-    def _get_figures(data):
+    def _get_figures(self, data):
+        results = {}
+        for figures, figure_file in self._get_desc.items():
+            spec = importlib.util.spec_from_file_location("figure", figure_file)
+
         return [get_line(data, key) for key in data]
 
     def show_graphs(

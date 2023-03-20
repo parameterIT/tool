@@ -8,7 +8,7 @@ class LineChart(Figure):
         self.key = key
         
     # this needs to get changed for monthly shift
-    def get_figure(data, key):
+    def get_figure(self, data, key):
         x = [(value[0]) for value in data[key]]
         y = [(value[1]) for value in data[key]]
         p = figure(
@@ -21,3 +21,5 @@ class LineChart(Figure):
         )
         p.line(x, y, legend_label="Progress", line_width=2)
         return p
+
+figure = LineChart()
