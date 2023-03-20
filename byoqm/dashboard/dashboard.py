@@ -37,6 +37,10 @@ class Dashboard:
             return False
         return True
 
+    # Returns bokeh objects, for input in gridplot.
+    def _get_figures(data):
+        return [get_line(data, key) for key in data]
+
     def show_graphs(
         self, in_use_qm: str, targetPath: Path, start_date: datetime, end_date: datetime
     ):
@@ -49,11 +53,12 @@ class Dashboard:
         """
         data = self.get_data(in_use_qm, targetPath, start_date, end_date)
         # consider changing to broader term such as 'figures' if we plan on expanding the list to include other charts
-        line_figures = [get_line(data, key) for key in data]
+        # line_figures = [get_line(data, key) for key in data]
+        figures = self._get_figures(data)
         gridplots = gridplot(
             [
-                [line_figures[i], line_figures[i + 1]]
-                for i in range(0, len(line_figures) - 1, 2)
+                [figures[i], figures[i + 1]]
+                for i in range(0, len(figures) - 1, 2)
             ]
         )
         show(gridplots)

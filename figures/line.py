@@ -1,12 +1,14 @@
 from bokeh.plotting import figure
+from byoqm.dashboard.figure import Figure
 
 
-class LineChart():
+class LineChart(Figure):
     def __init__(self, data, key):
         self.data = data
         self.key = key
+        
     # this needs to get changed for monthly shift
-    def get_line(data, key):
+    def get_figure(data, key):
         x = [(value[0]) for value in data[key]]
         y = [(value[1]) for value in data[key]]
         p = figure(
