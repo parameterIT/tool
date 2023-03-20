@@ -4,6 +4,7 @@ from datetime import datetime
 import importlib
 import os
 from pathlib import Path
+import sys
 import pandas as pd
 from .line import get_line
 from bokeh.layouts import gridplot
@@ -46,10 +47,14 @@ class Dashboard:
     # Returns bokeh objects, for input in gridplot.
     def _get_figures(self, data):
         results = {}
-        for figures, figure_file in self._get_desc.items():
+        for figure, figure_file in self._get_desc.items():
             spec = importlib.util.spec_from_file_location("figure", figure_file)
-
-        return [get_line(data, key) for key in data]
+            module = importlib.util.module_from_spec(spec)
+            sys.modules[figure] = module
+            spec.loader.exec_module(module)
+            module.figure._data = data
+            results[figure] = module.figure.get_figure()
+        return results
 
     def show_graphs(
         self, in_use_qm: str, targetPath: Path, start_date: datetime, end_date: datetime
