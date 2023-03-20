@@ -24,8 +24,7 @@ class TestNestedControlFlows(unittest.TestCase):
     def test_nested_controlflow_given_test_directory_returns_9(self):
         result = self._nestedflow.run()
         self.assertEqual(len(result), 9)
-        self.assertEqual((result[0][2], result[0][3]), ("1", "6"))
-        #self.assertEqual((result[0][2], result[0][3]), ("3", "10"))
+        self.assertEqual((result[0][2], result[0][3]), ("3", "10"))
         self.assertEqual((result[1][2], result[1][3]), ("4", "8"))
         self.assertEqual((result[2][2], result[2][3]), ("10", "14"))
         self.assertEqual((result[3][2], result[3][3]), ("1", "6"))
