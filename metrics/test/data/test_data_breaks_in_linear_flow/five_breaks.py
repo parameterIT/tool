@@ -1,8 +1,8 @@
 for i in range(10):
-    print(i)
+    break
 
 while True:
-    print("looping...")
+    continue
 
 if False:
     print("True")
