@@ -11,6 +11,7 @@ translate_to = {
         "catch_statement": "(except_clause)",
         "function_block": "(function_definition body: (block) @function.block)",
         "return": "(return_statement)",
+        "nested_function_call": "(function_definition body: (block (expression_statement (call) @nested_call)))",
         "nested_controlflow_initial_nodes": """
                                 (module [
                                 (if_statement 
