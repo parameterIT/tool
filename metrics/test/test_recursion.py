@@ -22,4 +22,6 @@ class TestRecursion(unittest.TestCase):
         os.chdir(Path("metrics/test").resolve())
 
     def test_recursion_given_recursion_file_returns_1(self):
-        self._metric.run()
+        actual = len(self._metric.run())
+        expected = 1
+        self.assertEqual(actual, expected)

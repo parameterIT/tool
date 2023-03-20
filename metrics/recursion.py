@@ -1,4 +1,4 @@
-import logging
+import tree_sitter
 
 from pathlib import Path
 
@@ -16,12 +16,10 @@ class Recursion(Metric):
         results = []
         for file_path in self._source_repository.src_paths:
             results.extend(self._run_on_file(file_path))
+        return results
 
     def _run_on_file(self, file_path: Path):
-        handler = logging.StreamHandler(sys.stderr)
-        handler.setLevel(logging.WARNING)
-        logging.getLogger().addHandler(handler)
-
+        results = []
         ast = self._source_repository.getAst(file_path)
 
         functionsQuery = self._source_repository.tree_sitter_language.query(
@@ -30,18 +28,44 @@ class Recursion(Metric):
             """
         )
         functions = functionsQuery.captures(ast.root_node)
-        for function, _ in functions:
-            logging.warning(function.children)
 
         nestedFunctionCallsQuery = self._source_repository.tree_sitter_language.query(
             f"""
                 {translate_to["python"]["nested_function_call"]}
                 """
         )
-        logging.warning("warning")
         for node, _ in functions:
+            outer_function_name = self._read_function_name(file_path, node)
             nestedCalls = nestedFunctionCallsQuery.captures(node)
-            for call in nestedCalls:
-                logging.warn(call)
+            for call, _ in nestedCalls:
+                name = self._read_function_name(file_path, call)
+                if name == outer_function_name:
+                    results.append(["Recursion", file_path, 1, 1])
 
-        return functions
+        return results
+
+    def _read_function_name(self, file_path: Path, node: tree_sitter.Node) -> str:
+        """
+        Reads the name of the function of a function_definition or call node
+        """
+        identifer = self._get_identifier(node)
+        name_start_row = identifer.start_point[0]
+        name_start_col = identifer.start_point[1]
+        name_end_col = identifer.end_point[1]
+
+        with file_path.open() as f:
+            for _ in range(name_start_row - 1):
+                # Skip the first row-1 lines
+                f.readline()
+
+            line = f.readline()
+            return line[name_start_col:name_end_col]
+
+    def _get_identifier(self, node: tree_sitter.Node) -> tree_sitter.Node:
+        for child in node.children:
+            if child.type == "identifier":
+                return child
+        raise ValueError(f"{node} has no children of the type identifier")
+
+
+metric = Recursion()
