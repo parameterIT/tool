@@ -9,6 +9,8 @@ translate_to = {
         "for_statement": "(for_statement)",
         "while_statement": "(while_statement)",
         "catch_statement": "(except_clause)",
+        "break_statement": "(break_statement)",
+        "continue_statement": "(continue_statement)",
         "function_block": "(function_definition body: (block) @function.block)",
         "return": "(return_statement)",
         "nested_function_call": "(function_definition body: (block (expression_statement (call) @nested_call)))",
