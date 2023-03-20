@@ -23,6 +23,6 @@ class TestBreaksInLinearFlow(unittest.TestCase):
         os.chdir(Path("metrics/test").resolve())
 
     def test_run_given_python_file_returns_5(self):
-        expected = 5
+        expected = 7
         actual = len(self._metric.run())
         self.assertEqual(expected, actual)

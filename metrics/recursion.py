@@ -58,7 +58,6 @@ class Recursion(Metric):
         Reads the name of the function of a function_definition or call node
         """
         identifer = self._get_identifier(node)
-
         name_start_row = identifer.start_point[0]
         name_start_col = identifer.start_point[1]
         name_end_col = identifer.end_point[1]

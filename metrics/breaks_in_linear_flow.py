@@ -30,6 +30,8 @@ class BreaksInLinearFlow(Metric):
                 ({translate_to[self._source_repository.language]["for_statement"]} @for)
                 ({translate_to[self._source_repository.language]["while_statement"]} @for)
                 ({translate_to[self._source_repository.language]["catch_statement"]} @catch)
+                ({translate_to[self._source_repository.language]["break_statement"]} @break)
+                ({translate_to[self._source_repository.language]["continue_statement"]} @continue)
             ]
             """
         )
