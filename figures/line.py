@@ -1,10 +1,11 @@
+from collections import defaultdict
 from bokeh.plotting import figure
 from byoqm.dashboard.figure import Figure
 
 
 class LineChart(Figure):
-    def __init__(self, data):
-        self.data = data
+    def __init__(self):
+        self._data : dict = defaultdict(list)
     # this needs to get changed for monthly shift
     def _get_line(self, data, key):
         x = [(value[0]) for value in data[key]]
@@ -20,7 +21,7 @@ class LineChart(Figure):
         p.line(x, y, legend_label="Progress", line_width=2)
         return p
 
-    def get_figure(self, data):
-        return [self._get_line(data, key) for key in data]
+    def get_figure(self):
+        return [self._get_line(self._data, key) for key in self._data]
 
-figure = LineChart()
+figures = LineChart()

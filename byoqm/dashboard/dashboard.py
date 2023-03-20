@@ -6,10 +6,8 @@ import os
 from pathlib import Path
 import sys
 import pandas as pd
-from .line import get_line
 from bokeh.layouts import gridplot
 from bokeh.plotting import show
-from .line import get_line
 import logging
 
 
@@ -47,13 +45,14 @@ class Dashboard:
     # Returns bokeh objects, for input in gridplot.
     def _get_figures(self, data):
         results = {}
-        for figure, figure_file in self._get_desc.items():
+        figures = self._get_desc()
+        for figure, figure_file in figures.items():
             spec = importlib.util.spec_from_file_location("figure", figure_file)
             module = importlib.util.module_from_spec(spec)
             sys.modules[figure] = module
             spec.loader.exec_module(module)
             module.figure._data = data
-            results[figure] = module.figure.get_figure()
+            results[figure] = module.figure.get_figure()  
         return results
 
     def show_graphs(
