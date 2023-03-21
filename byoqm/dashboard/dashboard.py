@@ -20,9 +20,9 @@ class Dashboard:
             is_right_src = self._check_src_root(row[1], target_path)
             if not is_right_qm or not is_right_src:
                 return False
-                
+
         return True
-    
+
     def _check_src_root(self, targetSrc, actualSrc):
         if ("./" + targetSrc) != actualSrc:
             return False
@@ -92,9 +92,7 @@ class Dashboard:
                 if not self._check_data(filepath, in_use_qm, targetPath, filename):
                     continue
 
-                # Skipping row @ metric, value
                 df = pd.read_csv(filepath, skiprows=0)
-                print(df)
                 for row in df.itertuples(index=False, name=None):
                     graph_data[row[0]].append((date, row[1]))
             except:
