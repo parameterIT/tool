@@ -51,8 +51,8 @@ class Dashboard:
             module = importlib.util.module_from_spec(spec)
             sys.modules[figure] = module
             spec.loader.exec_module(module)
-            module.figure._data = data
-            results[figure] = module.fig.get_figure()  
+            module.fig._data = data
+            results[figure] = module.fig.get_figure()
         return results
 
     def show_graphs(
