@@ -12,16 +12,14 @@ import logging
 
 
 class Dashboard:
-    def _check_data(self, filepath, in_use_qm, target_path):
-        file_location = self._output_dir / Path("frequencies") / filepath
-        print(filepath)
-        with open(file_location) as f:
-            reader = csv.reader(f)
-            for row in reader:
-                if row[0] == "qualitymodel":
+    def _check_data(self, filepath, in_use_qm, target_path, filename):
+        file_location = "./output/metadata/" + filename
+        df = pd.read_csv(file_location, skiprows=0)
+        for row in df.itertuples(index=False, name=None):
+            if row[0] == "qualitymodel":
                     self._check_qm(row[1], in_use_qm)
-                if row[0] == "src_root":
-                    self._check_src_root(row[1], target_path)
+            if row[0] == "src_root":
+                self._check_src_root(row[1], target_path)
         return True
     
     def _check_src_root(self, targetSrc, actualSrc):
@@ -88,10 +86,14 @@ class Dashboard:
                 filepath = os.path.join(path, filename)
                 date = datetime.strptime(filename.split(".")[0], "%Y-%m-%d_%H-%M-%S")
 
-                #if not self._check_date(date, start_date, end_date):
-                #    continue
-                #if not self._check_data(filepath, in_use_qm, targetPath):
-                #    continue
+                if not self._check_date(date, start_date, end_date):
+                    continue
+                if not self._check_data(filepath, in_use_qm, targetPath, filename):
+                    print(filepath)
+                    print(in_use_qm)
+                    print(targetPath)
+                    print(filename)
+                    continue
 
                 # Skipping row @ metric, value
                 df = pd.read_csv(filepath, skiprows=0)
