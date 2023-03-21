@@ -13,7 +13,9 @@ import logging
 
 class Dashboard:
     def _check_data(self, filepath, in_use_qm, target_path):
-        with open(filepath) as f:
+        file_location = self._output_dir / Path("frequencies") / filepath
+        print(filepath)
+        with open(file_location) as f:
             reader = csv.reader(f)
             for row in reader:
                 if row[0] == "qualitymodel":
@@ -21,7 +23,7 @@ class Dashboard:
                 if row[0] == "src_root":
                     self._check_src_root(row[1], target_path)
         return True
-
+    
     def _check_src_root(self, targetSrc, actualSrc):
         if ("./" + targetSrc) != actualSrc:
             return False
@@ -91,7 +93,7 @@ class Dashboard:
                 if not self._check_data(filepath, in_use_qm, targetPath):
                     continue
 
-                df = pd.read_csv(filepath, header=0, skiprows=2)
+                df = pd.read_csv(filepath, header=0, skiprows=0)
                 for row in df.itertuples(index=False, name=None):
                     graph_data[row[0]].append((date, row[1]))
             except:
