@@ -6,7 +6,7 @@ class Figure(ABC):
         pass
 
     @abstractmethod
-    def get_figure(self, data, key):
+    def get_figure(self):
         """
         get_figure returns a bokeh figure.
         """

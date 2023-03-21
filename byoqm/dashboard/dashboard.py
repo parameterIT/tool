@@ -52,7 +52,7 @@ class Dashboard:
             sys.modules[figure] = module
             spec.loader.exec_module(module)
             module.figure._data = data
-            results[figure] = module.figure.get_figure()  
+            results[figure] = module.fig.get_figure()  
         return results
 
     def show_graphs(

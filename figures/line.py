@@ -24,4 +24,4 @@ class LineChart(Figure):
     def get_figure(self):
         return [self._get_line(self._data, key) for key in self._data]
 
-figures = LineChart()
+fig = LineChart()
