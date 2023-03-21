@@ -8,6 +8,7 @@ import sys
 import pandas as pd
 from bokeh.layouts import gridplot
 from bokeh.plotting import show
+from bokeh.layouts import column
 import logging
 
 
@@ -67,11 +68,12 @@ class Dashboard:
         """
         data = self.get_data(in_use_qm, targetPath, start_date, end_date)
         figures = self._get_figures(data)
+        print(figures)
         gridplots = gridplot(
             [
                 [figures[i], figures[i + 1]]
                 for i in range(0, len(figures) - 1, 2)
-            ]
+            ],
         )
         show(gridplots)
 
