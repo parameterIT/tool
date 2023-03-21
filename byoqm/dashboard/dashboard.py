@@ -16,10 +16,11 @@ class Dashboard:
         file_location = "./output/metadata/" + filename
         df = pd.read_csv(file_location, skiprows=0)
         for row in df.itertuples(index=False, name=None):
-            if row[0] == "qualitymodel":
-                    self._check_qm(row[1], in_use_qm)
-            if row[0] == "src_root":
-                self._check_src_root(row[1], target_path)
+            is_right_qm = self._check_qm(row[0], in_use_qm)
+            is_right_src = self._check_src_root(row[1], target_path)
+            if not is_right_qm or not is_right_src:
+                return False
+                
         return True
     
     def _check_src_root(self, targetSrc, actualSrc):
@@ -89,10 +90,6 @@ class Dashboard:
                 if not self._check_date(date, start_date, end_date):
                     continue
                 if not self._check_data(filepath, in_use_qm, targetPath, filename):
-                    print(filepath)
-                    print(in_use_qm)
-                    print(targetPath)
-                    print(filename)
                     continue
 
                 # Skipping row @ metric, value
