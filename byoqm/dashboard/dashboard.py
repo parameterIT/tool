@@ -66,8 +66,6 @@ class Dashboard:
         arrangement of an arbitrary amount of rows where each row contains two figures.
         """
         data = self.get_data(in_use_qm, targetPath, start_date, end_date)
-        # consider changing to broader term such as 'figures' if we plan on expanding the list to include other charts
-        # line_figures = [get_line(data, key) for key in data]
         figures = self._get_figures(data)
         gridplots = gridplot(
             [
