@@ -67,8 +67,8 @@ class Dashboard:
         arrangement of an arbitrary amount of rows where each row contains two figures.
         """
         data = self.get_data(in_use_qm, targetPath, start_date, end_date)
-        figures = self._get_figures(data)
-        print(figures)
+        # Need to get figure type in a dict, so that they can be passed to gridplot.
+        figures = self._get_figures(data).get("linecharts")
         gridplots = gridplot(
             [
                 [figures[i], figures[i + 1]]
