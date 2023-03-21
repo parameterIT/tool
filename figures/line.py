@@ -5,7 +5,8 @@ from byoqm.dashboard.figure import Figure
 
 class LineChart(Figure):
     def __init__(self):
-        self._data : dict = defaultdict(list)
+        self._data: dict = defaultdict(list)
+
     # this needs to get changed for monthly shift
     def _get_line(self, data, key):
         x = [(value[0]) for value in data[key]]
@@ -24,5 +25,6 @@ class LineChart(Figure):
     def get_figure(self):
         result = [self._get_line(self._data, key) for key in self._data]
         return result
+
 
 fig = LineChart()

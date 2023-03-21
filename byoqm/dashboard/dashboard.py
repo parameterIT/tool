@@ -8,7 +8,6 @@ import sys
 import pandas as pd
 from bokeh.layouts import gridplot
 from bokeh.plotting import show
-from bokeh.layouts import column
 import logging
 
 
@@ -39,10 +38,9 @@ class Dashboard:
         return True
 
     def _get_desc(self):
-        figuresPaths = {
-            "linecharts": "./figures/line.py"
-        }
+        figuresPaths = {"linecharts": "./figures/line.py"}
         return figuresPaths
+
     # Returns bokeh objects, for input in gridplot.
     def _get_figures(self, data):
         results = {}
@@ -71,10 +69,7 @@ class Dashboard:
         # Format: {figure_type (str) : figure_objects (list)}
         figures = self._get_figures(data).get("linecharts")
         gridplots = gridplot(
-            [
-                [figures[i], figures[i + 1]]
-                for i in range(0, len(figures) - 1, 2)
-            ],
+            [[figures[i], figures[i + 1]] for i in range(0, len(figures) - 1, 2)],
         )
         show(gridplots)
 
