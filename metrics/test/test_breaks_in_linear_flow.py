@@ -22,7 +22,13 @@ class TestBreaksInLinearFlow(unittest.TestCase):
     def tearDown(self):
         os.chdir(Path("metrics/test").resolve())
 
-    def test_run_given_python_file_returns_5(self):
+    def test_run_given_python_file_returns_7(self):
+        expected = 7
+        actual = len(self._metric.run())
+        self.assertEqual(expected, actual)
+
+    def test_run_given_c_sharp_file_returns_7(self):
+        self._source_repository.language = "c_sharp"
         expected = 7
         actual = len(self._metric.run())
         self.assertEqual(expected, actual)
