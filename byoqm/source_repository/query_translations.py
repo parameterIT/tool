@@ -62,6 +62,7 @@ translate_to = {
         "function": "(method_declaration) (constructor_declaration)",
         "function_block": "(method_declaration body: (block) @function.block) (constructor_declaration body: (block) @function.block)",
         "return": "(return_statement)",
+        "nested_function_call": "(_ body: (block (expression_statement (invocation_expression) @func)))",
         "nested_controlflow_initial_nodes": """
                                 (method_declaration
                                     body: (block [
@@ -143,6 +144,7 @@ translate_to = {
         "function": "(method_declaration) (constructor_declaration)",
         "function_block": "(method_declaration body: (block) @function.block) (constructor_declaration body: (constructor_body) @function.block)",
         "return": "(return_statement)",
+        "nested_function_call": "(_ body: (_ (expression_statement (method_invocation) @func)))",
         "nested_controlflow_initial_nodes": """
                                 (method_declaration
                                     body: (block [
