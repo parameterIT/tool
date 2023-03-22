@@ -23,7 +23,7 @@ class TesterModel(QualityModel):
         return model
 
     def maintainability(self, results: Dict) -> int | float:
-        return len(results["method_count"])
+        return results["method_count"].get_frequency()
 
 
 model = TesterModel()

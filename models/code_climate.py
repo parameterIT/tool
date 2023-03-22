@@ -1,7 +1,5 @@
 from typing import Dict
 
-from tree_sitter import Language, Parser
-
 from byoqm.qualitymodel.qualitymodel import QualityModel
 
 
@@ -30,18 +28,21 @@ class CodeClimate(QualityModel):
     def complexity(self, results: Dict) -> int | float:
         return (
             results["method_complexity"]
-            + len(results["return_statements"])
-            + len(results["nested_control_flow"])
-            + len(results["argument_count"])
-            + len(results["method_lines"])
-            + len(results["file_lines"])
+            + results["return_statements"].get_frequency()
+            + results["nested_control_flow"].get_frequency()
+            + results["argument_count"].get_frequency()
+            + results["method_lines"].get_frequency()
+            + results["file_lines"].get_frequency()
         )
 
     def duplication(self, results: Dict) -> int | float:
-        return len(results["identical-code"]) + len(results["similar-code"])
+        return (
+            results["identical-code"].get_frequency()
+            + results["similar-code"].get_frequency()
+        )
 
     def cognitive_complexity(self, results: Dict):
-        return len(results["complex_logic"])
+        return results["complex_logic"].get_frequency()
 
 
 model = CodeClimate()
