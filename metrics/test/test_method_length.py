@@ -18,9 +18,10 @@ class TestMethodLength(unittest.TestCase):
 
     def test_method_length_given_python_file_returns_2(self):
         result = self._methodlength.run()
-        self.assertEqual(len(result), 2)
-        self.assertEqual((result[0][2], result[0][3]), ("39", "73"))
-        self.assertEqual((result[1][2], result[1][3]), ("76", "108"))
+        self.assertEqual(result.get_frequency(), 2)
+        locations = result.get_violation_locations()
+        self.assertEqual((locations[0][1], locations[0][2]), (39, 73))
+        self.assertEqual((locations[1][1], locations[1][2]), (76, 108))
 
     def test_method_length_given_java_file_returns_1(self):
         new_source_repository = SourceRepository(
@@ -29,7 +30,7 @@ class TestMethodLength(unittest.TestCase):
         method_length = MethodLength()
         method_length._source_repository = new_source_repository
         result = method_length.run()
-        self.assertEqual(len(result), 1)
+        self.assertEqual(result.get_frequency(), 1)
 
     def test_method_length_given_c_sharp_file_returns_3(self):
         new_source_repository = SourceRepository(
@@ -38,7 +39,7 @@ class TestMethodLength(unittest.TestCase):
         method_length = MethodLength()
         method_length._source_repository = new_source_repository
         result = method_length.run()
-        self.assertEqual(len(result), 3)
+        self.assertEqual(result.get_frequency(), 3)
 
     def tearDown(self):
         os.chdir(Path("metrics/test").resolve())

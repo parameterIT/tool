@@ -23,16 +23,17 @@ class TestNestedControlFlows(unittest.TestCase):
 
     def test_nested_controlflow_given_test_directory_returns_9(self):
         result = self._nestedflow.run()
-        self.assertEqual(len(result), 9)
-        self.assertEqual((result[0][2], result[0][3]), ("3", "10"))
-        self.assertEqual((result[1][2], result[1][3]), ("4", "8"))
-        self.assertEqual((result[2][2], result[2][3]), ("10", "14"))
-        self.assertEqual((result[3][2], result[3][3]), ("1", "6"))
-        self.assertEqual((result[4][2], result[4][3]), ("8", "13"))
-        self.assertEqual((result[5][2], result[5][3]), ("3", "19"))
-        self.assertEqual((result[6][2], result[6][3]), ("20", "32"))
-        self.assertEqual((result[7][2], result[7][3]), ("45", "49"))
-        self.assertEqual((result[8][2], result[8][3]), ("51", "59"))
+        locations = result.get_violation_locations()
+        self.assertEqual(result.get_frequency(), 9)
+        self.assertEqual((locations[0][1], locations[0][2]), (3, 10))
+        self.assertEqual((locations[1][1], locations[1][2]), (4, 8))
+        self.assertEqual((locations[2][1], locations[2][2]), (10, 14))
+        self.assertEqual((locations[3][1], locations[3][2]), (1, 6))
+        self.assertEqual((locations[4][1], locations[4][2]), (8, 13))
+        self.assertEqual((locations[5][1], locations[5][2]), (3, 19))
+        self.assertEqual((locations[6][1], locations[6][2]), (20, 32))
+        self.assertEqual((locations[7][1], locations[7][2]), (45, 49))
+        self.assertEqual((locations[8][1], locations[8][2]), (51, 59))
 
     def test_nested_control_flow_given_c_sharp_file_returns_6(self):
         new_source_repository = SourceRepository(
@@ -42,7 +43,7 @@ class TestNestedControlFlows(unittest.TestCase):
         nested_control_flow = NestedControlflows()
         nested_control_flow._source_repository = new_source_repository
         result = nested_control_flow.run()
-        self.assertEqual(len(result), 6)
+        self.assertEqual(result.get_frequency(), 6)
 
     def test_nested_control_flow_given_java_file_returns_7(self):
         new_source_repository = SourceRepository(
@@ -52,7 +53,7 @@ class TestNestedControlFlows(unittest.TestCase):
         nested_control_flow = NestedControlflows()
         nested_control_flow._source_repository = new_source_repository
         result = nested_control_flow.run()
-        self.assertEqual(len(result), 7)
+        self.assertEqual(result.get_frequency(), 7)
 
     def tearDown(self):
         os.chdir(Path("metrics/test").resolve())

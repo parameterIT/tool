@@ -22,11 +22,12 @@ class TestSimilarCodeBlocks(unittest.TestCase):
     )
     def test_similar_codeblocks_given_file_returns_1(self):
         result = self._similarcode.run()
-        self.assertEqual(len(result), 1)
-        first_code_block = (result[0][1][0][1], result[0][1][0][2])
-        second_code_block = (result[0][1][1][1], result[0][1][1][2])
-        self.assertEqual(first_code_block, ("3", "11"))
-        self.assertEqual(second_code_block, ("16", "24"))
+        self.assertEqual(result.get_frequency(), 1)
+        locations = result.get_violation_locations()[0]
+        first_code_block = (locations[0][1], locations[0][2])
+        second_code_block = (locations[1][1], locations[1][2])
+        self.assertEqual(first_code_block, (3, 11))
+        self.assertEqual(second_code_block, (16, 24))
 
     def tearDown(self):
         os.chdir(Path("metrics/test").resolve())

@@ -13,12 +13,12 @@ class IdenticalBlocksofCode(Metric):
     def __init__(self):
         self._source_repository: SourceRepository = None
 
-    def run(self):
+    def run(self) -> Result:
         return self._identical_blocks_of_code(
             [str(file) for file in self._source_repository.src_paths]
         )
 
-    def _identical_blocks_of_code(self, files) -> list:
+    def _identical_blocks_of_code(self, files) -> Result:
         """
         Finds the amount of identical code blocks that exist in the given code base.
 
@@ -45,7 +45,7 @@ class IdenticalBlocksofCode(Metric):
                     for child in child
                     if child.tag == "file"
                 ]
-                result.append(["identical code", duplicates])
+                result.append(Violation("identical code", duplicates))
         return result
 
 
