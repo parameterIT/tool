@@ -1,4 +1,6 @@
 from byoqm.metric.metric import Metric
+from byoqm.metric.result import Result
+from byoqm.metric.violation import Violation
 from byoqm.source_repository.source_repository import SourceRepository
 from defusedxml.ElementTree import parse
 from io import StringIO
@@ -22,7 +24,7 @@ class IdenticalBlocksofCode(Metric):
 
         Makes use of Copy Paste Detector (CPD)
         """
-        data = []
+        result = Result("identical code", [])
         filestring = f"{files}"
         filestring = filestring[1 : len(filestring) - 1]
         res = subprocess.run(
@@ -35,16 +37,16 @@ class IdenticalBlocksofCode(Metric):
         for child in et.getroot():
             if child.tag == "duplication":
                 duplicates = [
-                    [
+                    (
                         child.attrib["path"],
-                        child.attrib["line"],
-                        child.attrib["endline"],
-                    ]
+                        int(child.attrib["line"]),
+                        int(child.attrib["endline"])
+                    )
                     for child in child
                     if child.tag == "file"
                 ]
-                data.append(["Identical Code", duplicates])
-        return data
+                result.append(["identical code", duplicates])
+        return result
 
 
 metric = IdenticalBlocksofCode()

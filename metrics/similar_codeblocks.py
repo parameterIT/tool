@@ -1,6 +1,8 @@
 from io import StringIO
 import subprocess
 from byoqm.metric.metric import Metric
+from byoqm.metric.result import Result
+from byoqm.metric.violation import Violation
 from byoqm.source_repository.source_repository import SourceRepository
 from defusedxml.ElementTree import parse
 
@@ -20,7 +22,7 @@ class SimilarBlocksofCode(Metric):
         """
         Finds the amount of similar code blocks in a given repository
         """
-        data = []
+        result = Result("similar code", [])
         filestring = f"{files}"
         filestring = filestring[1 : len(filestring) - 1]
         res = subprocess.run(
@@ -33,16 +35,16 @@ class SimilarBlocksofCode(Metric):
         for child in et.getroot():
             if child.tag == "duplication":
                 duplicates = [
-                    [
+                    (
                         child.attrib["path"],
-                        child.attrib["line"],
-                        child.attrib["endline"],
-                    ]
+                        int(child.attrib["line"]),
+                        int(child.attrib["endline"]),
+                    )
                     for child in child
                     if child.tag == "file"
                 ]
-                data.append(["Similar Code", duplicates])
-        return data
+                result.append(Violation("similar code", duplicates))
+        return result
 
 
 metric = SimilarBlocksofCode()
