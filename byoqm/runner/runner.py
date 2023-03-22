@@ -67,6 +67,7 @@ class Runner:
         """
         results = self._run_aggregations()
         if self._save_file:
+            self._gen_output_paths_if_not_exists()
             output = self._write_to_csv(results)
             return output
         return None
@@ -139,3 +140,7 @@ class Runner:
                 writer.writerow([description, frequency])
         logging.info("Finished writing to csv")
         return file_location
+
+    def _gen_output_paths_if_not_exists(self):
+        Path(self._output_dir / Path("violations")).resolve().mkdir(exist_ok=True)
+        Path(self._output_dir / Path("frequencies")).resolve().mkdir(exist_ok=True)

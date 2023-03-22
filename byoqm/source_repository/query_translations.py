@@ -5,8 +5,15 @@ translate_to = {
         "bool_operator_child": "boolean_operator",
         "comment": "(comment)",
         "function": "(function_definition)",
+        "if_statement": "(if_statement)",
+        "for_statement": "(for_statement)",
+        "while_statement": "(while_statement)",
+        "catch_statement": "(except_clause)",
+        "break_statement": "(break_statement)",
+        "continue_statement": "(continue_statement)",
         "function_block": "(function_definition body: (block) @function.block)",
         "return": "(return_statement)",
+        "nested_function_call": "(function_definition body: (block (expression_statement (call) @nested_call)))",
         "nested_controlflow_initial_nodes": """
                                 (module [
                                 (if_statement 
