@@ -24,5 +24,8 @@ class TestBreaksInLinearFlow(unittest.TestCase):
 
     def test_run_given_python_file_returns_5(self):
         expected = 7
-        actual = len(self._metric.run())
-        self.assertEqual(expected, actual)
+        result = self._metric.run()
+        actual = result.get_frequency()
+        self.assertEqual(actual,expected)
+        locations = result.get_violation_locations()
+        self.assertEqual((locations[0][1],locations[0][2]),(1,1))
