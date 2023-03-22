@@ -38,8 +38,8 @@ class Dashboard:
         return True
 
     def _get_files(self):
-        figure_files = os.listdir('./figures')
-        figure_files.remove('__pycache__')
+        figure_files = os.listdir("./figures")
+        figure_files.remove("__pycache__")
         for file in figure_files:
             figure_files.remove(file)
             figure_files.append("./figures/" + file)

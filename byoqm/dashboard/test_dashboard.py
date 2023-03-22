@@ -38,7 +38,6 @@ class TestDashboard(unittest.TestCase):
                 writer.writerow(["qualitymodel", "src_root"])
                 writer.writerow(["some_model", "dummy_test"])
 
-
     def tearDown(self):
         # shutil over os.rmdir, because it allows you to remove non/empty directories
         shutil.rmtree(_TEST_FOLDER, ignore_errors=True)
