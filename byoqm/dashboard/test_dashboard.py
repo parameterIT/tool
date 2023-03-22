@@ -29,10 +29,15 @@ class TestDashboard(unittest.TestCase):
             filepath = _OUTPUT_FOLDER / file
             with open(filepath, "w") as results_file:
                 writer = csv.writer(results_file)
-                writer.writerow(["qualitymodel, some_model"])
-                writer.writerow(["src_root, dummy_test"])
                 writer.writerow(["metric", "value"])
                 writer.writerow([_METRIC_NAME, 4])
+        for file in files:
+            filepath = _OUTPUT_FOLDER / file
+            with open(filepath, "w") as metadata_file:
+                writer = csv.writer(metadata_file)
+                writer.writerow(["qualitymodel", "src_root"])
+                writer.writerow(["some_model", "dummy_test"])
+
 
     def tearDown(self):
         # shutil over os.rmdir, because it allows you to remove non/empty directories
