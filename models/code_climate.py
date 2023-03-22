@@ -45,7 +45,10 @@ class CodeClimate(QualityModel):
         )
 
     def cognitive_complexity(self, results: Dict):
-        return results["complex_logic"].get_frequency() + results["breaks_in_linear_flow"].get_frequency()
+        return (
+            results["complex_logic"].get_frequency()
+            + results["breaks_in_linear_flow"].get_frequency()
+        )
 
 
 model = CodeClimate()

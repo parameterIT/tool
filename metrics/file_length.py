@@ -10,7 +10,7 @@ class FileLength(Metric):
         self._source_repository: SourceRepository = None
 
     def run(self):
-        result = Result("file length",[])
+        result = Result("file length", [])
         for file in self._source_repository.src_paths:
             with open(file) as f:
                 self._parse(f, self._source_repository.getAst(file), file, result)

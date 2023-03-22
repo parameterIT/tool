@@ -19,9 +19,9 @@ class BreaksInLinearFlow(Metric):
         Counts the number of occurences of looping strucctures and conditional
         structures
         """
-        result = Result("breaks in linear flow",[])
+        result = Result("breaks in linear flow", [])
         for file_path in self._source_repository.src_paths:
-            self._count_control_flow_statement(file_path,result)
+            self._count_control_flow_statement(file_path, result)
         return result
 
     def _count_control_flow_statement(self, file_path: Path, result: Result):
@@ -40,15 +40,11 @@ class BreaksInLinearFlow(Metric):
 
         ast: tree_sitter.Tree = self._source_repository.getAst(file_path)
         captures = query.captures(ast.root_node)
-        for node,_ in captures:
+        for node, _ in captures:
             result.append(
                 Violation(
                     "breaks in linear flow",
-                    (
-                     str(file_path),
-                     node.start_point[0]+1,
-                     node.end_point[0]
-                    )
+                    (str(file_path), node.start_point[0] + 1, node.end_point[0]),
                 )
             )
         results = [("Breaks In Linear Flow", file_path, 1, 1) for _, _ in captures]

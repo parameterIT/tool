@@ -40,7 +40,7 @@ class IdenticalBlocksofCode(Metric):
                     (
                         child.attrib["path"],
                         int(child.attrib["line"]),
-                        int(child.attrib["endline"])
+                        int(child.attrib["endline"]),
                     )
                     for child in child
                     if child.tag == "file"

@@ -15,12 +15,12 @@ class Recursion(Metric):
         self._source_repository: SourceRepository = None
 
     def run(self):
-        result = Result("recursion",[])
+        result = Result("recursion", [])
         for file_path in self._source_repository.src_paths:
-            self._run_on_file(file_path,result)
+            self._run_on_file(file_path, result)
         return result
 
-    def _run_on_file(self, file_path: Path, result : Result):
+    def _run_on_file(self, file_path: Path, result: Result):
         ast = self._source_repository.getAst(file_path)
 
         functionsQuery = self._source_repository.tree_sitter_language.query(
@@ -50,15 +50,16 @@ class Recursion(Metric):
                     # pass if there is no identifier, considered faulty tree_sitter parsing
                     continue
                 if name == outer_function_name:
-                    result.append(Violation(
-                                    "Recursion",
-                                    (
-                                        str(file_path),
-                                        node.start_point[0]+1,
-                                        call.end_point[0]
-                                    )
-                                )
-                            )
+                    result.append(
+                        Violation(
+                            "Recursion",
+                            (
+                                str(file_path),
+                                node.start_point[0] + 1,
+                                call.end_point[0],
+                            ),
+                        )
+                    )
         return
 
     def _read_function_name(self, file_path: Path, node: tree_sitter.Node) -> str:

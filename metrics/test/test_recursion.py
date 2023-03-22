@@ -27,4 +27,4 @@ class TestRecursion(unittest.TestCase):
         expected = 1
         self.assertEqual(actual, expected)
         locations = result.get_violation_locations()
-        self.assertEqual((locations[0][1],locations[0][2]),(1,1))
+        self.assertEqual((locations[0][1], locations[0][2]), (1, 1))

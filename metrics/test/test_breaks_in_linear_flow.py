@@ -26,6 +26,6 @@ class TestBreaksInLinearFlow(unittest.TestCase):
         expected = 7
         result = self._metric.run()
         actual = result.get_frequency()
-        self.assertEqual(actual,expected)
+        self.assertEqual(actual, expected)
         locations = result.get_violation_locations()
-        self.assertEqual((locations[0][1],locations[0][2]),(1,1))
+        self.assertEqual((locations[0][1], locations[0][2]), (1, 1))

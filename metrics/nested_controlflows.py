@@ -10,7 +10,7 @@ class NestedControlflows(Metric):
         self._source_repository: SourceRepository = None
 
     def run(self):
-        result = Result("nested controlflow",[])
+        result = Result("nested controlflow", [])
         for file in self._source_repository.src_paths:
             self._parse(self._source_repository.getAst(file), file, result)
         return result
