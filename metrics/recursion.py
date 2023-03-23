@@ -35,10 +35,19 @@ class Recursion(Metric):
                 """
         )
         for node, _ in functions:
-            outer_function_name = self._read_function_name(file_path, node)
+            try:
+                outer_function_name = self._read_function_name(file_path, node)
+            except ValueError:
+                # pass if there is no identifier, considered faulty tree_sitter parsing
+                continue
+
             nestedCalls = nestedFunctionCallsQuery.captures(node)
             for call, _ in nestedCalls:
-                name = self._read_function_name(file_path, call)
+                try:
+                    name = self._read_function_name(file_path, call)
+                except ValueError:
+                    # pass if there is no identifier, considered faulty tree_sitter parsing
+                    continue
                 if name == outer_function_name:
                     results.append(["Recursion", file_path, 1, 1])
 
