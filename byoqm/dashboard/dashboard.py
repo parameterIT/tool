@@ -12,7 +12,7 @@ import logging
 
 
 class Dashboard:
-    def _check_data(self, filepath, in_use_qm, target_path, filename):
+    def _check_data(self, in_use_qm, target_path, filename):
         file_location = "./output/metadata/" + filename
         df = pd.read_csv(file_location, skiprows=0)
         for row in df.itertuples(index=False, name=None):
@@ -108,7 +108,7 @@ class Dashboard:
 
                 if not self._check_date(date, start_date, end_date):
                     continue
-                if not self._check_data(filepath, in_use_qm, targetPath, filename):
+                if not self._check_data(in_use_qm, targetPath, filename):
                     continue
 
                 df = pd.read_csv(filepath, skiprows=0)
