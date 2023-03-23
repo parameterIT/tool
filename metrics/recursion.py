@@ -63,10 +63,11 @@ class Recursion(Metric):
         name_end_col = identifier.end_point[1]
 
         with file_path.open() as f:
-            rangeLength = name_start_row
+            range_length = name_start_row
             if self._source_repository.tree_sitter_language.name == "python":
-                rangeLength -= 1
-            for _ in range(rangeLength):
+                range_length -= 1
+            for _ in range(range_length):
+
                 # Skip the first row-1 lines
                 f.readline()
 
