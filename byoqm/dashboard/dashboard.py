@@ -12,14 +12,15 @@ import logging
 
 
 class Dashboard:
-    def _check_data(self, filepath, in_use_qm, target_path):
-        with open(filepath) as f:
-            reader = csv.reader(f)
-            for row in reader:
-                if row[0] == "qualitymodel":
-                    self._check_qm(row[1], in_use_qm)
-                if row[0] == "src_root":
-                    self._check_src_root(row[1], target_path)
+    def _check_data(self, filepath, in_use_qm, target_path, filename):
+        file_location = "./output/metadata/" + filename
+        df = pd.read_csv(file_location, skiprows=0)
+        for row in df.itertuples(index=False, name=None):
+            is_right_qm = self._check_qm(row[0], in_use_qm)
+            is_right_src = self._check_src_root(row[1], target_path)
+            if not is_right_qm or not is_right_src:
+                return False
+
         return True
 
     def _check_src_root(self, targetSrc, actualSrc):
@@ -107,10 +108,10 @@ class Dashboard:
 
                 if not self._check_date(date, start_date, end_date):
                     continue
-                if not self._check_data(filepath, in_use_qm, targetPath):
+                if not self._check_data(filepath, in_use_qm, targetPath, filename):
                     continue
 
-                df = pd.read_csv(filepath, header=0, skiprows=2)
+                df = pd.read_csv(filepath, skiprows=0)
                 for row in df.itertuples(index=False, name=None):
                     graph_data[row[0]].append((date, row[1]))
             except:
