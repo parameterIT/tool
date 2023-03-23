@@ -22,7 +22,27 @@ class TestBreaksInLinearFlow(unittest.TestCase):
     def tearDown(self):
         os.chdir(Path("metrics/test").resolve())
 
-    def test_run_given_python_file_returns_5(self):
+    def test_run_given_python_file_returns_7(self):
         expected = 7
         actual = len(self._metric.run())
         self.assertEqual(expected, actual)
+
+    def test_run_given_c_sharp_file_returns_7(self):
+        new_source_repository = SourceRepository(
+            Path("./metrics/test/data/test_data_breaks_in_linear_flow"), "c_sharp"
+        )
+        self.assertEqual(len(new_source_repository.src_paths), 1)
+        breaks = BreaksInLinearFlow()
+        breaks._source_repository = new_source_repository
+        result = len(breaks.run())
+        self.assertEqual(result, 7)
+
+    def test_run_given_java_file_returns_7(self):
+        new_source_repository = SourceRepository(
+            Path("./metrics/test/data/test_data_breaks_in_linear_flow"), "java"
+        )
+        self.assertEqual(len(new_source_repository.src_paths), 1)
+        breaks = BreaksInLinearFlow()
+        breaks._source_repository = new_source_repository
+        result = len(breaks.run())
+        self.assertEqual(result, 7)
