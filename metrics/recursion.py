@@ -67,7 +67,6 @@ class Recursion(Metric):
             if self._source_repository.tree_sitter_language.name == "python":
                 range_length -= 1
             for _ in range(range_length):
-
                 # Skip the first row-1 lines
                 f.readline()
 
