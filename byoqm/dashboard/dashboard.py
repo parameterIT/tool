@@ -1,25 +1,26 @@
 from collections import defaultdict
 import csv
 from datetime import datetime
+import importlib
 import os
 from pathlib import Path
+import sys
 import pandas as pd
-from .line import get_line
 from bokeh.layouts import gridplot
 from bokeh.plotting import show
-from .line import get_line
 import logging
 
 
 class Dashboard:
-    def _check_data(self, filepath, in_use_qm, target_path):
-        with open(filepath) as f:
-            reader = csv.reader(f)
-            for row in reader:
-                if row[0] == "qualitymodel":
-                    self._check_qm(row[1], in_use_qm)
-                if row[0] == "src_root":
-                    self._check_src_root(row[1], target_path)
+    def _check_data(self, in_use_qm, target_path, filename):
+        file_location = "./output/metadata/" + filename
+        df = pd.read_csv(file_location, skiprows=0)
+        for row in df.itertuples(index=False, name=None):
+            is_right_qm = self._check_qm(row[0], in_use_qm)
+            is_right_src = self._check_src_root(row[1], target_path)
+            if not is_right_qm or not is_right_src:
+                return False
+
         return True
 
     def _check_src_root(self, targetSrc, actualSrc):
@@ -37,6 +38,27 @@ class Dashboard:
             return False
         return True
 
+    def _get_files(self):
+        figure_files = os.listdir("./figures")
+        figure_files.remove("__pycache__")
+        for file in figure_files:
+            figure_files.remove(file)
+            figure_files.append("./figures/" + file)
+        return figure_files
+
+    # Returns bokeh objects, for input in gridplot.
+    def _get_figures(self, data):
+        results = {}
+        figures = self._get_files()
+        for figure_file in figures:
+            spec = importlib.util.spec_from_file_location("figure", figure_file)
+            module = importlib.util.module_from_spec(spec)
+            sys.modules["figure"] = module
+            spec.loader.exec_module(module)
+            module.fig._data = data
+            results["figure"] = module.fig.get_figure()
+        return results
+
     def show_graphs(
         self, in_use_qm: str, targetPath: Path, start_date: datetime, end_date: datetime
     ):
@@ -48,13 +70,11 @@ class Dashboard:
         arrangement of an arbitrary amount of rows where each row contains two figures.
         """
         data = self.get_data(in_use_qm, targetPath, start_date, end_date)
-        # consider changing to broader term such as 'figures' if we plan on expanding the list to include other charts
-        line_figures = [get_line(data, key) for key in data]
+        # Need to get figure type in a dict, so that they can be passed to gridplot.
+        # Format: {figure_type (str) : figure_objects (list)}
+        figures = self._get_figures(data).get("figure")
         gridplots = gridplot(
-            [
-                [line_figures[i], line_figures[i + 1]]
-                for i in range(0, len(line_figures) - 1, 2)
-            ]
+            [[figures[i], figures[i + 1]] for i in range(0, len(figures) - 1, 2)],
         )
         show(gridplots)
 
@@ -88,10 +108,10 @@ class Dashboard:
 
                 if not self._check_date(date, start_date, end_date):
                     continue
-                if not self._check_data(filepath, in_use_qm, targetPath):
+                if not self._check_data(in_use_qm, targetPath, filename):
                     continue
 
-                df = pd.read_csv(filepath, header=0, skiprows=2)
+                df = pd.read_csv(filepath, skiprows=0)
                 for row in df.itertuples(index=False, name=None):
                     graph_data[row[0]].append((date, row[1]))
             except:

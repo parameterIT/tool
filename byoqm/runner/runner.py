@@ -127,17 +127,22 @@ class Runner:
         file_location = self._output_dir / Path("frequencies") / file_name
         with open(file_location, "w") as results_file:
             writer = csv.writer(results_file)
-            writer.writerow([f"qualitymodel", self._model_name])
-            writer.writerow([f"src_root", self._shortenPath.__str__()])
             writer.writerow(["metric", "value"])
             for description, value in results.items():
                 frequency = value
                 if type(value) is list:
                     frequency = len(value)
                 writer.writerow([description, frequency])
-        logging.info("Finished writing to csv")
+        logging.info("Finished writing frequencies to csv")
+        file_location = self._output_dir / Path("metadata") / file_name
+        with open(file_location, "w") as metadata_file:
+            writer = csv.writer(metadata_file)
+            writer.writerow([f"qualitymodel", "src_root"])
+            writer.writerow([self._model_name, self._shortenPath.__str__()])
+        logging.info("Finished writing metadata to csv")
         return file_location
 
     def _gen_output_paths_if_not_exists(self):
         Path(self._output_dir / Path("violations")).resolve().mkdir(exist_ok=True)
         Path(self._output_dir / Path("frequencies")).resolve().mkdir(exist_ok=True)
+        Path(self._output_dir / Path("metadata")).resolve().mkdir(exist_ok=True)
