@@ -10,7 +10,7 @@ from datetime import datetime
 _TEST_FOLDER = Path("./test")
 _OUTPUT_FOLDER = _TEST_FOLDER / Path("test")
 _METRIC_NAME = "file_length"
-_METADATA_FOLDER = Path('./output/metadata')
+_METADATA_FOLDER = Path("./output/metadata")
 
 
 class TestDashboard(unittest.TestCase):
@@ -22,7 +22,7 @@ class TestDashboard(unittest.TestCase):
     def _seed_files(self):
         files = [
             Path("2023-03-02_13-57-34.csv"),
-            Path("2023-03-02_23-59-59"),
+            Path("2023-03-02_23-59-59.csv"),
             Path("2023-03-03_00-00-01.csv"),
             Path("2023-04-02_00-00-01.csv"),
             Path("2024-03-02_00-00-01.csv"),
@@ -52,7 +52,7 @@ class TestDashboard(unittest.TestCase):
         data = dashboard.get_data(
             path=_OUTPUT_FOLDER,
             in_use_qm="dummyqm",
-            targetPath="dummysrc",
+            targetPath="./dummysrc",
             start_date=start_date,
             end_date=end_date,
         )
@@ -65,7 +65,7 @@ class TestDashboard(unittest.TestCase):
         data = dashboard.get_data(
             path=_OUTPUT_FOLDER,
             in_use_qm="dummyqm",
-            targetPath="dummysrc",
+            targetPath="./dummysrc",
             start_date=start_date,
             end_date=end_date,
         )
@@ -78,7 +78,7 @@ class TestDashboard(unittest.TestCase):
         data = dashboard.get_data(
             path=_OUTPUT_FOLDER,
             in_use_qm="dummyqm",
-            targetPath="dummysrc",
+            targetPath="./dummysrc",
             start_date=start_date,
             end_date=end_date,
         )
