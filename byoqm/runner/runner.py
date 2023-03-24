@@ -27,7 +27,7 @@ class Runner:
         src_root: Path,
         output_path: Path,
         save_file: bool,
-        language: str,
+        languages,
     ):
         self._shortenPath = src_root
         self._src_root: Path = src_root.resolve()
@@ -35,7 +35,7 @@ class Runner:
         self._model_name: str = model_name
         self._output_dir = output_path
         self._save_file = save_file
-        self._source_repository = SourceRepository(self._src_root, language)
+        self._source_repositories = [SourceRepository(self._src_root, language) for language in languages]
 
     def _load(self, model_name: str) -> QualityModel:
         """

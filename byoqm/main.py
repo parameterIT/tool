@@ -10,7 +10,7 @@ import logging
 @click.command()
 @click.argument("src_root", required=True)
 @click.argument("quality_model", required=True)
-@click.argument("language", required=True)
+@click.argument("languages", required=True, nargs=-1)
 @click.option(
     "--output",
     "-o",
@@ -58,7 +58,7 @@ import logging
 def load(
     src_root: str,
     quality_model: str,
-    language: str,
+    languages,
     output: str = "./output",
     save_file: bool = True,
     show_graphs: bool = True,
@@ -83,7 +83,7 @@ def load(
         Path(src_root),
         Path(output),
         save_file,
-        language.lower(),
+        languages,
     )
     runner.run()
     logging.info("Finished running")
