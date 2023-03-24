@@ -17,8 +17,11 @@ class TestArgumentCount(unittest.TestCase):
         self._argumentcount._source_repository = self._source_repository
 
     def test_argument_count_python_given_directory_returns_2(self):
-        result = len(self._argumentcount.run())
-        self.assertEqual(result, 2)
+        result = self._argumentcount.run()
+        self.assertEqual(result.get_frequency(), 2)
+        locations = result.get_violation_locations()
+        self.assertEqual((locations[0][1], locations[0][2]), (13, 13))
+        self.assertEqual((locations[1][1], locations[1][2]), (18, 18))
 
     def test_argument_count_c_sharp_given_directory_returns_2(self):
         new_source_repository = SourceRepository(
@@ -26,9 +29,11 @@ class TestArgumentCount(unittest.TestCase):
         )
         argument_count = ArgumentCount()
         argument_count._source_repository = new_source_repository
-        result = len(argument_count.run())
-
-        self.assertEqual(result, 2)
+        result = argument_count.run()
+        self.assertEqual(result.get_frequency(), 2)
+        locations = result.get_violation_locations()
+        self.assertEqual((locations[0][1], locations[0][2]), (9, 9))
+        self.assertEqual((locations[1][1], locations[1][2]), (10, 10))
 
     def test_argument_count_java_given_directory_returns_2(self):
         new_source_repository = SourceRepository(
@@ -36,9 +41,11 @@ class TestArgumentCount(unittest.TestCase):
         )
         argument_count = ArgumentCount()
         argument_count._source_repository = new_source_repository
-        result = len(argument_count.run())
-
-        self.assertEqual(result, 2)
+        result = argument_count.run()
+        self.assertEqual(result.get_frequency(), 2)
+        locations = result.get_violation_locations()
+        self.assertEqual((locations[0][1], locations[0][2]), (17, 17))
+        self.assertEqual((locations[1][1], locations[1][2]), (20, 20))
 
     def tearDown(self):
         os.chdir(Path("metrics/test").resolve())

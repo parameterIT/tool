@@ -1,4 +1,6 @@
 from byoqm.metric.metric import Metric
+from byoqm.metric.result import Result
+from byoqm.metric.violation import Violation
 from byoqm.source_repository.source_repository import SourceRepository
 from defusedxml.ElementTree import parse
 from io import StringIO
@@ -11,18 +13,18 @@ class IdenticalBlocksofCode(Metric):
     def __init__(self):
         self._source_repository: SourceRepository = None
 
-    def run(self):
-        return self.identical_blocks_of_code(
+    def run(self) -> Result:
+        return self._identical_blocks_of_code(
             [str(file) for file in self._source_repository.src_paths]
         )
 
-    def identical_blocks_of_code(self, files) -> list:
+    def _identical_blocks_of_code(self, files) -> Result:
         """
         Finds the amount of identical code blocks that exist in the given code base.
 
         Makes use of Copy Paste Detector (CPD)
         """
-        data = []
+        result = Result("identical code", [])
         filestring = f"{files}"
         filestring = filestring[1 : len(filestring) - 1]
         res = subprocess.run(
@@ -31,11 +33,20 @@ class IdenticalBlocksofCode(Metric):
             capture_output=True,
             text=True,
         )
-        et = parse(StringIO(res.stdout))
-        for child in et.getroot():
+        element_tree = parse(StringIO(res.stdout))
+        for child in element_tree.getroot():
             if child.tag == "duplication":
-                data.append(["Identical Code", "Find way to get file", 1, 1])
-        return data
+                duplicates = [
+                    (
+                        child.attrib["path"],
+                        int(child.attrib["line"]),
+                        int(child.attrib["endline"]),
+                    )
+                    for child in child
+                    if child.tag == "file"
+                ]
+                result.violations.append(Violation("identical code", duplicates))
+        return result
 
 
 metric = IdenticalBlocksofCode()

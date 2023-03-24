@@ -1,4 +1,6 @@
 from byoqm.metric.metric import Metric
+from byoqm.metric.result import Result
+from byoqm.metric.violation import Violation
 from byoqm.source_repository.source_repository import SourceRepository
 from byoqm.source_repository.query_translations import translate_to
 
@@ -8,15 +10,18 @@ class ComplexLogic(Metric):
         self._source_repository: SourceRepository = None
 
     def run(self):
-        data = []
+        result = Result("complex logic", [])
         for file in self._source_repository.src_paths:
-            self._parse(self._source_repository.getAst(file), file, data)
-        return data
+            result.violations.extend(
+                self._parse(self._source_repository.getAst(file), file)
+            )
+        return result
 
-    def _parse(self, ast, file, data):
+    def _parse(self, ast, file):
         """
         Finds the conditionals of a file and returns the number of conditionals that have more than 4 conditions
         """
+        violations = []
         query = self._source_repository.tree_sitter_language.query(
             f"""
             (_ [{translate_to[self._source_repository.language]["bool_operator"]}] @bool_operator)
@@ -47,8 +52,17 @@ class ComplexLogic(Metric):
                         ]
                     )
             if boolean_count > 4:
-                data.append(["Complex Logic", file, 1, 1])
-        return
+                violations.append(
+                    Violation(
+                        "complex logic",
+                        (
+                            str(file),
+                            node.start_point[0] + 1,
+                            node.end_point[0] + 1,
+                        ),
+                    )
+                )
+        return violations
 
 
 metric = ComplexLogic()

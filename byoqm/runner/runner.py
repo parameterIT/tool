@@ -13,6 +13,7 @@ from typing import Dict, List
 
 from test.test_support import os
 from byoqm.metric.metric import Metric
+from byoqm.metric.result import Result
 
 from byoqm.qualitymodel.qualitymodel import QualityModel
 from byoqm.source_repository.source_repository import SourceRepository
@@ -102,13 +103,14 @@ class Runner:
 
     def _generate_violations_table(self, results: Dict, time: str):
         list_of_violations = []
-        for _, violations in results.items():
-            if type(violations) is list:
-                list_of_violations.extend(violations)
+        for _, result in results.items():
+            if type(result) is not Result:
+                continue
+            for location in result.get_violation_locations():
+                list_of_violations.extend([[result.metric, location]])
         violations = pd.DataFrame(
-            list_of_violations, columns=["type", "file", "start", "end"]
+            list_of_violations, columns=["type", "file_start_end"]
         )
-        violations.attrs = {"model": self._model_name, "root": self._src_root}
         file_location = Path(
             self._output_dir / Path("violations") / Path(time + ".csv")
         )
@@ -130,8 +132,8 @@ class Runner:
             writer.writerow(["metric", "value"])
             for description, value in results.items():
                 frequency = value
-                if type(value) is list:
-                    frequency = len(value)
+                if type(value) is Result:
+                    frequency = value.get_frequency()
                 writer.writerow([description, frequency])
         logging.info("Finished writing frequencies to csv")
         file_location = self._output_dir / Path("metadata") / file_name

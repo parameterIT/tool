@@ -22,9 +22,12 @@ class TestRecursion(unittest.TestCase):
         os.chdir(Path("metrics/test").resolve())
 
     def test_recursion_given_recursion_file_returns_1(self):
-        actual = len(self._metric.run())
+        result = self._metric.run()
+        actual = result.get_frequency()
         expected = 1
         self.assertEqual(actual, expected)
+        locations = result.get_violation_locations()
+        self.assertEqual((locations[0][1], locations[0][2]), (2, 2))
 
     def test_recursion_given_c_sharp_file_returns_1(self):
         new_source_repository = SourceRepository(
@@ -33,7 +36,7 @@ class TestRecursion(unittest.TestCase):
         self.assertEqual(len(new_source_repository.src_paths), 1)
         recursion = Recursion()
         recursion._source_repository = new_source_repository
-        result = len(recursion.run())
+        result = recursion.run().get_frequency()
         self.assertEqual(result, 1)
 
     def test_recursion_given_java_file_returns_1(self):
@@ -43,5 +46,5 @@ class TestRecursion(unittest.TestCase):
         self.assertEqual(len(new_source_repository.src_paths), 1)
         recursion = Recursion()
         recursion._source_repository = new_source_repository
-        result = len(recursion.run())
+        result = recursion.run().get_frequency()
         self.assertEqual(result, 1)

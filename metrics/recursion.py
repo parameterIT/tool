@@ -4,6 +4,8 @@ from pathlib import Path
 
 from test.test_support import sys
 from byoqm.metric.metric import Metric
+from byoqm.metric.result import Result
+from byoqm.metric.violation import Violation
 from byoqm.source_repository.source_repository import SourceRepository
 from byoqm.source_repository.query_translations import translate_to
 
@@ -13,13 +15,13 @@ class Recursion(Metric):
         self._source_repository: SourceRepository = None
 
     def run(self):
-        results = []
+        result = Result("recursion", [])
         for file_path in self._source_repository.src_paths:
-            results.extend(self._run_on_file(file_path))
-        return results
+            result.violations.extend(self._run_on_file(file_path))
+        return result
 
     def _run_on_file(self, file_path: Path):
-        results = []
+        violations = []
         ast = self._source_repository.getAst(file_path)
 
         functionsQuery = self._source_repository.tree_sitter_language.query(
@@ -49,9 +51,17 @@ class Recursion(Metric):
                     # pass if there is no identifier, considered faulty tree_sitter parsing
                     continue
                 if name == outer_function_name:
-                    results.append(["Recursion", file_path, 1, 1])
-
-        return results
+                    violations.append(
+                        Violation(
+                            "Recursion",
+                            (
+                                str(file_path),
+                                call.start_point[0] + 1,
+                                call.end_point[0] + 1,
+                            ),
+                        )
+                    )
+        return violations
 
     def _read_function_name(self, file_path: Path, node: tree_sitter.Node) -> str:
         """

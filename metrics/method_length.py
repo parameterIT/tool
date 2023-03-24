@@ -1,4 +1,6 @@
 from byoqm.metric.metric import Metric
+from byoqm.metric.result import Result
+from byoqm.metric.violation import Violation
 from byoqm.source_repository.source_repository import SourceRepository
 from byoqm.source_repository.query_translations import translate_to
 
@@ -8,16 +10,19 @@ class MethodLength(Metric):
         self._source_repository: SourceRepository = None
 
     def run(self):
-        data = []
+        result = Result("method length", [])
         for file in self._source_repository.src_paths:
-            self._parse(self._source_repository.getAst(file), file, data)
-        return data
+            result.violations.extend(
+                self._parse(self._source_repository.getAst(file), file)
+            )
+        return result
 
-    def _parse(self, ast, file, data):
+    def _parse(self, ast, file):
         """
         Finds the length of all methods in a file and returns the amount of methods that have a length
         that is greater than 25
         """
+        violations = []
         query = self._source_repository.tree_sitter_language.query(
             f"""
                 (_ [{translate_to[self._source_repository.language]["function_block"]}])
@@ -29,8 +34,13 @@ class MethodLength(Metric):
                 node.end_point[0] - node.start_point[0] + 1
             )  # length is zero indexed - therefore we add 1 at the end
             if length > 25:
-                data.append(["Method Length", file, 1, 1])
-        return
+                violations.append(
+                    Violation(
+                        "method length",
+                        (str(file), node.start_point[0], node.end_point[0] + 1),
+                    )
+                )
+        return violations
 
 
 metric = MethodLength()

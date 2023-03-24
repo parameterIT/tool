@@ -17,8 +17,10 @@ class TestMethodCount(unittest.TestCase):
         self._methodcount._source_repository = self._source_repository
 
     def test_method_count_given__python_file_returns_1(self):
-        result = len(self._methodcount.run())
-        self.assertEqual(result, 1)
+        result = self._methodcount.run()
+        self.assertEqual(result.get_frequency(), 1)
+        locations = result.get_violation_locations()
+        self.assertEqual((locations[0][1], locations[0][2]), (1, 81))
 
     def test_method_count_given_java_file_returns_1(self):
         new_source_repository = SourceRepository(
@@ -26,8 +28,10 @@ class TestMethodCount(unittest.TestCase):
         )
         new_method_counter = MethodCount()
         new_method_counter._source_repository = new_source_repository
-        result = len(new_method_counter.run())
-        self.assertEqual(result, 1)
+        result = new_method_counter.run()
+        self.assertEqual(result.get_frequency(), 1)
+        locations = result.get_violation_locations()
+        self.assertEqual((locations[0][1], locations[0][2]), (2, 65))
 
     def test_method_count_given_c_sharp_file_returns_1(self):
         new_source_repository = SourceRepository(
@@ -35,8 +39,10 @@ class TestMethodCount(unittest.TestCase):
         )
         new_method_counter = MethodCount()
         new_method_counter._source_repository = new_source_repository
-        result = len(new_method_counter.run())
-        self.assertEqual(result, 1)
+        result = new_method_counter.run()
+        self.assertEqual(result.get_frequency(), 1)
+        locations = result.get_violation_locations()
+        self.assertEqual((locations[0][1], locations[0][2]), (3, 98))
 
     def tearDown(self):
         os.chdir(Path("metrics/test").resolve())

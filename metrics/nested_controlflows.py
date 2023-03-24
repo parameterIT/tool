@@ -1,4 +1,6 @@
 from byoqm.metric.metric import Metric
+from byoqm.metric.result import Result
+from byoqm.metric.violation import Violation
 from byoqm.source_repository.source_repository import SourceRepository
 from byoqm.source_repository.query_translations import translate_to
 
@@ -8,10 +10,12 @@ class NestedControlflows(Metric):
         self._source_repository: SourceRepository = None
 
     def run(self):
-        data = []
+        result = Result("nested controlflow", [])
         for file in self._source_repository.src_paths:
-            self._parse(self._source_repository.getAst(file), file, data)
-        return data
+            result.violations.extend(
+                self._parse(self._source_repository.getAst(file), file)
+            )
+        return result
 
     def _unique(self, not_unique_list):
         unique_list = []
@@ -21,11 +25,12 @@ class NestedControlflows(Metric):
                 unique_list.append(x)
         return unique_list
 
-    def _parse(self, ast, file, data):
+    def _parse(self, ast, file):
         """
         Finds the control statements of a file and returns the amount of control statements that have a nested
         control flow depth of at least 4
         """
+        violations = []
         query = self._source_repository.tree_sitter_language.query(
             translate_to[self._source_repository.language][
                 "nested_controlflow_initial_nodes"
@@ -48,10 +53,18 @@ class NestedControlflows(Metric):
                     if found:
                         break
                     if len(sub_node_query.captures(node3)) > 0:
-                        data.append(["Nested Controlflows", file, 1, 1])
+                        violations.append(
+                            Violation(
+                                "nested controlflow",
+                                (
+                                    str(file),
+                                    node.start_point[0],
+                                    node3.end_point[0] + 1,
+                                ),
+                            )
+                        )
                         found = True
-
-        return
+        return violations
 
 
 metric = NestedControlflows()
