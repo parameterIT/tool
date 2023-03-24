@@ -43,11 +43,11 @@ class BreaksInLinearFlow(Metric):
             result.append(
                 Violation(
                     "breaks in linear flow",
-                    (str(file_path), node.start_point[0] + 1, node.end_point[0]),
+                    #explain why u use start points both places
+                    (str(file_path), node.start_point[0]+1, node.start_point[0]+1),
                 )
             )
-        results = [("Breaks In Linear Flow", file_path, 1, 1) for _, _ in captures]
-        return results
+        return
 
 
 metric = BreaksInLinearFlow()

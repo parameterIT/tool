@@ -27,7 +27,7 @@ class TestRecursion(unittest.TestCase):
         expected = 1
         self.assertEqual(actual, expected)
         locations = result.get_violation_locations()
-        self.assertEqual((locations[0][1], locations[0][2]), (1, 1))
+        self.assertEqual((locations[0][1], locations[0][2]), (2, 2))
 
     def test_recursion_given_c_sharp_file_returns_1(self):
         new_source_repository = SourceRepository(

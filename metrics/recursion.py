@@ -55,8 +55,8 @@ class Recursion(Metric):
                             "Recursion",
                             (
                                 str(file_path),
-                                node.start_point[0] + 1,
-                                call.end_point[0],
+                                call.start_point[0] + 1,
+                                call.end_point[0] + 1,
                             ),
                         )
                     )
