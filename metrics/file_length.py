@@ -13,13 +13,16 @@ class FileLength(Metric):
         result = Result("file length", [])
         for file in self._source_repository.src_paths:
             with open(file) as f:
-                self._parse(f, self._source_repository.getAst(file), file, result)
+                result.violations.extend(
+                    self._parse(f, self._source_repository.getAst(file), file)
+                )
         return result
 
-    def _parse(self, file, ast, path, result):
+    def _parse(self, file, ast, path):
         """
         Finds out whether or not a file is more than 250 lines long excluding comments
         """
+        violations = []
         query = self._source_repository.tree_sitter_language.query(
             f"""
             (_ [{translate_to[self._source_repository.language]["comment"]}] @comment)
@@ -33,8 +36,8 @@ class FileLength(Metric):
             ) + 1  # length is zero indexed - therefore we add 1 at the end
         loc = sum(1 for line in file if line.rstrip()) - count_comments
         if loc > 250:
-            result.append(Violation("LOC", (str(path), -1, -1)))
-        return
+            violations.append(Violation("LOC", (str(path), -1, -1)))
+        return violations
 
 
 metric = FileLength()

@@ -104,7 +104,6 @@ class Runner:
     def _generate_violations_table(self, results: Dict, time: str):
         list_of_violations = []
         for _, result in results.items():
-            # need a better name than result...
             if type(result) is not Result:
                 continue
             for location in result.get_violation_locations():

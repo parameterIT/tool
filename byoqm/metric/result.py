@@ -8,6 +8,3 @@ class Result:
 
     def get_violation_locations(self):
         return [violation.locations for violation in self.violations]
-
-    def append(self, violation):
-        self.violations.append(violation)

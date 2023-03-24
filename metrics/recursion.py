@@ -17,10 +17,11 @@ class Recursion(Metric):
     def run(self):
         result = Result("recursion", [])
         for file_path in self._source_repository.src_paths:
-            self._run_on_file(file_path, result)
+            result.violations.extend(self._run_on_file(file_path))
         return result
 
-    def _run_on_file(self, file_path: Path, result: Result):
+    def _run_on_file(self, file_path: Path):
+        violations = []
         ast = self._source_repository.getAst(file_path)
 
         functionsQuery = self._source_repository.tree_sitter_language.query(
@@ -50,7 +51,7 @@ class Recursion(Metric):
                     # pass if there is no identifier, considered faulty tree_sitter parsing
                     continue
                 if name == outer_function_name:
-                    result.append(
+                    violations.append(
                         Violation(
                             "Recursion",
                             (
@@ -60,7 +61,7 @@ class Recursion(Metric):
                             ),
                         )
                     )
-        return
+        return violations
 
     def _read_function_name(self, file_path: Path, node: tree_sitter.Node) -> str:
         """

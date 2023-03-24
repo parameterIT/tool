@@ -12,13 +12,16 @@ class ComplexLogic(Metric):
     def run(self):
         result = Result("complex logic", [])
         for file in self._source_repository.src_paths:
-            self._parse(self._source_repository.getAst(file), file, result)
+            result.violations.extend(
+                self._parse(self._source_repository.getAst(file), file)
+            )
         return result
 
-    def _parse(self, ast, file, result):
+    def _parse(self, ast, file):
         """
         Finds the conditionals of a file and returns the number of conditionals that have more than 4 conditions
         """
+        violations = []
         query = self._source_repository.tree_sitter_language.query(
             f"""
             (_ [{translate_to[self._source_repository.language]["bool_operator"]}] @bool_operator)
@@ -49,7 +52,7 @@ class ComplexLogic(Metric):
                         ]
                     )
             if boolean_count > 4:
-                result.append(
+                violations.append(
                     Violation(
                         "complex logic",
                         (
@@ -59,7 +62,7 @@ class ComplexLogic(Metric):
                         ),
                     )
                 )
-        return
+        return violations
 
 
 metric = ComplexLogic()

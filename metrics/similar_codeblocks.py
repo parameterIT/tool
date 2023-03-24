@@ -31,8 +31,8 @@ class SimilarBlocksofCode(Metric):
             capture_output=True,
             text=True,
         )
-        et = parse(StringIO(res.stdout))
-        for child in et.getroot():
+        element_tree = parse(StringIO(res.stdout))
+        for child in element_tree.getroot():
             if child.tag == "duplication":
                 duplicates = [
                     (
@@ -43,7 +43,7 @@ class SimilarBlocksofCode(Metric):
                     for child in child
                     if child.tag == "file"
                 ]
-                result.append(Violation("similar code", duplicates))
+                result.violations.append(Violation("similar code", duplicates))
         return result
 
 

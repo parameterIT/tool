@@ -21,10 +21,11 @@ class BreaksInLinearFlow(Metric):
         """
         result = Result("breaks in linear flow", [])
         for file_path in self._source_repository.src_paths:
-            self._count_control_flow_statement(file_path, result)
+            result.violations.extend(self._count_control_flow_statement(file_path))
         return result
 
-    def _count_control_flow_statement(self, file_path: Path, result: Result):
+    def _count_control_flow_statement(self, file_path: Path):
+        violations = []
         query = self._source_repository.tree_sitter_language.query(
             f"""
             [
@@ -40,14 +41,15 @@ class BreaksInLinearFlow(Metric):
         ast: tree_sitter.Tree = self._source_repository.getAst(file_path)
         captures = query.captures(ast.root_node)
         for node, _ in captures:
-            result.append(
+            violations.append(
                 Violation(
                     "breaks in linear flow",
-                    # explain why u use start points both places
+                    # We use start_point for what would otherwise be start_line & end_line
+                    # to report the line where the token that breaks linear flow is met .
                     (str(file_path), node.start_point[0] + 1, node.start_point[0] + 1),
                 )
             )
-        return
+        return violations
 
 
 metric = BreaksInLinearFlow()
