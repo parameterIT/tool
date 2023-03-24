@@ -36,7 +36,7 @@ class TestRecursion(unittest.TestCase):
         self.assertEqual(len(new_source_repository.src_paths), 1)
         recursion = Recursion()
         recursion._source_repository = new_source_repository
-        result = len(recursion.run())
+        result = recursion.run().get_frequency()
         self.assertEqual(result, 1)
 
     def test_recursion_given_java_file_returns_1(self):
@@ -46,5 +46,5 @@ class TestRecursion(unittest.TestCase):
         self.assertEqual(len(new_source_repository.src_paths), 1)
         recursion = Recursion()
         recursion._source_repository = new_source_repository
-        result = len(recursion.run())
+        result = recursion.run().get_frequency()
         self.assertEqual(result, 1)

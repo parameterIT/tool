@@ -37,7 +37,7 @@ class TestBreaksInLinearFlow(unittest.TestCase):
         self.assertEqual(len(new_source_repository.src_paths), 1)
         breaks = BreaksInLinearFlow()
         breaks._source_repository = new_source_repository
-        result = len(breaks.run())
+        result = breaks.run().get_frequency()
         self.assertEqual(result, 7)
 
     def test_run_given_java_file_returns_7(self):
@@ -47,5 +47,5 @@ class TestBreaksInLinearFlow(unittest.TestCase):
         self.assertEqual(len(new_source_repository.src_paths), 1)
         breaks = BreaksInLinearFlow()
         breaks._source_repository = new_source_repository
-        result = len(breaks.run())
+        result = breaks.run().get_frequency()
         self.assertEqual(result, 7)
