@@ -43,8 +43,8 @@ class BreaksInLinearFlow(Metric):
             result.append(
                 Violation(
                     "breaks in linear flow",
-                    #explain why u use start points both places
-                    (str(file_path), node.start_point[0]+1, node.start_point[0]+1),
+                    # explain why u use start points both places
+                    (str(file_path), node.start_point[0] + 1, node.start_point[0] + 1),
                 )
             )
         return
