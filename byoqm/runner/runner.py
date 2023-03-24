@@ -35,7 +35,9 @@ class Runner:
         self._model_name: str = model_name
         self._output_dir = output_path
         self._save_file = save_file
-        self._source_repositories = [SourceRepository(self._src_root, language) for language in languages]
+        self._source_repositories = [
+            SourceRepository(self._src_root, language) for language in languages
+        ]
 
     def _load(self, model_name: str) -> QualityModel:
         """
