@@ -25,14 +25,14 @@ class Recursion(Metric):
 
         functionsQuery = self._source_repository.tree_sitter_language.query(
             f"""
-            {translate_to["python"]["function"]} @function
+            [{translate_to[self._source_repository.language]["function"]}] @function
             """
         )
         functions = functionsQuery.captures(ast.root_node)
 
         nestedFunctionCallsQuery = self._source_repository.tree_sitter_language.query(
             f"""
-                {translate_to["python"]["nested_function_call"]}
+                {translate_to[self._source_repository.language]["nested_function_call"]}
                 """
         )
         for node, _ in functions:
@@ -66,13 +66,16 @@ class Recursion(Metric):
         """
         Reads the name of the function of a function_definition or call node
         """
-        identifer = self._get_identifier(node)
-        name_start_row = identifer.start_point[0]
-        name_start_col = identifer.start_point[1]
-        name_end_col = identifer.end_point[1]
+        identifier = self._get_identifier(node)
+        name_start_row = identifier.start_point[0]
+        name_start_col = identifier.start_point[1]
+        name_end_col = identifier.end_point[1]
 
         with file_path.open() as f:
-            for _ in range(name_start_row - 1):
+            range_length = name_start_row
+            if self._source_repository.tree_sitter_language.name == "python":
+                range_length -= 1
+            for _ in range(range_length):
                 # Skip the first row-1 lines
                 f.readline()
 

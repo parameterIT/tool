@@ -37,7 +37,6 @@ class BreaksInLinearFlow(Metric):
             ]
             """
         )
-
         ast: tree_sitter.Tree = self._source_repository.getAst(file_path)
         captures = query.captures(ast.root_node)
         for node, _ in captures:

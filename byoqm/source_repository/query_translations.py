@@ -60,8 +60,15 @@ translate_to = {
         "bool_operator_child": "binary_expression",
         "comment": "(comment)",
         "function": "(method_declaration) (constructor_declaration)",
+        "if_statement": "(block (if_statement))",
+        "for_statement": "(for_statement)",
+        "while_statement": "(while_statement)",
+        "catch_statement": "(catch_clause)",
+        "break_statement": "(break_statement)",
+        "continue_statement": "(continue_statement)",
         "function_block": "(method_declaration body: (block) @function.block) (constructor_declaration body: (block) @function.block)",
         "return": "(return_statement)",
+        "nested_function_call": "(_ body: (block (expression_statement (invocation_expression) @func)))",
         "nested_controlflow_initial_nodes": """
                                 (method_declaration
                                     body: (block [
@@ -141,8 +148,15 @@ translate_to = {
         "bool_operator_child": "binary_expression",
         "comment": "(line_comment) (block_comment)",
         "function": "(method_declaration) (constructor_declaration)",
+        "if_statement": "(block (if_statement))",
+        "for_statement": "(for_statement)",
+        "while_statement": "(while_statement)",
+        "catch_statement": "(catch_clause)",
+        "break_statement": "(break_statement)",
+        "continue_statement": "(continue_statement)",
         "function_block": "(method_declaration body: (block) @function.block) (constructor_declaration body: (constructor_body) @function.block)",
         "return": "(return_statement)",
+        "nested_function_call": "(_ body: (_ (expression_statement (method_invocation) @func)))",
         "nested_controlflow_initial_nodes": """
                                 (method_declaration
                                     body: (block [

@@ -1,12 +1,12 @@
-for i in range(10):
-    break
+for i in range(10):  # 1
+    break  # 2
 
-while True:
-    continue
+while True:  # 3
+    continue  # 4
 
-if False:
+if False:  # 5
     print("True")
-    if "nested" == "if":
+    if "nested" == "if":  # 6
         pass
     elif "nested" == "elif":
         pass
@@ -20,5 +20,5 @@ else:
 try:
     print("will fail")
     raise ValueError
-except:
+except:  # 7
     print("failed")
