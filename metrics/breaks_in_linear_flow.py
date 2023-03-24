@@ -45,7 +45,7 @@ class BreaksInLinearFlow(Metric):
                 Violation(
                     "breaks in linear flow",
                     # We use start_point for what would otherwise be start_line & end_line
-                    # to report the line where the token that breaks linear flow is met .
+                    # to report the line where the keyword that breaks linear flow is met .
                     (str(file_path), node.start_point[0] + 1, node.start_point[0] + 1),
                 )
             )
