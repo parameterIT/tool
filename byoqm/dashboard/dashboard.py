@@ -39,11 +39,13 @@ class Dashboard:
         return True
 
     def _get_files(self):
-        figure_files = os.listdir("./figures")
-        figure_files.remove("__pycache__")
+        figure_dir = "./figures"
+        figure_files = os.listdir(figure_dir)
         for file in figure_files:
+            if os.path.isdir(figure_dir + '/' + file):
+                continue
             figure_files.remove(file)
-            figure_files.append("./figures/" + file)
+            figure_files.append(figure_dir + '/' + file)
         return figure_files
 
     # Returns bokeh objects, for input in gridplot.
