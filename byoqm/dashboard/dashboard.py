@@ -42,11 +42,11 @@ class Dashboard:
         figure_dir = "./figures"
         figure_files = os.listdir(figure_dir)
         for file in figure_files:
-            if os.path.isdir(figure_dir + '/' + file):
+            if os.path.isdir(figure_dir + "/" + file):
                 continue
             if not file.startswith(figure_dir):
                 figure_files.remove(file)
-                figure_files.append(figure_dir + '/' + file)
+                figure_files.append(figure_dir + "/" + file)
         return figure_files
 
     # Returns bokeh objects, for input in gridplot.
