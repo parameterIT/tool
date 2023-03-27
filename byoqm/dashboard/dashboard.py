@@ -24,6 +24,8 @@ class Dashboard:
         return True
 
     def _check_src_root(self, targetSrc, actualSrc):
+        if targetSrc == ".":
+            return True
         if ("./" + targetSrc) != actualSrc:
             return False
         return True
