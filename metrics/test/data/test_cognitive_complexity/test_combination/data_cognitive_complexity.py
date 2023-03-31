@@ -8,7 +8,6 @@ def method1():
     while True:  # 5
         method1()  # 6
 
-
 def method2():
     if a:  # 1
         method2()  # 2
@@ -19,7 +18,6 @@ def method2():
     while True:  # 5
         for i in range(10):  # 6
             pass
-
 
 def method3():
     pass
