@@ -1,3 +1,7 @@
+"""
+dictionary of supported languages and their associated translations
+of queries used for underlying metrics
+"""
 translate_to = {
     "python": {
         "parameters": "parameters: (parameters)",

@@ -88,6 +88,11 @@ class Runner:
         return results
 
     def _run_metrics(self) -> Dict:
+        """
+        runs all associated metric files specified in the models description
+        by creating instances of metrics and calling their run() method, fi-
+        nally returning a dictionary of metric results.
+        """
         results = {}
         logging.info("Started running metrics")
         metrics = self._model.getDesc()["metrics"]
@@ -102,6 +107,14 @@ class Runner:
         return results
 
     def _generate_violations_table(self, results: Dict, time: str):
+        """
+        _generate_violations_table generates a csv file in the output/violations/ folder containing
+        the locations of all found violations during parsing of the code base
+
+        _generate_violations_table generates given a dictionary of metrics, constructs a list containing
+        all locations from which a pandas dataframe is generated. Finally, the dataframe is written to a
+        csv file using pandas, and output in the specified violations folder.
+        """
         list_of_violations = []
         for _, result in results.items():
             if type(result) is not Result:
@@ -117,6 +130,17 @@ class Runner:
         violations.to_csv(file_location)
 
     def _write_to_csv(self, results: Dict):
+        """
+        _write_to_csv generates a csv file containing aggregation results and
+        underlying metrics
+
+        _write_to_csv will for each dictionary entry write either the associated
+        frequency of violations for a metric, or the aggregation result to a csv
+        file and output it in the frequencies folder
+
+        the naming naming format is YYYY-MM-DD_HH-MM-SS so that dashboard.py can
+        use it to display data chronologically
+        """
         # See https://docs.python.org/3/library/time.html#time.strftime for table
         # explaining formattng
         # Format: YYYY-MM-DD_HH-MM-SS

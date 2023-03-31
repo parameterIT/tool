@@ -8,6 +8,9 @@ _TREESITTER_BUILD: Path = Path("build/my-languages.so")
 
 
 class SourceRepository:
+    """
+    represents a repository containing all information accessible by metrics
+    """
     def __init__(self, src_root: Path, language: str):
         if src_root.is_file():
             self.src_paths = [src_root]
@@ -44,6 +47,9 @@ class SourceRepository:
             return ast
 
     def _parse_ast(self, file_at: Path) -> tree_sitter.Tree:
+        """
+        parses and returns the tree_sitter AST for a given file
+        """
         with file_at.open() as file:
             ast = self._parser.parse(bytes(file.read(), "utf8"))
             return ast
