@@ -17,8 +17,6 @@ class CodeClimate(QualityModel):
                 "similar_code": "./metrics/similar_codeblocks.py",
                 "nested_control_flow": "./metrics/nested_controlflows.py",
                 "cognitive_complexity": "./metrics/cognitive_complexity.py",
-                "breaks_in_linear_flow": "./metrics/breaks_in_linear_flow.py",
-                "recursion": "./metrics/recursion.py",
             },
             "aggregations": {
                 "cognitive_complexity": self.cognitive_complexity,
