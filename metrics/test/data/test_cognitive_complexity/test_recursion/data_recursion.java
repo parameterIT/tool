@@ -3,7 +3,13 @@ public class data_recursion {
     }
 
     public void recurse(Integer i) {
-        recurse(i + 1);
+        if (recurse(i + 1)) {
+            recurse(i);
+        } else {
+            recurse(i+3);
+        }
+        System.out.println(recurse(2) + recurse(3));
+        return recurse(i + 5);
     }
 
     public void Print(String s) {
