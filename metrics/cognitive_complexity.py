@@ -58,15 +58,13 @@ class CognitiveComplexity(Metric):
     def _count_breaks_in_linear_flow(self, node):
         query_breaks = self._source_repository.tree_sitter_language.query(
             f"""
-            [
                 ({translate_to[self._source_repository.language]["if_statement"]} @if)
                 ({translate_to[self._source_repository.language]["for_statement"]} @for)
                 ({translate_to[self._source_repository.language]["while_statement"]} @for)
                 ({translate_to[self._source_repository.language]["catch_statement"]} @catch)
                 ({translate_to[self._source_repository.language]["break_statement"]} @break)
                 ({translate_to[self._source_repository.language]["continue_statement"]} @continue)
-                {translate_to[self._source_repository.language]["goto"]} 
-            ]
+                {translate_to[self._source_repository.language]["goto"]} @goto 
             """
         )
         return len(query_breaks.captures(node))

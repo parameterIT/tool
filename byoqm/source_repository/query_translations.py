@@ -62,7 +62,7 @@ translate_to = {
         "bool_operator": "condition: (binary_expression) (binary_expression)",
         "bool_operator_child": "binary_expression",
         "comment": "(comment)",
-        "goto": "((goto_statement) @goto)",
+        "goto": "(goto_statement)",
         "global_statement": "(global_statement)",
         "function": "(method_declaration)",
         "constructor": "(constructor_declaration)",
