@@ -22,9 +22,15 @@ class MethodCount(Metric):
         Finds the amount of methods for a file, and returns whether or not the method count is greater than 20
         """
         violations = []
+        function_block = translate_to[self._source_repository.language]["function"]
+        if not self._source_repository.language == "python":
+            function_block += translate_to[self._source_repository.language][
+                "constructor"
+            ]
+
         query = self._source_repository.tree_sitter_language.query(
             f"""
-            (_ [{translate_to[self._source_repository.language]["function"]}] @function)
+            (_ [{function_block}] @function)
             """
         )
         captures = query.captures(ast.root_node)

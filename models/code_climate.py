@@ -13,9 +13,10 @@ class CodeClimate(QualityModel):
                 "complex_logic": "./metrics/complex_logic.py",
                 "method_count": "./metrics/method_count.py",
                 "return_statements": "./metrics/return_statements.py",
-                "identical-code": "./metrics/identical_codeblocks.py",
-                "similar-code": "./metrics/similar_codeblocks.py",
+                "identical_code": "./metrics/identical_codeblocks.py",
+                "similar_code": "./metrics/similar_codeblocks.py",
                 "nested_control_flow": "./metrics/nested_controlflows.py",
+                "cognitive_complexity": "./metrics/cognitive_complexity.py",
                 "breaks_in_linear_flow": "./metrics/breaks_in_linear_flow.py",
                 "recursion": "./metrics/recursion.py",
             },
@@ -39,16 +40,12 @@ class CodeClimate(QualityModel):
 
     def duplication(self, results: Dict) -> int | float:
         return (
-            results["identical-code"].get_frequency()
-            + results["similar-code"].get_frequency()
+            results["identical_code"].get_frequency()
+            + results["similar_code"].get_frequency()
         )
 
     def cognitive_complexity(self, results: Dict):
-        return (
-            results["complex_logic"].get_frequency()
-            + results["breaks_in_linear_flow"].get_frequency()
-            + results["recursion"].get_frequency()
-        )
+        return results["cognitive_complexity"].get_frequency()
 
 
 model = CodeClimate()
