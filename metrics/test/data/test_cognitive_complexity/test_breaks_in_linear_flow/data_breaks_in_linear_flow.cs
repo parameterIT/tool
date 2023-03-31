@@ -1,7 +1,12 @@
 public class TestClass
 {
     public TestClass() 
-    { }
+    { 
+        if (true) 
+        {
+            Console.WriteLine("hello");
+        }
+    }
     public void method1() 
     {
         for (int i = 0; i < 10; i++) break;
