@@ -103,11 +103,12 @@ class CognitiveComplexity(Metric):
 
         with file_path.open() as f:
             range_length = name_start_row
-            for _ in range(range_length):
-                # Skip the first row-1 lines
+            for _ in range(
+                range_length
+            ):  # Skip the lines leading up to the line needed
                 f.readline()
-
             line = f.readline()
+
             return line[name_start_col:name_end_col]
 
     def _get_identifier(self, node: tree_sitter.Node) -> tree_sitter.Node:
