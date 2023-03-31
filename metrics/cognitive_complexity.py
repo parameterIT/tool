@@ -79,14 +79,14 @@ class CognitiveComplexity(Metric):
         try:
             outer_function_name = self._read_function_name(file_path, node)
         except ValueError:
-            # pass if there is no identifier, considered faulty tree_sitter parsing
+            # return if there is no identifier, considered faulty tree_sitter parsing
             return
         nestedCalls = nestedFunctionCallsQuery.captures(node)
         for call, _ in nestedCalls:
             try:
                 name = self._read_function_name(file_path, call)
             except ValueError:
-                # pass if there is no identifier, considered faulty tree_sitter parsing
+                # continue if there is no identifier, considered faulty tree_sitter parsing
                 continue
             if name == outer_function_name:
                 count += 1
