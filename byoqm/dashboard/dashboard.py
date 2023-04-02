@@ -20,13 +20,12 @@ class Dashboard:
             is_right_src = self._check_src_root(row[1], target_path)
             if not is_right_qm or not is_right_src:
                 return False
-
         return True
 
-    def _check_src_root(self, targetSrc, actualSrc):
+    def _check_src_root(self, actualSrc, targetSrc):
         if targetSrc == ".":
             return True
-        if ("./" + targetSrc) != actualSrc:
+        if targetSrc != Path(actualSrc):
             return False
         return True
 
@@ -123,7 +122,7 @@ class Dashboard:
                     graph_data[row[0]].append((date, row[1]))
             except:
                 logging.warning(
-                    f"Failed to parse file with filename: {filename} - invalid format. Check the naming convention of the file or the content of the file"
+                   f"Failed to parse file with filename: {filename} - invalid format. Check the naming convention of the file or the content of the file"
                 )
         for key, v in graph_data.items():
             try:
