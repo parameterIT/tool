@@ -22,15 +22,15 @@ class Dashboard:
                 return False
         return True
 
-    def _check_src_root(self, actualSrc, targetSrc):
-        if targetSrc == ".":
+    def _check_src_root(self, actual_src, target_src):
+        if target_src == ".":
             return True
-        if targetSrc != Path(actualSrc):
+        if target_src != Path(actual_src):
             return False
         return True
 
-    def _check_qm(self, targetQM, actualQM):
-        if targetQM != actualQM:
+    def _check_qm(self, target_qm, actual_qm):
+        if target_qm != actual_qm:
             return False
         return True
 
@@ -66,7 +66,7 @@ class Dashboard:
         return results
 
     def show_graphs(
-        self, in_use_qm: str, targetPath: Path, start_date: datetime, end_date: datetime
+        self, in_use_qm: str, target_path: Path, start_date: datetime, end_date: datetime
     ):
         """
         This method is used to display the graphs chosen. At the moment, only line graphs can be chosen,
@@ -75,7 +75,7 @@ class Dashboard:
         The method makes use of Bokeh to generate figures, which are then added to a gridplot in the
         arrangement of an arbitrary amount of rows where each row contains two figures.
         """
-        data = self.get_data(in_use_qm, targetPath, start_date, end_date)
+        data = self.get_data(in_use_qm, target_path, start_date, end_date)
         # Need to get figure type in a dict, so that they can be passed to gridplot.
         # Format: {figure_type (str) : figure_objects (list)}
         figures = self._get_figures(data).get("figure")
@@ -87,7 +87,7 @@ class Dashboard:
     def get_data(
         self,
         in_use_qm: str,
-        targetPath: Path,
+        target_path: Path,
         start_date: datetime,
         end_date: datetime,
         path="./output/frequencies",
@@ -114,7 +114,7 @@ class Dashboard:
 
                 if not self._check_date(date, start_date, end_date):
                     continue
-                if not self._check_data(in_use_qm, targetPath, filename):
+                if not self._check_data(in_use_qm, target_path, filename):
                     continue
 
                 df = pd.read_csv(filepath, skiprows=0)
