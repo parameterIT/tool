@@ -9,7 +9,8 @@ _TREESITTER_BUILD: Path = Path("build/my-languages.so")
 
 class SourceRepository:
     """
-    represents a repository containing all information accessible by metrics
+    contains all information accessible by metrics about the source code
+    under analysis
     """
 
     def __init__(self, src_root: Path, language: str):

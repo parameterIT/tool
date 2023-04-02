@@ -111,9 +111,10 @@ class Runner:
         _generate_violations_table generates a csv file in the output/violations/ folder containing
         the locations of all found violations during parsing of the code base
 
-        _generate_violations_table generates given a dictionary of metrics, constructs a list containing
-        all locations from which a pandas dataframe is generated. Finally, the dataframe is written to a
-        csv file using pandas, and output in the specified violations folder.
+        _generate_violations_table given a dictionary of metrics will generate a csv file using
+        pandas. Because the dictionary may contain aggregation results that isn't of type Result,
+        and therefore doesn't contain locations of violations, we continue upon meeting an element
+        not of type Result.
         """
         list_of_violations = []
         for _, result in results.items():
