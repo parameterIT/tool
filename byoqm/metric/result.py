@@ -4,6 +4,7 @@ class Result:
 
     a result is a collection of violations with the metric type specified
     """
+
     def __init__(self, metric, violations):
         self.metric = metric
         self.violations = violations

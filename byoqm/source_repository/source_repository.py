@@ -11,6 +11,7 @@ class SourceRepository:
     """
     represents a repository containing all information accessible by metrics
     """
+
     def __init__(self, src_root: Path, language: str):
         if src_root.is_file():
             self.src_paths = [src_root]

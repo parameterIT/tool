@@ -122,7 +122,7 @@ class Dashboard:
                     graph_data[row[0]].append((date, row[1]))
             except:
                 logging.warning(
-                   f"Failed to parse file with filename: {filename} - invalid format. Check the naming convention of the file or the content of the file"
+                    f"Failed to parse file with filename: {filename} - invalid format. Check the naming convention of the file or the content of the file"
                 )
         for key, v in graph_data.items():
             try:
