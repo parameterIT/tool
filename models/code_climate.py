@@ -28,18 +28,29 @@ class CodeClimate(QualityModel):
 
     def complexity(self, results: Dict) -> int | float:
         return (
-            results["cognitive_complexity"]
-            + results["return_statements"].get_frequency()
-            + results["nested_control_flow"].get_frequency()
-            + results["argument_count"].get_frequency()
-            + results["method_lines"].get_frequency()
-            + results["file_lines"].get_frequency()
+            # Cognitive Complexity is reported as taking 45 minutes to fix
+            results["cognitive_complexity"] * 45
+            # Too many return statements is reported as 30 minutes to fix
+            + results["return_statements"].get_frequency() * 30
+            # Nested control flow is reported as taking 45 minutes to fix
+            + results["nested_control_flow"].get_frequency() * 45
+            # When argument count is exactly one over (5) it takes 35 minutes to fix
+            # It seems to scale with 10 minutes per argument hat is over when it is (6) then
+            # it takes 45 minutes to fix
+            + results["argument_count"].get_frequency() * 35
+            # When the method is 9 lines over 25, Code Climate reports that it takes 1 hour to fix
+            + results["method_lines"].get_frequency() * 60
+            # When the file is exactly 1 line over 250, Code Climate reports that it will take 2 hours to fix
+            + results["file_lines"].get_frequency() * 120
         )
 
     def duplication(self, results: Dict) -> int | float:
         return (
-            results["identical_code"].get_frequency()
-            + results["similar_code"].get_frequency()
+            # When there is code duplication in 2 places, Code Climate reports that it will take 1 hour to fix
+            # It does, however, appear that they account for the size of the code snippet somehow as they sometimes
+            # report 45, 50 mminutes
+            results["identical-code"].get_frequency() * 60
+            + results["similar-code"].get_frequency() * 60
         )
 
     def cognitive_complexity(self, results: Dict):
