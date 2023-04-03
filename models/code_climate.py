@@ -22,9 +22,32 @@ class CodeClimate(QualityModel):
                 "cognitive_complexity": self.cognitive_complexity,
                 "Complexity": self.complexity,
                 "Duplication": self.duplication,
+                "Maintainability": self.maintainability,
             },
         }
         return model
+
+    def maintainability(self, results: Dict) -> str:
+        # https://docs.codeclimate.com/docs/maintainability-calculation
+        code_size: int = results["code_size"]
+        # Arbitrary choice of 30 minutes implementation time per line
+        implementation_time: int = code_size * 30
+        technical_debt = results["Complexity"] + results["Duplication"]
+        tech_debt_ratio: float = technical_debt / implementation_time
+
+        return self._map_to_letter(tech_debt_ratio)
+
+    def _map_to_letter(self, tech_debt_ratio: float) -> str:
+        if 0 <= tech_debt_ratio <= 0.05:
+            return "A"
+        elif 0.05 < tech_debt_ratio <= 0.1:
+            return "B"
+        elif 0.1 < tech_debt_ratio <= 0.2:
+            return "C"
+        elif 0.2 < tech_debt_ratio <= 0.5:
+            return "D"
+        else:
+            return "F"
 
     def complexity(self, results: Dict) -> int | float:
         return (
