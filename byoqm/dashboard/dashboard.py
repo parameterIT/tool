@@ -47,10 +47,9 @@ class Dashboard:
             spec = importlib.util.spec_from_file_location("figure", figure_file)
             module = importlib.util.module_from_spec(spec)
             sys.modules["figure"] = module
-            print(sys.modules["figure"])
             spec.loader.exec_module(module)
             module.fig._data = data
-            results["figure"] = module.fig.get_figure()
+            results[figure_file] = module.fig.get_figure()
         return results
 
     def show_graphs(
@@ -70,11 +69,11 @@ class Dashboard:
         data = self.get_data(in_use_qm, target_path, start_date, end_date)
         # Need to get figure type in a dict, so that they can be passed to gridplot.
         # Format: {figure_type (str) : figure_objects (list)}
-        figures = self._get_figures(data).get("figure")
-        gridplots = gridplot(
-            [[figures[i], figures[i + 1]] for i in range(0, len(figures) - 1, 2)],
-        )
-        show(gridplots)
+        figures = self._get_figures(data)
+        plots = []
+        for _,figure in figures.items():
+            plots.extend([[figure[i], figure[i + 1]] for i in range(0, len(figure) - 1, 2)])
+        show(gridplot(plots))
 
     def get_data(
         self,
