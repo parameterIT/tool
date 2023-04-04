@@ -52,7 +52,7 @@ class TestDashboard(unittest.TestCase):
         data = dashboard.get_data(
             path=_OUTPUT_FOLDER,
             in_use_qm="dummyqm",
-            targetPath="./dummysrc",
+            target_path=Path("./dummysrc"),
             start_date=start_date,
             end_date=end_date,
         )
@@ -65,7 +65,7 @@ class TestDashboard(unittest.TestCase):
         data = dashboard.get_data(
             path=_OUTPUT_FOLDER,
             in_use_qm="dummyqm",
-            targetPath="./dummysrc",
+            target_path=Path("./dummysrc"),
             start_date=start_date,
             end_date=end_date,
         )
@@ -78,7 +78,7 @@ class TestDashboard(unittest.TestCase):
         data = dashboard.get_data(
             path=_OUTPUT_FOLDER,
             in_use_qm="dummyqm",
-            targetPath="./dummysrc",
+            target_path=Path("./dummysrc"),
             start_date=start_date,
             end_date=end_date,
         )
