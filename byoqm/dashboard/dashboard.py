@@ -39,27 +39,15 @@ class Dashboard:
             return False
         return True
 
-    def _get_files(self):
-        figure_dir = "./figures"
-        figure_files = os.listdir(figure_dir)
-        for file in figure_files:
-            if os.path.isdir(figure_dir + "/" + file):
-                continue
-            if not file.startswith(figure_dir):
-                figure_files.remove(file)
-                figure_files.append(figure_dir + "/" + file)
-        return figure_files
-
     # Returns bokeh objects, for input in gridplot.
     def _get_figures(self, data):
         results = {}
-        figures = self._get_files()
+        figures = Path("./figures").glob("*.py")
         for figure_file in figures:
-            if os.path.isdir("./figures/" + figure_file):
-                continue
             spec = importlib.util.spec_from_file_location("figure", figure_file)
             module = importlib.util.module_from_spec(spec)
             sys.modules["figure"] = module
+            print(sys.modules["figure"])
             spec.loader.exec_module(module)
             module.fig._data = data
             results["figure"] = module.fig.get_figure()
