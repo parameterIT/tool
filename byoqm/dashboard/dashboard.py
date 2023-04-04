@@ -71,8 +71,10 @@ class Dashboard:
         # Format: {figure_type (str) : figure_objects (list)}
         figures = self._get_figures(data)
         plots = []
-        for _,figure in figures.items():
-            plots.extend([[figure[i], figure[i + 1]] for i in range(0, len(figure) - 1, 2)])
+        for _, figure in figures.items():
+            plots.extend(
+                [[figure[i], figure[i + 1]] for i in range(0, len(figure) - 1, 2)]
+            )
         show(gridplot(plots))
 
     def get_data(
