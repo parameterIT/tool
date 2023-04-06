@@ -1,4 +1,5 @@
 import logging
+from bs4 import UnicodeDammit
 from pathlib import Path
 from tree_sitter import Parser, Language
 import tree_sitter
@@ -46,6 +47,7 @@ class SourceRepository:
             self.asts[for_file] = self._parse_ast(for_file)
             ast = self.asts[for_file]
         finally:
+            print(ast)
             return ast
 
     def _parse_ast(self, file_at: Path) -> tree_sitter.Tree:
@@ -53,5 +55,6 @@ class SourceRepository:
         parses and returns the tree_sitter AST for a given file
         """
         with file_at.open() as file:
-            ast = self._parser.parse(bytes(file.read(), "utf8"))
+            str = file.read()
+            ast = self._parser.parse(bytes(str, "utf-8", errors="ignore"))
             return ast
