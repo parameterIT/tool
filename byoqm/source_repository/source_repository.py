@@ -1,5 +1,4 @@
 import logging
-from bs4 import UnicodeDammit
 from pathlib import Path
 from tree_sitter import Parser, Language
 import tree_sitter
