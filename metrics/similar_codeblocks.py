@@ -4,7 +4,7 @@ from byoqm.metric.metric import Metric
 from byoqm.metric.result import Result
 from byoqm.metric.violation import Violation
 from byoqm.source_repository.source_repository import SourceRepository
-from defusedxml.ElementTree import parse
+from defusedxml.ElementTree import parse, DefusedXMLParser
 
 TOKENS = 35
 
@@ -30,8 +30,10 @@ class SimilarBlocksofCode(Metric):
             shell=True,
             capture_output=True,
             text=True,
+            errors='ignore'
         )
-        element_tree = parse(StringIO(res.stdout))
+        str = res.stdout.encode('utf-8', errors='ignore').decode('utf-8')
+        element_tree = parse(StringIO(str))
         for child in element_tree.getroot():
             if child.tag == "duplication":
                 duplicates = [
