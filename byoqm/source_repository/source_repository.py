@@ -47,14 +47,20 @@ class SourceRepository:
             self.asts[for_file] = self._parse_ast(for_file)
             ast = self.asts[for_file]
         finally:
-            print(ast)
             return ast
 
     def _parse_ast(self, file_at: Path) -> tree_sitter.Tree:
         """
         parses and returns the tree_sitter AST for a given file
         """
-        with file_at.open() as file:
-            str = file.read()
-            ast = self._parser.parse(bytes(str, "utf-8", errors="ignore"))
-            return ast
+        try:
+            with file_at.open() as file:
+                # remove characters that are not utf-8
+                file_content = file.read().encode("utf-8", errors="ignore")
+                ast = self._parser.parse(file_content)
+                return ast
+        except Exception as e:
+            logging.error(
+                f"Failed to parse ast for file at path: {file_at}. Error: {e}"
+            )
+            raise ValueError
