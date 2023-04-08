@@ -1,8 +1,10 @@
+from io import TextIOWrapper
 from byoqm.metric.metric import Metric
 from byoqm.metric.result import Result
 from byoqm.metric.violation import Violation
 from byoqm.source_repository.source_repository import SourceRepository
 from byoqm.source_repository.query_translations import translate_to
+import chardet
 
 
 class FileLength(Metric):
@@ -12,13 +14,16 @@ class FileLength(Metric):
     def run(self):
         result = Result("file length", [])
         for file in self._source_repository.src_paths:
-            with open(file) as f:
+            encoding = 'utf-8'
+            with open(file, "rb") as f:
+                encoding = chardet.detect(f.read())["encoding"]
+            with open(file, encoding=encoding) as f:
                 result.violations.extend(
                     self._parse(f, self._source_repository.getAst(file), file)
                 )
         return result
 
-    def _parse(self, file, ast, path):
+    def _parse(self, file : TextIOWrapper, ast, path):
         """
         Finds out whether or not a file is more than 250 lines long excluding comments
         """

@@ -3,6 +3,7 @@ from pathlib import Path
 from tree_sitter import Parser, Language
 import tree_sitter
 from byoqm.source_repository.languages import languages
+import chardet
 
 _TREESITTER_BUILD: Path = Path("build/my-languages.so")
 
@@ -46,6 +47,8 @@ class SourceRepository:
             self.asts[for_file] = self._parse_ast(for_file)
             ast = self.asts[for_file]
         finally:
+            if (ast==None):
+                print(for_file)
             return ast
 
     def _parse_ast(self, file_at: Path) -> tree_sitter.Tree:
@@ -53,9 +56,9 @@ class SourceRepository:
         parses and returns the tree_sitter AST for a given file
         """
         try:
-            with file_at.open() as file:
+            with file_at.open("rb") as file:
                 # remove characters that are not utf-8
-                file_content = file.read().encode("utf-8", errors="ignore")
+                file_content = file.read()
                 ast = self._parser.parse(file_content)
                 return ast
         except Exception as e:
