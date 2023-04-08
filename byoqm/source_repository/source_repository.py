@@ -26,6 +26,7 @@ class SourceRepository:
         self.language = language
         self._parser = Parser()
         self._parser.set_language(self.tree_sitter_language)
+        self.encodings = self._get_encodings(self.src_paths)
 
     def getAst(self, for_file: Path) -> tree_sitter.Tree:
         """
@@ -47,7 +48,7 @@ class SourceRepository:
             self.asts[for_file] = self._parse_ast(for_file)
             ast = self.asts[for_file]
         finally:
-            if (ast==None):
+            if ast == None:
                 print(for_file)
             return ast
 
@@ -66,3 +67,10 @@ class SourceRepository:
                 f"Failed to parse ast for file at path: {file_at}. Error: {e}"
             )
             raise ValueError
+
+    def _get_encodings(self, files):
+        encodings = {}
+        for file in files:
+            with file.open("rb") as f:
+                encodings[file] = chardet.detect(f.read())["encoding"]
+        return encodings
