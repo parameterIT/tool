@@ -26,7 +26,7 @@ class SourceRepository:
         self.language = language
         self._parser = Parser()
         self._parser.set_language(self.tree_sitter_language)
-        self.encodings = self._get_encodings(self.src_paths)
+        self.file_encodings = self._get_encodings(self.src_paths)
 
     def getAst(self, for_file: Path) -> tree_sitter.Tree:
         """
