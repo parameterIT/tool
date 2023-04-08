@@ -14,9 +14,7 @@ class FileLength(Metric):
     def run(self):
         result = Result("file length", [])
         for file in self._source_repository.src_paths:
-            encoding = "utf-8"
-            with open(file, "rb") as f:
-                encoding = chardet.detect(f.read())["encoding"]
+            encoding = self._source_repository.encodings[file]
             with open(file, encoding=encoding) as f:
                 result.violations.extend(
                     self._parse(f, self._source_repository.getAst(file), file)
