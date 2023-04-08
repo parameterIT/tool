@@ -30,9 +30,9 @@ class SimilarBlocksofCode(Metric):
             shell=True,
             capture_output=True,
             text=True,
-            errors='ignore'
+            errors="ignore",
         )
-        str = res.stdout.encode('utf-8', errors='ignore').decode('utf-8')
+        str = res.stdout.encode("utf-8", errors="ignore").decode("utf-8")
         element_tree = parse(StringIO(str))
         for child in element_tree.getroot():
             if child.tag == "duplication":

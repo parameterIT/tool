@@ -14,7 +14,7 @@ class FileLength(Metric):
     def run(self):
         result = Result("file length", [])
         for file in self._source_repository.src_paths:
-            encoding = 'utf-8'
+            encoding = "utf-8"
             with open(file, "rb") as f:
                 encoding = chardet.detect(f.read())["encoding"]
             with open(file, encoding=encoding) as f:
@@ -23,7 +23,7 @@ class FileLength(Metric):
                 )
         return result
 
-    def _parse(self, file : TextIOWrapper, ast, path):
+    def _parse(self, file: TextIOWrapper, ast, path):
         """
         Finds out whether or not a file is more than 250 lines long excluding comments
         """
