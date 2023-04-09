@@ -48,8 +48,6 @@ class SourceRepository:
             self.asts[for_file] = self._parse_ast(for_file)
             ast = self.asts[for_file]
         finally:
-            if ast == None:
-                print(for_file)
             return ast
 
     def _parse_ast(self, file_at: Path) -> tree_sitter.Tree:
@@ -72,5 +70,11 @@ class SourceRepository:
         encodings = {}
         for file in files:
             with file.open("rb") as f:
-                encodings[file] = chardet.detect(f.read())["encoding"]
+                encoding = chardet.detect(f.read())["encoding"]
+                if encoding == "UTF-8-SIG":
+                    encoding = "UTF-8"
+                if encoding == "ascii":
+                    encoding = "US-ASCII"
+
+                encodings[file] = encoding
         return encodings

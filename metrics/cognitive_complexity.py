@@ -1,3 +1,4 @@
+import logging
 import tree_sitter
 
 from pathlib import Path
@@ -76,11 +77,7 @@ class CognitiveComplexity(Metric):
                 {translate_to[self._source_repository.language]["invocation"]} @invocation
                 """
         )
-        try:
-            outer_function_name = self._read_function_name(file_path, node)
-        except ValueError as e:
-            print(e)
-            return
+        outer_function_name = self._read_function_name(file_path, node)
         nestedCalls = nestedFunctionCallsQuery.captures(node)
         for call, _ in nestedCalls:
             try:

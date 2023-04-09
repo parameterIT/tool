@@ -29,12 +29,6 @@ class IdenticalBlocksofCode(Metric):
                 for file, encoding_type in self._source_repository.file_encodings.items()
                 if encoding_type == encoding
             ]
-            print(encoding)
-            if encoding == "UTF-8-SIG":
-                encoding = "UTF-8"
-            if encoding == "ascii":
-                encoding = "US-ASCII"
-            print(len(files))
             filestring = f"{files}"
             filestring = filestring[1 : len(filestring) - 1]
             res = subprocess.run(
@@ -43,7 +37,6 @@ class IdenticalBlocksofCode(Metric):
                 capture_output=True,
                 text=True,
             )
-            print(res.stdout == "")
             element_tree = parse(StringIO(res.stdout))
             for child in element_tree.getroot():
                 if child.tag == "duplication":
