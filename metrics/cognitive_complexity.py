@@ -78,8 +78,8 @@ class CognitiveComplexity(Metric):
         )
         try:
             outer_function_name = self._read_function_name(file_path, node)
-        except ValueError:
-            # return if there is no identifier, considered faulty tree_sitter parsing
+        except ValueError as e:
+            print(e)
             return
         nestedCalls = nestedFunctionCallsQuery.captures(node)
         for call, _ in nestedCalls:
@@ -101,7 +101,9 @@ class CognitiveComplexity(Metric):
         name_start_col = identifier.start_point[1]
         name_end_col = identifier.end_point[1]
 
-        with file_path.open() as f:
+        with file_path.open(
+            encoding=self._source_repository.file_encodings[file_path]
+        ) as f:
             range_length = name_start_row
             for _ in range(
                 range_length
