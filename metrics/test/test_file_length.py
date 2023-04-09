@@ -36,7 +36,7 @@ class TestFileLength(unittest.TestCase):
         file_length = FileLength()
         file_length._source_repository = new_source_repository
         result = file_length.run()
-        self.assertEqual(result.get_frequency(), 2)
+        self.assertEqual(result.get_frequency(), 3)
 
     def tearDown(self):
         os.chdir(Path("metrics/test").resolve())

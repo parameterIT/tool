@@ -56,13 +56,11 @@ class SourceRepository:
         """
         try:
             with file_at.open("rb") as file:
-                # remove characters that are not utf-8
-                file_content = file.read()
-                ast = self._parser.parse(file_content)
+                ast = self._parser.parse(file.read())
                 return ast
         except Exception as e:
             logging.error(
-                f"Failed to parse ast for file at path: {file_at}. Error: {e}"
+                f"Failed to parse ast for file at path: {file_at} with encoding {self.file_encodings[file_at]}. Error: {e}"
             )
             raise ValueError
 
