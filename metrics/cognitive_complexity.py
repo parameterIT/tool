@@ -6,7 +6,7 @@ from typing import List
 from byoqm.metric.metric import Metric
 from byoqm.metric.result import Result
 from byoqm.metric.violation import Violation
-from byoqm.source_repository.query_translations import translate_to
+from metrics.util.query_translations import translate_to
 from byoqm.source_repository.source_repository import SourceRepository
 
 
