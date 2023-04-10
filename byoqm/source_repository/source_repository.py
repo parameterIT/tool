@@ -62,7 +62,7 @@ class SourceRepository:
             logging.error(
                 f"Failed to parse ast for file at path: {file_at} with encoding {self.file_encodings[file_at]}. Error: {e}"
             )
-            raise ValueError
+            raise e
 
     def _get_encodings(self, files):
         encodings = {}
