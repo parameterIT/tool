@@ -16,7 +16,8 @@ class CodeSize(Metric):
     def run(self):
         loc: int = 0
         for file in self._source_repository.src_paths:
-            with open(file) as f:
+            encoding = self._source_repository.file_encodings[file]
+            with open(file, encoding=encoding) as f:
                 loc = loc + self._parse(f, self._source_repository.getAst(file))
         return loc
 
