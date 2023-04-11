@@ -17,14 +17,13 @@ class CodeSize(Metric):
         loc: int = 0
         for file in self._source_repository.src_paths:
             with open(file) as f:
-                loc = loc + self._parse(f, self._source_repository.getAst(file), file)
+                loc = loc + self._parse(f, self._source_repository.getAst(file))
         return loc
 
-    def _parse(self, file, ast, path):
+    def _parse(self, file, ast):
         """
         Finds out whether or not a file is more than 250 lines long excluding comments
         """
-        violations = []
         query = self._source_repository.tree_sitter_language.query(
             f"""
             (_ [{translate_to[self._source_repository.language]["comment"]}] @comment)
