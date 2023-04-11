@@ -3,6 +3,7 @@ from pathlib import Path
 from tree_sitter import Parser, Language
 import tree_sitter
 from byoqm.source_repository.languages import languages
+import chardet
 
 _TREESITTER_BUILD: Path = Path("build/my-languages.so")
 
@@ -25,6 +26,7 @@ class SourceRepository:
         self.language = language
         self._parser = Parser()
         self._parser.set_language(self.tree_sitter_language)
+        self.file_encodings = self._get_encodings(self.src_paths)
 
     def getAst(self, for_file: Path) -> tree_sitter.Tree:
         """
@@ -52,6 +54,25 @@ class SourceRepository:
         """
         parses and returns the tree_sitter AST for a given file
         """
-        with file_at.open() as file:
-            ast = self._parser.parse(bytes(file.read(), "utf8"))
-            return ast
+        try:
+            with file_at.open("rb") as file:
+                ast = self._parser.parse(file.read())
+                return ast
+        except Exception as e:
+            logging.error(
+                f"Failed to parse ast for file at path: {file_at} with encoding {self.file_encodings[file_at]}. Error: {e}"
+            )
+            raise e
+
+    def _get_encodings(self, files):
+        encodings = {}
+        for file in files:
+            with file.open("rb") as f:
+                encoding = chardet.detect(f.read())["encoding"]
+                if encoding == "UTF-8-SIG":
+                    encoding = "UTF-8"
+                if encoding == "ascii":
+                    encoding = "US-ASCII"
+
+                encodings[file] = encoding
+        return encodings

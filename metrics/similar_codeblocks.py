@@ -1,4 +1,5 @@
 from io import StringIO
+from typing import List
 import subprocess
 from byoqm.metric.metric import Metric
 from byoqm.metric.result import Result
@@ -18,7 +19,7 @@ class SimilarBlocksofCode(Metric):
             [str(file) for file in self._source_repository.src_paths]
         )
 
-    def _similar_blocks_of_code(self, files) -> list:
+    def _similar_blocks_of_code(self, files) -> Result:
         """
         Finds the amount of similar code blocks in a given repository
         """
