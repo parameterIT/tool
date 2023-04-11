@@ -33,7 +33,7 @@ class SimilarBlocksofCode(Metric):
             filestring = f"{files}"
             filestring = filestring[1 : len(filestring) - 1]
             res = subprocess.run(
-                f"metrics/cpd/bin/run.sh cpd --minimum-tokens {TOKENS} --skip-lexical-errors --dir {filestring} --format xml --encoding {encoding}",
+                f"metrics/cpd/bin/run.sh cpd --minimum-tokens {TOKENS} --skip-lexical-errors --ignore-identifiers --ignore-literals --dir {filestring} --format xml --encoding {encoding}",
                 shell=True,
                 capture_output=True,
                 text=True,
