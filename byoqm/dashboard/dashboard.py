@@ -39,30 +39,17 @@ class Dashboard:
             return False
         return True
 
-    def _get_files(self):
-        figure_dir = "./figures"
-        figure_files = os.listdir(figure_dir)
-        for file in figure_files:
-            if os.path.isdir(figure_dir + "/" + file):
-                continue
-            if not file.startswith(figure_dir):
-                figure_files.remove(file)
-                figure_files.append(figure_dir + "/" + file)
-        return figure_files
-
     # Returns bokeh objects, for input in gridplot.
     def _get_figures(self, data):
         results = {}
-        figures = self._get_files()
+        figures = Path("./figures").glob("*.py")
         for figure_file in figures:
-            if os.path.isdir("./figures/" + figure_file):
-                continue
             spec = importlib.util.spec_from_file_location("figure", figure_file)
             module = importlib.util.module_from_spec(spec)
             sys.modules["figure"] = module
             spec.loader.exec_module(module)
             module.fig._data = data
-            results["figure"] = module.fig.get_figure()
+            results[figure_file] = module.fig.get_figure()
         return results
 
     def show_graphs(
@@ -82,11 +69,13 @@ class Dashboard:
         data = self.get_data(in_use_qm, target_path, start_date, end_date)
         # Need to get figure type in a dict, so that they can be passed to gridplot.
         # Format: {figure_type (str) : figure_objects (list)}
-        figures = self._get_figures(data).get("figure")
-        gridplots = gridplot(
-            [[figures[i], figures[i + 1]] for i in range(0, len(figures) - 1, 2)],
-        )
-        show(gridplots)
+        figures = self._get_figures(data)
+        plots = []
+        for _, figure in figures.items():
+            plots.extend(
+                [[figure[i], figure[i + 1]] for i in range(0, len(figure) - 1, 2)]
+            )
+        show(gridplot(plots))
 
     def get_data(
         self,
