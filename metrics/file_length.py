@@ -1,3 +1,4 @@
+from io import TextIOWrapper
 from byoqm.metric.metric import Metric
 from byoqm.metric.result import Result
 from byoqm.metric.violation import Violation
@@ -12,7 +13,8 @@ class FileLength(Metric):
     def run(self):
         result = Result("file length", [])
         for file in self._source_repository.src_paths:
-            with open(file) as f:
+            encoding = self._source_repository.file_encodings[file]
+            with open(file, encoding=encoding) as f:
                 result.violations.extend(
                     self._parse(f, self._source_repository.getAst(file), file)
                 )
