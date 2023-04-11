@@ -29,7 +29,7 @@ class TestFileLength(unittest.TestCase):
         result = file_length.run()
         self.assertEqual(result.get_frequency(), 1)
 
-    def test_file_length_given_csharp_file_returns_2(self):
+    def test_file_length_given_csharp_file_returns_3(self):
         new_source_repository = SourceRepository(
             Path("./metrics/test/data/test_data_file_length"), "c_sharp"
         )
