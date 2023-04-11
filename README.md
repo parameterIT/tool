@@ -2,7 +2,7 @@
 
 ## Setup
 
-Make sure you have [Poetry](https://python-poetry.org/docs/) installed.
+Make sure you have [Poetry >= 1.2.0](https://python-poetry.org/docs/) installed.
 You can then get started by running:
 
 ```sh
@@ -26,7 +26,7 @@ poetry run main <path/to/source/code> <Quality_model> <language>
 
 To see supported languages please refer to: `byoqm/source_coordinator/languages.py`
 
-Optional values can be gotten by running: 
+Optional values can be gotten by running:
 
 ```sh
 poetry run main --help
