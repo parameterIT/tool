@@ -101,6 +101,8 @@ class Dashboard:
         logging.info(f"Getting data from: {path}")
         graph_data = defaultdict(list)
         for filename in os.listdir(path):
+            if filename == ".gitkeep":
+                continue
             try:
                 filepath = os.path.join(path, filename)
                 date = datetime.strptime(filename.split(".")[0], "%Y-%m-%d_%H-%M-%S")
