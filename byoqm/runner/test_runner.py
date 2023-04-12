@@ -18,12 +18,8 @@ class TestRunner(unittest.TestCase):
         _OUTPUT_FOLDER.mkdir(parents=True, exist_ok=True)
         _FREQ_FOLDER.mkdir(parents=True, exist_ok=True)
         _VIOLATION_FOLDER.mkdir(parents=True, exist_ok=True)
-        self._runner = Runner("no_cpd", Path("byoqm/"), _OUTPUT_FOLDER, True, "python")
+        self._runner = Runner("no_cpd", Path("byoqm/"), "python")
         logging.disable()
-
-    def tearDown(self):
-        # shutil over os.rmdir, because it allows you to remove non/empty directories
-        shutil.rmtree(_TEST_FOLDER, ignore_errors=True)
 
     def test_load_given_code_climate_inits_runner(self):
         self._runner._load("code_climate")
@@ -37,10 +33,6 @@ class TestRunner(unittest.TestCase):
             self._runner._load,
             "this model has never, does not, and will never exist (hopefully)",
         )
-
-    def test_run_produces_non_empty_file(self):
-        output = self._runner.run()
-        self.assertTrue(output.stat().st_size > 0)
 
 
 if __name__ == "__main__":
