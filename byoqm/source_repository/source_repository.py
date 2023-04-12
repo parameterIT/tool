@@ -73,6 +73,10 @@ class SourceRepository:
                     encoding = "UTF-8"
                 if encoding == "ascii":
                     encoding = "US-ASCII"
+                if encoding == "Binary":
+                    print("BAD FILE!")
+                    self.src_paths.remove(file)
+                    continue
 
                 encodings[file] = encoding
         return encodings
