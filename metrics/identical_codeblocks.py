@@ -29,7 +29,6 @@ class IdenticalBlocksofCode(Metric):
                 for file, encoding_type in self._source_repository.file_encodings.items()
                 if encoding_type == encoding
             ]
-            print(encoding)
             filestring = f"{files}"
             filestring = filestring[1 : len(filestring) - 1]
             res = subprocess.run(
