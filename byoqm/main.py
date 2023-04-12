@@ -1,10 +1,11 @@
 from datetime import datetime
 from pathlib import Path
-import sys
 from byoqm.runner import Runner
 from byoqm.dashboard.dashboard import Dashboard
 import click
 import logging
+
+from byoqm.writer import Writer
 
 
 @click.command()
@@ -81,12 +82,17 @@ def load(
     runner: Runner = Runner(
         quality_model,
         Path(src_root),
-        Path(output),
-        save_file,
         language.lower(),
     )
-    runner.run()
+    results = runner.run()
     logging.info("Finished running")
+    writer: Writer = Writer(
+        quality_model,
+        Path(src_root),
+        Path(output),
+    )
+    if save_file:
+        writer.run(results)
     if show_graphs:
         dashboard = Dashboard()
         dashboard.show_graphs(quality_model, Path(src_root), start_date, end_date)
