@@ -170,6 +170,7 @@ class Runner:
         return file_location
 
     def _gen_output_paths_if_not_exists(self):
+        Path(self._output_dir).resolve().mkdir(exist_ok=True)
         Path(self._output_dir / Path("violations")).resolve().mkdir(exist_ok=True)
         Path(self._output_dir / Path("frequencies")).resolve().mkdir(exist_ok=True)
         Path(self._output_dir / Path("metadata")).resolve().mkdir(exist_ok=True)
