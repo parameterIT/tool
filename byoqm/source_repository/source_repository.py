@@ -27,6 +27,21 @@ class SourceRepository:
             "java": tree_sitter.Language(_TREESITTER_BUILD, "java"),
         }
 
+        python_parser = tree_sitter.Parser()
+        python_parser.set_language(self.tree_sitter_languages["python"])
+
+        c_sharp_parser = tree_sitter.Parser()
+        c_sharp_parser.set_language(self.tree_sitter_languages["c_sharp"])
+
+        java_parser = tree_sitter.Parser()
+        java_parser.set_language(self.tree_sitter_languages["java"])
+
+        self.tree_sitter_parsers: Dict[str, tree_sitter.Parser] = {
+            "python": python_parser,
+            "c_sharp": c_sharp_parser,
+            "java": java_parser
+        }
+
     def get_ast(self, for_file: FileInfo) -> tree_sitter.Tree:
         """
         get_ast checks if an AST for the path already has been computed, and returns that
@@ -36,24 +51,21 @@ class SourceRepository:
         ast = None
         try:
             ast = self.asts[for_file.file_path]
+            return ast
         except KeyError:
             self.asts[for_file.file_path] = self._parse_ast(for_file)
             ast = self.asts[for_file.file_path]
-        finally:
             return ast
 
     def _parse_ast(self, of_file: FileInfo) -> tree_sitter.Tree:
         """
         parses and returns the tree_sitter AST for a given file
         """
-        parser: tree_sitter.Parser = tree_sitter.Parser(of_file.language)
-        language = tree_sitter.Language("deps/tree-sitter/build/my-languages.so", of_file.language)
-        parser.set_language(language)
-        ast = None
         with of_file.file_path.open("rb") as file:
-            ast = parser.parse(file.read())
-        # Tree sitter does not fail just returns None, scream and shout if there is none
-        return ast
+            ast = self.tree_sitter_parsers[of_file.language].parse(file.read())
+            if ast is None:
+                raise TypeError(f"Abstract syntax tree for ${of_file} is None")
+            return ast
 
     def _discover_files(self) -> Dict[Path, FileInfo]:
         if self.src_root.is_file():
@@ -98,7 +110,6 @@ class SourceRepository:
 
     def _should_exclude(self, file_info: FileInfo):
         return file_info.language == "unknown" or file_info.encoding == "unknown" or file_info.encoding not in _SUPPORTED_ENCODINGS
-
 
     def _get_encodings(self, files):
         encodings = {}
