@@ -11,13 +11,15 @@ class FileLength(Metric):
         self._source_repository: SourceRepository = None
 
     def run(self):
-        result = Result("file length", [])
         for file in self._source_repository.src_paths:
+            violations = []
             encoding = self._source_repository.file_encodings[file]
             with open(file, encoding=encoding) as f:
-                result.violations.extend(
+                violations.extend(
                     self._parse(f, self._source_repository.getAst(file), file)
                 )
+                result.outcome = len(result.violations)
+                result = Result("file length", violations, len(violations))
         return result
 
     def _parse(self, file, ast, path):
