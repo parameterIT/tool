@@ -1,3 +1,5 @@
+import tree_sitter
+
 from byoqm.metric.metric import Metric
 from byoqm.metric.result import Result
 from byoqm.metric.violation import Violation
@@ -10,20 +12,21 @@ class MethodLength(Metric):
         self._source_repository: SourceRepository = None
 
     def run(self):
-        for file in self._source_repository.src_root:
+        for file_path, file_info in self._source_repository.files.items():
             violations = []
-            violations.extend(self._parse(self._source_repository.getAst(file), file))
+            violations.extend(self._parse(self._source_repository.get_ast(file_info), file_info))
         return Result("method length", violations, len(violations))
 
-    def _parse(self, ast, file):
+    def _parse(self, ast, file_info):
         """
         Finds the length of all methods in a file and returns the amount of methods that have a length
         that is greater than 25
         """
         violations = []
-        query = self._source_repository.tree_sitter_language.query(
+        language = tree_sitter.Language("deps/tree-sitter/build/my-languages.so", file_info.language)
+        query = language.query(
             f"""
-                (_ [{translate_to[self._source_repository.language]["function_block"]}])
+                (_ [{translate_to[file_info.language]["function_block"]}])
             """
         )
         captures = query.captures(ast.root_node)
@@ -35,7 +38,7 @@ class MethodLength(Metric):
                 violations.append(
                     Violation(
                         "method length",
-                        (str(file), node.start_point[0], node.end_point[0] + 1),
+                        (str(file_info), node.start_point[0], node.end_point[0] + 1),
                     )
                 )
         return violations

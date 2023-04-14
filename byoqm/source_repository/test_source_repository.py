@@ -11,25 +11,21 @@ class TestSourceRepository(unittest.TestCase):
         self.source_repository = SourceRepository(Path("byoqm/source_repository/test/data"))
 
     def test_get_ast_given_a_child_file_returns_a_tree_sitter_ast(self):
-        target = Path("./byoqm/source_repository/test/data/a_file.py")
-        actual = self.source_repository.getAst(target)
+        target = self.source_repository.files[Path("./byoqm/source_repository/test/data/a_file.py")]
+        actual = self.source_repository.get_ast(target)
 
         self.assertIsInstance(actual, tree_sitter.Tree)
 
-    def test_get_ast_given_a_sibling_file_fails(self):
-        target = Path("./byoqm/source_repository/source_repository.py")
-        self.assertRaises(ValueError, self.source_repository.getAst, target)
-
     def test_get_ast_returns_tree_with_2_elements(self):
-        target = Path("./byoqm/source_repository/test/data/a_file.py")
-        tree = self.source_repository.getAst(target)
+        target = self.source_repository.files[Path("./byoqm/source_repository/test/data/a_file.py")]
+        tree = self.source_repository.get_ast(target)
         actual = len(tree.root_node.children)
         self.assertEqual(actual, 2)
 
-    def test_new_source_repository_findes_c_sharp_files(self):
-        new_coordinator = SourceRepository(Path("byoqm/source_repository/test/data"))
-        actual = new_coordinator.src_root
+    def test_source_repository_finds_two_files(self):
+        actual = len(self.source_repository.files)
+        expected = 2
 
         self.assertEqual(
-            actual, [Path("byoqm/source_repository/test/data/a_nother_file.cs")]
+            actual, expected
         )

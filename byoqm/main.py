@@ -58,7 +58,6 @@ from byoqm.writer import Writer
 def load(
     src_root: str,
     quality_model: str,
-    language: str,
     output: str = "./output",
     save_file: bool = True,
     show_graphs: bool = True,

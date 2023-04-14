@@ -8,6 +8,7 @@ from byoqm.source_repository.languages import languages
 import chardet
 
 _TREESITTER_BUILD: Path = Path("build/my-languages.so")
+_SUPPORTED_ENCODINGS: List[str] = ["US-ASCII, ISO-8859-1", "UTF-8", "UTF-16BE", "UTF-16LE", "UTF-16"]
 
 
 class SourceRepository:
@@ -21,41 +22,33 @@ class SourceRepository:
         self.asts: Dict[Path, tree_sitter.Tree] = {}
         self.files: Dict[Path, FileInfo] = self._discover_files()
 
-    def get_ast(self, for_file: Path) -> tree_sitter.Tree:
+    def get_ast(self, for_file: FileInfo) -> tree_sitter.Tree:
         """
-        getAst checks if an AST for the path already has been computed, and returns that
+        get_ast checks if an AST for the path already has been computed, and returns that
         AST if it is the case. Otherwise, it will parse the file to a tree_sitter AST
         and return that tree.
-
-        Throws a ValueError when the file to parse is not a child path of the given
-        src_root.
         """
-        if for_file not in self.files:
-            logging.error("The file to parse must be a child path of of the src_root")
-            raise ValueError
-
         ast = None
         try:
-            ast = self.asts[for_file]
+            ast = self.asts[for_file.file_path]
         except KeyError:
-            self.asts[for_file] = self._parse_ast(for_file)
-            ast = self.asts[for_file]
+            self.asts[for_file.file_path] = self._parse_ast(for_file)
+            ast = self.asts[for_file.file_path]
         finally:
             return ast
 
-    def _parse_ast(self, file_at: Path) -> tree_sitter.Tree:
+    def _parse_ast(self, of_file: FileInfo) -> tree_sitter.Tree:
         """
         parses and returns the tree_sitter AST for a given file
         """
-        try:
-            with file_at.open("rb") as file:
-                ast = self._parser.parse(file.read())
-                return ast
-        except Exception as e:
-            logging.error(
-                f"Failed to parse ast for file at path: {file_at} with encoding {self.file_encodings[file_at]}. Error: {e}"
-            )
-            raise e
+        parser: tree_sitter.Parser = tree_sitter.Parser(of_file.language)
+        language = tree_sitter.Language("deps/tree-sitter/build/my-languages.so", of_file.language)
+        parser.set_language(language)
+        ast = None
+        with of_file.file_path.open("rb") as file:
+            ast = parser.parse(file.read())
+        # Tree sitter does not fail just returns None, scream and shout if there is none
+        return ast
 
     def _discover_files(self) -> Dict[Path, FileInfo]:
         if self.src_root.is_file():
@@ -71,7 +64,8 @@ class SourceRepository:
                 file_infos.update(self._discover_in_dir(f))
             else:
                 file_info = self._inspect_file(f)
-                file_infos[f] = file_info
+                if not self._should_exclude(file_info):
+                    file_infos[f] = file_info
 
         return file_infos
 
@@ -88,13 +82,18 @@ class SourceRepository:
             programming_language = "java"
 
         encoding: str = "unknown"
-        with file_path.open("rb") as file:
-            chardet_guess = chardet.detect(file.read())
-            if not chardet_guess["encoding"] is None:
-                # encoding will be 'unknown' if chardet guesses it as None
-                encoding = chardet_guess["encoding"]
+        if file_path.suffix != ".jar":
+            with file_path.open("rb") as file:
+                chardet_guess = chardet.detect(file.read())
+                if not chardet_guess["encoding"] is None:
+                    # encoding will be 'unknown' if chardet guesses it as None
+                    encoding = chardet_guess["encoding"]
 
         return FileInfo(file_path, encoding, programming_language)
+
+    def _should_exclude(self, file_info: FileInfo):
+        return file_info.language == "unknown" or file_info.encoding == "unknown" or file_info.encoding not in _SUPPORTED_ENCODINGS
+
 
     def _get_encodings(self, files):
         encodings = {}
