@@ -18,7 +18,7 @@ class TestComplexLogic(unittest.TestCase):
 
     def test_complex_logic_given_file_returns_2(self):
         result = self._complexlogic.run()
-        self.assertEqual(result.get_frequency(), 2)
+        self.assertEqual(result.outcome, 2)
         locations = result.get_violation_locations()
         self.assertEqual((locations[0][1], locations[0][2]), (20, 20))
         self.assertEqual((locations[1][1], locations[1][2]), (23, 23))
@@ -30,7 +30,7 @@ class TestComplexLogic(unittest.TestCase):
         complex_logic = ComplexLogic()
         complex_logic._source_repository = new_source_repository
         result = complex_logic.run()
-        self.assertEqual(result.get_frequency(), 4)
+        self.assertEqual(result.outcome, 4)
         locations = result.get_violation_locations()
         self.assertEqual((locations[0][1], locations[0][2]), (11, 11))
         self.assertEqual((locations[1][1], locations[1][2]), (12, 12))
@@ -44,7 +44,7 @@ class TestComplexLogic(unittest.TestCase):
         complex_logic = ComplexLogic()
         complex_logic._source_repository = new_source_repository
         result = complex_logic.run()
-        self.assertEqual(result.get_frequency(), 4)
+        self.assertEqual(result.outcome, 4)
         locations = result.get_violation_locations()
         self.assertEqual((locations[0][1], locations[0][2]), (15, 15))
         self.assertEqual((locations[1][1], locations[1][2]), (16, 16))

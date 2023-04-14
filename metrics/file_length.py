@@ -3,7 +3,7 @@ from byoqm.metric.metric import Metric
 from byoqm.metric.result import Result
 from byoqm.metric.violation import Violation
 from byoqm.source_repository.source_repository import SourceRepository
-from byoqm.source_repository.query_translations import translate_to
+from metrics.util.query_translations import translate_to
 
 
 class FileLength(Metric):
@@ -11,14 +11,14 @@ class FileLength(Metric):
         self._source_repository: SourceRepository = None
 
     def run(self):
-        result = Result("file length", [])
+        violations = []
         for file in self._source_repository.src_paths:
             encoding = self._source_repository.file_encodings[file]
             with open(file, encoding=encoding) as f:
-                result.violations.extend(
+                violations.extend(
                     self._parse(f, self._source_repository.getAst(file), file)
                 )
-        return result
+        return Result("file length", violations, len(violations))
 
     def _parse(self, file, ast, path):
         """

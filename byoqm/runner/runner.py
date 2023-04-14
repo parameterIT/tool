@@ -156,10 +156,10 @@ class Runner:
             writer = csv.writer(results_file)
             writer.writerow(["metric", "value"])
             for description, value in results.items():
-                frequency = value
+                outcome = value
                 if type(value) is Result:
-                    frequency = value.get_frequency()
-                writer.writerow([description, frequency])
+                    outcome = value.outcome
+                writer.writerow([description, outcome])
         logging.info("Finished writing frequencies to csv")
         file_location = self._output_dir / Path("metadata") / file_name
         with open(file_location, "w") as metadata_file:
@@ -170,6 +170,7 @@ class Runner:
         return file_location
 
     def _gen_output_paths_if_not_exists(self):
+        Path(self._output_dir).resolve().mkdir(exist_ok=True)
         Path(self._output_dir / Path("violations")).resolve().mkdir(exist_ok=True)
         Path(self._output_dir / Path("frequencies")).resolve().mkdir(exist_ok=True)
         Path(self._output_dir / Path("metadata")).resolve().mkdir(exist_ok=True)

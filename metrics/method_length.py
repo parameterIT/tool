@@ -2,7 +2,7 @@ from byoqm.metric.metric import Metric
 from byoqm.metric.result import Result
 from byoqm.metric.violation import Violation
 from byoqm.source_repository.source_repository import SourceRepository
-from byoqm.source_repository.query_translations import translate_to
+from metrics.util.query_translations import translate_to
 
 
 class MethodLength(Metric):
@@ -10,12 +10,10 @@ class MethodLength(Metric):
         self._source_repository: SourceRepository = None
 
     def run(self):
-        result = Result("method length", [])
         for file in self._source_repository.src_paths:
-            result.violations.extend(
-                self._parse(self._source_repository.getAst(file), file)
-            )
-        return result
+            violations = []
+            violations.extend(self._parse(self._source_repository.getAst(file), file))
+        return Result("method length", violations, len(violations))
 
     def _parse(self, ast, file):
         """
