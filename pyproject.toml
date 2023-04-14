@@ -17,6 +17,7 @@ mkdocs = "^1.4.2"
 [tool.poetry.scripts]
 main="byoqm.main:load"
 test="metrics.test.test_all:run"
+docs="documentation.build:run"
 
 [tool.poetry.group.dev.dependencies]
 black = "^23.1.0"

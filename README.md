@@ -1,4 +1,9 @@
 # Quality Tool
+## Documentation
+Documentation is generated using mkdocs. Use the following command to generate the documentation website:
+```sh
+poetry run docs
+```
 
 ## Setup
 
@@ -65,3 +70,4 @@ Build the grammar file:
 ```sh
 poetry run python byoqm/build_treesitter.py
 ```
+
