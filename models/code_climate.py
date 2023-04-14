@@ -76,18 +76,18 @@ class CodeClimate(QualityModel):
 
     def complexity(self, results: Dict) -> int | float:
         return (
-            results["cognitive_complexity"].get_frequency()
-            + results["return_statements"].get_frequency()
-            + results["nested_control_flow"].get_frequency()
-            + results["argument_count"].get_frequency()
-            + results["method_lines"].get_frequency()
-            + results["file_lines"].get_frequency() 
+            results["cognitive_complexity"].outcome
+            + results["return_statements"].outcome
+            + results["nested_control_flow"].outcome
+            + results["argument_count"].outcome
+            + results["method_lines"].outcome
+            + results["file_lines"].outcome 
         )
 
     def duplication(self, results: Dict) -> int | float:
         return (
-            results["identical-code"].get_frequency()
-            + results["similar-code"].get_frequency()
+            results["identical-code"].outcome
+            + results["similar-code"].outcome
         )
 
 

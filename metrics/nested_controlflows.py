@@ -10,12 +10,10 @@ class NestedControlflows(Metric):
         self._source_repository: SourceRepository = None
 
     def run(self):
-        result = Result("nested controlflow", [])
+        violations = []
         for file in self._source_repository.src_paths:
-            result.violations.extend(
-                self._parse(self._source_repository.getAst(file), file)
-            )
-        return result
+            violations.extend(self._parse(self._source_repository.getAst(file), file))
+        return Result("nested controlflow", violations, len(violations))
 
     def _unique(self, not_unique_list):
         unique_list = []
