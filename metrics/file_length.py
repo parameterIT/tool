@@ -18,9 +18,7 @@ class FileLength(Metric):
                 violations.extend(
                     self._parse(f, self._source_repository.getAst(file), file)
                 )
-                result.outcome = len(result.violations)
-                result = Result("file length", violations, len(violations))
-        return result
+        return Result("file length", violations, len(violations))
 
     def _parse(self, file, ast, path):
         """

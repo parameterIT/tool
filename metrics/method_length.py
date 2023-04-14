@@ -10,12 +10,12 @@ class MethodLength(Metric):
         self._source_repository: SourceRepository = None
 
     def run(self):
-        result = Result("method length", [])
         for file in self._source_repository.src_paths:
-            result.violations.extend(
+            violations = []
+            violations.extend(
                 self._parse(self._source_repository.getAst(file), file)
             )
-        return result
+        return Result("method length", violations, len(violations))
 
     def _parse(self, ast, file):
         """

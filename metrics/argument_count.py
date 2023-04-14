@@ -10,12 +10,12 @@ class ArgumentCount(Metric):
         self._source_repository: SourceRepository = None
 
     def run(self):
-        result = Result("argument count", [])
+        violations = []
         for file in self._source_repository.src_paths:
-            result.violations.extend(
+            violations.extend(
                 self._parse(self._source_repository.getAst(file), file)
             )
-        return result
+        return Result("argument count", violations, len(violations))
 
     def _parse(self, ast, file):
         """
