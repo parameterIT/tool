@@ -53,21 +53,7 @@ class CodeClimate(QualityModel):
         # https://docs.codeclimate.com/docs/maintainability-calculation
         code_size: int = results["code_size"]
         implementation_time: int = code_size * self._LINE_IMPLEMENTATiON_TIME
-        complexity_remediation = (
-            results["Complexity"]
-            * self._COGNITIVE_COMPLEXITY_REMEDIATION_COST
-            * self._RETURN_STATEMENTS_REMEDIATION_COST
-            * self._NESTED_CONTROL_FLOW_REMEDIATION_COST
-            * self._ARGUMENT_COUNT_REMEDIATION_COST
-            * self._METHOD_LINES_REMEDIATION_COST
-            * self._FILE_LINES_REMEDIATION_COST
-        )
-        duplication_remediation = (
-            results["Duplication"]
-            * self._IDENTICAL_CODE_REMEDIATION_COST
-            * self._SIMILAR_CODE_REMEDIATION_COST
-        )
-        technical_debt = complexity_remediation + duplication_remediation
+        technical_debt = self.complexity_remediation(self, results) + self.duplication_remediation(self, results)
         tech_debt_ratio: float = technical_debt / implementation_time
 
         return self._map_to_letter(tech_debt_ratio)
@@ -86,6 +72,22 @@ class CodeClimate(QualityModel):
         else:
             return "F"
 
+    def complexity_remediation(self, results: Dict) -> int:
+        return (
+            results["cognitive_complexity"].outcome
+            * self._COGNITIVE_COMPLEXITY_REMEDIATION_COST
+            + results["return_statements"].outcome
+            * self._RETURN_STATEMENTS_REMEDIATION_COST
+            + results["nested_control_flow"].outcome
+            * self._NESTED_CONTROL_FLOW_REMEDIATION_COST
+            + results["argument_count"].outcome
+            * self._ARGUMENT_COUNT_REMEDIATION_COST
+            + results["method_lines"].outcome
+            * self._METHOD_LINES_REMEDIATION_COST
+            + results["file_lines"].outcome
+            * self._FILE_LINES_REMEDIATION_COST
+        )
+
     def complexity(self, results: Dict) -> int | float:
         return (
             results["cognitive_complexity"].outcome
@@ -98,6 +100,12 @@ class CodeClimate(QualityModel):
 
     def duplication(self, results: Dict) -> int | float:
         return results["identical-code"].outcome + results["similar-code"].outcome
+
+    def duplication_remediation(self, results: Dict) -> int:
+        return (
+            results["identical-code"].outcome * self._IDENTICAL_CODE_REMEDIATION_COST
+            + results["similar-code"].outcome * self._SIMILAR_CODE_REMEDIATION_COST
+        )
 
 
 model = CodeClimate()
