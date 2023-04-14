@@ -26,7 +26,7 @@ class TestRunner(unittest.TestCase):
         # shutil over os.rmdir, because it allows you to remove non/empty directories
         shutil.rmtree(_TEST_FOLDER, ignore_errors=True)
 
-    def test_run_produces_non_empty_file(self):
+    def test_write_to_csv_produces_non_empty_file(self):
         results = {}
         violations = [
             Violation("argument count", ("some_file", 1, 5)),
