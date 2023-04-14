@@ -85,7 +85,6 @@ def load(
         language.lower(),
     )
     results = runner.run()
-
     writer: Writer = Writer()
     if save_file:
         writer.gen_output_paths_if_not_exists(output)
