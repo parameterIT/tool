@@ -1,12 +1,11 @@
 # What is an aggregation formula?
 
-An aggregation formula is a piece of arithmetic that decides how to aggregate the result of individual metrics. 
-
-Aggregating metric results is a way of approximating higher level qualitative attributes, such as maintainability or reliability. However, as no such thing as a single formula for calculating such attributes exist these are often very context specific and rarely work well with a one-fits-all solution. This tool helps combat that, and lets the user define what metrics aggregate into these higher level attributes. 
-
 ![Group 3](https://user-images.githubusercontent.com/66801011/224264480-a66d91be-fa04-4994-a719-d390d2297ff4.png)
 
-With this you can in turn decide to create multiple layers of aggregation into higher level concepts. As the output of aggregation formulas have to conform to the same output format as the metrics, one can create a tree structure of aggregating results.
+An aggregation formula is an arithmetic formula that decides how to aggregate the result of an arbitrary amount of sub-aggregations and metrics.
+
+Aggregating metric results is a way of approximating higher level qualitative attributes, such as maintainability or reliability. The importance of an aggregation varies depending on the user, and therefore these aggregations need fit the request of the user. Modu helps combat this by letting the user define what sub-aggregations and metrics aggregate into these higher level attributes, and potentially their importance as well. 
+
 
 ![Group 6](https://user-images.githubusercontent.com/66801011/224274806-4eaa0554-321b-4d13-9095-7787fd7d9c60.png)
 
@@ -15,7 +14,7 @@ With this you can in turn decide to create multiple layers of aggregation into h
 
 Let's take a closer look at how to create an aggregation formula.
 
-In this specific example, we define the concept of maintainability as the sum of the metrics file_length and method_length. 
+Aggregation formulae exist as part of a quality model, and we define them through methods. Say for example we have a quality model **TestQM** which has an aggregation method **maintainability**, which in turn takes two metrics (_'method length'_, _'file length'_), and sums them. We would display this scenario as the following code piece:
 
 ```python
 class TestQM(QualityModel):
@@ -38,3 +37,4 @@ class TestQM(QualityModel):
 
 model = TestQM()
 ```
+Note that for this section, we are only looking at **maintainability**
