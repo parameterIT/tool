@@ -3,6 +3,6 @@ site_url: https://example.com/
 nav:
   - Home: 'index.md'
   - Introduction: 'introduction.md'
-  - Architecture: 
+  - Architecture: 'architecture.md'
 
 theme: readthedocs
