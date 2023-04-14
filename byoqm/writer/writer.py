@@ -10,19 +10,7 @@ from byoqm.metric.result import Result
 
 
 class Writer:
-    def __init__(
-        self,
-        model_name,
-        src_root,
-        output_dir,
-    ):
-        self._model_name = model_name
-        self._shortened_path = src_root
-        self._output_dir = output_dir
-        current_time: str = time.strftime("%Y-%m-%d_%H-%M-%S", time.gmtime())
-        self._file_name = Path(current_time + ".csv")
-
-    def run(self, results):
+    def run(self, results, output_dir, model_name, path):
         """
         run ensures that the output path exists and thereafter starts saving the
         respective files
@@ -30,10 +18,10 @@ class Writer:
         if results == None:
             logging.error("Results is none. Skipping writing...")
             return
-        self._gen_output_paths_if_not_exists()
-        self._write_to_csv(results)
+        self._gen_output_paths_if_not_exists(output_dir)
+        self._write_to_csv(results, output_dir, model_name, path)
 
-    def _write_to_csv(self, results: Dict):
+    def _write_to_csv(self, results: Dict, output_dir, model_name, path):
         """
         _write_to_csv generates a csv file containing aggregation results and
         underlying metrics
@@ -50,29 +38,32 @@ class Writer:
         # Format: YYYY-MM-DD_HH-MM-SS
         logging.info("Writing to csv")
 
-        self._save_meta_data()
-        self._save_frequencies(results)
-        self._save_violations(results)
+        current_time: str = time.strftime("%Y-%m-%d_%H-%M-%S", time.gmtime())
+        file_name = Path(current_time + ".csv")
+        self._save_meta_data(output_dir, model_name, path, file_name)
+        self._save_frequencies(results, output_dir, file_name)
+        self._save_violations(results, output_dir, file_name)
+
         logging.info("Finished writing to csv")
 
-    def _save_meta_data(self):
+    def _save_meta_data(self, output_dir, model_name, path, file_name):
         """
-        _save_meta_data will save the relevant metadata such as the
+        _save_meta_data will save the relevant metadata such as thea
         quality model used and the src path
         """
-        file_location = self._output_dir / Path("metadata") / self._file_name
+        file_location = output_dir / Path("metadata") / file_name
         with open(file_location, "w") as metadata_file:
             writer = csv.writer(metadata_file)
             writer.writerow([f"qualitymodel", "src_root"])
-            writer.writerow([self._model_name, self._shortened_path.__str__()])
+            writer.writerow([model_name, path.__str__()])
         logging.info("Finished writing metadata to csv")
 
-    def _save_frequencies(self, results):
+    def _save_frequencies(self, results, output_dir, file_name):
         """
         _save_frequencies will save the frequency mapping for the amount of
         violations of each metric
         """
-        file_location = self._output_dir / Path("frequencies") / self._file_name
+        file_location = output_dir / Path("frequencies") / file_name
         with open(file_location, "w") as results_file:
             writer = csv.writer(results_file)
             writer.writerow(["metric", "value"])
@@ -83,7 +74,7 @@ class Writer:
                 writer.writerow([description, frequency])
         logging.info("Finished writing frequencies to csv")
 
-    def _save_violations(self, results: Dict):
+    def _save_violations(self, results: Dict, output_dir, file_name):
         """
         _generate_violations_table generates a csv file in the output/violations/ folder containing
         the locations of all found violations during parsing of the code base
@@ -102,15 +93,15 @@ class Writer:
         violations = pd.DataFrame(
             list_of_violations, columns=["type", "file_start_end"]
         )
-        file_location = Path(self._output_dir / Path("violations") / self._file_name)
+        file_location = Path(output_dir / Path("violations") / file_name)
         violations.to_csv(file_location)
 
-    def _gen_output_paths_if_not_exists(self):
+    def _gen_output_paths_if_not_exists(self, output_dir):
         """
         _gen_output_paths_if_not_exists will generate the output paths
         needed before saving the files
         """
-        Path(self._output_dir).resolve().mkdir(exist_ok=True)
-        Path(self._output_dir / Path("violations")).resolve().mkdir(exist_ok=True)
-        Path(self._output_dir / Path("frequencies")).resolve().mkdir(exist_ok=True)
-        Path(self._output_dir / Path("metadata")).resolve().mkdir(exist_ok=True)
+        Path(output_dir).resolve().mkdir(exist_ok=True)
+        Path(output_dir / Path("violations")).resolve().mkdir(exist_ok=True)
+        Path(output_dir / Path("frequencies")).resolve().mkdir(exist_ok=True)
+        Path(output_dir / Path("metadata")).resolve().mkdir(exist_ok=True)

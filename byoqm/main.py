@@ -78,21 +78,17 @@ def load(
             format="%(asctime)s %(levelname)-8s %(message)s",
             datefmt="%Y-%m-%d %H:%M:%S",
         )
-    logging.info(f"Started running")
+
     runner: Runner = Runner(
         quality_model,
         Path(src_root),
         language.lower(),
     )
     results = runner.run()
-    logging.info("Finished running")
-    writer: Writer = Writer(
-        quality_model,
-        Path(src_root),
-        Path(output),
-    )
+
+    writer: Writer = Writer()
     if save_file:
-        writer.run(results)
+        writer.run(results, output, quality_model, src_root)
     if show_graphs:
         dashboard = Dashboard()
         dashboard.show_graphs(quality_model, Path(src_root), start_date, end_date)
