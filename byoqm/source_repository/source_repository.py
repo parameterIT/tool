@@ -21,7 +21,7 @@ class SourceRepository:
         self.asts: Dict[Path, tree_sitter.Tree] = {}
         self.files: List[FileInfo] = []
 
-    def getAst(self, for_file: Path) -> tree_sitter.Tree:
+    def get_ast(self, for_file: Path) -> tree_sitter.Tree:
         """
         getAst checks if an AST for the path already has been computed, and returns that
         AST if it is the case. Otherwise, it will parse the file to a tree_sitter AST
