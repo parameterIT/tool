@@ -5,6 +5,7 @@ nav:
   - Introduction: 'introduction.md'
   - Architecture: 'architecture.md'
   - Implementation: 
-    - Metrics: 'making_a_metric.md'
+    - Metrics: 'metric.md'
+    - Aggregations: 'aggregation.md'
 
 theme: readthedocs
