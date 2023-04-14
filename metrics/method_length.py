@@ -23,8 +23,7 @@ class MethodLength(Metric):
         that is greater than 25
         """
         violations = []
-        language = tree_sitter.Language("deps/tree-sitter/build/my-languages.so", file_info.language)
-        query = language.query(
+        query = self._source_repository.tree_sitter_languages[file_info.language].query(
             f"""
                 (_ [{translate_to[file_info.language]["function_block"]}])
             """

@@ -8,7 +8,7 @@ from byoqm.source_repository.languages import languages
 import chardet
 
 _TREESITTER_BUILD: Path = Path("build/my-languages.so")
-_SUPPORTED_ENCODINGS: List[str] = ["US-ASCII, ISO-8859-1", "UTF-8", "UTF-16BE", "UTF-16LE", "UTF-16"]
+_SUPPORTED_ENCODINGS: List[str] = ["ascii", "ISO-8859-1", "utf-8", "UTF-16BE", "UTF-16LE", "UTF-16"]
 
 
 class SourceRepository:
@@ -21,6 +21,11 @@ class SourceRepository:
         self.src_root: Path = src_root
         self.asts: Dict[Path, tree_sitter.Tree] = {}
         self.files: Dict[Path, FileInfo] = self._discover_files()
+        self.tree_sitter_languages: Dict[str, tree_sitter.Language] = {
+            "python": tree_sitter.Language(_TREESITTER_BUILD, "python"),
+            "c_sharp": tree_sitter.Language(_TREESITTER_BUILD, "c_sharp"),
+            "java": tree_sitter.Language(_TREESITTER_BUILD, "java"),
+        }
 
     def get_ast(self, for_file: FileInfo) -> tree_sitter.Tree:
         """
@@ -77,7 +82,7 @@ class SourceRepository:
         if file_path.suffix == ".py":
             programming_language = "python"
         elif file_path.suffix == ".cs":
-            programming_language = "c-sharp"
+            programming_language = "c_sharp"
         elif file_path.suffix == ".java":
             programming_language = "java"
 
