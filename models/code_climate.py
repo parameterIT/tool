@@ -53,8 +53,20 @@ class CodeClimate(QualityModel):
         # https://docs.codeclimate.com/docs/maintainability-calculation
         code_size: int = results["code_size"]
         implementation_time: int = code_size * self._LINE_IMPLEMENTATiON_TIME
-        complexity_remediation = results["Complexity"] * self._COGNITIVE_COMPLEXITY_REMEDIATION_COST * self._RETURN_STATEMENTS_REMEDIATION_COST * self._NESTED_CONTROL_FLOW_REMEDIATION_COST * self._ARGUMENT_COUNT_REMEDIATION_COST * self._METHOD_LINES_REMEDIATION_COST * self._FILE_LINES_REMEDIATION_COST 
-        duplication_remediation = results["Duplication"] * self._IDENTICAL_CODE_REMEDIATION_COST * self._SIMILAR_CODE_REMEDIATION_COST
+        complexity_remediation = (
+            results["Complexity"]
+            * self._COGNITIVE_COMPLEXITY_REMEDIATION_COST
+            * self._RETURN_STATEMENTS_REMEDIATION_COST
+            * self._NESTED_CONTROL_FLOW_REMEDIATION_COST
+            * self._ARGUMENT_COUNT_REMEDIATION_COST
+            * self._METHOD_LINES_REMEDIATION_COST
+            * self._FILE_LINES_REMEDIATION_COST
+        )
+        duplication_remediation = (
+            results["Duplication"]
+            * self._IDENTICAL_CODE_REMEDIATION_COST
+            * self._SIMILAR_CODE_REMEDIATION_COST
+        )
         technical_debt = complexity_remediation + duplication_remediation
         tech_debt_ratio: float = technical_debt / implementation_time
 
@@ -81,14 +93,11 @@ class CodeClimate(QualityModel):
             + results["nested_control_flow"].outcome
             + results["argument_count"].outcome
             + results["method_lines"].outcome
-            + results["file_lines"].outcome 
+            + results["file_lines"].outcome
         )
 
     def duplication(self, results: Dict) -> int | float:
-        return (
-            results["identical-code"].outcome
-            + results["similar-code"].outcome
-        )
+        return results["identical-code"].outcome + results["similar-code"].outcome
 
 
 model = CodeClimate()
