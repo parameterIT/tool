@@ -88,7 +88,8 @@ def load(
 
     writer: Writer = Writer()
     if save_file:
-        writer.run(results, output, quality_model, src_root)
+        writer.gen_output_paths_if_not_exists(output)
+        writer.write_to_csv(results, output, quality_model, src_root)
     if show_graphs:
         dashboard = Dashboard()
         dashboard.show_graphs(quality_model, Path(src_root), start_date, end_date)

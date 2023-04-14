@@ -10,20 +10,9 @@ from byoqm.metric.result import Result
 
 
 class Writer:
-    def run(self, results, output_dir, model_name, path):
+    def write_to_csv(self, results: Dict, output_dir, model_name, path):
         """
-        run ensures that the output path exists and thereafter starts saving the
-        respective files
-        """
-        if results == None:
-            logging.error("Results is none. Skipping writing...")
-            return
-        self._gen_output_paths_if_not_exists(output_dir)
-        self._write_to_csv(results, output_dir, model_name, path)
-
-    def _write_to_csv(self, results: Dict, output_dir, model_name, path):
-        """
-        _write_to_csv generates a csv file containing aggregation results and
+        write_to_csv generates a csv file containing aggregation results and
         underlying metrics
 
         _write_to_csv will for each dictionary entry write either the associated
@@ -96,9 +85,9 @@ class Writer:
         file_location = Path(output_dir / Path("violations") / file_name)
         violations.to_csv(file_location)
 
-    def _gen_output_paths_if_not_exists(self, output_dir):
+    def gen_output_paths_if_not_exists(self, output_dir):
         """
-        _gen_output_paths_if_not_exists will generate the output paths
+        gen_output_paths_if_not_exists will generate the output paths
         needed before saving the files
         """
         Path(output_dir).resolve().mkdir(exist_ok=True)
