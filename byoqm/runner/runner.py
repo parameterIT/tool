@@ -156,10 +156,10 @@ class Runner:
             writer = csv.writer(results_file)
             writer.writerow(["metric", "value"])
             for description, value in results.items():
-                frequency = value
+                outcome = value
                 if type(value) is Result:
-                    frequency = value.outcome
-                writer.writerow([description, frequency])
+                    outcome = value.outcome
+                writer.writerow([description, outcome])
         logging.info("Finished writing frequencies to csv")
         file_location = self._output_dir / Path("metadata") / file_name
         with open(file_location, "w") as metadata_file:
