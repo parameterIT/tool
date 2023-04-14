@@ -12,9 +12,7 @@ class ReturnStatements(Metric):
     def run(self):
         violations = []
         for file in self._source_repository.src_paths:
-            violations.extend(
-                self._parse(self._source_repository.getAst(file), file)
-            )
+            violations.extend(self._parse(self._source_repository.getAst(file), file))
         return Result("Return Statements", violations, len(violations))
 
     def _parse(self, ast, file):

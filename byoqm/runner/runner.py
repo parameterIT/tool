@@ -158,7 +158,7 @@ class Runner:
             for description, value in results.items():
                 frequency = value
                 if type(value) is Result:
-                    frequency = value.get_frequency()
+                    frequency = value.outcome
                 writer.writerow([description, frequency])
         logging.info("Finished writing frequencies to csv")
         file_location = self._output_dir / Path("metadata") / file_name

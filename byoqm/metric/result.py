@@ -10,17 +10,8 @@ class Result:
         self.violations = violations
         self.outcome = outcome
 
-    def get_frequency(self):
-        """
-        returns the frequency of violations for a given metric
-        """
-        return len(self.violations)
-
     def get_violation_locations(self):
         """
         returns a list of locations defining where saved violations are found
         """
         return [violation.locations for violation in self.violations]
-    
-    def get_outcome(self):
-        return self.outcome
