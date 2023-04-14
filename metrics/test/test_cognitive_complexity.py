@@ -25,7 +25,7 @@ class TestCognitiveComplexity(unittest.TestCase):
 
     def test_recursion_given_python_recursion_file_returns_1(self):
         result = self._metric.run()
-        actual = result.get_frequency()
+        actual = result.outcome
         expected = 1
         self.assertEqual(actual, expected)
         locations = result.get_violation_locations()
@@ -39,7 +39,7 @@ class TestCognitiveComplexity(unittest.TestCase):
         cognitive_complexity = CognitiveComplexity()
         cognitive_complexity._source_repository = new_source_repository
         result = cognitive_complexity.run()
-        actual = result.get_frequency()
+        actual = result.outcome
         expected = 1
         self.assertEqual(actual, expected)
         locations = result.get_violation_locations()
@@ -52,7 +52,7 @@ class TestCognitiveComplexity(unittest.TestCase):
         cognitive_complexity = CognitiveComplexity()
         cognitive_complexity._source_repository = new_source_repository
         result = cognitive_complexity.run()
-        actual = result.get_frequency()
+        actual = result.outcome
         expected = 1
         self.assertEqual(actual, expected)
         locations = result.get_violation_locations()
@@ -68,7 +68,7 @@ class TestCognitiveComplexity(unittest.TestCase):
         cognitive_complexity = CognitiveComplexity()
         cognitive_complexity._source_repository = new_source_repository
         result = cognitive_complexity.run()
-        actual = result.get_frequency()
+        actual = result.outcome
         expected = 1
         self.assertEqual(actual, expected)
         locations = result.get_violation_locations()
@@ -84,7 +84,7 @@ class TestCognitiveComplexity(unittest.TestCase):
         cognitive_complexity = CognitiveComplexity()
         cognitive_complexity._source_repository = new_source_repository
         result = cognitive_complexity.run()
-        actual = result.get_frequency()
+        actual = result.outcome
         expected = 1
         self.assertEqual(actual, expected)
         locations = result.get_violation_locations()
@@ -100,7 +100,7 @@ class TestCognitiveComplexity(unittest.TestCase):
         cognitive_complexity = CognitiveComplexity()
         cognitive_complexity._source_repository = new_source_repository
         result = cognitive_complexity.run()
-        actual = result.get_frequency()
+        actual = result.outcome
         expected = 1
         self.assertEqual(actual, expected)
         locations = result.get_violation_locations()
@@ -113,7 +113,7 @@ class TestCognitiveComplexity(unittest.TestCase):
         cognitive_complexity = CognitiveComplexity()
         cognitive_complexity._source_repository = new_source_repository
         result = cognitive_complexity.run()
-        actual = result.get_frequency()
+        actual = result.outcome
         expected = 4
         self.assertEqual(actual, expected)
 
@@ -124,7 +124,7 @@ class TestCognitiveComplexity(unittest.TestCase):
         cognitive_complexity = CognitiveComplexity()
         cognitive_complexity._source_repository = new_source_repository
         result = cognitive_complexity.run()
-        actual = result.get_frequency()
+        actual = result.outcome
         expected = 4
         self.assertEqual(actual, expected)
 
@@ -135,6 +135,6 @@ class TestCognitiveComplexity(unittest.TestCase):
         cognitive_complexity = CognitiveComplexity()
         cognitive_complexity._source_repository = new_source_repository
         result = cognitive_complexity.run()
-        actual = result.get_frequency()
+        actual = result.outcome
         expected = 4
         self.assertEqual(actual, expected)
