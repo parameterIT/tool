@@ -66,13 +66,29 @@ class SourceRepository:
 
     def _get_encodings(self, files):
         encodings = {}
+        temp = []
         for file in files:
             with file.open("rb") as f:
                 encoding = chardet.detect(f.read())["encoding"]
-                if encoding == "UTF-8-SIG":
-                    encoding = "UTF-8"
-                if encoding == "ascii":
-                    encoding = "US-ASCII"
-
+                match encoding:
+                    case "UTF-8-SIG":
+                        encoding = "UTF-8"
+                    case "utf-8":
+                        encoding = "UTF-8"
+                    case "UTF-16BE":
+                        encoding = "UTF-16BE"
+                    case "UTF-16LE":
+                        encoding = "UTF-16LE"
+                    case "UTF-16":
+                        encoding = "UTF-16"
+                    case "ascii":
+                        encoding = "US-ASCII"
+                    case "ISO-8859-1":
+                        encoding = "ISO-8859-1"
+                    case _:
+                        temp.append(file)
+                        continue
                 encodings[file] = encoding
+
+        self.src_paths = [file for file in self.src_paths if file not in temp]
         return encodings
