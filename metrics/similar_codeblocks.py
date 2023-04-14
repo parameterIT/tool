@@ -23,7 +23,7 @@ class SimilarBlocksofCode(Metric):
         """
         Finds the amount of similar code blocks in a given repository
         """
-        result = Result("similar code", [])
+        violations = []
         for encoding in set(self._source_repository.file_encodings.values()):
             files = [
                 str(file)
@@ -50,8 +50,8 @@ class SimilarBlocksofCode(Metric):
                         for child in child
                         if child.tag == "file"
                     ]
-                    result.violations.append(Violation("similar code", duplicates))
-        return result
+                    violations.append(Violation("similar code", duplicates))
+        return Result("similar code", violations, len(violations))
 
 
 metric = SimilarBlocksofCode()
