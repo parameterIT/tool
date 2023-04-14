@@ -16,8 +16,8 @@ class Writer:
         underlying metrics
 
         _write_to_csv will for each dictionary entry write either the associated
-        frequency of violations for a metric, or the aggregation result to a csv
-        file and output it in the frequencies folder
+        outcome when running a metric, or the aggregation result to a csv
+        file and output it in the outcomes folder
 
         the naming naming format is YYYY-MM-DD_HH-MM-SS so that dashboard.py can
         use it to display data chronologically
@@ -30,7 +30,7 @@ class Writer:
         current_time: str = time.strftime("%Y-%m-%d_%H-%M-%S", time.gmtime())
         file_name = Path(current_time + ".csv")
         self._save_meta_data(output_dir, model_name, path, file_name)
-        self._save_frequencies(results, output_dir, file_name)
+        self._save_outcomes(results, output_dir, file_name)
         self._save_violations(results, output_dir, file_name)
 
         logging.info("Finished writing to csv")
@@ -47,21 +47,21 @@ class Writer:
             writer.writerow([model_name, path.__str__()])
         logging.info("Finished writing metadata to csv")
 
-    def _save_frequencies(self, results, output_dir, file_name):
+    def _save_outcomes(self, results, output_dir, file_name):
         """
-        _save_frequencies will save the frequency mapping for the amount of
+        _save_outcome will save the outcome mapping for the amount of
         violations of each metric
         """
-        file_location = output_dir / Path("frequencies") / file_name
+        file_location = output_dir / Path("outcomes") / file_name
         with open(file_location, "w") as results_file:
             writer = csv.writer(results_file)
             writer.writerow(["metric", "value"])
             for description, value in results.items():
-                frequency = value
+                outcome = value
                 if type(value) is Result:
-                    frequency = value.get_frequency()
-                writer.writerow([description, frequency])
-        logging.info("Finished writing frequencies to csv")
+                    outcome = value.outcome
+                writer.writerow([description, outcome])
+        logging.info("Finished writing outcomes to csv")
 
     def _save_violations(self, results: Dict, output_dir, file_name):
         """
@@ -92,5 +92,5 @@ class Writer:
         """
         Path(output_dir).resolve().mkdir(exist_ok=True)
         Path(output_dir / Path("violations")).resolve().mkdir(exist_ok=True)
-        Path(output_dir / Path("frequencies")).resolve().mkdir(exist_ok=True)
+        Path(output_dir / Path("outcomes")).resolve().mkdir(exist_ok=True)
         Path(output_dir / Path("metadata")).resolve().mkdir(exist_ok=True)
