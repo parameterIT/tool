@@ -18,7 +18,7 @@ class TestFileLength(unittest.TestCase):
 
     def test_file_length_given_python_file_returns_1(self):
         result = self._filelength.run()
-        self.assertEqual(result.get_frequency(), 1)
+        self.assertEqual(result.outcome, 1)
 
     def test_file_length_given_java_file_returns_1(self):
         new_source_repository = SourceRepository(
@@ -27,7 +27,7 @@ class TestFileLength(unittest.TestCase):
         file_length = FileLength()
         file_length._source_repository = new_source_repository
         result = file_length.run()
-        self.assertEqual(result.get_frequency(), 1)
+        self.assertEqual(result.outcome, 1)
 
     def test_file_length_given_csharp_file_returns_3(self):
         new_source_repository = SourceRepository(
@@ -36,7 +36,7 @@ class TestFileLength(unittest.TestCase):
         file_length = FileLength()
         file_length._source_repository = new_source_repository
         result = file_length.run()
-        self.assertEqual(result.get_frequency(), 3)
+        self.assertEqual(result.outcome, 3)
 
     def tearDown(self):
         os.chdir(Path("metrics/test").resolve())
