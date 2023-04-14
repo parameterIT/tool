@@ -1,7 +1,5 @@
 # What is a metric?
 
-![Group 1](https://user-images.githubusercontent.com/66801011/224053164-89a1c539-dcab-4e53-9ec1-44f7f8cf36ae.png)
-
 A metric is a capsulated piece of logic that measures source code on a given parameter. The logic defined within the metric is user-defined, and can easily be extended and removed. 
 
 Creating your own metrics is also super simple, and allows for measuring niche attributes on source code.

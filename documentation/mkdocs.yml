@@ -1,8 +1,19 @@
 site_name: 'Modu documentation'
+site_description: Documentation
+docs_dir: docs
 nav:
   - Introduction: 'introduction.md'
   - Architecture: 'architecture.md'
   - Metrics: 'creating_a_metric.md'
-  - Aggregations: 'creating_an_aggregation.md'
+  - Aggregations: 'creating_an_aggregation_formula.md'
   - Models: 'creating_a_model.md'
   - Running: 'running_the_tool.md'
+theme:
+    name: mkdocs
+    locale: en
+    static_templates:
+        - sitemap.html
+    include_sidebar: false
+plugins:
+    - search:
+        indexing: 'full'

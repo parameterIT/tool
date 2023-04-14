@@ -9,9 +9,6 @@ Aggregating metric results is a way of approximating higher level qualitative at
 
 With this you can in turn decide to create multiple layers of aggregation into higher level concepts. As the output of aggregation formulas have to conform to the same output format as the metrics, one can create a tree structure of aggregating results.
 
-![Group 6](https://user-images.githubusercontent.com/66801011/224274806-4eaa0554-321b-4d13-9095-7787fd7d9c60.png)
-
-
 ## Creating an aggregation formula
 
 Let's take a closer look at how to create an aggregation formula.

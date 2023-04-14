@@ -2,7 +2,7 @@
 name = "byoqm"
 version = "0.1.0"
 description = "Prototyping a Quality Assessment Tool with Parameterized Quality Models"
-authors = ["Christoffer Gram <chkg@itu.dk>"]
+authors = ["Caspar Marschall <cafm@itu.dk>", "Christoffer Gram <chkg@itu.dk>", "Frederik Rothe <frot@itu.dk>", "Jakob Lyngsie Hjalgrim <jlhj@itu.dk>"]
 readme = "README.md"
 
 [tool.poetry.dependencies]
@@ -12,6 +12,7 @@ tree-sitter = "^0.20.1"
 defusedxml = "^0.7.1"
 click = "^8.1.3"
 chardet = "^5.1.0"
+mkdocs = "^1.4.2"
 
 [tool.poetry.scripts]
 main="byoqm.main:load"
