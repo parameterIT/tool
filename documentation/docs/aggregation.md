@@ -7,9 +7,6 @@ An aggregation formula is an arithmetic formula that decides how to aggregate th
 Aggregating metric results is a way of approximating higher level qualitative attributes, such as maintainability or reliability. The importance of an aggregation varies depending on the user, and therefore these aggregations need fit the request of the user. Modu helps combat this by letting the user define what sub-aggregations and metrics aggregate into these higher level attributes, and potentially their importance as well. 
 
 
-![Group 6](https://user-images.githubusercontent.com/66801011/224274806-4eaa0554-321b-4d13-9095-7787fd7d9c60.png)
-
-
 ## Creating an aggregation formula
 
 Let's take a closer look at how to create an aggregation formula.
