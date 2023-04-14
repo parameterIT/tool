@@ -74,25 +74,21 @@ class CodeClimate(QualityModel):
 
     def complexity(self, results: Dict) -> int | float:
         return (
-            results["cognitive_complexity"].get_frequency()
+            results["cognitive_complexity"].outcome
             * self._COGNITIVE_COMPLEXITY_REMEDIATION_COST
-            + results["return_statements"].get_frequency()
+            + results["return_statements"].outcome
             * self._RETURN_STATEMENTS_REMEDIATION_COST
-            + results["nested_control_flow"].get_frequency()
+            + results["nested_control_flow"].outcome
             * self._NESTED_CONTROL_FLOW_REMEDIATION_COST
-            + results["argument_count"].get_frequency()
-            * self._ARGUMENT_COUNT_REMEDIATION_COST
-            + results["method_lines"].get_frequency()
-            * self._METHOD_LINES_REMEDIATION_COST
-            + results["file_lines"].get_frequency() * self._FILE_LINES_REMEDIATION_COST
+            + results["argument_count"].outcome * self._ARGUMENT_COUNT_REMEDIATION_COST
+            + results["method_lines"].outcome * self._METHOD_LINES_REMEDIATION_COST
+            + results["file_lines"].outcome * self._FILE_LINES_REMEDIATION_COST
         )
 
     def duplication(self, results: Dict) -> int | float:
         return (
-            results["identical-code"].get_frequency()
-            * self._IDENTICAL_CODE_REMEDIATION_COST
-            + results["similar-code"].get_frequency()
-            * self._SIMILAR_CODE_REMEDIATION_COST
+            results["identical-code"].outcome * self._IDENTICAL_CODE_REMEDIATION_COST
+            + results["similar-code"].outcome * self._SIMILAR_CODE_REMEDIATION_COST
         )
 
 

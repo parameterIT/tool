@@ -18,7 +18,7 @@ class TestReturnStatements(unittest.TestCase):
 
     def test_return_statements_given_python_fil_returns_2(self):
         result = self._returnstmnt.run()
-        self.assertEqual(result.get_frequency(), 2)
+        self.assertEqual(result.outcome, 2)
         locations = result.get_violation_locations()
         self.assertEqual((locations[0][1], locations[0][2]), (5, 15))
         self.assertEqual((locations[1][1], locations[1][2]), (18, 35))
@@ -30,7 +30,7 @@ class TestReturnStatements(unittest.TestCase):
         return_statements = ReturnStatements()
         return_statements._source_repository = new_source_repository
         result = return_statements.run()
-        self.assertEqual(result.get_frequency(), 2)
+        self.assertEqual(result.outcome, 2)
 
     def test_argument_count_java_given_directory_returns_2(self):
         new_source_repository = SourceRepository(
@@ -39,7 +39,7 @@ class TestReturnStatements(unittest.TestCase):
         return_statements = ReturnStatements()
         return_statements._source_repository = new_source_repository
         result = return_statements.run()
-        self.assertEqual(result.get_frequency(), 2)
+        self.assertEqual(result.outcome, 2)
 
     def tearDown(self):
         os.chdir(Path("metrics/test").resolve())

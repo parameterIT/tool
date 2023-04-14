@@ -22,7 +22,7 @@ class IdenticalBlocksofCode(Metric):
 
         Makes use of Copy Paste Detector (CPD)
         """
-        result = Result("identical code", [])
+        violations = []
         for encoding in set(self._source_repository.file_encodings.values()):
             files = [
                 str(file)
@@ -49,8 +49,8 @@ class IdenticalBlocksofCode(Metric):
                         for child in child
                         if child.tag == "file"
                     ]
-                    result.violations.append(Violation("identical code", duplicates))
-        return result
+                    violations.append(Violation("identical code", duplicates))
+        return Result("identical code", violations, len(violations))
 
 
 metric = IdenticalBlocksofCode()

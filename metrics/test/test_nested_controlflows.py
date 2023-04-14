@@ -23,7 +23,7 @@ class TestNestedControlFlows(unittest.TestCase):
 
     def test_nested_controlflow_given_test_directory_returns_9(self):
         result = self._nestedflow.run()
-        self.assertEqual(result.get_frequency(), 9)
+        self.assertEqual(result.outcome, 9)
         reported_lines = set()
         for location in result.get_violation_locations():
             reported_lines.add((location[1], location[2]))
@@ -45,7 +45,7 @@ class TestNestedControlFlows(unittest.TestCase):
         nested_control_flow = NestedControlflows()
         nested_control_flow._source_repository = new_source_repository
         result = nested_control_flow.run()
-        self.assertEqual(result.get_frequency(), 6)
+        self.assertEqual(result.outcome, 6)
 
     def test_nested_control_flow_given_java_file_returns_7(self):
         new_source_repository = SourceRepository(
@@ -55,7 +55,7 @@ class TestNestedControlFlows(unittest.TestCase):
         nested_control_flow = NestedControlflows()
         nested_control_flow._source_repository = new_source_repository
         result = nested_control_flow.run()
-        self.assertEqual(result.get_frequency(), 7)
+        self.assertEqual(result.outcome, 7)
 
     def tearDown(self):
         os.chdir(Path("metrics/test").resolve())

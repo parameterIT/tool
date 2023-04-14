@@ -5,15 +5,10 @@ class Result:
     a result is a collection of violations with the metric type specified
     """
 
-    def __init__(self, metric, violations):
+    def __init__(self, metric, violations, outcome):
         self.metric = metric
         self.violations = violations
-
-    def get_frequency(self):
-        """
-        returns the frequency of violations for a given metric
-        """
-        return len(self.violations)
+        self.outcome = outcome
 
     def get_violation_locations(self):
         """

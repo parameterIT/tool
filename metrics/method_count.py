@@ -10,12 +10,10 @@ class MethodCount(Metric):
         self._source_repository: SourceRepository = None
 
     def run(self):
-        result = Result("method count", [])
+        violations = []
         for file in self._source_repository.src_paths:
-            result.violations.extend(
-                self._parse(self._source_repository.getAst(file), file)
-            )
-        return result
+            violations.extend(self._parse(self._source_repository.getAst(file), file))
+        return Result("method count", violations, len(violations))
 
     def _parse(self, ast, file):
         """

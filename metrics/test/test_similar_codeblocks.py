@@ -22,7 +22,7 @@ class TestSimilarCodeBlocks(unittest.TestCase):
     )
     def test_similar_codeblocks_given_file_returns_1(self):
         result = self._similarcode.run()
-        self.assertEqual(result.get_frequency(), 1)
+        self.assertEqual(result.outcome, 1)
         locations = result.get_violation_locations()[0]
         first_code_block = (locations[0][1], locations[0][2])
         second_code_block = (locations[1][1], locations[1][2])

@@ -18,7 +18,7 @@ class TestMethodCount(unittest.TestCase):
 
     def test_method_count_given__python_file_returns_1(self):
         result = self._methodcount.run()
-        self.assertEqual(result.get_frequency(), 1)
+        self.assertEqual(result.outcome, 1)
         locations = result.get_violation_locations()
         self.assertEqual((locations[0][1], locations[0][2]), (1, 81))
 
@@ -29,7 +29,7 @@ class TestMethodCount(unittest.TestCase):
         new_method_counter = MethodCount()
         new_method_counter._source_repository = new_source_repository
         result = new_method_counter.run()
-        self.assertEqual(result.get_frequency(), 1)
+        self.assertEqual(result.outcome, 1)
         locations = result.get_violation_locations()
         self.assertEqual((locations[0][1], locations[0][2]), (2, 65))
 
@@ -40,7 +40,7 @@ class TestMethodCount(unittest.TestCase):
         new_method_counter = MethodCount()
         new_method_counter._source_repository = new_source_repository
         result = new_method_counter.run()
-        self.assertEqual(result.get_frequency(), 1)
+        self.assertEqual(result.outcome, 1)
         locations = result.get_violation_locations()
         self.assertEqual((locations[0][1], locations[0][2]), (3, 98))
 
