@@ -12,7 +12,7 @@ from byoqm.writer import Writer
 
 _TEST_FOLDER = Path("byoqm/runner/test")
 _OUTPUT_FOLDER = _TEST_FOLDER / Path("test")
-_FREQUENCY_FOLDER = _OUTPUT_FOLDER / Path("frequencies")
+_OUTCOMES_FOLDER = _OUTPUT_FOLDER / Path("outcomes")
 _META_DATA_FOLDER = _OUTPUT_FOLDER / Path("metadata")
 _VIOLATIONS_FOLDER = _OUTPUT_FOLDER / Path("violations")
 
@@ -38,13 +38,13 @@ class TestRunner(unittest.TestCase):
         self._writer.gen_output_paths_if_not_exists(_OUTPUT_FOLDER)
         self._writer.write_to_csv(results, _OUTPUT_FOLDER, "no_cpd", Path("byoqm/"))
 
-        self.assertEqual(len(os.listdir(_FREQUENCY_FOLDER)), 1)
+        self.assertEqual(len(os.listdir(_OUTCOMES_FOLDER)), 1)
         self.assertEqual(len(os.listdir(_META_DATA_FOLDER)), 1)
         self.assertEqual(len(os.listdir(_VIOLATIONS_FOLDER)), 1)
 
         name = Path(os.listdir(_OUTPUT_FOLDER / Path("outcomes"))[0])
 
-        self.assertNotEqual(os.stat(_FREQUENCY_FOLDER / name).st_size, 0)
+        self.assertNotEqual(os.stat(_OUTCOMES_FOLDER / name).st_size, 0)
         self.assertNotEqual(os.stat(_META_DATA_FOLDER / name).st_size, 0)
         self.assertNotEqual(os.stat(_VIOLATIONS_FOLDER / name).st_size, 0)
 
