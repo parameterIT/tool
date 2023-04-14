@@ -53,9 +53,8 @@ class CodeClimate(QualityModel):
         # https://docs.codeclimate.com/docs/maintainability-calculation
         code_size: int = results["code_size"]
         implementation_time: int = code_size * self._LINE_IMPLEMENTATiON_TIME
-        technical_debt = self.complexity_remediation(
-            self, results
-        ) + self.duplication_remediation(self, results)
+        technical_debt = self.complexity_remediation(results)
+        +self.duplication_remediation(results)
         tech_debt_ratio: float = technical_debt / implementation_time
 
         return self._map_to_letter(tech_debt_ratio)
