@@ -19,7 +19,7 @@ _VIOLATIONS_FOLDER = _OUTPUT_FOLDER / Path("violations")
 
 class TestRunner(unittest.TestCase):
     def setUp(self):
-        self._writer = Writer("no_cpd", Path("byoqm/"), _OUTPUT_FOLDER)
+        self._writer = Writer()
         logging.disable()
 
     def tearDown(self):
@@ -35,7 +35,7 @@ class TestRunner(unittest.TestCase):
                 Violation("argument count", ("some_file", 7, 15)),
             ],
         )
-        self._writer.run(results)
+        self._writer.run(results, _OUTPUT_FOLDER, "no_cpd", Path("byoqm/"))
 
         self.assertEqual(len(os.listdir(_FREQUENCY_FOLDER)), 1)
         self.assertEqual(len(os.listdir(_META_DATA_FOLDER)), 1)
