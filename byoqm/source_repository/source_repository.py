@@ -87,8 +87,8 @@ class SourceRepository:
                         encoding = "ISO-8859-1"
                     case _:
                         temp.append(file)
-                        continue    
+                        continue
                 encodings[file] = encoding
 
-        self.src_paths = [file for file in self.src_paths if file not in temp]        
+        self.src_paths = [file for file in self.src_paths if file not in temp]
         return encodings
