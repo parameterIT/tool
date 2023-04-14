@@ -29,9 +29,13 @@ class Writer:
 
         current_time: str = time.strftime("%Y-%m-%d_%H-%M-%S", time.gmtime())
         file_name = Path(current_time + ".csv")
-        self._save_meta_data(output_dir, model_name, path, file_name)
-        self._save_outcomes(results, output_dir, file_name)
-        self._save_violations(results, output_dir, file_name)
+        try:
+            self._save_meta_data(output_dir, model_name, path, file_name)
+            self._save_outcomes(results, output_dir, file_name)
+            self._save_violations(results, output_dir, file_name)
+        except Exception as ex:
+            logging.error(f"failed to save to csv. Exception: {ex}")
+            raise RuntimeError
 
         logging.info("Finished writing to csv")
 

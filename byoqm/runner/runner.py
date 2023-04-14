@@ -57,7 +57,7 @@ class Runner:
             return self._run_aggregations()
         except:
             logging.error("failed to run aggregations")
-            return None
+            raise RuntimeError
 
     def _run_aggregations(self) -> Dict:
         """
@@ -66,13 +66,17 @@ class Runner:
         aggregations relying on other aggregations should be defined after its
         dependencies in the dictionary returned by a model's getDesc()
         """
-        results = self._run_metrics()
-        logging.info("Started running aggregations")
-        aggregations = self._model.getDesc()["aggregations"]
-        for aggregation, aggregation_function in aggregations.items():
-            results[aggregation] = aggregation_function(results)
-        logging.info("Finished running aggregations")
-        return results
+        try:
+            results = self._run_metrics()
+            logging.info("Started running aggregations")
+            aggregations = self._model.getDesc()["aggregations"]
+            for aggregation, aggregation_function in aggregations.items():
+                results[aggregation] = aggregation_function(results)
+            logging.info("Finished running aggregations")
+            return results
+        except Exception as ex:
+            logging.error(f"Failed to run metrics. Exception: {ex}")
+            raise RuntimeError
 
     def _run_metrics(self) -> Dict:
         """
