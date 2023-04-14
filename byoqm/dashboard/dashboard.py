@@ -83,7 +83,7 @@ class Dashboard:
         target_path: Path,
         start_date: datetime,
         end_date: datetime,
-        path="./output/frequencies",
+        path="./output/outcomes",
     ):
         """
         Gets data from specified path. The path is defaulted to the output folder, but if you want to run
