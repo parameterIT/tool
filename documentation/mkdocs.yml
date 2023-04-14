@@ -1,0 +1,8 @@
+site_name: 'Modu documentation'
+nav:
+  - Introduction: 'introduction.md'
+  - Architecture: 'architecture.md'
+  - Metrics: 'creating_a_metric.md'
+  - Aggregations: 'creating_an_aggregation.md'
+  - Models: 'creating_a_model.md'
+  - Running: 'running_the_tool.md'
