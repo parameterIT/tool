@@ -35,7 +35,8 @@ class TestRunner(unittest.TestCase):
                 Violation("argument count", ("some_file", 7, 15)),
             ],
         )
-        self._writer.run(results, _OUTPUT_FOLDER, "no_cpd", Path("byoqm/"))
+        self._writer.gen_output_paths_if_not_exists(_OUTPUT_FOLDER)
+        self._writer.write_to_csv(results, _OUTPUT_FOLDER, "no_cpd", Path("byoqm/"))
 
         self.assertEqual(len(os.listdir(_FREQUENCY_FOLDER)), 1)
         self.assertEqual(len(os.listdir(_META_DATA_FOLDER)), 1)
