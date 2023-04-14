@@ -1,7 +1,9 @@
 import logging
 from pathlib import Path
+from typing import Dict, List
 from tree_sitter import Parser, Language
 import tree_sitter
+from byoqm.source_repository.file_info import FileInfo
 from byoqm.source_repository.languages import languages
 import chardet
 
@@ -14,19 +16,10 @@ class SourceRepository:
     under analysis
     """
 
-    def __init__(self, src_root: Path, language: str):
-        if src_root.is_file():
-            self.src_paths = [src_root]
-        else:
-            self.src_paths = [file for file in src_root.glob(languages[language])]
-
-        self.tree_sitter_language = Language(_TREESITTER_BUILD.__str__(), language)
-        logging.info(f"Language set to: {language}")
-        self.asts = {}
-        self.language = language
-        self._parser = Parser()
-        self._parser.set_language(self.tree_sitter_language)
-        self.file_encodings = self._get_encodings(self.src_paths)
+    def __init__(self, src_root: Path):
+        self.src_root: Path = src_root
+        self.asts: Dict[Path, tree_sitter.Tree] = {}
+        self.files: List[FileInfo] = []
 
     def getAst(self, for_file: Path) -> tree_sitter.Tree:
         """

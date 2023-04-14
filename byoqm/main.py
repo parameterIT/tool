@@ -11,7 +11,6 @@ from byoqm.writer import Writer
 @click.command()
 @click.argument("src_root", required=True)
 @click.argument("quality_model", required=True)
-@click.argument("language", required=True)
 @click.option(
     "--output",
     "-o",
