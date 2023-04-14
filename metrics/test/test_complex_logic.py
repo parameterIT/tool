@@ -10,9 +10,7 @@ class TestComplexLogic(unittest.TestCase):
         # chdir because paths are assumed to be relative from the project root but test
         # paths start at the test file
         os.chdir("../../")
-        self._source_repository = SourceRepository(
-            Path("./metrics/test/data/test_data_complex_logic"), "python"
-        )
+        self._source_repository = SourceRepository(Path("./metrics/test/data/test_data_complex_logic"))
         self._complexlogic = ComplexLogic()
         self._complexlogic._source_repository = self._source_repository
 
@@ -24,9 +22,7 @@ class TestComplexLogic(unittest.TestCase):
         self.assertEqual((locations[1][1], locations[1][2]), (23, 23))
 
     def test_argument_count_c_sharp_given_directory_returns_4(self):
-        new_source_repository = SourceRepository(
-            Path("./metrics/test/data/test_data_complex_logic"), "c_sharp"
-        )
+        new_source_repository = SourceRepository(Path("./metrics/test/data/test_data_complex_logic"))
         complex_logic = ComplexLogic()
         complex_logic._source_repository = new_source_repository
         result = complex_logic.run()
@@ -38,9 +34,7 @@ class TestComplexLogic(unittest.TestCase):
         self.assertEqual((locations[3][1], locations[3][2]), (17, 17))
 
     def test_argument_java_sharp_given_directory_returns_4(self):
-        new_source_repository = SourceRepository(
-            Path("./metrics/test/data/test_data_complex_logic"), "java"
-        )
+        new_source_repository = SourceRepository(Path("./metrics/test/data/test_data_complex_logic"))
         complex_logic = ComplexLogic()
         complex_logic._source_repository = new_source_repository
         result = complex_logic.run()

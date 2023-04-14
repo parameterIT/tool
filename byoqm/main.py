@@ -80,8 +80,7 @@ def load(
 
     runner: Runner = Runner(
         quality_model,
-        Path(src_root),
-        language.lower(),
+        Path(src_root)
     )
     results = runner.run()
     writer: Writer = Writer()

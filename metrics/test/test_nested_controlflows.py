@@ -10,9 +10,7 @@ class TestNestedControlFlows(unittest.TestCase):
         # chdir because paths are assumed to be relative from the project root but test
         # paths start at the test file
         os.chdir("../../")
-        self._source_repository = SourceRepository(
-            Path("./metrics/test/data/test_data_nested_controlflows"), "python"
-        )
+        self._source_repository = SourceRepository(Path("./metrics/test/data/test_data_nested_controlflows"))
         self._nestedflow = NestedControlflows()
         self._nestedflow._source_repository = self._source_repository
 
@@ -38,20 +36,16 @@ class TestNestedControlFlows(unittest.TestCase):
         self.assertIn((51, 59), reported_lines)
 
     def test_nested_control_flow_given_c_sharp_file_returns_6(self):
-        new_source_repository = SourceRepository(
-            Path("./metrics/test/data/test_data_nested_controlflows"), "c_sharp"
-        )
-        self.assertEqual(len(new_source_repository.src_paths), 3)
+        new_source_repository = SourceRepository(Path("./metrics/test/data/test_data_nested_controlflows"))
+        self.assertEqual(len(new_source_repository.src_root), 3)
         nested_control_flow = NestedControlflows()
         nested_control_flow._source_repository = new_source_repository
         result = nested_control_flow.run()
         self.assertEqual(result.outcome, 6)
 
     def test_nested_control_flow_given_java_file_returns_7(self):
-        new_source_repository = SourceRepository(
-            Path("./metrics/test/data/test_data_nested_controlflows"), "java"
-        )
-        self.assertEqual(len(new_source_repository.src_paths), 2)
+        new_source_repository = SourceRepository(Path("./metrics/test/data/test_data_nested_controlflows"))
+        self.assertEqual(len(new_source_repository.src_root), 2)
         nested_control_flow = NestedControlflows()
         nested_control_flow._source_repository = new_source_repository
         result = nested_control_flow.run()

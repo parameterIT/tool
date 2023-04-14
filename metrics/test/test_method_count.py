@@ -10,9 +10,7 @@ class TestMethodCount(unittest.TestCase):
         # chdir because paths are assumed to be relative from the project root but test
         # paths start at the test file
         os.chdir("../../")
-        self._source_repository = SourceRepository(
-            Path("./metrics/test/data/test_data_method_count"), "python"
-        )
+        self._source_repository = SourceRepository(Path("./metrics/test/data/test_data_method_count"))
         self._methodcount = MethodCount()
         self._methodcount._source_repository = self._source_repository
 
@@ -23,9 +21,7 @@ class TestMethodCount(unittest.TestCase):
         self.assertEqual((locations[0][1], locations[0][2]), (1, 81))
 
     def test_method_count_given_java_file_returns_1(self):
-        new_source_repository = SourceRepository(
-            Path("./metrics/test/data/test_data_method_count"), "java"
-        )
+        new_source_repository = SourceRepository(Path("./metrics/test/data/test_data_method_count"))
         new_method_counter = MethodCount()
         new_method_counter._source_repository = new_source_repository
         result = new_method_counter.run()
@@ -34,9 +30,7 @@ class TestMethodCount(unittest.TestCase):
         self.assertEqual((locations[0][1], locations[0][2]), (2, 65))
 
     def test_method_count_given_c_sharp_file_returns_1(self):
-        new_source_repository = SourceRepository(
-            Path("./metrics/test/data/test_data_method_count"), "c_sharp"
-        )
+        new_source_repository = SourceRepository(Path("./metrics/test/data/test_data_method_count"))
         new_method_counter = MethodCount()
         new_method_counter._source_repository = new_source_repository
         result = new_method_counter.run()

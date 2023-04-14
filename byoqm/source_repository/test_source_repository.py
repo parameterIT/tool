@@ -8,9 +8,7 @@ from pathlib import Path
 
 class TestSourceRepository(unittest.TestCase):
     def setUp(self) -> None:
-        self.source_repository = SourceRepository(
-            Path("byoqm/source_repository/test/data"), "python"
-        )
+        self.source_repository = SourceRepository(Path("byoqm/source_repository/test/data"))
 
     def test_get_ast_given_a_child_file_returns_a_tree_sitter_ast(self):
         target = Path("./byoqm/source_repository/test/data/a_file.py")
@@ -29,10 +27,8 @@ class TestSourceRepository(unittest.TestCase):
         self.assertEqual(actual, 2)
 
     def test_new_source_repository_findes_c_sharp_files(self):
-        new_coordinator = SourceRepository(
-            Path("byoqm/source_repository/test/data"), "c_sharp"
-        )
-        actual = new_coordinator.src_paths
+        new_coordinator = SourceRepository(Path("byoqm/source_repository/test/data"))
+        actual = new_coordinator.src_root
 
         self.assertEqual(
             actual, [Path("byoqm/source_repository/test/data/a_nother_file.cs")]

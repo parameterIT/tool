@@ -14,9 +14,7 @@ class TestCognitiveComplexity(unittest.TestCase):
         # paths start at the test file
         os.chdir("../../")
         self._source_repository: SourceRepository = SourceRepository(
-            Path("./metrics/test/data/test_cognitive_complexity/test_recursion"),
-            "python",
-        )
+            Path("./metrics/test/data/test_cognitive_complexity/test_recursion"))
         self._metric: Metric = CognitiveComplexity()
         self._metric._source_repository = self._source_repository
 
@@ -32,10 +30,7 @@ class TestCognitiveComplexity(unittest.TestCase):
         self.assertEqual((locations[0][1], locations[0][2]), (1, 8))
 
     def test_recursion_given_c_sharp_recursion_file_returns_1(self):
-        new_source_repository = SourceRepository(
-            Path("./metrics/test/data/test_cognitive_complexity/test_recursion"),
-            "c_sharp",
-        )
+        new_source_repository = SourceRepository(Path("./metrics/test/data/test_cognitive_complexity/test_recursion"))
         cognitive_complexity = CognitiveComplexity()
         cognitive_complexity._source_repository = new_source_repository
         result = cognitive_complexity.run()
@@ -46,9 +41,7 @@ class TestCognitiveComplexity(unittest.TestCase):
         self.assertEqual((locations[0][1], locations[0][2]), (5, 15))
 
     def test_recursion_given_java_recursion_file_returns_1(self):
-        new_source_repository = SourceRepository(
-            Path("./metrics/test/data/test_cognitive_complexity/test_recursion"), "java"
-        )
+        new_source_repository = SourceRepository(Path("./metrics/test/data/test_cognitive_complexity/test_recursion"))
         cognitive_complexity = CognitiveComplexity()
         cognitive_complexity._source_repository = new_source_repository
         result = cognitive_complexity.run()
@@ -59,12 +52,9 @@ class TestCognitiveComplexity(unittest.TestCase):
         self.assertEqual((locations[0][1], locations[0][2]), (5, 13))
 
     def test_breaks_in_linear_flow_given_python_file_returns_1(self):
-        new_source_repository = SourceRepository(
-            Path(
-                "./metrics/test/data/test_cognitive_complexity/test_breaks_in_linear_flow"
-            ),
-            "python",
-        )
+        new_source_repository = SourceRepository(Path(
+            "./metrics/test/data/test_cognitive_complexity/test_breaks_in_linear_flow"
+        ))
         cognitive_complexity = CognitiveComplexity()
         cognitive_complexity._source_repository = new_source_repository
         result = cognitive_complexity.run()
@@ -75,12 +65,9 @@ class TestCognitiveComplexity(unittest.TestCase):
         self.assertEqual((locations[0][1], locations[0][2]), (1, 25))
 
     def test_breaks_in_linear_flow_given_c_sharp_file_returns_1(self):
-        new_source_repository = SourceRepository(
-            Path(
-                "./metrics/test/data/test_cognitive_complexity/test_breaks_in_linear_flow"
-            ),
-            "c_sharp",
-        )
+        new_source_repository = SourceRepository(Path(
+            "./metrics/test/data/test_cognitive_complexity/test_breaks_in_linear_flow"
+        ))
         cognitive_complexity = CognitiveComplexity()
         cognitive_complexity._source_repository = new_source_repository
         result = cognitive_complexity.run()
@@ -91,12 +78,9 @@ class TestCognitiveComplexity(unittest.TestCase):
         self.assertEqual((locations[0][1], locations[0][2]), (10, 49))
 
     def test_breaks_in_linear_flow_given_java_file_returns_1(self):
-        new_source_repository = SourceRepository(
-            Path(
-                "./metrics/test/data/test_cognitive_complexity/test_breaks_in_linear_flow"
-            ),
-            "java",
-        )
+        new_source_repository = SourceRepository(Path(
+            "./metrics/test/data/test_cognitive_complexity/test_breaks_in_linear_flow"
+        ))
         cognitive_complexity = CognitiveComplexity()
         cognitive_complexity._source_repository = new_source_repository
         result = cognitive_complexity.run()
@@ -107,9 +91,7 @@ class TestCognitiveComplexity(unittest.TestCase):
         self.assertEqual((locations[0][1], locations[0][2]), (5, 42))
 
     def test_cognitive_complexity_for_python_returns_4(self):
-        new_source_repository = SourceRepository(
-            Path("./metrics/test/data/test_cognitive_complexity"), "python"
-        )
+        new_source_repository = SourceRepository(Path("./metrics/test/data/test_cognitive_complexity"))
         cognitive_complexity = CognitiveComplexity()
         cognitive_complexity._source_repository = new_source_repository
         result = cognitive_complexity.run()
@@ -118,9 +100,7 @@ class TestCognitiveComplexity(unittest.TestCase):
         self.assertEqual(actual, expected)
 
     def test_cognitive_complexity_for_c_sharp_returns_4(self):
-        new_source_repository = SourceRepository(
-            Path("./metrics/test/data/test_cognitive_complexity"), "c_sharp"
-        )
+        new_source_repository = SourceRepository(Path("./metrics/test/data/test_cognitive_complexity"))
         cognitive_complexity = CognitiveComplexity()
         cognitive_complexity._source_repository = new_source_repository
         result = cognitive_complexity.run()
@@ -129,9 +109,7 @@ class TestCognitiveComplexity(unittest.TestCase):
         self.assertEqual(actual, expected)
 
     def test_cognitive_complexity_for_java_returns_4(self):
-        new_source_repository = SourceRepository(
-            Path("./metrics/test/data/test_cognitive_complexity"), "java"
-        )
+        new_source_repository = SourceRepository(Path("./metrics/test/data/test_cognitive_complexity"))
         cognitive_complexity = CognitiveComplexity()
         cognitive_complexity._source_repository = new_source_repository
         result = cognitive_complexity.run()

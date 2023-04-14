@@ -22,7 +22,7 @@ class CognitiveComplexity(Metric):
         This metric is function/method specific
         """
         violations = []
-        for file_path in self._source_repository.src_paths:
+        for file_path in self._source_repository.src_root:
             violations.extend(self._count_cognitive_complexity(file_path))
         return Result("cognitive complexity", violations, len(violations))
 

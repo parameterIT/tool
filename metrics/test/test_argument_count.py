@@ -10,9 +10,7 @@ class TestArgumentCount(unittest.TestCase):
         # chdir because paths are assumed to be relative from the project root but test
         # paths start at the test file
         os.chdir("../../")
-        self._source_repository = SourceRepository(
-            Path("./metrics/test/data/test_data_argument_count"), "python"
-        )
+        self._source_repository = SourceRepository(Path("./metrics/test/data/test_data_argument_count"))
         self._argumentcount = ArgumentCount()
         self._argumentcount._source_repository = self._source_repository
 
@@ -24,9 +22,7 @@ class TestArgumentCount(unittest.TestCase):
         self.assertEqual((locations[1][1], locations[1][2]), (18, 18))
 
     def test_argument_count_c_sharp_given_directory_returns_2(self):
-        new_source_repository = SourceRepository(
-            Path("./metrics/test/data/test_data_argument_count"), "c_sharp"
-        )
+        new_source_repository = SourceRepository(Path("./metrics/test/data/test_data_argument_count"))
         argument_count = ArgumentCount()
         argument_count._source_repository = new_source_repository
         result = argument_count.run()
@@ -36,9 +32,7 @@ class TestArgumentCount(unittest.TestCase):
         self.assertEqual((locations[1][1], locations[1][2]), (10, 10))
 
     def test_argument_count_java_given_directory_returns_2(self):
-        new_source_repository = SourceRepository(
-            Path("./metrics/test/data/test_data_argument_count"), "java"
-        )
+        new_source_repository = SourceRepository(Path("./metrics/test/data/test_data_argument_count"))
         argument_count = ArgumentCount()
         argument_count._source_repository = new_source_repository
         result = argument_count.run()

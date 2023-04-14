@@ -16,7 +16,7 @@ class SimilarBlocksofCode(Metric):
 
     def run(self):
         return self._similar_blocks_of_code(
-            [str(file) for file in self._source_repository.src_paths]
+            [str(file) for file in self._source_repository.src_root]
         )
 
     def _similar_blocks_of_code(self, files) -> Result:

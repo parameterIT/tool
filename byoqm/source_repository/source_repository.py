@@ -59,7 +59,7 @@ class SourceRepository:
 
     def _discover_files(self) -> Dict[Path, FileInfo]:
         if self.src_root.is_file():
-            return [self._inspect_file(self.src_root)]
+            return {self.src_root: self._inspect_file(self.src_root)}
 
         file_infos: Dict[Path, FileInfo] = self._discover_in_dir(self.src_root)
         return file_infos
@@ -69,9 +69,9 @@ class SourceRepository:
         for f in root_dir.iterdir():
             if f.is_dir():
                 file_infos.update(self._discover_in_dir(f))
-
-            file_info = self._inspect_file(f)
-            file_infos[f] = file_info
+            else:
+                file_info = self._inspect_file(f)
+                file_infos[f] = file_info
 
         return file_infos
 

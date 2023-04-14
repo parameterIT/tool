@@ -18,7 +18,7 @@ class TestRunner(unittest.TestCase):
         _OUTPUT_FOLDER.mkdir(parents=True, exist_ok=True)
         _OUTCOMES_FOLDER.mkdir(parents=True, exist_ok=True)
         _VIOLATION_FOLDER.mkdir(parents=True, exist_ok=True)
-        self._runner = Runner("no_cpd", Path("byoqm/"), "python")
+        self._runner = Runner("no_cpd", Path("byoqm/"), _OUTPUT_FOLDER, True)
         logging.disable()
 
     def test_load_given_code_climate_inits_runner(self):

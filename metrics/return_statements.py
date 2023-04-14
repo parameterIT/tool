@@ -11,7 +11,7 @@ class ReturnStatements(Metric):
 
     def run(self):
         violations = []
-        for file in self._source_repository.src_paths:
+        for file in self._source_repository.src_root:
             violations.extend(self._parse(self._source_repository.getAst(file), file))
         return Result("Return Statements", violations, len(violations))
 
