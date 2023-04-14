@@ -19,7 +19,7 @@ class SourceRepository:
     def __init__(self, src_root: Path):
         self.src_root: Path = src_root
         self.asts: Dict[Path, tree_sitter.Tree] = {}
-        self.files: List[FileInfo] = []
+        self.files: Dict[Path, FileInfo] = self._discover_files()
 
     def get_ast(self, for_file: Path) -> tree_sitter.Tree:
         """
@@ -30,7 +30,7 @@ class SourceRepository:
         Throws a ValueError when the file to parse is not a child path of the given
         src_root.
         """
-        if for_file not in self.src_paths:
+        if for_file not in self.files:
             logging.error("The file to parse must be a child path of of the src_root")
             raise ValueError
 
@@ -56,6 +56,45 @@ class SourceRepository:
                 f"Failed to parse ast for file at path: {file_at} with encoding {self.file_encodings[file_at]}. Error: {e}"
             )
             raise e
+
+    def _discover_files(self) -> Dict[Path, FileInfo]:
+        if self.src_root.is_file():
+            return [self._inspect_file(self.src_root)]
+
+        file_infos: Dict[Path, FileInfo] = self._discover_in_dir(self.src_root)
+        return file_infos
+
+    def _discover_in_dir(self, root_dir: Path) -> Dict[Path, FileInfo]:
+        file_infos: Dict[Path, FileInfo] = {}
+        for f in root_dir.iterdir():
+            if f.is_dir():
+                file_infos.update(self._discover_in_dir(f))
+
+            file_info = self._inspect_file(f)
+            file_infos[f] = file_info
+
+        return file_infos
+
+    def _inspect_file(self, file_path: Path) -> FileInfo:
+        if not file_path.is_file():
+            raise ValueError(f"_inspect_file expects that ${file_path} is a file")
+
+        programming_language: str = "unknown"
+        if file_path.suffix == ".py":
+            programming_language = "python"
+        elif file_path.suffix == ".cs":
+            programming_language = "c-sharp"
+        elif file_path.suffix == ".java":
+            programming_language = "java"
+
+        encoding: str = "unknown"
+        with file_path.open("rb") as file:
+            chardet_guess = chardet.detect(file.read())
+            if not chardet_guess["encoding"] is None:
+                # encoding will be 'unknown' if chardet guesses it as None
+                encoding = chardet_guess["encoding"]
+
+        return FileInfo(file_path, encoding, programming_language)
 
     def _get_encodings(self, files):
         encodings = {}
