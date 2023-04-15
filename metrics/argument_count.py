@@ -11,18 +11,19 @@ class ArgumentCount(Metric):
 
     def run(self):
         violations = []
-        for file in self._source_repository.src_root:
-            violations.extend(self._parse(self._source_repository.getAst(file), file))
+        for file, file_info in self._source_repository.files.items():
+            violations.extend(self._parse(self._source_repository.get_ast(file_info), file_info))
         return Result("argument count", violations, len(violations))
 
-    def _parse(self, ast, file):
+    def _parse(self, ast, file_info):
         """
         Finds the number of functions that have more than 4 parameters
         """
         violations = []
-        query = self._source_repository.tree_sitter_language.query(
+        tree_sitter_language = self._source_repository.tree_sitter_languages[file_info.language]
+        query = tree_sitter_language.query(
             f"""
-            (_ [{translate_to[self._source_repository.language]["parameters"]}] @parameters)
+            (_ [{translate_to[file_info.language]["parameters"]}] @parameters)
             """
         )
         captures = query.captures(ast.root_node)
@@ -32,7 +33,7 @@ class ArgumentCount(Metric):
                     Violation(
                         "argument count",
                         (
-                            str(file),
+                            str(file_info.file_path),
                             node.start_point[0] + 1,
                             node.end_point[0] + 1,
                         ),

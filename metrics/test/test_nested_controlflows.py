@@ -37,7 +37,6 @@ class TestNestedControlFlows(unittest.TestCase):
 
     def test_nested_control_flow_given_c_sharp_file_returns_6(self):
         new_source_repository = SourceRepository(Path("./metrics/test/data/test_data_nested_controlflows"))
-        self.assertEqual(len(new_source_repository.src_root), 3)
         nested_control_flow = NestedControlflows()
         nested_control_flow._source_repository = new_source_repository
         result = nested_control_flow.run()
@@ -45,7 +44,6 @@ class TestNestedControlFlows(unittest.TestCase):
 
     def test_nested_control_flow_given_java_file_returns_7(self):
         new_source_repository = SourceRepository(Path("./metrics/test/data/test_data_nested_controlflows"))
-        self.assertEqual(len(new_source_repository.src_root), 2)
         nested_control_flow = NestedControlflows()
         nested_control_flow._source_repository = new_source_repository
         result = nested_control_flow.run()
