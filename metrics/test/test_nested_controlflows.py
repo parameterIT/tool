@@ -10,7 +10,9 @@ class TestNestedControlFlows(unittest.TestCase):
         # chdir because paths are assumed to be relative from the project root but test
         # paths start at the test file
         os.chdir("../../")
-        self._source_repository = SourceRepository(Path("./metrics/test/data/test_data_nested_controlflows"))
+        self._source_repository = SourceRepository(
+            Path("./metrics/test/data/test_data_nested_controlflows")
+        )
         self._nestedflow = NestedControlflows()
         self._nestedflow._source_repository = self._source_repository
 

@@ -12,7 +12,9 @@ class NestedControlflows(Metric):
     def run(self):
         violations = []
         for file, file_info in self._source_repository.files.items():
-            violations.extend(self._parse(self._source_repository.get_ast(file_info), file_info))
+            violations.extend(
+                self._parse(self._source_repository.get_ast(file_info), file_info)
+            )
         return Result("nested controlflow", violations, len(violations))
 
     def _unique(self, not_unique_list):
@@ -29,17 +31,15 @@ class NestedControlflows(Metric):
         control flow depth of at least 4
         """
         violations = []
-        tree_sitter_language = self._source_repository.tree_sitter_languages[file_info.language]
+        tree_sitter_language = self._source_repository.tree_sitter_languages[
+            file_info.language
+        ]
         query = tree_sitter_language.query(
-            translate_to[file_info.language][
-                "nested_controlflow_initial_nodes"
-            ]
+            translate_to[file_info.language]["nested_controlflow_initial_nodes"]
         )
         inital_nodes = self._unique(query.captures(ast.root_node))
         sub_node_query = tree_sitter_language.query(
-            translate_to[file_info.language][
-                "nested_controlflow_subsequent_nodes"
-            ]
+            translate_to[file_info.language]["nested_controlflow_subsequent_nodes"]
         )
         for node, _ in inital_nodes:
             found = False

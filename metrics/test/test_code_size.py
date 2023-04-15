@@ -10,7 +10,9 @@ class TestCodeSize(unittest.TestCase):
         # chdir because paths are assumed to be relative from the project root but test
         # paths start at the test file
         os.chdir("../../")
-        self._source_repository = SourceRepository(Path("./metrics/test/data/test_data_file_length"))
+        self._source_repository = SourceRepository(
+            Path("./metrics/test/data/test_data_file_length")
+        )
         self._code_size = CodeSize()
         self._code_size._source_repository = self._source_repository
 

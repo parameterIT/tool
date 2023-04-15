@@ -10,7 +10,9 @@ class TestMethodCount(unittest.TestCase):
         # chdir because paths are assumed to be relative from the project root but test
         # paths start at the test file
         os.chdir("../../")
-        self._source_repository = SourceRepository(Path("./metrics/test/data/test_data_method_count"))
+        self._source_repository = SourceRepository(
+            Path("./metrics/test/data/test_data_method_count")
+        )
         self._methodcount = MethodCount()
         self._methodcount._source_repository = self._source_repository
 
@@ -21,7 +23,6 @@ class TestMethodCount(unittest.TestCase):
         self.assertEqual((locations[0][1], locations[0][2]), (3, 98))
         self.assertEqual((locations[1][1], locations[1][2]), (2, 65))
         self.assertEqual((locations[2][1], locations[2][2]), (1, 81))
-
 
     def tearDown(self):
         os.chdir(Path("metrics/test").resolve())

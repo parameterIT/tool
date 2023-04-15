@@ -95,6 +95,8 @@ class Writer:
         needed before saving the files
         """
         Path(output_dir).resolve().mkdir(parents=True, exist_ok=True)
-        Path(output_dir / Path("violations")).resolve().mkdir(parents=True, exist_ok=True)
+        Path(output_dir / Path("violations")).resolve().mkdir(
+            parents=True, exist_ok=True
+        )
         Path(output_dir / Path("outcomes")).resolve().mkdir(parents=True, exist_ok=True)
         Path(output_dir / Path("metadata")).resolve().mkdir(parents=True, exist_ok=True)

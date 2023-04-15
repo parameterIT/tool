@@ -10,7 +10,9 @@ class TestMethodLength(unittest.TestCase):
         # chdir because paths are assumed to be relative from the project root but test
         # paths start at the test file
         os.chdir("../../")
-        self._source_repository = SourceRepository(Path("./metrics/test/data/test_data_method_length"))
+        self._source_repository = SourceRepository(
+            Path("./metrics/test/data/test_data_method_length")
+        )
         self._methodlength = MethodLength()
         self._methodlength._source_repository = self._source_repository
 

@@ -77,10 +77,7 @@ def load(
             datefmt="%Y-%m-%d %H:%M:%S",
         )
 
-    runner: Runner = Runner(
-        quality_model,
-        Path(src_root)
-    )
+    runner: Runner = Runner(quality_model, Path(src_root))
     results = runner.run()
     writer: Writer = Writer()
     if save_file:

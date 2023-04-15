@@ -8,7 +8,14 @@ from byoqm.source_repository.languages import languages
 import chardet
 
 _TREESITTER_BUILD: Path = Path("build/my-languages.so")
-_SUPPORTED_ENCODINGS: List[str] = ["ascii", "ISO-8859-1", "utf-8", "UTF-16BE", "UTF-16LE", "UTF-16"]
+_SUPPORTED_ENCODINGS: List[str] = [
+    "ascii",
+    "ISO-8859-1",
+    "utf-8",
+    "UTF-16BE",
+    "UTF-16LE",
+    "UTF-16",
+]
 
 
 class SourceRepository:
@@ -39,7 +46,7 @@ class SourceRepository:
         self.tree_sitter_parsers: Dict[str, tree_sitter.Parser] = {
             "python": python_parser,
             "c_sharp": c_sharp_parser,
-            "java": java_parser
+            "java": java_parser,
         }
 
     def get_ast(self, for_file: FileInfo) -> tree_sitter.Tree:
@@ -109,7 +116,11 @@ class SourceRepository:
         return FileInfo(file_path, encoding, programming_language)
 
     def _should_exclude(self, file_info: FileInfo):
-        return file_info.language == "unknown" or file_info.encoding == "unknown" or file_info.encoding not in _SUPPORTED_ENCODINGS
+        return (
+            file_info.language == "unknown"
+            or file_info.encoding == "unknown"
+            or file_info.encoding not in _SUPPORTED_ENCODINGS
+        )
 
     def _get_encodings(self, files):
         encodings = {}

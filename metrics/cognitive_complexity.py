@@ -30,11 +30,17 @@ class CognitiveComplexity(Metric):
     def _count_cognitive_complexity(self, file_path: Path, file_info: FileInfo):
         violations = []
         ast: tree_sitter.Tree = self._source_repository.get_ast(file_info)
-        tree_sitter_language = self._source_repository.tree_sitter_languages[file_info.language]
+        tree_sitter_language = self._source_repository.tree_sitter_languages[
+            file_info.language
+        ]
 
-        initial_nodes_query_str = f"""{translate_to[file_info.language]["function"]} @func"""
+        initial_nodes_query_str = (
+            f"""{translate_to[file_info.language]["function"]} @func"""
+        )
         if file_info.language == "c_sharp" or file_info.language == "java":
-            initial_nodes_query_str += f"""{translate_to[file_info.language]["constructor"]} @cons"""
+            initial_nodes_query_str += (
+                f"""{translate_to[file_info.language]["constructor"]} @cons"""
+            )
         query_initial_nodes = tree_sitter_language.query(initial_nodes_query_str)
 
         initial_nodes = query_initial_nodes.captures(ast.root_node)
@@ -58,7 +64,9 @@ class CognitiveComplexity(Metric):
         return violations
 
     def _count_breaks_in_linear_flow(self, node, file_info):
-        tree_sitter_language = self._source_repository.tree_sitter_languages[file_info.language]
+        tree_sitter_language = self._source_repository.tree_sitter_languages[
+            file_info.language
+        ]
         query_breaks = tree_sitter_language.query(
             f"""
                 ({translate_to[file_info.language]["if_statement"]} @if)
@@ -73,7 +81,9 @@ class CognitiveComplexity(Metric):
         return len(query_breaks.captures(node))
 
     def _count_recursion(self, node: tree_sitter.Node, file_info):
-        tree_sitter_language = self._source_repository.tree_sitter_languages[file_info.language]
+        tree_sitter_language = self._source_repository.tree_sitter_languages[
+            file_info.language
+        ]
 
         count = 0
         nested_function_calls_query = tree_sitter_language.query(

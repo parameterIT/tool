@@ -12,7 +12,9 @@ class MethodCount(Metric):
     def run(self):
         violations = []
         for file, file_info in self._source_repository.files.items():
-            violations.extend(self._parse(self._source_repository.get_ast(file_info), file_info))
+            violations.extend(
+                self._parse(self._source_repository.get_ast(file_info), file_info)
+            )
         return Result("method count", violations, len(violations))
 
     def _parse(self, ast, file_info):
@@ -20,12 +22,12 @@ class MethodCount(Metric):
         Finds the amount of methods for a file, and returns whether or not the method count is greater than 20
         """
         violations = []
-        tree_sitter_language = self._source_repository.tree_sitter_languages[file_info.language]
+        tree_sitter_language = self._source_repository.tree_sitter_languages[
+            file_info.language
+        ]
         function_block = translate_to[file_info.language]["function"]
         if not file_info.language == "python":
-            function_block += translate_to[file_info.language][
-                "constructor"
-            ]
+            function_block += translate_to[file_info.language]["constructor"]
 
         query = tree_sitter_language.query(
             f"""

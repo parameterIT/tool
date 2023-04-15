@@ -10,7 +10,9 @@ class TestComplexLogic(unittest.TestCase):
         # chdir because paths are assumed to be relative from the project root but test
         # paths start at the test file
         os.chdir("../../")
-        self._source_repository = SourceRepository(Path("./metrics/test/data/test_data_complex_logic"))
+        self._source_repository = SourceRepository(
+            Path("./metrics/test/data/test_data_complex_logic")
+        )
         self._complexlogic = ComplexLogic()
         self._complexlogic._source_repository = self._source_repository
 

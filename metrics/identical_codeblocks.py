@@ -14,7 +14,7 @@ _CHARDET_ENCODINGS_TO_CPD = {
     "UTF-16BE": "UTF-16BE",
     "UTF-16LE": "UTF-16LE",
     "ascii": "US-ASCII",
-    "ISO-8859-1": "ISO-8859-1"
+    "ISO-8859-1": "ISO-8859-1",
 }
 
 
