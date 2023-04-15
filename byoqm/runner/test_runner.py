@@ -3,22 +3,12 @@ import unittest
 
 from pathlib import Path
 
-from test.test_support import shutil
-
 from byoqm.runner import Runner
-
-_TEST_FOLDER = Path("byoqm/runner/test")
-_OUTPUT_FOLDER = _TEST_FOLDER / Path("test")
-_OUTCOMES_FOLDER = _OUTPUT_FOLDER / Path("outcomes")
-_VIOLATION_FOLDER = _OUTPUT_FOLDER / Path("violations")
 
 
 class TestRunner(unittest.TestCase):
     def setUp(self):
-        _OUTPUT_FOLDER.mkdir(parents=True, exist_ok=True)
-        _OUTCOMES_FOLDER.mkdir(parents=True, exist_ok=True)
-        _VIOLATION_FOLDER.mkdir(parents=True, exist_ok=True)
-        self._runner = Runner("no_cpd", Path("byoqm/"), _OUTPUT_FOLDER, True)
+        self._runner = Runner("no_cpd", Path("byoqm/"))
         logging.disable()
 
     def test_load_given_code_climate_inits_runner(self):

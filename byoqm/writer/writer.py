@@ -94,7 +94,7 @@ class Writer:
         gen_output_paths_if_not_exists will generate the output paths
         needed before saving the files
         """
-        Path(output_dir).resolve().mkdir(exist_ok=True)
-        Path(output_dir / Path("violations")).resolve().mkdir(exist_ok=True)
-        Path(output_dir / Path("outcomes")).resolve().mkdir(exist_ok=True)
-        Path(output_dir / Path("metadata")).resolve().mkdir(exist_ok=True)
+        Path(output_dir).resolve().mkdir(parents=True, exist_ok=True)
+        Path(output_dir / Path("violations")).resolve().mkdir(parents=True, exist_ok=True)
+        Path(output_dir / Path("outcomes")).resolve().mkdir(parents=True, exist_ok=True)
+        Path(output_dir / Path("metadata")).resolve().mkdir(parents=True, exist_ok=True)
