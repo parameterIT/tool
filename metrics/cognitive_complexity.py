@@ -16,7 +16,7 @@ class CognitiveComplexity(Metric):
     def __init__(self):
         self._source_repository: SourceRepository | None = None
 
-    def run(self) -> List:
+    def run(self) -> Result:
         """
         A metric that counts the recursion and breaks in linear flow.
 

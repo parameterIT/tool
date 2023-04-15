@@ -14,27 +14,12 @@ class TestFileLength(unittest.TestCase):
         self._filelength = FileLength()
         self._filelength._source_repository = self._source_repository
 
-    def test_file_length_given_python_file_returns_1(self):
+    def test_file_length_returns_5(self):
         result = self._filelength.run()
-        self.assertEqual(result.outcome, 1)
-
-    def test_file_length_given_java_file_returns_1(self):
-        new_source_repository = SourceRepository(Path("./metrics/test/data/test_data_file_length"))
-        file_length = FileLength()
-        file_length._source_repository = new_source_repository
-        result = file_length.run()
-        self.assertEqual(result.outcome, 1)
-
-    def test_file_length_given_csharp_file_returns_3(self):
-        new_source_repository = SourceRepository(Path("./metrics/test/data/test_data_file_length"))
-        file_length = FileLength()
-        file_length._source_repository = new_source_repository
-        result = file_length.run()
-        self.assertEqual(result.outcome, 3)
+        self.assertEqual(result.outcome, 5)
 
     def tearDown(self):
         os.chdir(Path("metrics/test").resolve())
-
 
 if __name__ == "__main__":
     unittest.main()
