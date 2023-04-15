@@ -29,8 +29,8 @@ class TestCognitiveComplexity(unittest.TestCase):
 
         locations = result.get_violation_locations()
         self.assertEqual((locations[0][1], locations[0][2]), (1, 8))
-        self.assertEqual((locations[0][1], locations[0][2]), (5, 15))
-        self.assertEqual((locations[0][1], locations[0][2]), (5, 13))
+        self.assertEqual((locations[1][1], locations[1][2]), (5, 13))
+        self.assertEqual((locations[2][1], locations[2][2]), (5, 15))
 
     def test_breaks_in_linear_flow_returns_3(self):
         new_source_repository = SourceRepository(Path(
@@ -43,9 +43,9 @@ class TestCognitiveComplexity(unittest.TestCase):
         expected = 3
         self.assertEqual(actual, expected)
         locations = result.get_violation_locations()
-        self.assertEqual((locations[0][1], locations[0][2]), (1, 25))
         self.assertEqual((locations[0][1], locations[0][2]), (10, 49))
-        self.assertEqual((locations[0][1], locations[0][2]), (5, 42))
+        self.assertEqual((locations[1][1], locations[1][2]), (1, 25))
+        self.assertEqual((locations[2][1], locations[2][2]), (5, 42))
 
     def test_cognitive_complexity_returns_12(self):
         new_source_repository = SourceRepository(Path("./metrics/test/data/test_cognitive_complexity"))

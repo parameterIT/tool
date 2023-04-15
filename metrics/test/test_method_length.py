@@ -20,8 +20,8 @@ class TestMethodLength(unittest.TestCase):
 
         locations = result.get_violation_locations()
 
-        self.assertEqual((locations[0][1], locations[0][2]), (39, 73))
-        self.assertEqual((locations[1][1], locations[1][2]), (76, 108))
+        self.assertEqual((locations[3][1], locations[3][2]), (39, 73))
+        self.assertEqual((locations[4][1], locations[4][2]), (76, 108))
 
     def tearDown(self):
         os.chdir(Path("metrics/test").resolve())

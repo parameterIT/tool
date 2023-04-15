@@ -18,18 +18,18 @@ class TestComplexLogic(unittest.TestCase):
         result = self._complexlogic.run()
         self.assertEqual(result.outcome, 10)
         locations = result.get_violation_locations()
-        self.assertEqual((locations[0][1], locations[0][2]), (20, 20))
-        self.assertEqual((locations[1][1], locations[1][2]), (23, 23))
-
         self.assertEqual((locations[0][1], locations[0][2]), (11, 11))
         self.assertEqual((locations[1][1], locations[1][2]), (12, 12))
         self.assertEqual((locations[2][1], locations[2][2]), (15, 15))
         self.assertEqual((locations[3][1], locations[3][2]), (17, 17))
 
-        self.assertEqual((locations[0][1], locations[0][2]), (15, 15))
-        self.assertEqual((locations[1][1], locations[1][2]), (16, 16))
-        self.assertEqual((locations[2][1], locations[2][2]), (19, 19))
-        self.assertEqual((locations[3][1], locations[3][2]), (21, 21))
+        self.assertEqual((locations[4][1], locations[4][2]), (15, 15))
+        self.assertEqual((locations[5][1], locations[5][2]), (16, 16))
+        self.assertEqual((locations[6][1], locations[6][2]), (19, 19))
+        self.assertEqual((locations[7][1], locations[7][2]), (21, 21))
+
+        self.assertEqual((locations[8][1], locations[8][2]), (20, 20))
+        self.assertEqual((locations[9][1], locations[9][2]), (23, 23))
 
     def tearDown(self):
         os.chdir(Path("metrics/test").resolve())

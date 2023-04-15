@@ -18,11 +18,9 @@ class TestMethodCount(unittest.TestCase):
         result = self._methodcount.run()
         self.assertEqual(result.outcome, 3)
         locations = result.get_violation_locations()
-        self.assertEqual((locations[0][1], locations[0][2]), (1, 81))
-
-        self.assertEqual((locations[0][1], locations[0][2]), (2, 65))
-
         self.assertEqual((locations[0][1], locations[0][2]), (3, 98))
+        self.assertEqual((locations[1][1], locations[1][2]), (2, 65))
+        self.assertEqual((locations[2][1], locations[2][2]), (1, 81))
 
 
     def tearDown(self):

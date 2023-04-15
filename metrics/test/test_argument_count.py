@@ -18,12 +18,12 @@ class TestArgumentCount(unittest.TestCase):
         result = self._argumentcount.run()
         self.assertEqual(result.outcome, 6)
         locations = result.get_violation_locations()
-        self.assertEqual((locations[0][1], locations[0][2]), (13, 13))
-        self.assertEqual((locations[1][1], locations[1][2]), (18, 18))
         self.assertEqual((locations[0][1], locations[0][2]), (9, 9))
         self.assertEqual((locations[1][1], locations[1][2]), (10, 10))
-        self.assertEqual((locations[0][1], locations[0][2]), (17, 17))
-        self.assertEqual((locations[1][1], locations[1][2]), (20, 20))
+        self.assertEqual((locations[2][1], locations[2][2]), (13, 13))
+        self.assertEqual((locations[3][1], locations[3][2]), (18, 18))
+        self.assertEqual((locations[4][1], locations[4][2]), (17, 17))
+        self.assertEqual((locations[5][1], locations[5][2]), (20, 20))
 
     def tearDown(self):
         os.chdir(Path("metrics/test").resolve())
