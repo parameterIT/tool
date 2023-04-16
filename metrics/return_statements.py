@@ -11,24 +11,29 @@ class ReturnStatements(Metric):
 
     def run(self):
         violations = []
-        for file in self._source_repository.src_paths:
-            violations.extend(self._parse(self._source_repository.getAst(file), file))
+        for file, file_info in self._source_repository.files.items():
+            violations.extend(
+                self._parse(self._source_repository.get_ast(file_info), file_info)
+            )
         return Result("Return Statements", violations, len(violations))
 
-    def _parse(self, ast, file):
+    def _parse(self, ast, file_info):
         """
         Finds the amount of return statements in a file and returns the amount of functions that have more
         than 4 return statements
         """
         violations = []
-        query_functions = self._source_repository.tree_sitter_language.query(
+        tree_sitter_language = self._source_repository.tree_sitter_languages[
+            file_info.language
+        ]
+        query_functions = tree_sitter_language.query(
             f"""
-        (_ [{translate_to[self._source_repository.language]["function"]}] @function)
+        (_ [{translate_to[file_info.language]["function"]}] @function)
         """
         )
-        query_return = self._source_repository.tree_sitter_language.query(
+        query_return = tree_sitter_language.query(
             f"""
-            (_ [{translate_to[self._source_repository.language]["return"]}] @return)
+            (_ [{translate_to[file_info.language]["return"]}] @return)
             """
         )
 
@@ -40,7 +45,7 @@ class ReturnStatements(Metric):
                     Violation(
                         "Return Statements",
                         (
-                            str(file),
+                            str(file_info.file_path),
                             node.start_point[0] + 1,
                             node.end_point[0] + 1,
                         ),

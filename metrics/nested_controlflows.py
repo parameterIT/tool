@@ -11,8 +11,10 @@ class NestedControlflows(Metric):
 
     def run(self):
         violations = []
-        for file in self._source_repository.src_paths:
-            violations.extend(self._parse(self._source_repository.getAst(file), file))
+        for file, file_info in self._source_repository.files.items():
+            violations.extend(
+                self._parse(self._source_repository.get_ast(file_info), file_info)
+            )
         return Result("nested controlflow", violations, len(violations))
 
     def _unique(self, not_unique_list):
@@ -23,22 +25,21 @@ class NestedControlflows(Metric):
                 unique_list.append(x)
         return unique_list
 
-    def _parse(self, ast, file):
+    def _parse(self, ast, file_info):
         """
         Finds the control statements of a file and returns the amount of control statements that have a nested
         control flow depth of at least 4
         """
         violations = []
-        query = self._source_repository.tree_sitter_language.query(
-            translate_to[self._source_repository.language][
-                "nested_controlflow_initial_nodes"
-            ]
+        tree_sitter_language = self._source_repository.tree_sitter_languages[
+            file_info.language
+        ]
+        query = tree_sitter_language.query(
+            translate_to[file_info.language]["nested_controlflow_initial_nodes"]
         )
         inital_nodes = self._unique(query.captures(ast.root_node))
-        sub_node_query = self._source_repository.tree_sitter_language.query(
-            translate_to[self._source_repository.language][
-                "nested_controlflow_subsequent_nodes"
-            ]
+        sub_node_query = tree_sitter_language.query(
+            translate_to[file_info.language]["nested_controlflow_subsequent_nodes"]
         )
         for node, _ in inital_nodes:
             found = False
@@ -55,7 +56,7 @@ class NestedControlflows(Metric):
                             Violation(
                                 "nested controlflow",
                                 (
-                                    str(file),
+                                    str(file_info.file_path),
                                     node.start_point[0],
                                     node3.end_point[0] + 1,
                                 ),

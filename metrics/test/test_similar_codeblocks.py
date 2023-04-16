@@ -11,7 +11,7 @@ class TestSimilarCodeBlocks(unittest.TestCase):
         # paths start at the test file
         os.chdir("../../")
         self._source_repository = SourceRepository(
-            Path("./metrics/test/data/test_data_similar_codeblocks"), "python"
+            Path("./metrics/test/data/test_data_similar_codeblocks")
         )
         self._similarcode = SimilarBlocksofCode()
         self._similarcode._source_repository = self._source_repository
@@ -23,11 +23,19 @@ class TestSimilarCodeBlocks(unittest.TestCase):
     def test_similar_codeblocks_given_file_returns_1(self):
         result = self._similarcode.run()
         self.assertEqual(result.outcome, 1)
-        locations = result.get_violation_locations()[0]
-        first_code_block = (locations[0][1], locations[0][2])
-        second_code_block = (locations[1][1], locations[1][2])
-        self.assertEqual(first_code_block, (3, 11))
-        self.assertEqual(second_code_block, (16, 24))
+
+        # CPD reports the full path's, so will always be machine specific. Therefore, we test only that the reported
+        # lines are correct and assume that these lines can only stem correctly from the expected files.
+        duplications = result.get_violation_locations()
+        lines_of_duplications = []
+        for duplication in duplications:
+            lines_of_duplication = []
+            for location in duplication:
+                lines_of_duplication.append((location[1], location[2]))
+            lines_of_duplications.append(lines_of_duplication)
+
+        expected_lines_of_duplications = [[(3, 11), (16, 24)]]
+        self.assertCountEqual(lines_of_duplications, expected_lines_of_duplications)
 
     def tearDown(self):
         os.chdir(Path("metrics/test").resolve())

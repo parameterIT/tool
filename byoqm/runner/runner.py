@@ -21,10 +21,9 @@ class Runner:
         self,
         model_name: str,
         src_root: Path,
-        language: str,
     ):
         self._model: QualityModel = self._load(model_name)
-        self._source_repository = SourceRepository(src_root.resolve(), language)
+        self._source_repository = SourceRepository(src_root.resolve())
 
     def _load(self, model_name: str) -> QualityModel:
         """

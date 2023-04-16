@@ -11,7 +11,6 @@ from byoqm.writer import Writer
 @click.command()
 @click.argument("src_root", required=True)
 @click.argument("quality_model", required=True)
-@click.argument("language", required=True)
 @click.option(
     "--output",
     "-o",
@@ -59,7 +58,6 @@ from byoqm.writer import Writer
 def load(
     src_root: str,
     quality_model: str,
-    language: str,
     output: str = "./output",
     save_file: bool = True,
     show_graphs: bool = True,
@@ -79,11 +77,7 @@ def load(
             datefmt="%Y-%m-%d %H:%M:%S",
         )
 
-    runner: Runner = Runner(
-        quality_model,
-        Path(src_root),
-        language.lower(),
-    )
+    runner: Runner = Runner(quality_model, Path(src_root))
     results = runner.run()
     writer: Writer = Writer()
     if save_file:
