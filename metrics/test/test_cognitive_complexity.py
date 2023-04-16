@@ -29,9 +29,24 @@ class TestCognitiveComplexity(unittest.TestCase):
         self.assertEqual(actual, expected)
 
         locations = result.get_violation_locations()
-        self.assertEqual((locations[0][1], locations[0][2]), (1, 8))
-        self.assertEqual((locations[1][1], locations[1][2]), (5, 13))
-        self.assertEqual((locations[2][1], locations[2][2]), (5, 15))
+        expected_locations = [
+            (
+                "metrics/test/data/test_cognitive_complexity/test_recursion/data_recursion.py",
+                1,
+                8,
+            ),
+            (
+                "metrics/test/data/test_cognitive_complexity/test_recursion/data_recursion.java",
+                5,
+                13,
+            ),
+            (
+                "metrics/test/data/test_cognitive_complexity/test_recursion/data_recursion.cs",
+                5,
+                15,
+            ),
+        ]
+        self.assertCountEqual(locations, expected_locations)
 
     def test_breaks_in_linear_flow_returns_3(self):
         new_source_repository = SourceRepository(
@@ -45,10 +60,26 @@ class TestCognitiveComplexity(unittest.TestCase):
         actual = result.outcome
         expected = 3
         self.assertEqual(actual, expected)
+
         locations = result.get_violation_locations()
-        self.assertEqual((locations[0][1], locations[0][2]), (10, 49))
-        self.assertEqual((locations[1][1], locations[1][2]), (1, 25))
-        self.assertEqual((locations[2][1], locations[2][2]), (5, 42))
+        expected_locations = [
+            (
+                "metrics/test/data/test_cognitive_complexity/test_breaks_in_linear_flow/data_breaks_in_linear_flow.cs",
+                10,
+                49,
+            ),
+            (
+                "metrics/test/data/test_cognitive_complexity/test_breaks_in_linear_flow/data_breaks_in_linear_flow.py",
+                1,
+                25,
+            ),
+            (
+                "metrics/test/data/test_cognitive_complexity/test_breaks_in_linear_flow/data_breaks_in_linear_flow.java",
+                5,
+                42,
+            ),
+        ]
+        self.assertCountEqual(locations, expected_locations)
 
     def test_cognitive_complexity_returns_12(self):
         new_source_repository = SourceRepository(

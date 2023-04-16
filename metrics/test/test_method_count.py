@@ -20,9 +20,12 @@ class TestMethodCount(unittest.TestCase):
         result = self._methodcount.run()
         self.assertEqual(result.outcome, 3)
         locations = result.get_violation_locations()
-        self.assertEqual((locations[0][1], locations[0][2]), (3, 98))
-        self.assertEqual((locations[1][1], locations[1][2]), (2, 65))
-        self.assertEqual((locations[2][1], locations[2][2]), (1, 81))
+        expected_locations = [
+            ("metrics/test/data/test_data_method_count/data_method_count_1.cs", 3, 98),
+            ("metrics/test/data/test_data_method_count/data_method_count.java", 2, 65),
+            ("metrics/test/data/test_data_method_count/data_method_count.py", 1, 81),
+        ]
+        self.assertCountEqual(locations, expected_locations)
 
     def tearDown(self):
         os.chdir(Path("metrics/test").resolve())

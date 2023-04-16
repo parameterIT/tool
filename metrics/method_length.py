@@ -39,7 +39,11 @@ class MethodLength(Metric):
                 violations.append(
                     Violation(
                         "method length",
-                        (str(file_info), node.start_point[0], node.end_point[0] + 1),
+                        (
+                            str(file_info.file_path),
+                            node.start_point[0],
+                            node.end_point[0] + 1,
+                        ),
                     )
                 )
         return violations

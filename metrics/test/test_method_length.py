@@ -21,9 +21,28 @@ class TestMethodLength(unittest.TestCase):
         self.assertEqual(result.outcome, 6)
 
         locations = result.get_violation_locations()
+        expected_locations = [
+            ("metrics/test/data/test_data_method_length/data_method_length.cs", 17, 44),
+            ("metrics/test/data/test_data_method_length/data_method_length.cs", 46, 73),
+            (
+                "metrics/test/data/test_data_method_length/data_method_length.cs",
+                75,
+                110,
+            ),
+            ("metrics/test/data/test_data_method_length/data_method_length.py", 39, 73),
+            (
+                "metrics/test/data/test_data_method_length/data_method_length.py",
+                76,
+                108,
+            ),
+            (
+                "metrics/test/data/test_data_method_length/data_method_length.java",
+                18,
+                46,
+            ),
+        ]
 
-        self.assertEqual((locations[3][1], locations[3][2]), (39, 73))
-        self.assertEqual((locations[4][1], locations[4][2]), (76, 108))
+        self.assertCountEqual(locations, expected_locations)
 
     def tearDown(self):
         os.chdir(Path("metrics/test").resolve())

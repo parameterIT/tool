@@ -20,8 +20,39 @@ class TestReturnStatements(unittest.TestCase):
         result = self._returnstmnt.run()
         self.assertEqual(result.outcome, 6)
         locations = result.get_violation_locations()
-        self.assertEqual((locations[0][1], locations[0][2]), (5, 15))
-        self.assertEqual((locations[1][1], locations[1][2]), (18, 35))
+        expected_locations = [
+            (
+                "metrics/test/data/test_data_return_statements/data_return_statements.py",
+                5,
+                15,
+            ),
+            (
+                "metrics/test/data/test_data_return_statements/data_return_statements.py",
+                18,
+                35,
+            ),
+            (
+                "metrics/test/data/test_data_return_statements/data_return_statements.cs",
+                5,
+                13,
+            ),
+            (
+                "metrics/test/data/test_data_return_statements/data_return_statements.cs",
+                21,
+                28,
+            ),
+            (
+                "metrics/test/data/test_data_return_statements/data_return_statements.java",
+                5,
+                24,
+            ),
+            (
+                "metrics/test/data/test_data_return_statements/data_return_statements.java",
+                41,
+                57,
+            ),
+        ]
+        self.assertCountEqual(locations, expected_locations)
 
     def tearDown(self):
         os.chdir(Path("metrics/test").resolve())
