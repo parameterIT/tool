@@ -10,8 +10,8 @@ from byoqm.metric.violation import Violation
 
 from byoqm.writer import Writer
 
-_TEST_FOLDER = Path("byoqm/runner/test")
-_OUTPUT_FOLDER = _TEST_FOLDER / Path("test")
+_TEST_FOLDER = Path("byoqm") / Path("runner") / Path("test")
+_OUTPUT_FOLDER = _TEST_FOLDER / Path("output")
 _OUTCOMES_FOLDER = _OUTPUT_FOLDER / Path("outcomes")
 _META_DATA_FOLDER = _OUTPUT_FOLDER / Path("metadata")
 _VIOLATIONS_FOLDER = _OUTPUT_FOLDER / Path("violations")

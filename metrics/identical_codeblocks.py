@@ -8,6 +8,15 @@ import subprocess
 
 TOKENS = 35
 
+_CHARDET_ENCODINGS_TO_CPD = {
+    "ASCII": "US-ASCII",
+    "ISO-8859-1": "ISO-8859-1",
+    "UTF-8": "UTF-8",
+    "UTF-16": "UTF-16",
+    "UTF-16BE": "UTF-16BE",
+    "UTF-16LE": "UTF-16LE",
+}
+
 
 class IdenticalBlocksofCode(Metric):
     def __init__(self):
@@ -23,16 +32,12 @@ class IdenticalBlocksofCode(Metric):
         Makes use of Copy Paste Detector (CPD)
         """
         violations = []
-        for encoding in set(self._source_repository.file_encodings.values()):
-            files = [
-                str(file)
-                for file, encoding_type in self._source_repository.file_encodings.items()
-                if encoding_type == encoding
-            ]
-            filestring = f"{files}"
-            filestring = filestring[1 : len(filestring) - 1]
+        for file, file_info in self._source_repository.files.items():
+            filestring = f"{file}"
+            cpd_encoding = _CHARDET_ENCODINGS_TO_CPD[file_info.encoding]
+
             res = subprocess.run(
-                f"metrics/cpd/bin/run.sh cpd --minimum-tokens {TOKENS} --skip-lexical-errors --dir {filestring} --format xml --encoding {encoding}",
+                f"metrics/cpd/bin/run.sh cpd --minimum-tokens {TOKENS} --skip-lexical-errors --dir {filestring} --format xml --encoding {cpd_encoding}",
                 shell=True,
                 capture_output=True,
                 text=True,

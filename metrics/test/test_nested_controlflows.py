@@ -11,7 +11,7 @@ class TestNestedControlFlows(unittest.TestCase):
         # paths start at the test file
         os.chdir("../../")
         self._source_repository = SourceRepository(
-            Path("./metrics/test/data/test_data_nested_controlflows"), "python"
+            Path("./metrics/test/data/test_data_nested_controlflows")
         )
         self._nestedflow = NestedControlflows()
         self._nestedflow._source_repository = self._source_repository
@@ -21,41 +21,124 @@ class TestNestedControlFlows(unittest.TestCase):
         result = self._nestedflow.run()
         self.assertEqual(len(result), 10)
 
-    def test_nested_controlflow_given_test_directory_returns_9(self):
+    def test_nested_controlflow_given_test_directory_returns_22(self):
         result = self._nestedflow.run()
-        self.assertEqual(result.outcome, 9)
-        reported_lines = set()
-        for location in result.get_violation_locations():
-            reported_lines.add((location[1], location[2]))
-        self.assertIn((3, 10), reported_lines)
-        self.assertIn((4, 8), reported_lines)
-        self.assertIn((10, 14), reported_lines)
-        self.assertIn((1, 6), reported_lines)
-        self.assertIn((8, 13), reported_lines)
-        self.assertIn((3, 19), reported_lines)
-        self.assertIn((20, 32), reported_lines)
-        self.assertIn((45, 49), reported_lines)
-        self.assertIn((51, 59), reported_lines)
+        self.assertEqual(result.outcome, 22)
 
-    def test_nested_control_flow_given_c_sharp_file_returns_6(self):
-        new_source_repository = SourceRepository(
-            Path("./metrics/test/data/test_data_nested_controlflows"), "c_sharp"
-        )
-        self.assertEqual(len(new_source_repository.src_paths), 3)
-        nested_control_flow = NestedControlflows()
-        nested_control_flow._source_repository = new_source_repository
-        result = nested_control_flow.run()
-        self.assertEqual(result.outcome, 6)
-
-    def test_nested_control_flow_given_java_file_returns_7(self):
-        new_source_repository = SourceRepository(
-            Path("./metrics/test/data/test_data_nested_controlflows"), "java"
-        )
-        self.assertEqual(len(new_source_repository.src_paths), 2)
-        nested_control_flow = NestedControlflows()
-        nested_control_flow._source_repository = new_source_repository
-        result = nested_control_flow.run()
-        self.assertEqual(result.outcome, 7)
+        locations = result.get_violation_locations()
+        expected_locations = [
+            (
+                "metrics/test/data/test_data_nested_controlflows/data_nested_control_flow_switches.java",
+                3,
+                10,
+            ),
+            (
+                "metrics/test/data/test_data_nested_controlflows/data_nested_control_flow_switches.java",
+                18,
+                27,
+            ),
+            (
+                "metrics/test/data/test_data_nested_controlflows/data_nested_controlflows_switches.cs",
+                10,
+                18,
+            ),
+            (
+                "metrics/test/data/test_data_nested_controlflows/data_nested_controlflows_switches2.cs",
+                2,
+                13,
+            ),
+            (
+                "metrics/test/data/test_data_nested_controlflows/data_nested_controlflows.cs",
+                6,
+                13,
+            ),
+            (
+                "metrics/test/data/test_data_nested_controlflows/data_nested_controlflows.cs",
+                23,
+                34,
+            ),
+            (
+                "metrics/test/data/test_data_nested_controlflows/data_nested_controlflows.cs",
+                37,
+                48,
+            ),
+            (
+                "metrics/test/data/test_data_nested_controlflows/data_nested_controlflows.cs",
+                60,
+                74,
+            ),
+            (
+                "metrics/test/data/test_data_nested_controlflows/data_nested_controlflows_2.py",
+                1,
+                6,
+            ),
+            (
+                "metrics/test/data/test_data_nested_controlflows/data_nested_controlflows_2.py",
+                8,
+                13,
+            ),
+            (
+                "metrics/test/data/test_data_nested_controlflows/data_nested_controlflows_3.py",
+                3,
+                19,
+            ),
+            (
+                "metrics/test/data/test_data_nested_controlflows/data_nested_controlflows_3.py",
+                20,
+                32,
+            ),
+            (
+                "metrics/test/data/test_data_nested_controlflows/data_nested_controlflows_3.py",
+                45,
+                49,
+            ),
+            (
+                "metrics/test/data/test_data_nested_controlflows/data_nested_controlflows_3.py",
+                51,
+                59,
+            ),
+            (
+                "metrics/test/data/test_data_nested_controlflows/data_nested_controlflows_1.py",
+                4,
+                8,
+            ),
+            (
+                "metrics/test/data/test_data_nested_controlflows/data_nested_controlflows_1.py",
+                10,
+                14,
+            ),
+            (
+                "metrics/test/data/test_data_nested_controlflows/data_nested_control_flows.java",
+                7,
+                14,
+            ),
+            (
+                "metrics/test/data/test_data_nested_controlflows/data_nested_control_flows.java",
+                15,
+                24,
+            ),
+            (
+                "metrics/test/data/test_data_nested_controlflows/data_nested_control_flows.java",
+                32,
+                39,
+            ),
+            (
+                "metrics/test/data/test_data_nested_controlflows/data_nested_control_flows.java",
+                41,
+                48,
+            ),
+            (
+                "metrics/test/data/test_data_nested_controlflows/data_nested_control_flows.java",
+                50,
+                61,
+            ),
+            (
+                "metrics/test/data/test_data_nested_controlflows/data_nested_controlflows_5.py",
+                3,
+                10,
+            ),
+        ]
+        self.assertCountEqual(locations, expected_locations)
 
     def tearDown(self):
         os.chdir(Path("metrics/test").resolve())

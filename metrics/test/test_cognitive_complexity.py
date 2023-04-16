@@ -14,8 +14,7 @@ class TestCognitiveComplexity(unittest.TestCase):
         # paths start at the test file
         os.chdir("../../")
         self._source_repository: SourceRepository = SourceRepository(
-            Path("./metrics/test/data/test_cognitive_complexity/test_recursion"),
-            "python",
+            Path("./metrics/test/data/test_cognitive_complexity/test_recursion")
         )
         self._metric: Metric = CognitiveComplexity()
         self._metric._source_repository = self._source_repository
@@ -23,118 +22,72 @@ class TestCognitiveComplexity(unittest.TestCase):
     def tearDown(self):
         os.chdir(Path("metrics/test").resolve())
 
-    def test_recursion_given_python_recursion_file_returns_1(self):
+    def test_recursion_returns_3(self):
         result = self._metric.run()
         actual = result.outcome
-        expected = 1
+        expected = 3
         self.assertEqual(actual, expected)
-        locations = result.get_violation_locations()
-        self.assertEqual((locations[0][1], locations[0][2]), (1, 8))
 
-    def test_recursion_given_c_sharp_recursion_file_returns_1(self):
-        new_source_repository = SourceRepository(
-            Path("./metrics/test/data/test_cognitive_complexity/test_recursion"),
-            "c_sharp",
-        )
-        cognitive_complexity = CognitiveComplexity()
-        cognitive_complexity._source_repository = new_source_repository
-        result = cognitive_complexity.run()
-        actual = result.outcome
-        expected = 1
-        self.assertEqual(actual, expected)
         locations = result.get_violation_locations()
-        self.assertEqual((locations[0][1], locations[0][2]), (5, 15))
+        expected_locations = [
+            (
+                "metrics/test/data/test_cognitive_complexity/test_recursion/data_recursion.py",
+                1,
+                8,
+            ),
+            (
+                "metrics/test/data/test_cognitive_complexity/test_recursion/data_recursion.java",
+                5,
+                13,
+            ),
+            (
+                "metrics/test/data/test_cognitive_complexity/test_recursion/data_recursion.cs",
+                5,
+                15,
+            ),
+        ]
+        self.assertCountEqual(locations, expected_locations)
 
-    def test_recursion_given_java_recursion_file_returns_1(self):
-        new_source_repository = SourceRepository(
-            Path("./metrics/test/data/test_cognitive_complexity/test_recursion"), "java"
-        )
-        cognitive_complexity = CognitiveComplexity()
-        cognitive_complexity._source_repository = new_source_repository
-        result = cognitive_complexity.run()
-        actual = result.outcome
-        expected = 1
-        self.assertEqual(actual, expected)
-        locations = result.get_violation_locations()
-        self.assertEqual((locations[0][1], locations[0][2]), (5, 13))
-
-    def test_breaks_in_linear_flow_given_python_file_returns_1(self):
+    def test_breaks_in_linear_flow_returns_3(self):
         new_source_repository = SourceRepository(
             Path(
                 "./metrics/test/data/test_cognitive_complexity/test_breaks_in_linear_flow"
-            ),
-            "python",
+            )
         )
         cognitive_complexity = CognitiveComplexity()
         cognitive_complexity._source_repository = new_source_repository
         result = cognitive_complexity.run()
         actual = result.outcome
-        expected = 1
+        expected = 3
         self.assertEqual(actual, expected)
+
         locations = result.get_violation_locations()
-        self.assertEqual((locations[0][1], locations[0][2]), (1, 25))
-
-    def test_breaks_in_linear_flow_given_c_sharp_file_returns_1(self):
-        new_source_repository = SourceRepository(
-            Path(
-                "./metrics/test/data/test_cognitive_complexity/test_breaks_in_linear_flow"
+        expected_locations = [
+            (
+                "metrics/test/data/test_cognitive_complexity/test_breaks_in_linear_flow/data_breaks_in_linear_flow.cs",
+                10,
+                49,
             ),
-            "c_sharp",
-        )
-        cognitive_complexity = CognitiveComplexity()
-        cognitive_complexity._source_repository = new_source_repository
-        result = cognitive_complexity.run()
-        actual = result.outcome
-        expected = 1
-        self.assertEqual(actual, expected)
-        locations = result.get_violation_locations()
-        self.assertEqual((locations[0][1], locations[0][2]), (10, 49))
-
-    def test_breaks_in_linear_flow_given_java_file_returns_1(self):
-        new_source_repository = SourceRepository(
-            Path(
-                "./metrics/test/data/test_cognitive_complexity/test_breaks_in_linear_flow"
+            (
+                "metrics/test/data/test_cognitive_complexity/test_breaks_in_linear_flow/data_breaks_in_linear_flow.py",
+                1,
+                25,
             ),
-            "java",
-        )
-        cognitive_complexity = CognitiveComplexity()
-        cognitive_complexity._source_repository = new_source_repository
-        result = cognitive_complexity.run()
-        actual = result.outcome
-        expected = 1
-        self.assertEqual(actual, expected)
-        locations = result.get_violation_locations()
-        self.assertEqual((locations[0][1], locations[0][2]), (5, 42))
+            (
+                "metrics/test/data/test_cognitive_complexity/test_breaks_in_linear_flow/data_breaks_in_linear_flow.java",
+                5,
+                42,
+            ),
+        ]
+        self.assertCountEqual(locations, expected_locations)
 
-    def test_cognitive_complexity_for_python_returns_4(self):
+    def test_cognitive_complexity_returns_12(self):
         new_source_repository = SourceRepository(
-            Path("./metrics/test/data/test_cognitive_complexity"), "python"
+            Path("./metrics/test/data/test_cognitive_complexity")
         )
         cognitive_complexity = CognitiveComplexity()
         cognitive_complexity._source_repository = new_source_repository
         result = cognitive_complexity.run()
         actual = result.outcome
-        expected = 4
-        self.assertEqual(actual, expected)
-
-    def test_cognitive_complexity_for_c_sharp_returns_4(self):
-        new_source_repository = SourceRepository(
-            Path("./metrics/test/data/test_cognitive_complexity"), "c_sharp"
-        )
-        cognitive_complexity = CognitiveComplexity()
-        cognitive_complexity._source_repository = new_source_repository
-        result = cognitive_complexity.run()
-        actual = result.outcome
-        expected = 4
-        self.assertEqual(actual, expected)
-
-    def test_cognitive_complexity_for_java_returns_4(self):
-        new_source_repository = SourceRepository(
-            Path("./metrics/test/data/test_cognitive_complexity"), "java"
-        )
-        cognitive_complexity = CognitiveComplexity()
-        cognitive_complexity._source_repository = new_source_repository
-        result = cognitive_complexity.run()
-        actual = result.outcome
-        expected = 4
+        expected = 12
         self.assertEqual(actual, expected)

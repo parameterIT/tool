@@ -11,35 +11,38 @@ class TestMethodLength(unittest.TestCase):
         # paths start at the test file
         os.chdir("../../")
         self._source_repository = SourceRepository(
-            Path("./metrics/test/data/test_data_method_length"), "python"
+            Path("./metrics/test/data/test_data_method_length")
         )
         self._methodlength = MethodLength()
         self._methodlength._source_repository = self._source_repository
 
-    def test_method_length_given_python_file_returns_2(self):
+    def test_method_length_returns_6(self):
         result = self._methodlength.run()
-        self.assertEqual(result.outcome, 2)
+        self.assertEqual(result.outcome, 6)
+
         locations = result.get_violation_locations()
-        self.assertEqual((locations[0][1], locations[0][2]), (39, 73))
-        self.assertEqual((locations[1][1], locations[1][2]), (76, 108))
+        expected_locations = [
+            ("metrics/test/data/test_data_method_length/data_method_length.cs", 17, 44),
+            ("metrics/test/data/test_data_method_length/data_method_length.cs", 46, 73),
+            (
+                "metrics/test/data/test_data_method_length/data_method_length.cs",
+                75,
+                110,
+            ),
+            ("metrics/test/data/test_data_method_length/data_method_length.py", 39, 73),
+            (
+                "metrics/test/data/test_data_method_length/data_method_length.py",
+                76,
+                108,
+            ),
+            (
+                "metrics/test/data/test_data_method_length/data_method_length.java",
+                18,
+                46,
+            ),
+        ]
 
-    def test_method_length_given_java_file_returns_1(self):
-        new_source_repository = SourceRepository(
-            Path("./metrics/test/data/test_data_method_length"), "java"
-        )
-        method_length = MethodLength()
-        method_length._source_repository = new_source_repository
-        result = method_length.run()
-        self.assertEqual(result.outcome, 1)
-
-    def test_method_length_given_c_sharp_file_returns_3(self):
-        new_source_repository = SourceRepository(
-            Path("./metrics/test/data/test_data_method_length"), "c_sharp"
-        )
-        method_length = MethodLength()
-        method_length._source_repository = new_source_repository
-        result = method_length.run()
-        self.assertEqual(result.outcome, 3)
+        self.assertCountEqual(locations, expected_locations)
 
     def tearDown(self):
         os.chdir(Path("metrics/test").resolve())
