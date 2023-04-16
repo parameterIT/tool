@@ -19,13 +19,17 @@ class TestArgumentCount(unittest.TestCase):
     def test_argument_count_given_directory_returns_6(self):
         result = self._argumentcount.run()
         self.assertEqual(result.outcome, 6)
+
         locations = result.get_violation_locations()
-        self.assertEqual((locations[0][1], locations[0][2]), (9, 9))
-        self.assertEqual((locations[1][1], locations[1][2]), (10, 10))
-        self.assertEqual((locations[2][1], locations[2][2]), (13, 13))
-        self.assertEqual((locations[3][1], locations[3][2]), (18, 18))
-        self.assertEqual((locations[4][1], locations[4][2]), (17, 17))
-        self.assertEqual((locations[5][1], locations[5][2]), (20, 20))
+        expected_locations = [
+            ("metrics/test/data/test_data_argument_count/data_argument_count.cs", 9, 9),
+            ("metrics/test/data/test_data_argument_count/data_argument_count.cs", 10, 10),
+            ("metrics/test/data/test_data_argument_count/data_argument_count.py", 13, 13),
+            ("metrics/test/data/test_data_argument_count/data_argument_count.py", 18, 18),
+            ("metrics/test/data/test_data_argument_count/data_argument_count.java", 17, 17),
+            ("metrics/test/data/test_data_argument_count/data_argument_count.java", 20, 20)
+        ]
+        self.assertCountEqual(locations, expected_locations)
 
     def tearDown(self):
         os.chdir(Path("metrics/test").resolve())
