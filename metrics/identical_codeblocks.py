@@ -9,12 +9,12 @@ import subprocess
 TOKENS = 35
 
 _CHARDET_ENCODINGS_TO_CPD = {
-    "UTF-8-SIG": "UTF-8",
-    "utf-8": "UTF-8",
+    "ASCII": "US-ASCII",
+    "ISO-8859-1": "ISO-8859-1",
+    "UTF-8": "UTF-8",
+    "UTF-16": "UTF-16",
     "UTF-16BE": "UTF-16BE",
     "UTF-16LE": "UTF-16LE",
-    "ascii": "US-ASCII",
-    "ISO-8859-1": "ISO-8859-1",
 }
 
 

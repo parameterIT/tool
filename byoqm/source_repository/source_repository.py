@@ -8,10 +8,11 @@ from byoqm.source_repository.languages import languages
 import chardet
 
 _TREESITTER_BUILD: Path = Path("build/my-languages.so")
-_SUPPORTED_ENCODINGS: List[str] = [
-    "ascii",
+
+SUPPORTED_ENCODINGS: List[str] = [
+    "ASCII",
     "ISO-8859-1",
-    "utf-8",
+    "UTF-8",
     "UTF-16BE",
     "UTF-16LE",
     "UTF-16",
@@ -97,8 +98,8 @@ class SourceRepository:
                 if not self._should_exclude(file_info):
                     file_infos[f] = file_info
                 else:
-                    logging.info(
-                        f"Excluding f{file_info.file_path} from analysis. (Language: ${file_info.language}, encoding: ${file_info.encoding})"
+                    logging.warn(
+                        f"Excluding f{file_info.file_path} from analysis. (Language: {file_info.language}, encoding: {file_info.encoding})"
                     )
 
         return file_infos
@@ -123,7 +124,7 @@ class SourceRepository:
             chardet_guess = chardet.detect(file.read())
             if not chardet_guess["encoding"] is None:
                 # encoding will be 'unknown' if chardet guesses it as None
-                encoding = chardet_guess["encoding"]
+                encoding = chardet_guess["encoding"].upper()
 
         return FileInfo(file_path, encoding, programming_language)
 
@@ -131,5 +132,5 @@ class SourceRepository:
         return (
             file_info.language == UNKNOWN_LANGUAGE
             or file_info.encoding == UNKNOWN_ENCODING
-            or file_info.encoding not in _SUPPORTED_ENCODINGS
+            or file_info.encoding not in SUPPORTED_ENCODINGS
         )
