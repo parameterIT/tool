@@ -16,6 +16,12 @@ _SUPPORTED_ENCODINGS: List[str] = [
     "UTF-16LE",
     "UTF-16",
 ]
+UNKNOWN_ENCODING = "unknown"
+
+PYTHON = "python"
+C_SHARP = "c_sharp"
+JAVA = "java"
+UNKNOWN_LANGUAGE = "unknown"
 
 
 class SourceRepository:
@@ -90,6 +96,10 @@ class SourceRepository:
                 file_info = self._inspect_file(f)
                 if not self._should_exclude(file_info):
                     file_infos[f] = file_info
+                else:
+                    logging.info(
+                        f"Excluding f{file_info.file_path} from analysis. (Language: ${file_info.language}, encoding: ${file_info.encoding})"
+                    )
 
         return file_infos
 
@@ -97,56 +107,29 @@ class SourceRepository:
         if not file_path.is_file():
             raise ValueError(f"_inspect_file expects that ${file_path} is a file")
 
-        programming_language: str = "unknown"
-        if file_path.suffix == ".py":
-            programming_language = "python"
-        elif file_path.suffix == ".cs":
-            programming_language = "c_sharp"
-        elif file_path.suffix == ".java":
-            programming_language = "java"
+        programming_language: str = UNKNOWN_LANGUAGE
+        match file_path.suffix:
+            case ".py":
+                programming_language = PYTHON
+            case ".cs":
+                programming_language = C_SHARP
+            case ".java":
+                programming_language = JAVA
+            case _:
+                programming_language = UNKNOWN_LANGUAGE
 
-        encoding: str = "unknown"
-        if file_path.suffix != ".jar":
-            with file_path.open("rb") as file:
-                chardet_guess = chardet.detect(file.read())
-                if not chardet_guess["encoding"] is None:
-                    # encoding will be 'unknown' if chardet guesses it as None
-                    encoding = chardet_guess["encoding"]
+        encoding: str = UNKNOWN_ENCODING
+        with file_path.open("rb") as file:
+            chardet_guess = chardet.detect(file.read())
+            if not chardet_guess["encoding"] is None:
+                # encoding will be 'unknown' if chardet guesses it as None
+                encoding = chardet_guess["encoding"]
 
         return FileInfo(file_path, encoding, programming_language)
 
     def _should_exclude(self, file_info: FileInfo):
         return (
-            file_info.language == "unknown"
-            or file_info.encoding == "unknown"
+            file_info.language == UNKNOWN_LANGUAGE
+            or file_info.encoding == UNKNOWN_ENCODING
             or file_info.encoding not in _SUPPORTED_ENCODINGS
         )
-
-    def _get_encodings(self, files):
-        encodings = {}
-        temp = []
-        for file in files:
-            with file.open("rb") as f:
-                encoding = chardet.detect(f.read())["encoding"]
-                match encoding:
-                    case "UTF-8-SIG":
-                        encoding = "UTF-8"
-                    case "utf-8":
-                        encoding = "UTF-8"
-                    case "UTF-16BE":
-                        encoding = "UTF-16BE"
-                    case "UTF-16LE":
-                        encoding = "UTF-16LE"
-                    case "UTF-16":
-                        encoding = "UTF-16"
-                    case "ascii":
-                        encoding = "US-ASCII"
-                    case "ISO-8859-1":
-                        encoding = "ISO-8859-1"
-                    case _:
-                        temp.append(file)
-                        continue
-                encodings[file] = encoding
-
-        self.src_paths = [file for file in self.src_paths if file not in temp]
-        return encodings
