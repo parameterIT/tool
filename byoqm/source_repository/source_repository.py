@@ -36,24 +36,24 @@ class SourceRepository:
         self.asts: Dict[Path, tree_sitter.Tree] = {}
         self.files: Dict[Path, FileInfo] = self._discover_files()
         self.tree_sitter_languages: Dict[str, tree_sitter.Language] = {
-            "python": tree_sitter.Language(_TREESITTER_BUILD, "python"),
-            "c_sharp": tree_sitter.Language(_TREESITTER_BUILD, "c_sharp"),
-            "java": tree_sitter.Language(_TREESITTER_BUILD, "java"),
+            PYTHON: tree_sitter.Language(_TREESITTER_BUILD, PYTHON),
+            C_SHARP: tree_sitter.Language(_TREESITTER_BUILD, C_SHARP),
+            JAVA: tree_sitter.Language(_TREESITTER_BUILD, JAVA),
         }
 
         python_parser = tree_sitter.Parser()
-        python_parser.set_language(self.tree_sitter_languages["python"])
+        python_parser.set_language(self.tree_sitter_languages[PYTHON])
 
         c_sharp_parser = tree_sitter.Parser()
-        c_sharp_parser.set_language(self.tree_sitter_languages["c_sharp"])
+        c_sharp_parser.set_language(self.tree_sitter_languages[C_SHARP])
 
         java_parser = tree_sitter.Parser()
-        java_parser.set_language(self.tree_sitter_languages["java"])
+        java_parser.set_language(self.tree_sitter_languages[JAVA])
 
         self.tree_sitter_parsers: Dict[str, tree_sitter.Parser] = {
-            "python": python_parser,
-            "c_sharp": c_sharp_parser,
-            "java": java_parser,
+            PYTHON: python_parser,
+            C_SHARP: c_sharp_parser,
+            JAVA: java_parser,
         }
 
     def get_ast(self, for_file: FileInfo) -> tree_sitter.Tree:
