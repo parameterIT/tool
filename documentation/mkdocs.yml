@@ -12,5 +12,7 @@ nav:
   - Execution of the tool: 
     - Requirements: 'requirements.md'
     - Running the tool: 'execution.md'
+  - Potential user scenarios: 
+    - User scenarios: "user_scenarios.md"
 
 theme: readthedocs
