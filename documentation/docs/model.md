@@ -60,4 +60,3 @@ Configuring the aggregation formula can be done by adding the name of the aggreg
 ```
 
 As explained in the previous section, our goal here is to implement our aggregation formulae as methods and then mapping them to their respective names. 
-
