@@ -1,11 +1,11 @@
 from datetime import datetime
 from pathlib import Path
-from byoqm.runner import Runner
-from byoqm.dashboard.dashboard import Dashboard
+from modu.runner import Runner
+from modu.dashboard.dashboard import Dashboard
 import click
 import logging
 
-from byoqm.writer import Writer
+from modu.writer import Writer
 
 
 @click.command()

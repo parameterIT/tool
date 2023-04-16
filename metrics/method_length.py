@@ -1,9 +1,9 @@
 import tree_sitter
 
-from byoqm.metric.metric import Metric
-from byoqm.metric.result import Result
-from byoqm.metric.violation import Violation
-from byoqm.source_repository.source_repository import SourceRepository
+from modu.metric.metric import Metric
+from modu.metric.result import Result
+from modu.metric.violation import Violation
+from modu.source_repository.source_repository import SourceRepository
 from metrics.util.query_translations import translate_to
 
 

@@ -1,7 +1,7 @@
 from typing import Dict
 
 
-from byoqm.qualitymodel.qualitymodel import QualityModel
+from modu.qualitymodel.qualitymodel import QualityModel
 
 
 class NoCpd(QualityModel):

@@ -2,7 +2,7 @@ from typing import Dict
 
 from tree_sitter import Language, Parser
 
-from byoqm.qualitymodel.qualitymodel import QualityModel
+from modu.qualitymodel.qualitymodel import QualityModel
 
 
 class TesterModel(QualityModel):

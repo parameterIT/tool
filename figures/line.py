@@ -1,7 +1,7 @@
 from cmath import pi
 from collections import defaultdict
 from bokeh.plotting import figure
-from byoqm.dashboard.figure import Figure
+from modu.dashboard.figure import Figure
 from bokeh.models import DatetimeTickFormatter
 
 

@@ -1,7 +1,7 @@
 from pathlib import Path
 import unittest
 import os
-from byoqm.source_repository.source_repository import SourceRepository
+from modu.source_repository.source_repository import SourceRepository
 from metrics.method_count import MethodCount
 
 
