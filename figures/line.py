@@ -2,7 +2,7 @@ from cmath import pi
 from collections import defaultdict
 from bokeh.plotting import figure
 from byoqm.dashboard.figure import Figure
-from bokeh.models import DatetimeTickFormatter
+from bokeh.models import DatetimeTickFormatter, Range1d
 
 
 class LineChart(Figure):
@@ -21,6 +21,7 @@ class LineChart(Figure):
             y_axis_label="No. Violations",
         )
         p.line(x, y, legend_label="Progress", line_width=2)
+        p.y_range = Range1d(0,1000)
         return p
 
     def get_figure(self):
