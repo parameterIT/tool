@@ -21,7 +21,6 @@ class LineChart(Figure):
             y_axis_label="No. Violations",
         )
         p.line(x, y, legend_label="Progress", line_width=2)
-        p.y_range = Range1d(0, 1000)
         return p
 
     def get_figure(self):
