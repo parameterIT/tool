@@ -106,7 +106,7 @@ class SourceRepository:
 ### PMD - Copy Paste Detector (CPD)
 Part of implementing code climate was finding the amount of similar and identical code blocks. We managed this by using an external tool called PMD or more specifically Copy Paste Detector (CPD) - https://docs.pmd-code.org/latest/index.html
 
-We made use of the 6.54.0 (January 2023) version, but please do check if there are any newer releases: https://github.com/pmd/pmd/releases
+We made use of the 6.54.0 (January 2023) version, and would encourage any user to do the same. In case this version is deprecated, new releases can be found at: https://github.com/pmd/pmd/releases
 
 Now download the bin zip folder - e.g. pmd-bin-6.54.0.zip
 This folder will contain two sub folders - bin and lib. 
