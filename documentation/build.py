@@ -4,7 +4,7 @@ import os
 
 def run():
     """
-    Run all unittests. Equivalent to:
+    Build and run docs. Equivalent to:
     `poetry run mkdocs build -c`
     `poetry run mkdocs serve`
     """
