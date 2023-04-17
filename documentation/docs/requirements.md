@@ -58,6 +58,50 @@ Language.build_library(
 )
 --------------------------
 ```
+Adding the parser to the source repository (global statement and init method):
+```py
+PYTHON = "python"
+C_SHARP = "c_sharp"
+JAVA = "java"
+<YOUR_NEW_LANGUAGE> = "<tree_sitters_supported_language>"
+UNKNOWN_LANGUAGE = "unknown"
+... 
+class SourceRepository:
+    """
+    contains all information accessible by metrics about the source code
+    under analysis
+    """
+
+    def __init__(self, src_root: Path):
+        self.src_root: Path = src_root
+        self.asts: Dict[Path, tree_sitter.Tree] = {}
+        self.files: Dict[Path, FileInfo] = self._discover_files()
+        self.tree_sitter_languages: Dict[str, tree_sitter.Language] = {
+            PYTHON: tree_sitter.Language(_TREESITTER_BUILD, PYTHON),
+            C_SHARP: tree_sitter.Language(_TREESITTER_BUILD, C_SHARP),
+            JAVA: tree_sitter.Language(_TREESITTER_BUILD, JAVA),
+            <YOUR_NEW_LANGUAGE>: tree_sitter.Language(_TREESITTER_BUILD, <YOUR_NEW_LANGUAGE>),
+        }
+
+        python_parser = tree_sitter.Parser()
+        python_parser.set_language(self.tree_sitter_languages[PYTHON])
+
+        c_sharp_parser = tree_sitter.Parser()
+        c_sharp_parser.set_language(self.tree_sitter_languages[C_SHARP])
+
+        java_parser = tree_sitter.Parser()
+        java_parser.set_language(self.tree_sitter_languages[JAVA])
+
+        <YOUR_NEW_LANGUAGE>_parser = tree_sitter.Parser()
+        <YOUR_NEW_LANGUAGE>_parser.set_language(self.tree_sitter_languages[<YOUR_NEW_LANGUAGE>])
+
+        self.tree_sitter_parsers: Dict[str, tree_sitter.Parser] = {
+            PYTHON: python_parser,
+            <YOUR_NEW_LANGUAGE>: <YOUR_NEW_LANGUAGE>_parser,
+            JAVA: java_parser,
+        }
+    ...
+```
 ## Other dependencies (Code Climate Implementation)
 ### PMD - Copy Paste Detector (CPD)
 Part of implementing code climate was finding the amount of similar and identical code blocks. We managed this by using an external tool called PMD or more specifically Copy Paste Detector (CPD) - https://docs.pmd-code.org/latest/index.html
