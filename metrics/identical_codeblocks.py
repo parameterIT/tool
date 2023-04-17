@@ -38,7 +38,7 @@ class IdenticalBlocksofCode(Metric):
             cpd_encoding = _CHARDET_ENCODINGS_TO_CPD[file_info.encoding]
 
             res = subprocess.run(
-                f"metrics/cpd/bin/run.sh cpd --minimum-tokens {TOKENS} --skip-lexical-errors --dir \"{filestring}\" --format xml --encoding {cpd_encoding}",
+                f'metrics/cpd/bin/run.sh cpd --minimum-tokens {TOKENS} --skip-lexical-errors --dir "{filestring}" --format xml --encoding {cpd_encoding}',
                 shell=True,
                 capture_output=True,
                 text=True,
