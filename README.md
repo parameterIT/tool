@@ -21,7 +21,11 @@ You can download cpd from the following link (check if there is a newer release)
 This is all done using poetry. To run:
 
 ```sh
-poetry run main <path/to/source/code> <Quality_model> <language>
+poetry run main <path/to/source/code> <Quality_model>
+```
+e.g.
+```sh
+poetry run main . code_climate
 ```
 
 To see supported languages please refer to: `byoqm/source_coordinator/languages.py`
