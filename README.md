@@ -2,7 +2,7 @@
 
 ## Setup
 
-Make sure you have [Poetry](https://python-poetry.org/docs/) installed.
+Make sure you have [Poetry >= 1.2.0](https://python-poetry.org/docs/) installed.
 You can then get started by running:
 
 ```sh
@@ -57,7 +57,7 @@ Clone the python grammar into `grammars/`:
 
 
 ```sh
-cd grammars && git clone https://github.com/tree-sitter/tree-sitter-python && git clone https://github.com/tree-sitter/tree-sitter-c-sharp && git clone https://github.com/tree-sitter/tree-sitter-java && cd -
+cd grammars && git clone --depth 1 https://github.com/tree-sitter/tree-sitter-python && git clone --depth 1 https://github.com/tree-sitter/tree-sitter-c-sharp && git clone --depth 1 https://github.com/tree-sitter/tree-sitter-java && cd -
 ```
 
 Build the grammar file:
