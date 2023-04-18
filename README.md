@@ -21,11 +21,11 @@ You can download cpd from the following link (check if there is a newer release)
 This is all done using poetry. To run:
 
 ```sh
-poetry run main <path/to/source/code> <Quality_model>
+poetry run modu <path/to/source/code> <Quality_model>
 ```
 e.g.
 ```sh
-poetry run main . code_climate
+poetry run modu . code_climate
 ```
 
 To see supported languages please refer to: `byoqm/source_coordinator/languages.py`
@@ -33,7 +33,7 @@ To see supported languages please refer to: `byoqm/source_coordinator/languages.
 Optional values can be gotten by running: 
 
 ```sh
-poetry run main --help
+poetry run modu --help
 ```
 
 To test:
