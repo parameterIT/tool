@@ -1,5 +1,6 @@
 import logging
 import os
+import os
 from pathlib import Path
 from typing import Dict, List
 from tree_sitter import Parser, Language
@@ -9,7 +10,8 @@ from modu.source_repository.languages import languages
 import chardet
 
 _TREESITTER_BUILD: Path = Path("build/my-languages.so")
-_MODU_IGNORE_FILE: Path = Path("modu/")
+_IGNORE_FILE_PATH: Path = Path("byoqm/util/.ignore_paths.txt")
+_IGNORE_FILE_EXTENSIONS_PATH: Path = Path("byoqm/util/.ignore_extensions.txt")
 SUPPORTED_ENCODINGS: List[str] = [
     "ASCII",
     "ISO-8859-1",
@@ -87,7 +89,14 @@ class SourceRepository:
     def _discover_files(self) -> Dict[Path, FileInfo]:
         ignored_files = self._get_ignored_files()
 
+        ignored_files = self._get_ignored_files()
+
         if self.src_root.is_file():
+            if self.src_root in ignored_files:
+                logging.warning(
+                    "Source directory is a file and is included in the .ignore file"
+                )
+                return {}
             if self.src_root in ignored_files:
                 logging.warning(
                     "Source directory is a file and is included in the .ignore file"
@@ -101,13 +110,15 @@ class SourceRepository:
 
         return file_infos
 
-    def _discover_in_dir(self, root_dir: Path, ignored_files) -> Dict[Path, FileInfo]:
+    def _discover_in_dir(self, root_dir: Path, ignored_files, ignored_files) -> Dict[Path, FileInfo]:
         file_infos: Dict[Path, FileInfo] = {}
         for f in root_dir.iterdir():
             if f in ignored_files:
                 continue
+            if f in ignored_files:
+                continue
             if f.is_dir():
-                file_infos.update(self._discover_in_dir(f, ignored_files))
+                file_infos.update(self._discover_in_dir(f, ignored_files, ignored_files))
             else:
                 file_info = self._inspect_file(f)
                 if not self._should_exclude(file_info):
@@ -145,6 +156,29 @@ class SourceRepository:
                 encoding = chardet_guess["encoding"].upper()
 
         return FileInfo(file_path, encoding, programming_language)
+
+    def _get_ignored_files(self):
+        ignored_files = self._get_ignored_paths()
+        ignored_files.extend(self.get_ignored_file_extensions())
+        return ignored_files
+
+    def _get_ignored_paths(self):
+        with _IGNORE_FILE_PATH.open("r") as file:
+            ignored_files = []
+            for line in file:
+                path = Path(line.rstrip())
+                if path.is_dir():
+                    ignored_files.extend(path.glob("*"))
+                if path.is_file():
+                    ignored_files.append(path)
+        return ignored_files
+
+    def get_ignored_file_extensions(self):
+        with _IGNORE_FILE_EXTENSIONS_PATH.open("r") as file:
+            ignored_files = []
+            for extension in file:
+                ignored_files.extend(self.src_root.glob(f"**/*{extension.rstrip()}"))
+        return ignored_files
 
     def _get_ignored_files(self):
         ignored_files = self._get_ignored_paths()
