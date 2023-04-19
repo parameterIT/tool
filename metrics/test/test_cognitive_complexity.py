@@ -1,5 +1,7 @@
 import os
 import unittest
+import tree_sitter
+from metrics.util.query_translations import translate_to
 
 from pathlib import Path
 from byoqm.metric.metric import Metric
@@ -80,6 +82,48 @@ class TestCognitiveComplexity(unittest.TestCase):
             ),
         ]
         self.assertCountEqual(locations, expected_locations)
+
+    def test_nesting_returns_5(self):
+        new_source_repository = SourceRepository(
+            Path(
+                "./metrics/test/data/test_cognitive_complexity/test_nested_controlflows"
+            )
+        )
+        cognitive_complexity = CognitiveComplexity()
+        cognitive_complexity._source_repository = new_source_repository
+        print("---------------------------------------")
+        actual = 0
+        for (
+            file_path,
+            file_info,
+        ) in cognitive_complexity._source_repository.files.items():
+            print(file_path)
+            ast: tree_sitter.Tree = cognitive_complexity._source_repository.get_ast(
+                file_info
+            )
+            tree_sitter_language = (
+                cognitive_complexity._source_repository.tree_sitter_languages[
+                    file_info.language
+                ]
+            )
+
+            initial_nodes_query_str = (
+                f"""{translate_to[file_info.language]["function"]} @func"""
+            )
+            if file_info.language == "c_sharp" or file_info.language == "java":
+                initial_nodes_query_str += (
+                    f"""{translate_to[file_info.language]["constructor"]} @cons"""
+                )
+            query_initial_nodes = tree_sitter_language.query(initial_nodes_query_str)
+            initial_nodes = query_initial_nodes.captures(ast.root_node)
+            for node, _ in initial_nodes:
+                print(node)
+                count = cognitive_complexity._count_nesting(node, file_info)
+                print(count)
+                actual += count
+
+        expected = 5
+        self.assertEqual(actual, expected)
 
     def test_cognitive_complexity_returns_12(self):
         new_source_repository = SourceRepository(

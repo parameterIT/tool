@@ -48,6 +48,7 @@ class CognitiveComplexity(Metric):
             count = 0
             count += self._count_recursion(node, file_info)
             count += self._count_breaks_in_linear_flow(node, file_info)
+            count += self._count_nesting(node, file_info)
             if count > 5:
                 violations.append(
                     Violation(
@@ -127,6 +128,26 @@ class CognitiveComplexity(Metric):
             if child.type == "identifier":
                 return child
         raise ValueError(f"{node} has no children of the type identifier")
+
+    def _count_nesting(self, node, file_info):
+        count = 0
+        tree_sitter_language = self._source_repository.tree_sitter_languages[
+            file_info.language
+        ]
+        query = tree_sitter_language.query(
+            translate_to[file_info.language]["nested_controlflow_subsequent_nodes"]
+        )
+        nodes = query.captures(node)
+        found = False
+        for node2, _ in nodes:
+            nodes2 = query.captures(node2)
+            for node3, _ in nodes2:
+                if found:
+                    break
+                if len(query.captures(node3)) > 0:
+                    count += 1
+                    found = True
+        return count
 
 
 metric = CognitiveComplexity()

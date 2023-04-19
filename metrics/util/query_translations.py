@@ -60,6 +60,20 @@ translate_to = {
                                 (for_statement body: (block) @cons)]
                                 )
                                 """,
+        "cognitive_nesting_initial_nodes": """
+                                (function_definition
+                                 body : block ([
+                                (if_statement 
+                                    consequence: (block) @cons
+                                        )
+                                (if_statement 
+                                    consequence: (block) @cons
+                                    alternative: (_ [body: (block) consequence: (block) ] @cons) 
+                                        )
+                                (while_statement body: (block) @cons)
+                                (for_statement body: (block) @cons)])
+                                )
+        """
     },
     "c_sharp": {
         "parameters": "parameters: (parameter_list)",
