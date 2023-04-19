@@ -1,3 +1,0 @@
-.jar
-.exe
-.bat
