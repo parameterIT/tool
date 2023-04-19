@@ -34,7 +34,6 @@ class IdenticalBlocksofCode(Metric):
         violations = []
         for file, file_info in self._source_repository.files.items():
             filestring = f"{file}"
-            print(filestring)
             cpd_encoding = _CHARDET_ENCODINGS_TO_CPD[file_info.encoding]
 
             res = subprocess.run(
