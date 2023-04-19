@@ -7,7 +7,7 @@ output
 /metrics/cpd/
 /documentation/
 /byoqm/util/.ignore_paths.txt
-/byoqm/util/.ignore_endings.txt
+/byoqm/util/.ignore_extensions.txt
 # Created by https://www.toptal.com/developers/gitignore/api/python,pycharm,visualstudiocode,vim
 # Edit at https://www.toptal.com/developers/gitignore?templates=python,pycharm,visualstudiocode,vim
 
