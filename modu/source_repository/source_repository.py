@@ -9,8 +9,7 @@ from modu.source_repository.languages import languages
 import chardet
 
 _TREESITTER_BUILD: Path = Path("build/my-languages.so")
-_IGNORE_FILE_PATH: Path = Path("byoqm/util/.ignore_paths.txt")
-_IGNORE_FILE_EXTENSIONS_PATH: Path = Path("byoqm/util/.ignore_extensions.txt")
+_MODU_IGNORE_FILE: Path = Path("modu/")
 SUPPORTED_ENCODINGS: List[str] = [
     "ASCII",
     "ISO-8859-1",
