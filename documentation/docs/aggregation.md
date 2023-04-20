@@ -11,7 +11,7 @@ Aggregating metric results is a way of approximating higher level qualitative at
 
 Let's take a closer look at how to create an aggregation formula.
 
-Aggregation formulae exist as part of a quality model, and we define them through methods. Say for example we have a quality model **TestQM** which has an aggregation method **maintainability**, which in turn takes two metrics (_'method length'_, _'file length'_), and sums them. We would display this scenario as the following code piece:
+Aggregation formulae exist as part of a quality model, and we define them through methods. Say for example we have a quality model **TestQM** which has an aggregation method **maintainability**, which in turn takes two metrics (_'method length'_, _'file length'_), and sums them. We would display this scenario as the following code:
 
 ```python
 class TestQM(QualityModel):
