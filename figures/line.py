@@ -33,7 +33,9 @@ class LineChart(Figure):
         result = []
         for key in self._data:
             output = self._get_line(self._data, key)
-            if output is None: # If output is None, the data is not suited for line graphs. Skip it.
+            if (
+                output is None
+            ):  # If output is None, the data is not suited for line graphs. Skip it.
                 continue
             result.append(output)
         return result
