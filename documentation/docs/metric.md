@@ -78,4 +78,4 @@ Furthermore, it is important to note that the source repository _NEEDS_ to be in
 
 An instance of the SourceCoordinator class is passed down as each metric is initialized. 
 
-The SourceCoordinator is the single point of interaction between the BYOQM tool and the metric, resulting in a very simple and light interaction. The Source Coordinator class contains an abstract syntax tree and parser specific to the code being analyzed, which is accessible by each metric.
+The `SourceCoordinator` is the single point of interaction between the modu tool and the metric, resulting in a very simple and light interaction. The `SourceCoordinator` class contains an abstract syntax tree and parser specific to the code being analyzed, which is accessible by each metric.
