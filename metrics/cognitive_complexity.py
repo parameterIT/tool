@@ -143,15 +143,15 @@ class CognitiveComplexity(Metric):
         subsequent_query = tree_sitter_language.query(
             translate_to[file_info.language]["nested_controlflow_subsequent_nodes"]
         )
-        nodes = initial_query.captures(node)
+        initial_nodes = initial_query.captures(node)
 
-        for node2, _ in nodes:
+        for second_nested_node, _ in initial_nodes:
             found = False
-            nodes2 = subsequent_query.captures(node2)
-            for node3, _ in nodes2:
+            nodes2 = subsequent_query.captures(second_nested_node)
+            for third_nested_node, _ in nodes2:
                 if found:
                     break
-                if len(subsequent_query.captures(node3)) > 0:
+                if len(subsequent_query.captures(third_nested_node)) > 0:
                     count += 1
                     found = True
         return count
