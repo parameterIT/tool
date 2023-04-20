@@ -227,7 +227,6 @@ translate_to = {
                                     (try_statement body: (block) @cons)
                                     (try_statement (catch_clause body: (block) @cons))]))
         """,
-
         "nested_controlflow_subsequent_nodes": """
                                 (_ [
                                     (if_statement
