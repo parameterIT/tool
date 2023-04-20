@@ -92,10 +92,8 @@ class TestCognitiveComplexity(unittest.TestCase):
         cognitive_complexity = CognitiveComplexity()
         cognitive_complexity._source_repository = new_source_repository
         actual = 0
-        for (
-            file_path,
-            file_info,
-        ) in cognitive_complexity._source_repository.files.items():
+        files = cognitive_complexity._source_repository.files.items()
+        for _, file_info in files:
             ast: tree_sitter.Tree = cognitive_complexity._source_repository.get_ast(
                 file_info
             )
