@@ -31,7 +31,9 @@ translate_to = {
                                     alternative: (_ [body: (block) consequence: (block) ] @cons) 
                                         )
                                 (while_statement body: (block) @cons)
-                                (for_statement body: (block) @cons)]
+                                (for_statement body: (block) @cons)
+                                (try_statement body: (block) @cons)
+                                (try_statement (except_clause (block) @cons))]
                                 )
         """,
         "method_control_flow": """
@@ -45,8 +47,9 @@ translate_to = {
                                         alternative: (_ [body: (block) consequence: (block)] @cons)
                                             )
                                     (while_statement body: (block) @cons)
-                                    (for_statement body: (block) @cons)])
-                                )
+                                    (for_statement body: (block) @cons)
+                                    (try_statement body: (block) @cons)
+                                    (try_statement (except_clause (block) @cons))]))
         """,
         "constructor_control_flow": """""",
         "nested_controlflow_subsequent_nodes": """
@@ -59,7 +62,9 @@ translate_to = {
                                     alternative: (_ [body: (block) consequence: (block) ] @cons) 
                                         )
                                 (while_statement body: (block) @cons)
-                                (for_statement body: (block) @cons)]
+                                (for_statement body: (block) @cons)
+                                (try_statement body: (block) @cons)
+                                (try_statement (except_clause (block) @cons))]
                                 )
                                 """,
     },
@@ -98,7 +103,9 @@ translate_to = {
                                     (while_statement
                                         (block) @cons)
                                     (switch_statement
-                                        body: (switch_body (switch_section) @cons))])
+                                        body: (switch_body (switch_section) @cons))
+                                    (try_statement body: (block) @cons)
+                                    (try_statement (catch_clause body: (block) @cons))])
         """,
         "method_control_flow": """
                                 (method_declaration
@@ -117,7 +124,9 @@ translate_to = {
                                     (while_statement
                                         (block) @cons)
                                     (switch_statement
-                                        body: (switch_body (switch_section) @cons))]))
+                                        body: (switch_body (switch_section) @cons))
+                                    (try_statement body: (block) @cons)
+                                    (try_statement (catch_clause body: (block) @cons))]))
         """,
         "constructor_control_flow": """
                                 (constructor_declaration
@@ -136,7 +145,9 @@ translate_to = {
                                     (while_statement
                                         (block) @cons)
                                     (switch_statement
-                                        body: (switch_body (switch_section) @cons))]))
+                                        body: (switch_body (switch_section) @cons))
+                                    (try_statement body: (block) @cons)
+                                    (try_statement (catch_clause body: (block) @cons))]))
         """,
         "nested_controlflow_subsequent_nodes": """
                                 (_ [
@@ -154,7 +165,9 @@ translate_to = {
                                     (while_statement
                                         (block) @cons)
                                     (switch_statement
-                                        body: (switch_body (switch_section) @cons))])
+                                        body: (switch_body (switch_section) @cons))
+                                    (try_statement body: (block) @cons)
+                                    (try_statement (catch_clause body: (block) @cons))])
                                 """,
     },
     "java": {
@@ -191,7 +204,9 @@ translate_to = {
                                     (while_statement
                                         (block) @cons)
                                     (switch_expression
-                                        body: (switch_block (switch_block_statement_group) @cons))]))
+                                        body: (switch_block (switch_block_statement_group) @cons))
+                                    (try_statement body: (block) @cons)
+                                    (try_statement (catch_clause body: (block) @cons))]))
         """,
         "constructor_control_flow": """
                                 (constructor_declaration
@@ -208,8 +223,11 @@ translate_to = {
                                     (while_statement
                                         (block) @cons)
                                     (switch_expression
-                                        body: (switch_block (switch_block_statement_group) @cons))]))
+                                        body: (switch_block (switch_block_statement_group) @cons))
+                                    (try_statement body: (block) @cons)
+                                    (try_statement (catch_clause body: (block) @cons))]))
         """,
+
         "nested_controlflow_subsequent_nodes": """
                                 (_ [
                                     (if_statement
@@ -224,7 +242,9 @@ translate_to = {
                                     (while_statement
                                         (block) @cons)
                                     (switch_expression
-                                        body: (switch_block (switch_block_statement_group) @cons))])
+                                        body: (switch_block (switch_block_statement_group) @cons))
+                                    (try_statement body: (block) @cons)
+                                    (try_statement (catch_clause body: (block) @cons))])
                                 """,
     },
 }
