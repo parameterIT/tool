@@ -1,4 +1,6 @@
 import logging
+import json
+import subprocess
 from pathlib import Path
 from typing import Dict, List
 from tree_sitter import Parser, Language
@@ -110,7 +112,7 @@ class SourceRepository:
             if not self._should_exclude(file_info):
                 file_infos[f] = file_info
             else:
-                logging.warn(
+                logging.warning(
                     f"Excluding {file_info.file_path} from analysis. (Language: {file_info.language}, encoding: {file_info.encoding})"
                 )
 
@@ -120,19 +122,7 @@ class SourceRepository:
         if not file_path.is_file():
             raise ValueError(f"_inspect_file expects that ${file_path} is a file")
 
-        programming_language: str = UNKNOWN_LANGUAGE
-        match file_path.suffix:
-            case ".py":
-                programming_language = PYTHON
-            case ".cs":
-                programming_language = C_SHARP
-            case ".java":
-                programming_language = JAVA
-            case _:
-                programming_language = UNKNOWN_LANGUAGE
-
-        if programming_language == UNKNOWN_LANGUAGE:
-            return FileInfo(file_path, UNKNOWN_ENCODING, UNKNOWN_LANGUAGE)
+        programming_language: str = self._detect_language(file_path)
 
         encoding: str = UNKNOWN_ENCODING
         with file_path.open("rb") as file:
@@ -142,6 +132,41 @@ class SourceRepository:
                 encoding = chardet_guess["encoding"].upper()
 
         return FileInfo(file_path, encoding, programming_language)
+
+    def _detect_language(self, file_path: Path) -> str:
+        res = subprocess.run(
+            f"docker run --user $(id -u) -v $(pwd):$(pwd) -w $(pwd) -t linguist github-linguist --json {file_path}",
+            shell=True,
+            capture_output=True,
+            text=True,
+        )
+
+        language = UNKNOWN_LANGUAGE
+        try:
+            res_dict = json.loads(res.stdout)
+            # Use a formatted string to ensure that file_path is given as a key in the exact same way as it is given to
+            # the linguist in the subprocess call, because it uses the file_path as it appears in the command as
+            # the JSON (dictionary) key.
+            language = res_dict[f"{file_path}"]["language"]
+            if language is None:
+                raise ValueError("linguist returns None language for empty file")
+        except (json.decoder.JSONDecodeError, ValueError):
+            language = self._read_suffix(file_path)
+        finally:
+            if language.lower() == "c#":
+                language = "c_sharp"
+            return language.lower()
+
+    def _read_suffix(self, file_path: Path):
+        match file_path.suffix:
+            case ".py":
+                return PYTHON
+            case ".cs":
+                return C_SHARP
+            case ".java":
+                return JAVA
+            case _:
+                return UNKNOWN_LANGUAGE
 
     def _get_ignores(self):
         with _IGNORE_FILE_PATH.open("r") as file:
