@@ -34,9 +34,12 @@ class NestedControlflows(Metric):
         tree_sitter_language = self._source_repository.tree_sitter_languages[
             file_info.language
         ]
-        query = tree_sitter_language.query(
-            translate_to[file_info.language]["nested_controlflow_initial_nodes"]
-        )
+        query_str = translate_to[file_info.language]["method_nested_control"]
+        if file_info.language == "python" or file_info.language == "c_sharp":
+            query_str += translate_to[file_info.language]["global_nested_control"]
+        if file_info.language == "java" or file_info.language == "c_sharp":
+            query_str += translate_to[file_info.language]["constructor_nested_control"]
+        query = tree_sitter_language.query(query_str)
         inital_nodes = self._unique(query.captures(ast.root_node))
         sub_node_query = tree_sitter_language.query(
             translate_to[file_info.language]["nested_controlflow_subsequent_nodes"]

@@ -21,7 +21,7 @@ translate_to = {
         "function_block": "(function_definition body: (block) @function.block)",
         "return": "(return_statement)",
         "nested_function_call": "(function_definition body: (block (expression_statement (call) @nested_call)))",
-        "nested_controlflow_initial_nodes": """
+        "global_control_flow": """
                                 (module [
                                 (if_statement 
                                     consequence: (block) @cons
@@ -33,7 +33,8 @@ translate_to = {
                                 (while_statement body: (block) @cons)
                                 (for_statement body: (block) @cons)]
                                 )
-
+        """,
+        "method_control_flow": """
                                 (function_definition
                                 body: (block [
                                     (if_statement 
@@ -46,7 +47,8 @@ translate_to = {
                                     (while_statement body: (block) @cons)
                                     (for_statement body: (block) @cons)])
                                 )
-                                """,
+        """,
+        "constructor_control_flow": """""",
         "nested_controlflow_subsequent_nodes": """
                                 (_ [
                                 (if_statement 
@@ -60,20 +62,6 @@ translate_to = {
                                 (for_statement body: (block) @cons)]
                                 )
                                 """,
-        "cognitive_nesting_initial_nodes": """
-                                (function_definition
-                                 body : block ([
-                                (if_statement 
-                                    consequence: (block) @cons
-                                        )
-                                (if_statement 
-                                    consequence: (block) @cons
-                                    alternative: (_ [body: (block) consequence: (block) ] @cons) 
-                                        )
-                                (while_statement body: (block) @cons)
-                                (for_statement body: (block) @cons)])
-                                )
-        """
     },
     "c_sharp": {
         "parameters": "parameters: (parameter_list)",
@@ -94,7 +82,25 @@ translate_to = {
         "function_block": "(method_declaration body: (block) @function.block) (constructor_declaration body: (block) @function.block)",
         "return": "(return_statement)",
         "nested_function_call": "(_ body: (block (expression_statement (invocation_expression) @func)))",
-        "nested_controlflow_initial_nodes": """
+        "global_control_flow": """
+                                (global_statement [
+                                    (if_statement
+                                        consequence: (block) @cons)
+                                    (if_statement
+                                        consequence: (_) @cons
+                                        alternative: [
+                                            (_ [alternative: (_) consequence: (_) ] @cons)
+                                            (block) @cons])
+                                    (for_statement
+                                        body: (block) @cons)
+                                    (for_each_statement
+                                        body: (block) @cons)
+                                    (while_statement
+                                        (block) @cons)
+                                    (switch_statement
+                                        body: (switch_body (switch_section) @cons))])
+        """,
+        "method_control_flow": """
                                 (method_declaration
                                     body: (block [
                                     (if_statement
@@ -112,7 +118,8 @@ translate_to = {
                                         (block) @cons)
                                     (switch_statement
                                         body: (switch_body (switch_section) @cons))]))
-                                        
+        """,
+        "constructor_control_flow": """
                                 (constructor_declaration
                                     body: (block [
                                     (if_statement
@@ -130,24 +137,7 @@ translate_to = {
                                         (block) @cons)
                                     (switch_statement
                                         body: (switch_body (switch_section) @cons))]))
-
-                                (global_statement [
-                                    (if_statement
-                                        consequence: (block) @cons)
-                                    (if_statement
-                                        consequence: (_) @cons
-                                        alternative: [
-                                            (_ [alternative: (_) consequence: (_) ] @cons)
-                                            (block) @cons])
-                                    (for_statement
-                                        body: (block) @cons)
-                                    (for_each_statement
-                                        body: (block) @cons)
-                                    (while_statement
-                                        (block) @cons)
-                                    (switch_statement
-                                        body: (switch_body (switch_section) @cons))])
-                                """,
+        """,
         "nested_controlflow_subsequent_nodes": """
                                 (_ [
                                     (if_statement
@@ -185,7 +175,8 @@ translate_to = {
         "function_block": "(method_declaration body: (block) @function.block) (constructor_declaration body: (constructor_body) @function.block)",
         "return": "(return_statement)",
         "nested_function_call": "(_ body: (_ (expression_statement (method_invocation) @func)))",
-        "nested_controlflow_initial_nodes": """
+        "global_control_flow": """""",
+        "method_control_flow": """
                                 (method_declaration
                                     body: (block [
                                     (if_statement
@@ -201,7 +192,8 @@ translate_to = {
                                         (block) @cons)
                                     (switch_expression
                                         body: (switch_block (switch_block_statement_group) @cons))]))
-                                
+        """,
+        "constructor_control_flow": """
                                 (constructor_declaration
                                     body: (constructor_body [
                                     (if_statement
@@ -217,7 +209,7 @@ translate_to = {
                                         (block) @cons)
                                     (switch_expression
                                         body: (switch_block (switch_block_statement_group) @cons))]))
-                                """,
+        """,
         "nested_controlflow_subsequent_nodes": """
                                 (_ [
                                     (if_statement
