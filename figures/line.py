@@ -22,7 +22,7 @@ class LineChart(Figure):
         )
         p.line(x, y, legend_label="Progress", line_width=2)
         try:
-            p.y_range = Range1d(0, (int(max(y))*1.1))
+            p.y_range = Range1d(0, (int(max(y)) * 1.1))
         except ValueError:
             return p
         return p
