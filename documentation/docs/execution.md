@@ -29,7 +29,7 @@ Running the current tests can be done be using the following command:
 poetry run test
 ```
 ### Black formatter
-We have made use of _Black_ to format our files, and any changes made to the program will require _Black_ to be run before being able to merge into the main branch. 
+We have made use of _black_ to format our files, and any changes made to the program will require _black_ to be run before being able to merge into the main branch. 
 
 _Black_ is used by running the following command: 
 ```sh
