@@ -17,16 +17,16 @@ public class data_nested_control_flows {
         String str, str2 = "";
         switch (str) {
             case "Some String":
-                if (a) {
+                try {
                     switch (str2) {
                         case "Some new string":
                             if (b) {
                                 System.out.println("Violation");
                             }
                             break;
-                        default:
-                            break;
                     }
+                } catch (RuntimeException ex) {
+                    System.out.println("nope");
                 }
                 break;
 

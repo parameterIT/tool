@@ -121,7 +121,7 @@ class TestCognitiveComplexity(unittest.TestCase):
         expected = 5
         self.assertEqual(actual, expected)
 
-    def test_cognitive_complexity_returns_13(self):
+    def test_cognitive_complexity_returns_14(self):
         new_source_repository = SourceRepository(
             Path("./metrics/test/data/test_cognitive_complexity")
         )
@@ -129,5 +129,5 @@ class TestCognitiveComplexity(unittest.TestCase):
         cognitive_complexity._source_repository = new_source_repository
         result = cognitive_complexity.run()
         actual = result.outcome
-        expected = 13
+        expected = 14
         self.assertEqual(actual, expected)

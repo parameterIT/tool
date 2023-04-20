@@ -10,7 +10,7 @@ def nesting1():
                 if i == 0:
                     print("fourth nest")
     x = 3
-    if x:
+    try:
         print("first nest")
         for i in range(10):
             print("second nest")
@@ -19,3 +19,5 @@ def nesting1():
                 print("third nest")
                 if i == 0:
                     print("fourth nest")
+    except: 
+        print("nope")

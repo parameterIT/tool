@@ -9,13 +9,16 @@ public class TestClass
         switch (str)
         {
             case "Some String":
-                if (b)
+                try
                 {
                     if (c) Console.WriteLine("NO");
                     else
                     {
                         if (a) Console.WriteLine("VIOLATION");
                     }
+                } catch (Exception ex)
+                {
+                    Console.WriteLine("Nope");
                 }
                 break;
             case "Some other String":
@@ -27,6 +30,5 @@ public class TestClass
                     Console.WriteLine("Not a violation");
                 }
         }
-
     }
 }
