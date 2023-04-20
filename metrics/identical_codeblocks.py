@@ -12,6 +12,7 @@ _CHARDET_ENCODINGS_TO_CPD = {
     "ASCII": "US-ASCII",
     "ISO-8859-1": "ISO-8859-1",
     "UTF-8": "UTF-8",
+    "UTF-8-SIG": "UTF-8",
     "UTF-16": "UTF-16",
     "UTF-16BE": "UTF-16BE",
     "UTF-16LE": "UTF-16LE",
@@ -33,6 +34,7 @@ class IdenticalBlocksofCode(Metric):
         """
         violations = []
         for file, file_info in self._source_repository.files.items():
+            logging.warn(f"Idenitcal code for {file_info}")
             filestring = f"{file}"
             cpd_encoding = _CHARDET_ENCODINGS_TO_CPD[file_info.encoding]
 
