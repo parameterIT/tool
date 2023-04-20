@@ -14,7 +14,7 @@ click = "^8.1.3"
 chardet = "^5.1.0"
 
 [tool.poetry.scripts]
-modu="byoqm.main:load"
+modu="modu.main:load"
 test="metrics.test.test_all:run"
 
 [tool.poetry.group.dev.dependencies]
