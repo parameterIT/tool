@@ -2,7 +2,7 @@
 
 ## Setup
 
-Make sure you have [Poetry](https://python-poetry.org/docs/) installed.
+Make sure you have [Poetry >= 1.2.0](https://python-poetry.org/docs/) installed.
 You can then get started by running:
 
 ```sh
@@ -21,7 +21,11 @@ You can download cpd from the following link (check if there is a newer release)
 This is all done using poetry. To run:
 
 ```sh
-poetry run main <path/to/source/code> <Quality_model> <language>
+poetry run modu <path/to/source/code> <Quality_model>
+```
+e.g.
+```sh
+poetry run modu . code_climate
 ```
 
 To see supported languages please refer to: `byoqm/source_coordinator/languages.py`
@@ -29,7 +33,7 @@ To see supported languages please refer to: `byoqm/source_coordinator/languages.
 Optional values can be gotten by running: 
 
 ```sh
-poetry run main --help
+poetry run modu --help
 ```
 
 To test:
@@ -57,7 +61,7 @@ Clone the python grammar into `grammars/`:
 
 
 ```sh
-cd grammars && git clone https://github.com/tree-sitter/tree-sitter-python && git clone https://github.com/tree-sitter/tree-sitter-c-sharp && git clone https://github.com/tree-sitter/tree-sitter-java && cd -
+cd grammars && git clone --depth 1 https://github.com/tree-sitter/tree-sitter-python && git clone --depth 1 https://github.com/tree-sitter/tree-sitter-c-sharp && git clone --depth 1 https://github.com/tree-sitter/tree-sitter-java && cd -
 ```
 
 Build the grammar file:
