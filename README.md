@@ -16,6 +16,16 @@ This requires you to download cpd and place the `bin/` and `lib/` folder (and th
 
 You can download cpd from the following link (check if there is a newer release): https://github.com/pmd/pmd/releases/tag/pmd_releases/6.54.0
 
+### Programming Language Detection - GitHub Linguist
+
+To detect the programming languages of source code files we use GitHub linguist by running it in a docker container. 
+Make sure you have [Docker >= 23.0.4](https://docs.docker.com/) installed.
+You will also need to pull the docker image for GitHub Linguist:
+
+```shell
+docker pull toffernator/linguist
+```
+
 ## Running, Testing, and Formatting
 
 This is all done using poetry. To run:
