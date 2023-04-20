@@ -1,4 +1,3 @@
-import logging
 from modu.metric.metric import Metric
 from modu.metric.result import Result
 from modu.metric.violation import Violation
@@ -35,7 +34,6 @@ class IdenticalBlocksofCode(Metric):
         """
         violations = []
         for file, file_info in self._source_repository.files.items():
-            logging.warn(f"Idenitcal code for {file_info}")
             filestring = f"{file}"
             cpd_encoding = _CHARDET_ENCODINGS_TO_CPD[file_info.encoding]
 
