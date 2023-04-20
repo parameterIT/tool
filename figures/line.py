@@ -1,5 +1,6 @@
 from cmath import pi
 from collections import defaultdict
+import logging
 from bokeh.plotting import figure
 from modu.dashboard.figure import Figure
 from bokeh.models import DatetimeTickFormatter, Range1d
@@ -24,11 +25,17 @@ class LineChart(Figure):
         try:
             p.y_range = Range1d(0, (int(max(y)) * 1.1))
         except ValueError:
+            logging.warning(("No data to plot created for" + key))
             return
         return p
 
     def get_figure(self):
-        result = [self._get_line(self._data, key) for key in self._data]
+        result = []
+        for key in self._data:
+            output = self._get_line(self._data, key)
+            if output is None:
+                continue
+            result.append(output)
         return result
 
 
