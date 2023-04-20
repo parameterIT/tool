@@ -1,3 +1,4 @@
+import logging
 from modu.metric.metric import Metric
 from modu.metric.result import Result
 from modu.metric.violation import Violation
