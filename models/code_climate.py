@@ -5,7 +5,7 @@ from modu.qualitymodel.qualitymodel import QualityModel
 
 class CodeClimate(QualityModel):
     # Arbitrary choice of 30 minutes implementation time per line
-    _LINE_IMPLEMENTATiON_TIME = 30
+    _LINE_IMPLEMENTATION_TIME = 30
     # Code Climate reports 45 minutes to fix when 3 over the allowed cognitive complexity
     _COGNITIVE_COMPLEXITY_REMEDIATION_COST = 45
     # Too many return statements is reported as 30 minutes to fix
@@ -26,7 +26,7 @@ class CodeClimate(QualityModel):
     _IDENTICAL_CODE_REMEDIATION_COST = 60
     _SIMILAR_CODE_REMEDIATION_COST = 60
 
-    def getDesc(self) -> Dict:
+    def get_desc(self) -> Dict:
         model = {
             "metrics": {
                 "method_lines": "./metrics/method_length.py",
@@ -35,16 +35,16 @@ class CodeClimate(QualityModel):
                 "complex_logic": "./metrics/complex_logic.py",
                 "method_count": "./metrics/method_count.py",
                 "return_statements": "./metrics/return_statements.py",
-                "identical-code": "./metrics/identical_codeblocks.py",
-                "similar-code": "./metrics/similar_codeblocks.py",
+                "identical_code": "./metrics/identical_codeblocks.py",
+                "similar_code": "./metrics/similar_codeblocks.py",
                 "nested_control_flow": "./metrics/nested_controlflows.py",
                 "cognitive_complexity": "./metrics/cognitive_complexity.py",
                 "code_size": "./metrics/code_size.py",
             },
             "aggregations": {
-                "Complexity": self.complexity,
-                "Duplication": self.duplication,
-                "Maintainability": self.maintainability,
+                "complexity": self.complexity,
+                "duplication": self.duplication,
+                "maintainability": self.maintainability,
             },
         }
         return model
@@ -52,9 +52,9 @@ class CodeClimate(QualityModel):
     def maintainability(self, results: Dict) -> str:
         # https://docs.codeclimate.com/docs/maintainability-calculation
         code_size: int = results["code_size"]
-        implementation_time: int = code_size * self._LINE_IMPLEMENTATiON_TIME
+        implementation_time: int = code_size * self._LINE_IMPLEMENTATION_TIME
         technical_debt = self.complexity_remediation(results)
-        +self.duplication_remediation(results)
+        + self.duplication_remediation(results)
         tech_debt_ratio: float = technical_debt / implementation_time
 
         return self._map_to_letter(tech_debt_ratio)
@@ -97,12 +97,12 @@ class CodeClimate(QualityModel):
         )
 
     def duplication(self, results: Dict) -> int | float:
-        return results["identical-code"].outcome + results["similar-code"].outcome
+        return results["identical_code"].outcome + results["similar-code"].outcome
 
     def duplication_remediation(self, results: Dict) -> int:
         return (
-            results["identical-code"].outcome * self._IDENTICAL_CODE_REMEDIATION_COST
-            + results["similar-code"].outcome * self._SIMILAR_CODE_REMEDIATION_COST
+            results["identical_code"].outcome * self._IDENTICAL_CODE_REMEDIATION_COST
+            + results["similar_code"].outcome * self._SIMILAR_CODE_REMEDIATION_COST
         )
 
 

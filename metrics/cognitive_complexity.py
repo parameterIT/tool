@@ -51,7 +51,7 @@ class CognitiveComplexity(Metric):
             if count > 5:
                 violations.append(
                     Violation(
-                        "Cognitive Complexity",
+                        "cognitive complexity",
                         # We use start_point for what would otherwise be start_line & end_line
                         # to report the line where the keyword that breaks linear flow is met .
                         (

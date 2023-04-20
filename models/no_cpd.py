@@ -1,6 +1,4 @@
 from typing import Dict
-
-
 from modu.qualitymodel.qualitymodel import QualityModel
 
 
@@ -8,7 +6,7 @@ class NoCpd(QualityModel):
     def __init__(self):
         pass
 
-    def getDesc(self) -> Dict:
+    def get_desc(self) -> Dict:
         model = {
             "metrics": {
                 "method_length": "./metrics/method_length.py",

@@ -11,7 +11,7 @@ class ReturnStatements(Metric):
 
     def run(self):
         violations = []
-        for file, file_info in self._source_repository.files.items():
+        for _, file_info in self._source_repository.files.items():
             violations.extend(
                 self._parse(self._source_repository.get_ast(file_info), file_info)
             )
@@ -43,7 +43,7 @@ class ReturnStatements(Metric):
             if len(captures) > 4:
                 violations.append(
                     Violation(
-                        "Return Statements",
+                        "return Statements",
                         (
                             str(file_info.file_path),
                             node.start_point[0] + 1,
