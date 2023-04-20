@@ -1,2 +1,0 @@
-./metrics/test/
-./byoqm/util/.ignore.txt
