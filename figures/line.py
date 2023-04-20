@@ -24,7 +24,7 @@ class LineChart(Figure):
         try:
             p.y_range = Range1d(0, (int(max(y)) * 1.1))
         except ValueError:
-            pass
+            return
         return p
 
     def get_figure(self):
