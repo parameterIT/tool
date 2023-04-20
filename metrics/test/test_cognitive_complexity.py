@@ -91,13 +91,11 @@ class TestCognitiveComplexity(unittest.TestCase):
         )
         cognitive_complexity = CognitiveComplexity()
         cognitive_complexity._source_repository = new_source_repository
-        print("---------------------------------------")
         actual = 0
         for (
             file_path,
             file_info,
         ) in cognitive_complexity._source_repository.files.items():
-            print(file_path)
             ast: tree_sitter.Tree = cognitive_complexity._source_repository.get_ast(
                 file_info
             )
@@ -117,9 +115,7 @@ class TestCognitiveComplexity(unittest.TestCase):
             query_initial_nodes = tree_sitter_language.query(initial_nodes_query_str)
             initial_nodes = query_initial_nodes.captures(ast.root_node)
             for node, _ in initial_nodes:
-                print(node)
                 count = cognitive_complexity._count_nesting(node, file_info)
-                print(count)
                 actual += count
 
         expected = 5

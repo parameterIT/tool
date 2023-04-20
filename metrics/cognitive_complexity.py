@@ -136,19 +136,17 @@ class CognitiveComplexity(Metric):
         ]
         initial_query_str = translate_to[file_info.language]["method_control_flow"]
         if file_info.language == "c_sharp" or file_info.language == "java":
-            initial_query_str += translate_to[file_info.language]["constructor_control_flow"]
+            initial_query_str += translate_to[file_info.language][
+                "constructor_control_flow"
+            ]
         initial_query = tree_sitter_language.query(initial_query_str)
         subsequent_query = tree_sitter_language.query(
             translate_to[file_info.language]["nested_controlflow_subsequent_nodes"]
         )
         nodes = initial_query.captures(node)
-        
-        print(file_info.file_path)
-        print(node)
-        print("---------------------------------------")
+
         for node2, _ in nodes:
             found = False
-            print(node2)
             nodes2 = subsequent_query.captures(node2)
             for node3, _ in nodes2:
                 if found:
