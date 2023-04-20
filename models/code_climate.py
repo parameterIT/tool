@@ -54,7 +54,7 @@ class CodeClimate(QualityModel):
         code_size: int = results["code_size"]
         implementation_time: int = code_size * self._LINE_IMPLEMENTATION_TIME
         technical_debt = self.complexity_remediation(results)
-        + self.duplication_remediation(results)
+        +self.duplication_remediation(results)
         tech_debt_ratio: float = technical_debt / implementation_time
 
         return self._map_to_letter(tech_debt_ratio)
@@ -97,7 +97,7 @@ class CodeClimate(QualityModel):
         )
 
     def duplication(self, results: Dict) -> int | float:
-        return results["identical_code"].outcome + results["similar-code"].outcome
+        return results["identical_code"].outcome + results["similar_code"].outcome
 
     def duplication_remediation(self, results: Dict) -> int:
         return (
