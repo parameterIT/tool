@@ -2,9 +2,9 @@ import os
 import unittest
 
 from pathlib import Path
-from byoqm.metric.metric import Metric
+from modu.metric.metric import Metric
 
-from byoqm.source_repository.source_repository import SourceRepository
+from modu.source_repository.source_repository import SourceRepository
 from metrics.cognitive_complexity import CognitiveComplexity
 
 

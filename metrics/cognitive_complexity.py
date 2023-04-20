@@ -4,12 +4,12 @@ import tree_sitter
 from pathlib import Path
 from typing import List
 
-from byoqm.metric.metric import Metric
-from byoqm.metric.result import Result
-from byoqm.metric.violation import Violation
-from byoqm.source_repository.file_info import FileInfo
+from modu.metric.metric import Metric
+from modu.metric.result import Result
+from modu.metric.violation import Violation
+from modu.source_repository.file_info import FileInfo
 from metrics.util.query_translations import translate_to
-from byoqm.source_repository.source_repository import SourceRepository
+from modu.source_repository.source_repository import SourceRepository
 
 
 class CognitiveComplexity(Metric):

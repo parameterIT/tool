@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "byoqm"
+name = "modu"
 version = "0.1.0"
 description = "Prototyping a Quality Assessment Tool with Parameterized Quality Models"
 authors = ["Christoffer Gram <chkg@itu.dk>", "Caspar Marschall <cafm@itu.dk>", "Frederik Rothe <frot@itu.dk>", "Jakob Hjalgrim <jlhj@itu.dk>"]

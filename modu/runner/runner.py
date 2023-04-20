@@ -8,10 +8,10 @@ import importlib.machinery
 from pathlib import Path
 from typing import Dict
 
-from test.test_support import os
+import os
 
-from byoqm.qualitymodel.qualitymodel import QualityModel
-from byoqm.source_repository.source_repository import SourceRepository
+from modu.qualitymodel.qualitymodel import QualityModel
+from modu.source_repository.source_repository import SourceRepository
 
 
 class Runner:
