@@ -24,7 +24,7 @@ tool/
 Run the following commands:
 Generation of build and grammars folder:
 ```sh
-mkdir build grammars
+mkdir -p build grammars
 ```
 Clone the different grammars into grammars/:
 ```sh
