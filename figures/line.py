@@ -25,7 +25,7 @@ class LineChart(Figure):
         try:
             p.y_range = Range1d(0, (int(max(y)) * 1.1))
         except ValueError:
-            logging.warning(("No data to plot created for" + key))
+            logging.warning(("No data to plot created for", key))
             return
         return p
 
@@ -33,7 +33,7 @@ class LineChart(Figure):
         result = []
         for key in self._data:
             output = self._get_line(self._data, key)
-            if output is None:
+            if output is None: # If output is None, the data is not suited for line graphs. Skip it.
                 continue
             result.append(output)
         return result
