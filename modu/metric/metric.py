@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
 from pathlib import Path
 
-from byoqm.metric.result import Result
+from modu.metric.result import Result
 
 
 class Metric(ABC):

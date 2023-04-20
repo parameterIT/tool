@@ -4,8 +4,8 @@ from pathlib import Path
 from typing import Dict, List
 from tree_sitter import Parser, Language
 import tree_sitter
-from byoqm.source_repository.file_info import FileInfo
-from byoqm.source_repository.languages import languages
+from modu.source_repository.file_info import FileInfo
+from modu.source_repository.languages import languages
 import chardet
 
 _TREESITTER_BUILD: Path = Path("build/my-languages.so")

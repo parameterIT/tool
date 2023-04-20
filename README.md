@@ -67,5 +67,5 @@ cd grammars && git clone --depth 1 https://github.com/tree-sitter/tree-sitter-py
 Build the grammar file:
 
 ```sh
-poetry run python byoqm/build_treesitter.py
+poetry run python modu/build_treesitter.py
 ```

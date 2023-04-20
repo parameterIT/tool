@@ -3,7 +3,7 @@
 .local
 grammars
 output
-/byoqm/main.html
+/modu/main.html
 /metrics/cpd/
 /documentation/
 /byoqm/util/.moduignore
