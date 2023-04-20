@@ -13,6 +13,8 @@ SUPPORTED_ENCODINGS: List[str] = [
     "ASCII",
     "ISO-8859-1",
     "UTF-8",
+    # UTF-8-SIG files have a BOM, using UTF-8-SIG will correctly read the BOM as meta-data
+    "UTF-8-SIG",
     "UTF-16BE",
     "UTF-16LE",
     "UTF-16",
@@ -99,7 +101,7 @@ class SourceRepository:
                     file_infos[f] = file_info
                 else:
                     logging.warn(
-                        f"Excluding f{file_info.file_path} from analysis. (Language: {file_info.language}, encoding: {file_info.encoding})"
+                        f"Excluding {file_info.file_path} from analysis. (Language: {file_info.language}, encoding: {file_info.encoding})"
                     )
 
         return file_infos
@@ -118,6 +120,9 @@ class SourceRepository:
                 programming_language = JAVA
             case _:
                 programming_language = UNKNOWN_LANGUAGE
+
+        if programming_language == UNKNOWN_LANGUAGE:
+            return FileInfo(file_path, UNKNOWN_ENCODING, UNKNOWN_LANGUAGE)
 
         encoding: str = UNKNOWN_ENCODING
         with file_path.open("rb") as file:
