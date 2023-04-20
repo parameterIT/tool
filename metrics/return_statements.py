@@ -43,7 +43,7 @@ class ReturnStatements(Metric):
             if len(captures) > 4:
                 violations.append(
                     Violation(
-                        "return Statements",
+                        "return statements",
                         (
                             str(file_info.file_path),
                             node.start_point[0] + 1,
