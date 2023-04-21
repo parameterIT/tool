@@ -1,0 +1,6 @@
+*.pyc
+*.toml
+*.lock
+*.git*
+LICENSE
+*.md
