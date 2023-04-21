@@ -3,11 +3,11 @@ public class data_recursion {
     }
 
     public void recurse(Integer i) {
-        if (recurse(i + 1)) {
-            recurse(i);
-        } else {
-            recurse(i+3);
-        }
+        recurse(i + 1);
+        recurse(i);
+
+        recurse(i + 3);
+
         System.out.println(recurse(2) + recurse(3));
         return recurse(i + 5);
     }
