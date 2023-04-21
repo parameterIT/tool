@@ -1,3 +1,4 @@
+import fnmatch
 import logging
 import os
 from pathlib import Path
@@ -85,8 +86,13 @@ class SourceRepository:
             return ast
 
     def _discover_files(self) -> Dict[Path, FileInfo]:
-        ignored_files = self._get_ignored_files()
-
+        # Get all files
+        files = [f for f in self.src_root.iterdir() if f.is_file()]
+        # Remove unwanted
+        ignored_files = self._get_ignores()
+        for ignore in ignored_files:
+            files = [n for n in files if not n.match(ignore)]
+        # Check encoding
         if self.src_root.is_file():
             if self.src_root in ignored_files:
                 logging.warning(
@@ -95,30 +101,24 @@ class SourceRepository:
                 return {}
             return {self.src_root: self._inspect_file(self.src_root)}
 
-        file_infos: Dict[Path, FileInfo] = self._discover_in_dir(
-            self.src_root, ignored_files
-        )
+        file_infos: Dict[Path, FileInfo] = self._discover_in_dir(files)
 
         return file_infos
 
-    def _discover_in_dir(self, root_dir: Path, ignored_files) -> Dict[Path, FileInfo]:
+    def _discover_in_dir(self, files: list) -> Dict[Path, FileInfo]:
         file_infos: Dict[Path, FileInfo] = {}
-        for f in root_dir.iterdir():
-            if f in ignored_files:
-                continue
-            if f.is_dir():
-                file_infos.update(self._discover_in_dir(f, ignored_files))
+        for f in files:
+            
+            file_info = self._inspect_file(f)
+            if not self._should_exclude(file_info):
+                file_infos[f] = file_info
             else:
-                file_info = self._inspect_file(f)
-                if not self._should_exclude(file_info):
-                    file_infos[f] = file_info
-                else:
-                    logging.warn(
-                        f"Excluding {file_info.file_path} from analysis. (Language: {file_info.language}, encoding: {file_info.encoding})"
-                    )
+                logging.warn(
+                    f"Excluding {file_info.file_path} from analysis. (Language: {file_info.language}, encoding: {file_info.encoding})"
+                )
 
         return file_infos
-
+    
     def _inspect_file(self, file_path: Path) -> FileInfo:
         if not file_path.is_file():
             raise ValueError(f"_inspect_file expects that ${file_path} is a file")
@@ -169,6 +169,13 @@ class SourceRepository:
                 ignored_files.extend(self.src_root.glob(f"**/*{extension.rstrip()}"))
         return ignored_files
 
+    def _get_ignores(self):
+        with _IGNORE_FILE_PATH.open("r") as file:
+            ignored_files = []
+            for line in file:
+                ignored_files.append(line.rstrip())
+        return ignored_files
+    
     def _should_exclude(self, file_info: FileInfo):
         return (
             file_info.language == UNKNOWN_LANGUAGE
