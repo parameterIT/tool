@@ -70,7 +70,7 @@ class FileLength(Metric):
 metric = FileLength()
 ```
 
-This metric makes use of tree sitter to query out all of the commented lines, whereafter it finds out whether or not the file getting analyzed, is longer than it should. Here it is important to note that the list of violations is appended to, where each violation describes the file that violates the threshhold as well as the start and end position of the violation. Note that since file length considers the entire file a violation, both the start point and end point are set to -1.
+This metric makes use of _tree-sitter_ to query out all of the commented lines, whereafter it finds out whether or not the file getting analyzed, is longer than it should. Here it is important to note that the list of violations is appended to, where each violation describes the file that violates the threshhold as well as the start and end position of the violation. Note that since file length considers the entire file a violation, both the start point and end point are set to -1.
 
 Furthermore, it is important to note that the source repository _NEEDS_ to be introduced in the constructor of each metric as *None*. This is due to us making use of _importlib_ in runner, which needs a top level field that it can inject the source repository into. This way we simply allocate space for the object.
 
