@@ -23,7 +23,6 @@ class TestSimilarCodeBlocks(unittest.TestCase):
     def test_similar_codeblocks_given_file_returns_1(self):
         result = self._similarcode.run()
         self.assertEqual(result.outcome, 1)
-
         # CPD reports the full path's, so will always be machine specific. Therefore, we test only that the reported
         # lines are correct and assume that these lines can only stem correctly from the expected files.
         duplications = result.get_violation_locations()
