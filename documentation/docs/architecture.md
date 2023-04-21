@@ -2,7 +2,7 @@
 An overview of the architecture of the tool is key to understanding its usefulness.
 
 ## Plugin style system
-The essence of this tool is to explore the possibility of having a fully parameterized Software Quality Assessment Tool _(SWQAT)_. Therefore, we have opted to choose a modular plug-in architecture for both the actual quality model as well as the visualization. 
+The essence of this tool is to explore the possibility of having a fully parameterized Software Quality Assessment Tool _(SWQAT)_. Therefore, we have chosen a modular plug-in architecture for both the actual quality model and visualization. 
 
 The tool will make use of a quality model that contains an arbitrary amount of aggregations, which are made up of underlying aggregations or metrics. Metrics are the bottom-most level of the quality models, and are repsonsible for keeping track of violations. 
 
