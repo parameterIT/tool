@@ -18,7 +18,7 @@ class QualityModel(ABC):
     @abstractmethod
     def getDesc(self) -> Dict:
         """
-        getDesc returns a dictionary describing the quality model.
+        get_desc returns a dictionary describing the quality model.
 
         The first level of the dictionary should be two keys:
         - metrics
