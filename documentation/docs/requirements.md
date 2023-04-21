@@ -11,8 +11,8 @@ As mentioned before, _Modu_ makes use of _Poetry_ to manage the majority of our 
 
 ### GitHub Linguist
 
-We use (GitHub Linguist v7.25.0)[https://github.com/github/linguist/tree/v7.25.0] to detect the language of source files.
-To execute GitHub Linguist we use (Docker >= 23.0.4)[https://docs.docker.com/], so make sure to pull the docker image `tofferantor/linguist`:
+We use [GitHub Linguist v7.25.0](https://github.com/github/linguist/tree/v7.25.0) to detect the language of source files.
+To execute GitHub Linguist we use [Docker >= 23.0.4](https://docs.docker.com/), so make sure to pull the docker image `tofferantor/linguist`:
 
 ```shell
 docker pull tofferantor/linguist
