@@ -15,7 +15,7 @@ Aggregation formulae exist as part of a quality model, and we define them throug
 
 ```python
 class TestQM(QualityModel):
-    def getDesc(self) -> Dict:
+    def get_desc(self) -> Dict:
         model = {
             "metrics": {
                 "method_length": "./metrics/method_length.py",
