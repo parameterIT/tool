@@ -3,7 +3,7 @@
 Run and output results of the configured quality model on the targeted source code.
 
 ```sh
-poetry run main [OPTIONS] SRC_ROOT QUALITY_MODEL
+poetry run modu [OPTIONS] SRC_ROOT QUALITY_MODEL
 ```
 E.g.
 ```sh
