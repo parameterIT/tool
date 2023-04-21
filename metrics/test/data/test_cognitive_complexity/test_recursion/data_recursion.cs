@@ -1,17 +1,17 @@
 public class TestClass
 {
-    public TestClass() {}
+    public TestClass() { }
 
     public void recurse(int i)
     {
-        if (recurse(i + 1))
-        {
-            recurse(i);
-        }
-        else recurse(1);
-        Console.WriteLine(recurse(i+2) + recurse(i + 3));
+        recurse(i + 1);
 
-        return(recurse(5));
+        recurse(i);
+        recurse(1);
+
+        Console.WriteLine(recurse(i + 2) + recurse(i + 3));
+
+        return (recurse(5));
     }
 
     private void print(string s)
