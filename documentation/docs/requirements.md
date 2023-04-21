@@ -1,7 +1,7 @@
 # Overview
 _Modu_ uses _Poetry_ to install the majority of the requirements needed. To run _Modu_, these are the only dependencies needed. 
 
-As part of the project was implementing an existing quality model, we have a couple of other dependencies that will need to be installed to run our re-creation of the quality model that Code Climate makes use of
+_Modu_ currently supports a re-creation of the quality model that Code Climate makes use of, but will require the addition of a couple of external dependencies.
 
 ## Installing poetry and dependencies
 ### Python
