@@ -38,7 +38,7 @@ class QualityModel(ABC):
 Configuring the metrics can be done by adding them to the **Dict** object returned from _getDesc()_.
 
 ```python
-def getDesc(self) -> Dict:
+def get_desc(self) -> Dict:
         model = {
             "metrics": {
                 "method_length": "./metrics/method_length.py",
