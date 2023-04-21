@@ -1,6 +1,4 @@
-import fnmatch
 import logging
-import os
 from pathlib import Path
 from typing import Dict, List
 from tree_sitter import Parser, Language
@@ -108,7 +106,6 @@ class SourceRepository:
     def _discover_in_dir(self, files: list) -> Dict[Path, FileInfo]:
         file_infos: Dict[Path, FileInfo] = {}
         for f in files:
-            
             file_info = self._inspect_file(f)
             if not self._should_exclude(file_info):
                 file_infos[f] = file_info
@@ -118,7 +115,7 @@ class SourceRepository:
                 )
 
         return file_infos
-    
+
     def _inspect_file(self, file_path: Path) -> FileInfo:
         if not file_path.is_file():
             raise ValueError(f"_inspect_file expects that ${file_path} is a file")
@@ -146,36 +143,13 @@ class SourceRepository:
 
         return FileInfo(file_path, encoding, programming_language)
 
-    def _get_ignored_files(self):
-        ignored_files = self._get_ignored_paths()
-        ignored_files.extend(self.get_ignored_file_extensions())
-        return ignored_files
-
-    def _get_ignored_paths(self):
-        with _IGNORE_FILE_PATH.open("r") as file:
-            ignored_files = []
-            for line in file:
-                path = Path(line.rstrip())
-                if path.is_dir():
-                    ignored_files.extend(path.glob("*"))
-                if path.is_file():
-                    ignored_files.append(path)
-        return ignored_files
-
-    def get_ignored_file_extensions(self):
-        with _IGNORE_FILE_EXTENSIONS_PATH.open("r") as file:
-            ignored_files = []
-            for extension in file:
-                ignored_files.extend(self.src_root.glob(f"**/*{extension.rstrip()}"))
-        return ignored_files
-
     def _get_ignores(self):
         with _IGNORE_FILE_PATH.open("r") as file:
             ignored_files = []
             for line in file:
                 ignored_files.append(line.rstrip())
         return ignored_files
-    
+
     def _should_exclude(self, file_info: FileInfo):
         return (
             file_info.language == UNKNOWN_LANGUAGE
