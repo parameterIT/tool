@@ -93,8 +93,6 @@ class TestCognitiveComplexity(unittest.TestCase):
         cognitive_complexity._source_repository = new_source_repository
         result = cognitive_complexity.run()
         actual = result.outcome
-        for violation in result.get_violation_locations():
-            print(violation)
         expected = 18
         self.assertEqual(actual, expected)
 
