@@ -37,7 +37,9 @@ public class data_nested_control_flows {
     public void method2() {
         for (Integer i = 0; i < 10; i++) { //1
             try {
-                System.out.println("NOT A VIOLATION"); //2
+                if (k) { //2
+                    System.out.println("NOT A VIOLATION"); 
+                }
             } catch (RuntimeException ex) { //3
                 if (a) { //4
                     System.out.println("NOT A VIOLATION");
@@ -60,7 +62,9 @@ public class data_nested_control_flows {
                     }
                 }
             } catch (RuntimeException ex) { //5
-                System.out.println("NOT A VIOLATION"); //6
+                if (k) { //6
+                    System.out.println("NOT A VIOLATION"); 
+                }
             }
         } 
     }

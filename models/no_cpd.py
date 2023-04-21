@@ -18,6 +18,7 @@ class NoCpd(QualityModel):
                 "method_count": "./metrics/method_count.py",
                 "return_statements": "./metrics/return_statements.py",
                 "nested_controlflows": "./metrics/nested_controlflows.py",
+                "cognitive_complexity": "./metrics/cognitive_complexity.py",
             },
             "aggregations": {
                 "cyclomatic_complexity": self.cyclomatic_complexity,

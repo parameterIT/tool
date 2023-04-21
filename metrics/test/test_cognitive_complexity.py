@@ -83,7 +83,7 @@ class TestCognitiveComplexity(unittest.TestCase):
         ]
         self.assertCountEqual(locations, expected_locations)
 
-    def test_nesting_returns_5(self):
+    def test_cognitive_complexity_returns_18(self):
         new_source_repository = SourceRepository(
             Path(
                 "./metrics/test/data/test_cognitive_complexity/test_nested_controlflows"
@@ -91,35 +91,14 @@ class TestCognitiveComplexity(unittest.TestCase):
         )
         cognitive_complexity = CognitiveComplexity()
         cognitive_complexity._source_repository = new_source_repository
-        actual = 0
-        files = cognitive_complexity._source_repository.files.items()
-        for _, file_info in files:
-            ast: tree_sitter.Tree = cognitive_complexity._source_repository.get_ast(
-                file_info
-            )
-            tree_sitter_language = (
-                cognitive_complexity._source_repository.tree_sitter_languages[
-                    file_info.language
-                ]
-            )
-
-            initial_nodes_query_str = (
-                f"""{translate_to[file_info.language]["function"]} @func"""
-            )
-            if file_info.language == "c_sharp" or file_info.language == "java":
-                initial_nodes_query_str += (
-                    f"""{translate_to[file_info.language]["constructor"]} @cons"""
-                )
-            query_initial_nodes = tree_sitter_language.query(initial_nodes_query_str)
-            initial_nodes = query_initial_nodes.captures(ast.root_node)
-            for node, _ in initial_nodes:
-                count = cognitive_complexity._count_nesting(node, file_info)
-                actual += count
-
-        expected = 5
+        result = cognitive_complexity.run()
+        actual = result.outcome
+        for violation in result.get_violation_locations():
+            print(violation)
+        expected = 18
         self.assertEqual(actual, expected)
 
-    def test_cognitive_complexity_returns_14(self):
+    def test_cognitive_complexity_returns_30(self):
         new_source_repository = SourceRepository(
             Path("./metrics/test/data/test_cognitive_complexity")
         )
@@ -127,5 +106,5 @@ class TestCognitiveComplexity(unittest.TestCase):
         cognitive_complexity._source_repository = new_source_repository
         result = cognitive_complexity.run()
         actual = result.outcome
-        expected = 14
+        expected = 30
         self.assertEqual(actual, expected)
