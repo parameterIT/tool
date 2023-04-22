@@ -42,7 +42,6 @@ class CognitiveComplexity(Metric):
                 f"""{translate_to[file_info.language]["constructor"]} @cons"""
             )
         query_initial_nodes = tree_sitter_language.query(initial_nodes_query_str)
-
         initial_nodes = query_initial_nodes.captures(ast.root_node)
         for node, _ in initial_nodes:
             count = 0

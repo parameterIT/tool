@@ -10,7 +10,7 @@ from modu.source_repository.languages import languages
 import chardet
 
 _TREESITTER_BUILD: Path = Path("build/my-languages.so")
-
+_IGNORE_FILE_PATH: Path = Path("modu/util/.moduignore")
 SUPPORTED_ENCODINGS: List[str] = [
     "ASCII",
     "ISO-8859-1",
@@ -38,6 +38,7 @@ class SourceRepository:
     def __init__(self, src_root: Path):
         self.src_root: Path = src_root
         self.asts: Dict[Path, tree_sitter.Tree] = {}
+        self.ignored_glob_regex_list = self._get_ignore_regex_list()
         self.files: Dict[Path, FileInfo] = self._discover_files()
         self.tree_sitter_languages: Dict[str, tree_sitter.Language] = {
             PYTHON: tree_sitter.Language(_TREESITTER_BUILD, PYTHON),
@@ -87,16 +88,23 @@ class SourceRepository:
 
     def _discover_files(self) -> Dict[Path, FileInfo]:
         if self.src_root.is_file():
+            for ignore in self.ignored_glob_regex_list:
+                if self.src_root.match(ignore):
+                    return {}
             return {self.src_root: self._inspect_file(self.src_root)}
 
-        file_infos: Dict[Path, FileInfo] = self._discover_in_dir(self.src_root)
+        files = self._get_filtered_files(self.src_root)
+
+        file_infos: Dict[Path, FileInfo] = self._inspect_files(files)
+
         return file_infos
 
-    def _discover_in_dir(self, root_dir: Path) -> Dict[Path, FileInfo]:
+    def _inspect_files(self, files: list) -> Dict[Path, FileInfo]:
         file_infos: Dict[Path, FileInfo] = {}
-        for f in root_dir.iterdir():
-            if f.is_dir():
-                file_infos.update(self._discover_in_dir(f))
+        for f in files:
+            file_info = self._inspect_file(f)
+            if not self._should_exclude(file_info):
+                file_infos[f] = file_info
             else:
                 file_info = self._inspect_file(f)
                 if not self._should_exclude(file_info):
@@ -157,6 +165,27 @@ class SourceRepository:
                 return JAVA
             case _:
                 return UNKNOWN_LANGUAGE
+
+    def _get_filtered_files(self, root_dir: Path):
+        files = []
+        for f in root_dir.iterdir():
+            ignored = False
+            for ignore in self.ignored_glob_regex_list:
+                if f.match(ignore):
+                    ignored = True
+            if not ignored:
+                if f.is_dir():
+                    files.extend(self._get_filtered_files(f))
+                else:
+                    files.append(f)
+        return files
+
+    def _get_ignore_regex_list(self):
+        with _IGNORE_FILE_PATH.open("r") as file:
+            ignored_files = []
+            for line in file:
+                ignored_files.append(line.rstrip())
+        return ignored_files
 
     def _should_exclude(self, file_info: FileInfo):
         return (
