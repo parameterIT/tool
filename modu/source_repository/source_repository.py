@@ -95,11 +95,11 @@ class SourceRepository:
 
         files = self._get_filtered_files(self.src_root)
 
-        file_infos: Dict[Path, FileInfo] = self._discover_in_dir(files)
+        file_infos: Dict[Path, FileInfo] = self._inspect_files(files)
 
         return file_infos
 
-    def _discover_in_dir(self, files: list) -> Dict[Path, FileInfo]:
+    def _inspect_files(self, files: list) -> Dict[Path, FileInfo]:
         file_infos: Dict[Path, FileInfo] = {}
         for f in files:
             file_info = self._inspect_file(f)
