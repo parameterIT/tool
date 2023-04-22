@@ -87,7 +87,7 @@ class SourceRepository:
 
     def _discover_files(self) -> Dict[Path, FileInfo]:
         # Get all files
-        files = [f for f in self.src_root.iterdir() if f.is_file()]
+        files = [f for f in self.src_root.glob("**/*") if f.is_file()]
         # Remove unwanted
         ignored_files = self._get_ignores()
         for ignore in ignored_files:
