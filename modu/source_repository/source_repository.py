@@ -38,6 +38,7 @@ class SourceRepository:
     def __init__(self, src_root: Path):
         self.src_root: Path = src_root
         self.asts: Dict[Path, tree_sitter.Tree] = {}
+        self.ignored_glob_regex_list = self._get_ignore_regex_list()
         self.files: Dict[Path, FileInfo] = self._discover_files()
         self.tree_sitter_languages: Dict[str, tree_sitter.Language] = {
             PYTHON: tree_sitter.Language(_TREESITTER_BUILD, PYTHON),
@@ -86,18 +87,13 @@ class SourceRepository:
             return ast
 
     def _discover_files(self) -> Dict[Path, FileInfo]:
-        # Get all files
-        files = [f for f in self.src_root.glob("**/*") if f.is_file()]
-        # Remove unwanted
-        ignored_regex_list = self._get_ignore_regex_list()
-        for ignore in ignored_regex_list:
-            files = [file for file in files if not file.match(ignore)]
-        # Check encoding
         if self.src_root.is_file():
-            for ignore in ignored_regex_list:
+            for ignore in self.ignored_glob_regex_list:
                 if self.src_root.match(ignore):
                     return {}
             return {self.src_root: self._inspect_file(self.src_root)}
+
+        files = self._get_filtered_files(self.src_root)
 
         file_infos: Dict[Path, FileInfo] = self._discover_in_dir(files)
 
@@ -169,6 +165,20 @@ class SourceRepository:
                 return JAVA
             case _:
                 return UNKNOWN_LANGUAGE
+
+    def _get_filtered_files(self, root_dir: Path):
+        files = []
+        for f in root_dir.iterdir():
+            ignored = False
+            for ignore in self.ignored_glob_regex_list:
+                if f.match(ignore):
+                    ignored = True
+            if not ignored:
+                if f.is_dir():
+                    files.extend(self._get_filtered_files(f))
+                else:
+                    files.append(f)
+        return files
 
     def _get_ignore_regex_list(self):
         with _IGNORE_FILE_PATH.open("r") as file:
