@@ -2,7 +2,6 @@ import logging
 import json
 import subprocess
 from pathlib import Path
-import sys
 from typing import Dict, List
 from tree_sitter import Parser, Language
 import tree_sitter
@@ -37,7 +36,6 @@ class SourceRepository:
     """
 
     def __init__(self, src_root: Path):
-        sys.setrecursionlimit(1500)
         self.src_root: Path = src_root
         self.asts: Dict[Path, tree_sitter.Tree] = {}
         self.ignored_glob_regex_list = self._get_ignore_regex_list()
