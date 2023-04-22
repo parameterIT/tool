@@ -112,9 +112,13 @@ class SourceRepository:
             if not self._should_exclude(file_info):
                 file_infos[f] = file_info
             else:
-                logging.warning(
-                    f"Excluding {file_info.file_path} from analysis. (Language: {file_info.language}, encoding: {file_info.encoding})"
-                )
+                file_info = self._inspect_file(f)
+                if not self._should_exclude(file_info):
+                    file_infos[f] = file_info
+                else:
+                    logging.warning(
+                        f"Excluding {file_info.file_path} from analysis. (Language: {file_info.language}, encoding: {file_info.encoding})"
+                    )
 
         return file_infos
 

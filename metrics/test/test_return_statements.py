@@ -13,11 +13,11 @@ class TestReturnStatements(unittest.TestCase):
         self._source_repository = SourceRepository(
             Path("./metrics/test/data/test_data_return_statements")
         )
-        self._returnstmnt = ReturnStatements()
-        self._returnstmnt._source_repository = self._source_repository
+        self._return_stmnt = ReturnStatements()
+        self._return_stmnt._source_repository = self._source_repository
 
     def test_return_statements_returns_6(self):
-        result = self._returnstmnt.run()
+        result = self._return_stmnt.run()
         self.assertEqual(result.outcome, 6)
         locations = result.get_violation_locations()
         expected_locations = [

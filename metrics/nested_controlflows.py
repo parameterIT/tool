@@ -11,7 +11,7 @@ class NestedControlflows(Metric):
 
     def run(self):
         violations = []
-        for file, file_info in self._source_repository.files.items():
+        for _, file_info in self._source_repository.files.items():
             violations.extend(
                 self._parse(self._source_repository.get_ast(file_info), file_info)
             )

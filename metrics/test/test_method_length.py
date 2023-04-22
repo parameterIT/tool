@@ -13,11 +13,11 @@ class TestMethodLength(unittest.TestCase):
         self._source_repository = SourceRepository(
             Path("./metrics/test/data/test_data_method_length")
         )
-        self._methodlength = MethodLength()
-        self._methodlength._source_repository = self._source_repository
+        self._method_length = MethodLength()
+        self._method_length._source_repository = self._source_repository
 
     def test_method_length_returns_6(self):
-        result = self._methodlength.run()
+        result = self._method_length.run()
         self.assertEqual(result.outcome, 6)
 
         locations = result.get_violation_locations()
