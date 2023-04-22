@@ -89,16 +89,14 @@ class SourceRepository:
         # Get all files
         files = [f for f in self.src_root.glob("**/*") if f.is_file()]
         # Remove unwanted
-        ignored_files = self._get_ignores()
-        for ignore in ignored_files:
-            files = [n for n in files if not n.match(ignore)]
+        ignored_regex_list = self._get_ignore_regex_list()
+        for ignore in ignored_regex_list:
+            files = [file for file in files if not file.match(ignore)]
         # Check encoding
         if self.src_root.is_file():
-            if self.src_root in ignored_files:
-                logging.warning(
-                    "Source directory is a file and is included in the .ignore file"
-                )
-                return {}
+            for ignore in ignored_regex_list:
+                if self.src_root.match(ignore):
+                    return {}
             return {self.src_root: self._inspect_file(self.src_root)}
 
         file_infos: Dict[Path, FileInfo] = self._discover_in_dir(files)
@@ -172,7 +170,7 @@ class SourceRepository:
             case _:
                 return UNKNOWN_LANGUAGE
 
-    def _get_ignores(self):
+    def _get_ignore_regex_list(self):
         with _IGNORE_FILE_PATH.open("r") as file:
             ignored_files = []
             for line in file:
