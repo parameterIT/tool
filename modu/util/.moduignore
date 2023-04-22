@@ -14,5 +14,7 @@
 *.js
 *.idx
 *.yml
+*.csv
+*.so
 .git
 grammars
