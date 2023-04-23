@@ -23,7 +23,8 @@ class LineChart(Figure):
         )
         p.line(x, y, legend_label="Progress", line_width=2)
         try:
-            p.y_range = Range1d(0, (int(max(y)) * 1.1))
+            if max(y) != "0":
+                p.y_range = Range1d(0, (int(max(y)) * 1.1))
         except ValueError:
             logging.warning(("No data to plot created for", key))
             return

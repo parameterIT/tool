@@ -72,9 +72,13 @@ class Dashboard:
         figures = self._get_figures(data)
         plots = []
         for _, figure in figures.items():
-            plots.extend(
-                [[figure[i], figure[i + 1]] for i in range(0, len(figure) - 1, 2)]
-            )
+            # placeholder variable name
+            figures_to_add = [
+                [figure[i], figure[i + 1]] for i in range(0, len(figure) - 1, 2)
+            ]
+            if len(figure) % 2 == 1:
+                figures_to_add.append([figure[len(figure) - 1]])
+            plots.extend(figures_to_add)
         show(gridplot(plots))
 
     def _get_data(
