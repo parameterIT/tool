@@ -1,7 +1,5 @@
 import os
 import unittest
-import tree_sitter
-from metrics.util.query_translations import translate_to
 
 from pathlib import Path
 from modu.metric.metric import Metric
