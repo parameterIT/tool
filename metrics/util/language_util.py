@@ -1,7 +1,29 @@
+from typing import List
+
 """
-dictionary of supported languages and their associated translations
-of queries used for underlying metrics
+file containing utilities for for metric implementations
+
+contains dictionary of query translations used by underlying metrics,
+a list of supported languages, and a list of supported file encodings.
 """
+
+SUPPORTED_ENCODINGS: List[str] = [
+    "ASCII",
+    "ISO-8859-1",
+    "UTF-8",
+    # UTF-8-SIG files have a BOM, using UTF-8-SIG will correctly read the BOM as meta-data
+    "UTF-8-SIG",
+    "UTF-16BE",
+    "UTF-16LE",
+    "UTF-16",
+]
+
+SUPPORTED_LANGUAGES: List[str] = [
+    "python",
+    "c_sharp",
+    "java",
+]
+
 translate_to = {
     "python": {
         "parameters": "parameters: (parameters)",
