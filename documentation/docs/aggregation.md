@@ -4,7 +4,7 @@
 
 An aggregation formula is an arithmetic formula that decides how to aggregate the result of an arbitrary amount of sub-aggregations and metrics.
 
-Aggregating metric results is a way of approximating higher level attributes, such as maintainability or reliability. _Modu_ does this by letting the user define what sub-aggregations and metrics aggregate into these higher level attributes, and potentially their importance as well. 
+Aggregating metric results is a way of approximating higher level attributes, such as maintainability or reliability. _Modu_ does this by letting the user define what sub-aggregations and metrics aggregate into these higher level attributes. The importance of the metrics in aggregations can also be defined when making an aggregation, such as using a 'Wheighted Average'. 
 
 
 ## Creating an aggregation formula
