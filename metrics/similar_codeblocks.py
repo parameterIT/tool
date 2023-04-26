@@ -5,6 +5,7 @@ from modu.metric.metric import Metric
 from modu.metric.result import Result
 from modu.metric.violation import Violation
 from modu.source_repository.source_repository import SourceRepository
+from metrics.util.language_util import SUPPORTED_ENCODINGS
 from defusedxml.ElementTree import parse
 
 TOKENS = 35
@@ -22,7 +23,11 @@ class SimilarBlocksofCode(Metric):
         Finds the amount of similar code blocks in a given repository
         """
         violations = []
-        to_inspect = [str(file) for file, _ in self._source_repository.files.items()]
+        to_inspect = [
+            str(file)
+            for file, file_info in self._source_repository.files.items()
+            if file_info.encoding in SUPPORTED_ENCODINGS
+        ]
         to_inspect = str(to_inspect)
         to_inspect = to_inspect[1 : (len(to_inspect) - 1)]
         res = subprocess.run(
