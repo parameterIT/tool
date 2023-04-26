@@ -9,16 +9,6 @@ from defusedxml.ElementTree import parse
 
 TOKENS = 35
 
-_CHARDET_ENCODINGS_TO_CPD = {
-    "ASCII": "US-ASCII",
-    "ISO-8859-1": "ISO-8859-1",
-    "UTF-8": "UTF-8",
-    "UTF-8-SIG": "UTF-8",
-    "UTF-16": "UTF-16",
-    "UTF-16BE": "UTF-16BE",
-    "UTF-16LE": "UTF-16LE",
-}
-
 
 class SimilarBlocksofCode(Metric):
     def __init__(self):
@@ -32,11 +22,7 @@ class SimilarBlocksofCode(Metric):
         Finds the amount of similar code blocks in a given repository
         """
         violations = []
-        to_inspect = [
-            str(file)
-            for file, file_info in self._source_repository.files.items()
-            if file_info.encoding in _CHARDET_ENCODINGS_TO_CPD
-        ]
+        to_inspect = [str(file) for file, _ in self._source_repository.files.items()]
         to_inspect = str(to_inspect)
         to_inspect = to_inspect[1 : (len(to_inspect) - 1)]
         res = subprocess.run(
