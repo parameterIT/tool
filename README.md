@@ -59,7 +59,7 @@ poetry run black .
 ```
 
 
-## Building Tree Sitter Grammars
+## Building Tree-Sitter Grammars
 
 Make sure you have a `build/` and `grammars/` folders in the root of the project:
 

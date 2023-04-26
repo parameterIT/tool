@@ -1,0 +1,16 @@
+site_name: Modu documentation
+site_url: https://example.com/
+nav:
+  - Home: 'index.md'
+  - The Modu tool: 
+    - Introduction: 'introduction.md'
+    - Architecture: 'architecture.md'
+  - Implementation: 
+    - Metrics: 'metric.md'
+    - Aggregations: 'aggregation.md'
+    - Quality models: 'model.md'
+  - Execution of the tool: 
+    - Requirements: 'requirements.md'
+    - Running the tool: 'execution.md'
+
+theme: readthedocs
