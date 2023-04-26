@@ -8,7 +8,7 @@ from modu.metric.metric import Metric
 from modu.metric.result import Result
 from modu.metric.violation import Violation
 from modu.source_repository.file_info import FileInfo
-from metrics.util.query_translations import translate_to
+from metrics.util.language_util import translate_to, SUPPORTED_LANGUAGES
 from modu.source_repository.source_repository import SourceRepository
 
 
@@ -24,7 +24,10 @@ class CognitiveComplexity(Metric):
         """
         violations = []
         for file_path, file_info in self._source_repository.files.items():
-            violations.extend(self._count_cognitive_complexity(file_path, file_info))
+            if file_info.language in SUPPORTED_LANGUAGES:
+                violations.extend(
+                    self._count_cognitive_complexity(file_path, file_info)
+                )
         return Result("cognitive complexity", violations, len(violations))
 
     def _count_cognitive_complexity(self, file_path: Path, file_info: FileInfo):

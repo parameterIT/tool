@@ -1,8 +1,13 @@
+from typing import List
 from modu.metric.metric import Metric
 from modu.metric.result import Result
 from modu.metric.violation import Violation
 from modu.source_repository.source_repository import SourceRepository
-from metrics.util.query_translations import translate_to
+from metrics.util.language_util import (
+    translate_to,
+    SUPPORTED_LANGUAGES,
+    SUPPORTED_ENCODINGS,
+)
 
 
 class CodeSize(Metric):
@@ -16,10 +21,14 @@ class CodeSize(Metric):
     def run(self):
         loc: int = 0
         for file, file_info in self._source_repository.files.items():
-            with open(file, encoding=file_info.encoding) as f:
-                loc = loc + self._parse(
-                    f, file_info, self._source_repository.get_ast(file_info)
-                )
+            if (
+                file_info.language in SUPPORTED_LANGUAGES
+                and file_info.encoding in SUPPORTED_ENCODINGS
+            ):
+                with open(file, encoding=file_info.encoding) as f:
+                    loc = loc + self._parse(
+                        f, file_info, self._source_repository.get_ast(file_info)
+                    )
         return loc
 
     def _parse(self, open_file, file_info, ast):

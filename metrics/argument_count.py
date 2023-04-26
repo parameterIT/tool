@@ -1,8 +1,9 @@
+from typing import List
 from modu.metric.metric import Metric
 from modu.metric.result import Result
 from modu.metric.violation import Violation
 from modu.source_repository.source_repository import SourceRepository
-from metrics.util.query_translations import translate_to
+from metrics.util.language_util import translate_to, SUPPORTED_LANGUAGES
 
 
 class ArgumentCount(Metric):
@@ -12,9 +13,10 @@ class ArgumentCount(Metric):
     def run(self):
         violations = []
         for file, file_info in self._source_repository.files.items():
-            violations.extend(
-                self._parse(self._source_repository.get_ast(file_info), file_info)
-            )
+            if file_info.language in SUPPORTED_LANGUAGES:
+                violations.extend(
+                    self._parse(self._source_repository.get_ast(file_info), file_info)
+                )
         return Result("argument count", violations, len(violations))
 
     def _parse(self, ast, file_info):
