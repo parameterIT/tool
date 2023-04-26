@@ -26,6 +26,7 @@ UNKNOWN_ENCODING = "unknown"
 PYTHON = "python"
 C_SHARP = "c_sharp"
 JAVA = "java"
+SUPPORTED_LANGUAGES: List[str] = [PYTHON, C_SHARP, JAVA]
 UNKNOWN_LANGUAGE = "unknown"
 
 
@@ -121,6 +122,10 @@ class SourceRepository:
             raise ValueError(f"_inspect_file expects that ${file_path} is a file")
 
         programming_language: str = self._detect_language(file_path)
+        if programming_language not in SUPPORTED_LANGUAGES:
+            # Performance "optimization" to not check the encoding files if the language
+            # alone will exclude the file
+            return FileInfo(file_path, UNKNOWN_ENCODING, programming_language)
 
         encoding: str = UNKNOWN_ENCODING
         with file_path.open("rb") as file:
