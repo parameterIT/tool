@@ -11,16 +11,7 @@ import chardet
 
 _TREESITTER_BUILD: Path = Path("build/my-languages.so")
 _IGNORE_FILE_PATH: Path = Path("modu/util/.moduignore")
-SUPPORTED_ENCODINGS: List[str] = [
-    "ASCII",
-    "ISO-8859-1",
-    "UTF-8",
-    # UTF-8-SIG files have a BOM, using UTF-8-SIG will correctly read the BOM as meta-data
-    "UTF-8-SIG",
-    "UTF-16BE",
-    "UTF-16LE",
-    "UTF-16",
-]
+
 UNKNOWN_ENCODING = "unknown"
 
 PYTHON = "python"
@@ -103,17 +94,7 @@ class SourceRepository:
         file_infos: Dict[Path, FileInfo] = {}
         for f in files:
             file_info = self._inspect_file(f)
-            if not self._should_exclude(file_info):
-                file_infos[f] = file_info
-            else:
-                file_info = self._inspect_file(f)
-                if not self._should_exclude(file_info):
-                    file_infos[f] = file_info
-                else:
-                    logging.warning(
-                        f"Excluding {file_info.file_path} from analysis. (Language: {file_info.language}, encoding: {file_info.encoding})"
-                    )
-
+            file_infos[f] = file_info
         return file_infos
 
     def _inspect_file(self, file_path: Path) -> FileInfo:
@@ -186,10 +167,3 @@ class SourceRepository:
             for line in file:
                 ignored_files.append(line.rstrip())
         return ignored_files
-
-    def _should_exclude(self, file_info: FileInfo):
-        return (
-            file_info.language == UNKNOWN_LANGUAGE
-            or file_info.encoding == UNKNOWN_ENCODING
-            or file_info.encoding not in SUPPORTED_ENCODINGS
-        )
