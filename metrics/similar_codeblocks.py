@@ -32,29 +32,32 @@ class SimilarBlocksofCode(Metric):
         Finds the amount of similar code blocks in a given repository
         """
         violations = []
-        for file, file_info in self._source_repository.files.items():
-            filestring = f"{file}"
-            cpd_encoding = _CHARDET_ENCODINGS_TO_CPD[file_info.encoding]
-
-            res = subprocess.run(
-                f'metrics/cpd/bin/run.sh cpd --minimum-tokens {TOKENS} --skip-lexical-errors --ignore-identifiers --ignore-literals --dir "{filestring}" --format xml --encoding {cpd_encoding}',
-                shell=True,
-                capture_output=True,
-                text=True,
-            )
-            element_tree = parse(StringIO(res.stdout))
-            for child in element_tree.getroot():
-                if child.tag == "duplication":
-                    duplicates = [
-                        (
-                            child.attrib["path"],
-                            int(child.attrib["line"]),
-                            int(child.attrib["endline"]),
-                        )
-                        for child in child
-                        if child.tag == "file"
-                    ]
-                    violations.append(Violation("similar code", duplicates))
+        to_inspect = [
+            str(file)
+            for file, file_info in self._source_repository.files.items()
+            if file_info.encoding in _CHARDET_ENCODINGS_TO_CPD
+        ]
+        to_inspect = str(to_inspect)
+        to_inspect = to_inspect[1 : (len(to_inspect) - 1)]
+        res = subprocess.run(
+            f"metrics/cpd/bin/run.sh cpd --minimum-tokens {TOKENS} --skip-lexical-errors --ignore-identifiers --ignore-literals --dir {to_inspect} --format xml",
+            shell=True,
+            capture_output=True,
+            text=True,
+        )
+        element_tree = parse(StringIO(res.stdout))
+        for child in element_tree.getroot():
+            if child.tag == "duplication":
+                duplicates = [
+                    (
+                        child.attrib["path"],
+                        int(child.attrib["line"]),
+                        int(child.attrib["endline"]),
+                    )
+                    for child in child
+                    if child.tag == "file"
+                ]
+                violations.append(Violation("similar code", duplicates))
         return Result("similar code", violations, len(violations))
 
 
