@@ -1,7 +1,7 @@
 from pathlib import Path
 import unittest
 import os
-from byoqm.source_repository.source_repository import SourceRepository
+from modu.source_repository.source_repository import SourceRepository
 from metrics.nested_controlflows import NestedControlflows
 
 
@@ -13,16 +13,16 @@ class TestNestedControlFlows(unittest.TestCase):
         self._source_repository = SourceRepository(
             Path("./metrics/test/data/test_data_nested_controlflows")
         )
-        self._nestedflow = NestedControlflows()
-        self._nestedflow._source_repository = self._source_repository
+        self._nested_flow = NestedControlflows()
+        self._nested_flow._source_repository = self._source_repository
 
     @unittest.expectedFailure
     def test_nested_controlflow_given_test_directory_returns_10(self):
-        result = self._nestedflow.run()
+        result = self._nested_flow.run()
         self.assertEqual(len(result), 10)
 
     def test_nested_controlflow_given_test_directory_returns_22(self):
-        result = self._nestedflow.run()
+        result = self._nested_flow.run()
         self.assertEqual(result.outcome, 22)
 
         locations = result.get_violation_locations()

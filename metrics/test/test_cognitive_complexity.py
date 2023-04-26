@@ -1,10 +1,12 @@
 import os
 import unittest
+import tree_sitter
+from metrics.util.query_translations import translate_to
 
 from pathlib import Path
-from byoqm.metric.metric import Metric
+from modu.metric.metric import Metric
 
-from byoqm.source_repository.source_repository import SourceRepository
+from modu.source_repository.source_repository import SourceRepository
 from metrics.cognitive_complexity import CognitiveComplexity
 
 
@@ -81,7 +83,20 @@ class TestCognitiveComplexity(unittest.TestCase):
         ]
         self.assertCountEqual(locations, expected_locations)
 
-    def test_cognitive_complexity_returns_12(self):
+    def test_cognitive_complexity_returns_18(self):
+        new_source_repository = SourceRepository(
+            Path(
+                "./metrics/test/data/test_cognitive_complexity/test_nested_controlflows"
+            )
+        )
+        cognitive_complexity = CognitiveComplexity()
+        cognitive_complexity._source_repository = new_source_repository
+        result = cognitive_complexity.run()
+        actual = result.outcome
+        expected = 18
+        self.assertEqual(actual, expected)
+
+    def test_cognitive_complexity_returns_30(self):
         new_source_repository = SourceRepository(
             Path("./metrics/test/data/test_cognitive_complexity")
         )
@@ -89,5 +104,5 @@ class TestCognitiveComplexity(unittest.TestCase):
         cognitive_complexity._source_repository = new_source_repository
         result = cognitive_complexity.run()
         actual = result.outcome
-        expected = 12
+        expected = 30
         self.assertEqual(actual, expected)

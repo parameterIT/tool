@@ -8,10 +8,10 @@ import importlib.machinery
 from pathlib import Path
 from typing import Dict
 
-from test.test_support import os
+import os
 
-from byoqm.qualitymodel.qualitymodel import QualityModel
-from byoqm.source_repository.source_repository import SourceRepository
+from modu.qualitymodel.qualitymodel import QualityModel
+from modu.source_repository.source_repository import SourceRepository
 
 
 class Runner:
@@ -63,12 +63,12 @@ class Runner:
         Runs all the aggergations defined by the quality model.
         The `results` dictionary is updated as each aggregation is run, meaning that
         aggregations relying on other aggregations should be defined after its
-        dependencies in the dictionary returned by a model's getDesc()
+        dependencies in the dictionary returned by a model's get_desc()
         """
         try:
             results = self._run_metrics()
             logging.info("Started running aggregations")
-            aggregations = self._model.getDesc()["aggregations"]
+            aggregations = self._model.get_desc()["aggregations"]
             for aggregation, aggregation_function in aggregations.items():
                 results[aggregation] = aggregation_function(results)
             logging.info("Finished running aggregations")
@@ -85,7 +85,7 @@ class Runner:
         """
         results = {}
         logging.info("Started running metrics")
-        metrics = self._model.getDesc()["metrics"]
+        metrics = self._model.get_desc()["metrics"]
         for metric, metric_file in metrics.items():
             spec = importlib.util.spec_from_file_location("metric", metric_file)
             module = importlib.util.module_from_spec(spec)

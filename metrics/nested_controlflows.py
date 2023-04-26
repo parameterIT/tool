@@ -1,7 +1,7 @@
-from byoqm.metric.metric import Metric
-from byoqm.metric.result import Result
-from byoqm.metric.violation import Violation
-from byoqm.source_repository.source_repository import SourceRepository
+from modu.metric.metric import Metric
+from modu.metric.result import Result
+from modu.metric.violation import Violation
+from modu.source_repository.source_repository import SourceRepository
 from metrics.util.query_translations import translate_to
 
 
@@ -11,7 +11,7 @@ class NestedControlflows(Metric):
 
     def run(self):
         violations = []
-        for file, file_info in self._source_repository.files.items():
+        for _, file_info in self._source_repository.files.items():
             violations.extend(
                 self._parse(self._source_repository.get_ast(file_info), file_info)
             )
@@ -34,9 +34,12 @@ class NestedControlflows(Metric):
         tree_sitter_language = self._source_repository.tree_sitter_languages[
             file_info.language
         ]
-        query = tree_sitter_language.query(
-            translate_to[file_info.language]["nested_controlflow_initial_nodes"]
-        )
+        query_str = translate_to[file_info.language]["method_control_flow"]
+        if file_info.language == "python" or file_info.language == "c_sharp":
+            query_str += translate_to[file_info.language]["global_control_flow"]
+        if file_info.language == "java" or file_info.language == "c_sharp":
+            query_str += translate_to[file_info.language]["constructor_control_flow"]
+        query = tree_sitter_language.query(query_str)
         inital_nodes = self._unique(query.captures(ast.root_node))
         sub_node_query = tree_sitter_language.query(
             translate_to[file_info.language]["nested_controlflow_subsequent_nodes"]

@@ -4,12 +4,12 @@ import tree_sitter
 from pathlib import Path
 from typing import List
 
-from byoqm.metric.metric import Metric
-from byoqm.metric.result import Result
-from byoqm.metric.violation import Violation
-from byoqm.source_repository.file_info import FileInfo
+from modu.metric.metric import Metric
+from modu.metric.result import Result
+from modu.metric.violation import Violation
+from modu.source_repository.file_info import FileInfo
 from metrics.util.query_translations import translate_to
-from byoqm.source_repository.source_repository import SourceRepository
+from modu.source_repository.source_repository import SourceRepository
 
 
 class CognitiveComplexity(Metric):
@@ -42,16 +42,16 @@ class CognitiveComplexity(Metric):
                 f"""{translate_to[file_info.language]["constructor"]} @cons"""
             )
         query_initial_nodes = tree_sitter_language.query(initial_nodes_query_str)
-
         initial_nodes = query_initial_nodes.captures(ast.root_node)
         for node, _ in initial_nodes:
             count = 0
             count += self._count_recursion(node, file_info)
             count += self._count_breaks_in_linear_flow(node, file_info)
+            count += self._count_nesting(node, file_info)
             if count > 5:
                 violations.append(
                     Violation(
-                        "Cognitive Complexity",
+                        "cognitive complexity",
                         # We use start_point for what would otherwise be start_line & end_line
                         # to report the line where the keyword that breaks linear flow is met .
                         (
@@ -127,6 +127,33 @@ class CognitiveComplexity(Metric):
             if child.type == "identifier":
                 return child
         raise ValueError(f"{node} has no children of the type identifier")
+
+    def _count_nesting(self, node, file_info):
+        count = 0
+        tree_sitter_language = self._source_repository.tree_sitter_languages[
+            file_info.language
+        ]
+        initial_query_str = translate_to[file_info.language]["method_control_flow"]
+        if file_info.language == "c_sharp" or file_info.language == "java":
+            initial_query_str += translate_to[file_info.language][
+                "constructor_control_flow"
+            ]
+        initial_query = tree_sitter_language.query(initial_query_str)
+        subsequent_query = tree_sitter_language.query(
+            translate_to[file_info.language]["nested_controlflow_subsequent_nodes"]
+        )
+        initial_nodes = initial_query.captures(node)
+
+        for second_nested_node, _ in initial_nodes:
+            found = False
+            nodes2 = subsequent_query.captures(second_nested_node)
+            for third_nested_node, _ in nodes2:
+                if found:
+                    break
+                if len(subsequent_query.captures(third_nested_node)) > 0:
+                    count += 1
+                    found = True
+        return count
 
 
 metric = CognitiveComplexity()

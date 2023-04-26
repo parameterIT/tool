@@ -5,12 +5,12 @@ import unittest
 from pathlib import Path
 
 from test.test_support import shutil
-from byoqm.metric.result import Result
-from byoqm.metric.violation import Violation
+from modu.metric.result import Result
+from modu.metric.violation import Violation
 
-from byoqm.writer import Writer
+from modu.writer import Writer
 
-_TEST_FOLDER = Path("byoqm") / Path("runner") / Path("test")
+_TEST_FOLDER = Path("modu") / Path("runner") / Path("test")
 _OUTPUT_FOLDER = _TEST_FOLDER / Path("output")
 _OUTCOMES_FOLDER = _OUTPUT_FOLDER / Path("outcomes")
 _META_DATA_FOLDER = _OUTPUT_FOLDER / Path("metadata")
@@ -36,7 +36,7 @@ class TestRunner(unittest.TestCase):
             "argument count", violations, len(violations)
         )
         self._writer.gen_output_paths_if_not_exists(_OUTPUT_FOLDER)
-        self._writer.write_to_csv(results, _OUTPUT_FOLDER, "no_cpd", Path("byoqm/"))
+        self._writer.write_to_csv(results, _OUTPUT_FOLDER, "no_cpd", Path("modu/"))
 
         self.assertEqual(len(os.listdir(_OUTCOMES_FOLDER)), 1)
         self.assertEqual(len(os.listdir(_META_DATA_FOLDER)), 1)

@@ -1,7 +1,7 @@
-from byoqm.metric.metric import Metric
-from byoqm.metric.result import Result
-from byoqm.metric.violation import Violation
-from byoqm.source_repository.source_repository import SourceRepository
+from modu.metric.metric import Metric
+from modu.metric.result import Result
+from modu.metric.violation import Violation
+from modu.source_repository.source_repository import SourceRepository
 from metrics.util.query_translations import translate_to
 
 
@@ -11,7 +11,7 @@ class MethodCount(Metric):
 
     def run(self):
         violations = []
-        for file, file_info in self._source_repository.files.items():
+        for _, file_info in self._source_repository.files.items():
             violations.extend(
                 self._parse(self._source_repository.get_ast(file_info), file_info)
             )
@@ -38,7 +38,7 @@ class MethodCount(Metric):
         if len(captures) > 20:
             violations.append(
                 Violation(
-                    "Method Count",
+                    "method count",
                     (
                         str(file_info.file_path),
                         captures[0][0].start_point[0] + 1,

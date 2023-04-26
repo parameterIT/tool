@@ -1,9 +1,9 @@
 import tree_sitter
 
-from byoqm.metric.metric import Metric
-from byoqm.metric.result import Result
-from byoqm.metric.violation import Violation
-from byoqm.source_repository.source_repository import SourceRepository
+from modu.metric.metric import Metric
+from modu.metric.result import Result
+from modu.metric.violation import Violation
+from modu.source_repository.source_repository import SourceRepository
 from metrics.util.query_translations import translate_to
 
 
@@ -13,7 +13,7 @@ class MethodLength(Metric):
 
     def run(self):
         violations = []
-        for file_path, file_info in self._source_repository.files.items():
+        for _, file_info in self._source_repository.files.items():
             violations.extend(
                 self._parse(self._source_repository.get_ast(file_info), file_info)
             )

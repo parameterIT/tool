@@ -66,18 +66,22 @@ class Dashboard:
         The method makes use of Bokeh to generate figures, which are then added to a gridplot in the
         arrangement of an arbitrary amount of rows where each row contains two figures.
         """
-        data = self.get_data(in_use_qm, target_path, start_date, end_date)
+        data = self._get_data(in_use_qm, target_path, start_date, end_date)
         # Need to get figure type in a dict, so that they can be passed to gridplot.
         # Format: {figure_type (str) : figure_objects (list)}
         figures = self._get_figures(data)
         plots = []
         for _, figure in figures.items():
-            plots.extend(
-                [[figure[i], figure[i + 1]] for i in range(0, len(figure) - 1, 2)]
-            )
+            # placeholder variable name
+            figures_to_add = [
+                [figure[i], figure[i + 1]] for i in range(0, len(figure) - 1, 2)
+            ]
+            if len(figure) % 2 == 1:
+                figures_to_add.append([figure[len(figure) - 1]])
+            plots.extend(figures_to_add)
         show(gridplot(plots))
 
-    def get_data(
+    def _get_data(
         self,
         in_use_qm: str,
         target_path: Path,

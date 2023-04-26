@@ -1,18 +1,22 @@
 import logging
+import json
+import subprocess
 from pathlib import Path
 from typing import Dict, List
 from tree_sitter import Parser, Language
 import tree_sitter
-from byoqm.source_repository.file_info import FileInfo
-from byoqm.source_repository.languages import languages
+from modu.source_repository.file_info import FileInfo
+from modu.source_repository.languages import languages
 import chardet
 
 _TREESITTER_BUILD: Path = Path("build/my-languages.so")
-
+_IGNORE_FILE_PATH: Path = Path("modu/util/.moduignore")
 SUPPORTED_ENCODINGS: List[str] = [
     "ASCII",
     "ISO-8859-1",
     "UTF-8",
+    # UTF-8-SIG files have a BOM, using UTF-8-SIG will correctly read the BOM as meta-data
+    "UTF-8-SIG",
     "UTF-16BE",
     "UTF-16LE",
     "UTF-16",
@@ -34,6 +38,7 @@ class SourceRepository:
     def __init__(self, src_root: Path):
         self.src_root: Path = src_root
         self.asts: Dict[Path, tree_sitter.Tree] = {}
+        self.ignored_glob_regex_list = self._get_ignore_regex_list()
         self.files: Dict[Path, FileInfo] = self._discover_files()
         self.tree_sitter_languages: Dict[str, tree_sitter.Language] = {
             PYTHON: tree_sitter.Language(_TREESITTER_BUILD, PYTHON),
@@ -83,23 +88,30 @@ class SourceRepository:
 
     def _discover_files(self) -> Dict[Path, FileInfo]:
         if self.src_root.is_file():
+            for ignore in self.ignored_glob_regex_list:
+                if self.src_root.match(ignore):
+                    return {}
             return {self.src_root: self._inspect_file(self.src_root)}
 
-        file_infos: Dict[Path, FileInfo] = self._discover_in_dir(self.src_root)
+        files = self._get_filtered_files(self.src_root)
+
+        file_infos: Dict[Path, FileInfo] = self._inspect_files(files)
+
         return file_infos
 
-    def _discover_in_dir(self, root_dir: Path) -> Dict[Path, FileInfo]:
+    def _inspect_files(self, files: list) -> Dict[Path, FileInfo]:
         file_infos: Dict[Path, FileInfo] = {}
-        for f in root_dir.iterdir():
-            if f.is_dir():
-                file_infos.update(self._discover_in_dir(f))
+        for f in files:
+            file_info = self._inspect_file(f)
+            if not self._should_exclude(file_info):
+                file_infos[f] = file_info
             else:
                 file_info = self._inspect_file(f)
                 if not self._should_exclude(file_info):
                     file_infos[f] = file_info
                 else:
-                    logging.warn(
-                        f"Excluding f{file_info.file_path} from analysis. (Language: {file_info.language}, encoding: {file_info.encoding})"
+                    logging.warning(
+                        f"Excluding {file_info.file_path} from analysis. (Language: {file_info.language}, encoding: {file_info.encoding})"
                     )
 
         return file_infos
@@ -108,16 +120,7 @@ class SourceRepository:
         if not file_path.is_file():
             raise ValueError(f"_inspect_file expects that ${file_path} is a file")
 
-        programming_language: str = UNKNOWN_LANGUAGE
-        match file_path.suffix:
-            case ".py":
-                programming_language = PYTHON
-            case ".cs":
-                programming_language = C_SHARP
-            case ".java":
-                programming_language = JAVA
-            case _:
-                programming_language = UNKNOWN_LANGUAGE
+        programming_language: str = self._detect_language(file_path)
 
         encoding: str = UNKNOWN_ENCODING
         with file_path.open("rb") as file:
@@ -127,6 +130,62 @@ class SourceRepository:
                 encoding = chardet_guess["encoding"].upper()
 
         return FileInfo(file_path, encoding, programming_language)
+
+    def _detect_language(self, file_path: Path) -> str:
+        res = subprocess.run(
+            f"docker run --user $(id -u) -v $(pwd):$(pwd) -w $(pwd) -t linguist github-linguist --json {file_path}",
+            shell=True,
+            capture_output=True,
+            text=True,
+        )
+
+        language = UNKNOWN_LANGUAGE
+        try:
+            res_dict = json.loads(res.stdout)
+            # Use a formatted string to ensure that file_path is given as a key in the exact same way as it is given to
+            # the linguist in the subprocess call, because it uses the file_path as it appears in the command as
+            # the JSON (dictionary) key.
+            language = res_dict[f"{file_path}"]["language"]
+            if language is None:
+                raise ValueError("linguist returns None language for empty file")
+        except (json.decoder.JSONDecodeError, ValueError):
+            language = self._read_suffix(file_path)
+        finally:
+            if language.lower() == "c#":
+                language = "c_sharp"
+            return language.lower()
+
+    def _read_suffix(self, file_path: Path):
+        match file_path.suffix:
+            case ".py":
+                return PYTHON
+            case ".cs":
+                return C_SHARP
+            case ".java":
+                return JAVA
+            case _:
+                return UNKNOWN_LANGUAGE
+
+    def _get_filtered_files(self, root_dir: Path):
+        files = []
+        for f in root_dir.iterdir():
+            ignored = False
+            for ignore in self.ignored_glob_regex_list:
+                if f.match(ignore):
+                    ignored = True
+            if not ignored:
+                if f.is_dir():
+                    files.extend(self._get_filtered_files(f))
+                else:
+                    files.append(f)
+        return files
+
+    def _get_ignore_regex_list(self):
+        with _IGNORE_FILE_PATH.open("r") as file:
+            ignored_files = []
+            for line in file:
+                ignored_files.append(line.rstrip())
+        return ignored_files
 
     def _should_exclude(self, file_info: FileInfo):
         return (

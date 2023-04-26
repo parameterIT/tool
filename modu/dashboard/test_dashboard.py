@@ -4,7 +4,7 @@ import unittest
 from pathlib import Path
 
 from test.test_support import os, shutil
-from byoqm.dashboard import Dashboard
+from modu.dashboard import Dashboard
 from datetime import datetime
 
 _TEST_FOLDER = Path("./test")
@@ -49,7 +49,7 @@ class TestDashboard(unittest.TestCase):
         start_date = datetime.min
         end_date = datetime.max
         dashboard = Dashboard()
-        data = dashboard.get_data(
+        data = dashboard._get_data(
             path=_OUTPUT_FOLDER,
             in_use_qm="dummyqm",
             target_path=Path("./dummysrc"),
@@ -62,7 +62,7 @@ class TestDashboard(unittest.TestCase):
         start_date = datetime.strptime("2023-01-01", "%Y-%m-%d")
         end_date = datetime.strptime("2023-12-31", "%Y-%m-%d")
         dashboard = Dashboard()
-        data = dashboard.get_data(
+        data = dashboard._get_data(
             path=_OUTPUT_FOLDER,
             in_use_qm="dummyqm",
             target_path=Path("./dummysrc"),
@@ -75,7 +75,7 @@ class TestDashboard(unittest.TestCase):
         start_date = datetime.strptime("2023-03-02", "%Y-%m-%d")
         end_date = datetime.strptime("2023-03-03", "%Y-%m-%d")
         dashboard = Dashboard()
-        data = dashboard.get_data(
+        data = dashboard._get_data(
             path=_OUTPUT_FOLDER,
             in_use_qm="dummyqm",
             target_path=Path("./dummysrc"),

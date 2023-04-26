@@ -2,7 +2,7 @@ from typing import Dict
 
 from tree_sitter import Language, Parser
 
-from byoqm.qualitymodel.qualitymodel import QualityModel
+from modu.qualitymodel.qualitymodel import QualityModel
 
 
 class TesterModel(QualityModel):
@@ -11,7 +11,7 @@ class TesterModel(QualityModel):
         self._parser = Parser()
         self._parser.set_language(self._py_language)
 
-    def getDesc(self) -> Dict:
+    def get_desc(self) -> Dict:
         model = {
             "metrics": {
                 "method_count": "./metrics/method_count.py",

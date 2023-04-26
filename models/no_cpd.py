@@ -1,14 +1,12 @@
 from typing import Dict
-
-
-from byoqm.qualitymodel.qualitymodel import QualityModel
+from modu.qualitymodel.qualitymodel import QualityModel
 
 
 class NoCpd(QualityModel):
     def __init__(self):
         pass
 
-    def getDesc(self) -> Dict:
+    def get_desc(self) -> Dict:
         model = {
             "metrics": {
                 "method_length": "./metrics/method_length.py",
@@ -18,6 +16,7 @@ class NoCpd(QualityModel):
                 "method_count": "./metrics/method_count.py",
                 "return_statements": "./metrics/return_statements.py",
                 "nested_controlflows": "./metrics/nested_controlflows.py",
+                "cognitive_complexity": "./metrics/cognitive_complexity.py",
             },
             "aggregations": {
                 "cyclomatic_complexity": self.cyclomatic_complexity,
