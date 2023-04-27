@@ -2,7 +2,11 @@ from modu.metric.metric import Metric
 from modu.metric.result import Result
 from modu.metric.violation import Violation
 from modu.source_repository.source_repository import SourceRepository
-from metrics.util.language_util import translate_to, SUPPORTED_LANGUAGES
+from metrics.util.language_util import (
+    SUPPORTED_ENCODINGS,
+    translate_to,
+    SUPPORTED_LANGUAGES,
+)
 
 
 class MethodCount(Metric):
@@ -12,7 +16,10 @@ class MethodCount(Metric):
     def run(self):
         violations = []
         for _, file_info in self._source_repository.files.items():
-            if file_info.language in SUPPORTED_LANGUAGES:
+            if (
+                file_info.language in SUPPORTED_LANGUAGES
+                and file_info.encoding in SUPPORTED_ENCODINGS
+            ):
                 violations.extend(
                     self._parse(self._source_repository.get_ast(file_info), file_info)
                 )

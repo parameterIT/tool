@@ -2,7 +2,7 @@ from modu.metric.metric import Metric
 from modu.metric.result import Result
 from modu.metric.violation import Violation
 from modu.source_repository.source_repository import SourceRepository
-from metrics.util.language_util import SUPPORTED_ENCODINGS
+from metrics.util.language_util import SUPPORTED_ENCODINGS, SUPPORTED_LANGUAGES
 from defusedxml.ElementTree import parse
 from io import StringIO
 import subprocess
@@ -27,7 +27,8 @@ class IdenticalBlocksofCode(Metric):
         to_inspect = [
             str(file)
             for file, file_info in self._source_repository.files.items()
-            if file_info.encoding in SUPPORTED_ENCODINGS
+            if file_info.language in SUPPORTED_LANGUAGES
+            and file_info.encoding in SUPPORTED_ENCODINGS
         ]
         to_inspect = str(to_inspect)
         to_inspect = to_inspect[1 : (len(to_inspect) - 1)]
