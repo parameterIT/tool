@@ -6,7 +6,7 @@ import csv
 from typing import Dict
 from pathlib import Path
 
-from modu.metric.result import Result
+from core.metric.result import Result
 
 
 class Writer:

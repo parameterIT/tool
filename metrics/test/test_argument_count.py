@@ -1,7 +1,7 @@
 from pathlib import Path
 import unittest
 import os
-from modu.source_repository.source_repository import SourceRepository
+from core.source_repository.source_repository import SourceRepository
 from metrics.argument_count import ArgumentCount
 
 

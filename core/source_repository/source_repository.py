@@ -5,12 +5,12 @@ from pathlib import Path
 from typing import Dict, List
 from tree_sitter import Parser, Language
 import tree_sitter
-from modu.source_repository.file_info import FileInfo
-from modu.source_repository.languages import languages
+from core.source_repository.file_info import FileInfo
+from core.source_repository.languages import languages
 import chardet
 
 _TREESITTER_BUILD: Path = Path("build/my-languages.so")
-_IGNORE_FILE_PATH: Path = Path("modu/util/.moduignore")
+_IGNORE_FILE_PATH: Path = Path("core/util/.moduignore")
 
 UNKNOWN_ENCODING = "unknown"
 

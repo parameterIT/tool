@@ -1,11 +1,11 @@
 from datetime import datetime
 from pathlib import Path
-from modu.runner import Runner
-from modu.dashboard.dashboard import Dashboard
+from core.runner import Runner
+from core.dashboard.dashboard import Dashboard
 import click
 import logging
 
-from modu.writer import Writer
+from core.writer import Writer
 
 
 @click.command()

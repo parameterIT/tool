@@ -2,7 +2,7 @@ from cmath import pi
 from collections import defaultdict
 import logging
 from bokeh.plotting import figure
-from modu.dashboard.figure import Figure
+from core.dashboard.figure import Figure
 from bokeh.models import DatetimeTickFormatter, Range1d
 
 

@@ -1,5 +1,5 @@
 from typing import Dict
-from modu.qualitymodel.qualitymodel import QualityModel
+from core.qualitymodel.qualitymodel import QualityModel
 
 
 class NoCpd(QualityModel):

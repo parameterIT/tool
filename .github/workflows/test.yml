@@ -20,6 +20,6 @@ jobs:
       - run: mkdir -p grammars build
       - run: cd grammars && git clone https://github.com/tree-sitter/tree-sitter-python && git clone https://github.com/tree-sitter/tree-sitter-c-sharp && git clone https://github.com/tree-sitter/tree-sitter-java && cd -
       - run: poetry install
-      - run: poetry run python modu/build_treesitter.py
+      - run: poetry run python core/build_treesitter.py
       - run: poetry run python -m unittest
       - run: cd metrics/test && poetry run python -m unittest
