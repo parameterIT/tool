@@ -53,11 +53,11 @@ class Dashboard:
         return results
 
     def show_graphs(
-            self,
-            in_use_qm: str,
-            target_path: Path,
-            start_date: datetime,
-            end_date: datetime,
+        self,
+        in_use_qm: str,
+        target_path: Path,
+        start_date: datetime,
+        end_date: datetime,
     ):
         """
         This method is used to display the graphs chosen. At the moment, only line graphs can be chosen,
@@ -82,12 +82,12 @@ class Dashboard:
         show(gridplot(plots))
 
     def _get_data(
-            self,
-            in_use_qm: str,
-            target_path: Path,
-            start_date: datetime,
-            end_date: datetime,
-            path="./output/outcomes",
+        self,
+        in_use_qm: str,
+        target_path: Path,
+        start_date: datetime,
+        end_date: datetime,
+        path="./output/outcomes",
     ):
         """
         Gets data from specified path. The path is defaulted to the output folder, but if you want to run
