@@ -19,7 +19,7 @@ class TestQM(QualityModel):
         model = {
             "metrics": {
                 "method_length": "./metrics/method_length.py",
-                "file_length": "./metrics/file_length.py",
+                "file_lines": "./metrics/file_lines.py",
             },
             "aggregations": {
                 "maintainability": self.maintainability,

@@ -30,7 +30,7 @@ class CodeClimate(QualityModel):
         model = {
             "metrics": {
                 "method_lines": "./metrics/method_length.py",
-                "file_lines": "./metrics/file_length.py",
+                "file_lines": "./metrics/file_lines.py",
                 "argument_count": "./metrics/argument_count.py",
                 "complex_logic": "./metrics/complex_logic.py",
                 "method_count": "./metrics/method_count.py",

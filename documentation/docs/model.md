@@ -42,7 +42,7 @@ def get_desc(self) -> Dict:
         model = {
             "metrics": {
                 "method_length": "./metrics/method_length.py",
-                "file_length": "./metrics/file_length.py",
+                "file_length": "./metrics/file_lines.py",
                  ...
             }
         }

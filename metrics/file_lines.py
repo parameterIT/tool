@@ -10,7 +10,7 @@ from metrics.util.language_util import (
 )
 
 
-class FileLength(Metric):
+class FileLines(Metric):
     def __init__(self):
         self._source_repository: SourceRepository = None
 
@@ -55,4 +55,4 @@ class FileLength(Metric):
         return violations
 
 
-metric = FileLength()
+metric = FileLines()

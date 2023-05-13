@@ -2,7 +2,7 @@ from pathlib import Path
 import unittest
 import os
 from modu.source_repository.source_repository import SourceRepository
-from metrics.file_length import FileLength
+from metrics.file_lines import FileLines
 
 
 class TestFileLength(unittest.TestCase):
@@ -13,7 +13,7 @@ class TestFileLength(unittest.TestCase):
         self._source_repository = SourceRepository(
             Path("./metrics/test/data/test_data_file_length")
         )
-        self._filelength = FileLength()
+        self._filelength = FileLines()
         self._filelength._source_repository = self._source_repository
 
     def test_file_length_returns_5(self):
