@@ -3,10 +3,10 @@
 .local
 grammars
 output
-/modu/main.html
+/core/main.html
 /metrics/cpd/
 /documentation/site
-/modu/util/.moduignore
+/core/util/.moduignore
 
 # Created by https://www.toptal.com/developers/gitignore/api/python,pycharm,visualstudiocode,vim
 # Edit at https://www.toptal.com/developers/gitignore?templates=python,pycharm,visualstudiocode,vim

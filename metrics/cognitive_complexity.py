@@ -4,12 +4,12 @@ import tree_sitter
 from pathlib import Path
 from typing import List
 
-from modu.metric.metric import Metric
-from modu.metric.result import Result
-from modu.metric.violation import Violation
-from modu.source_repository.file_info import FileInfo
+from core.metric.metric import Metric
+from core.metric.result import Result
+from core.metric.violation import Violation
+from core.source_repository.file_info import FileInfo
 from metrics.util.language_util import translate_to, SUPPORTED_LANGUAGES
-from modu.source_repository.source_repository import SourceRepository
+from core.source_repository.source_repository import SourceRepository
 
 
 class CognitiveComplexity(Metric):

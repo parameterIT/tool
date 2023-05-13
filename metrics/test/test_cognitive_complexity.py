@@ -2,9 +2,9 @@ import os
 import unittest
 
 from pathlib import Path
-from modu.metric.metric import Metric
+from core.metric.metric import Metric
 
-from modu.source_repository.source_repository import SourceRepository
+from core.source_repository.source_repository import SourceRepository
 from metrics.cognitive_complexity import CognitiveComplexity
 
 

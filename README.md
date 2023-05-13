@@ -31,11 +31,11 @@ docker pull toffernator/linguist
 This is all done using poetry. To run:
 
 ```sh
-poetry run modu <path/to/source/code> <Quality_model>
+poetry run core <path/to/source/code> <Quality_model>
 ```
 e.g.
 ```sh
-poetry run modu . code_climate
+poetry run core . code_climate
 ```
 
 To see supported languages please refer to: `byoqm/source_coordinator/languages.py`
@@ -43,7 +43,7 @@ To see supported languages please refer to: `byoqm/source_coordinator/languages.
 Optional values can be gotten by running: 
 
 ```sh
-poetry run modu --help
+poetry run core --help
 ```
 
 To test:
@@ -77,5 +77,5 @@ cd grammars && git clone --depth 1 https://github.com/tree-sitter/tree-sitter-py
 Build the grammar file:
 
 ```sh
-poetry run python modu/build_treesitter.py
+poetry run python core/build_treesitter.py
 ```

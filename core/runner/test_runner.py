@@ -3,12 +3,12 @@ import unittest
 
 from pathlib import Path
 
-from modu.runner import Runner
+from core.runner import Runner
 
 
 class TestRunner(unittest.TestCase):
     def setUp(self):
-        self._runner = Runner("no_cpd", Path("modu/"))
+        self._runner = Runner("no_cpd", Path("core/"))
         logging.disable()
 
     def test_load_given_code_climate_inits_runner(self):

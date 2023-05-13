@@ -42,7 +42,7 @@ cd grammars && git clone https://github.com/tree-sitter/tree-sitter-python && gi
 ```
 Build the grammar file:
 ```sh
-poetry run python modu/build_treesitter.py
+poetry run python core/build_treesitter.py
 ```
 
 **Adding new languages**
@@ -54,7 +54,7 @@ cd grammars && git clone https://github.com/tree-sitter/tree-sitter-<some-suppor
 ```
 Adding new grammar to build command: 
 ```sh
-cd modu
+cd core
 vim build_treesitter.py
 -------------------------
 Language.build_library(

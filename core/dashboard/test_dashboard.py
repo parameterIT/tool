@@ -4,7 +4,7 @@ import unittest
 from pathlib import Path
 
 from test.test_support import os, shutil
-from modu.dashboard import Dashboard
+from core.dashboard import Dashboard
 from datetime import datetime
 
 _TEST_FOLDER = Path("./test")

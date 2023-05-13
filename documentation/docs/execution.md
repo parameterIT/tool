@@ -3,11 +3,11 @@
 Run and output results of the configured quality model on the targeted source code.
 
 ```sh
-poetry run modu [OPTIONS] SRC_ROOT QUALITY_MODEL
+poetry run core [OPTIONS] SRC_ROOT QUALITY_MODEL
 ```
 E.g.
 ```sh
-poetry run modu --show-graphs false . code_climate
+poetry run core --show-graphs false . code_climate
 ```
 
 ## Additional arguments

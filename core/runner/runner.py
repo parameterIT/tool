@@ -10,8 +10,8 @@ from typing import Dict
 
 import os
 
-from modu.qualitymodel.qualitymodel import QualityModel
-from modu.source_repository.source_repository import SourceRepository
+from core.qualitymodel.qualitymodel import QualityModel
+from core.source_repository.source_repository import SourceRepository
 
 
 class Runner:

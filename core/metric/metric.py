@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
 
-from modu.metric.result import Result
+from core.metric.result import Result
 
 
 class Metric(ABC):
