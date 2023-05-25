@@ -41,7 +41,7 @@ class MethodCount(Metric):
             (_ [{function_block}] @function)
             """
         )
-        
+
         if len(classes) < 1:
             captures = query.captures(ast.root_node)
             violation = self._save_violations(captures, file_info)
@@ -54,19 +54,19 @@ class MethodCount(Metric):
                 if violation != None:
                     violations.append(violation)
         return violations
-        
+
     def _save_violations(self, captures, file_info):
         if len(captures) > 20:
             return Violation(
-                    "method count",
-                    (
-                        str(file_info.file_path),
-                        captures[0][0].start_point[0] + 1,
-                        captures[len(captures) - 1][0].end_point[0],
-                    ),
-                )
-        else: 
+                "method count",
+                (
+                    str(file_info.file_path),
+                    captures[0][0].start_point[0] + 1,
+                    captures[len(captures) - 1][0].end_point[0],
+                ),
+            )
+        else:
             return None
-            
+
 
 metric = MethodCount()
