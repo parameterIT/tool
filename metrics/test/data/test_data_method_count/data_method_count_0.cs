@@ -66,10 +66,6 @@ public class TestClass
     {
         Console.WriteLine("hello world");
     }
-    public void method16() 
-    {
-        Console.WriteLine("hello world");
-    }
     public void method17() 
     {
         Console.WriteLine("hello world");

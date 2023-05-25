@@ -55,18 +55,22 @@ class NestedControlflows(Metric):
                 for node3, _ in nodes3:
                     if found:
                         break
-                    if len(sub_node_query.captures(node3)) > 0:
-                        violations.append(
-                            Violation(
-                                "nested controlflow",
-                                (
-                                    str(file_info.file_path),
-                                    node.start_point[0],
-                                    node3.end_point[0] + 1,
-                                ),
+                    nodes4 = sub_node_query.captures(node3)
+                    for node4, _ in nodes4:
+                        if found:
+                            break
+                        if len(sub_node_query.captures(node4)) > 0:
+                            violations.append(
+                                Violation(
+                                    "nested controlflow",
+                                    (
+                                        str(file_info.file_path),
+                                        node.start_point[0],
+                                        node4.end_point[0] + 1,
+                                    ),
+                                )
                             )
-                        )
-                        found = True
+                            found = True
         return violations
 
 

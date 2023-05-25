@@ -27,18 +27,37 @@ class MethodCount(Metric):
             file_info.language
         ]
         function_block = translate_to[file_info.language]["function"]
+        class_definition = translate_to[file_info.language]["class"]
         if not file_info.language == "python":
             function_block += translate_to[file_info.language]["constructor"]
-
+        class_query = tree_sitter_language.query(
+            f"""
+            ({class_definition}) @class
+            """
+        )
+        classes = class_query.captures(ast.root_node)
         query = tree_sitter_language.query(
             f"""
             (_ [{function_block}] @function)
             """
         )
-        captures = query.captures(ast.root_node)
+        
+        if len(classes) < 1:
+            captures = query.captures(ast.root_node)
+            violation = self._save_violations(captures, file_info)
+            if violation != None:
+                violations.append(violation)
+        else:
+            for c in classes:
+                captures = query.captures(c[0])
+                violation = self._save_violations(captures, file_info)
+                if violation != None:
+                    violations.append(violation)
+        return violations
+        
+    def _save_violations(self, captures, file_info):
         if len(captures) > 20:
-            violations.append(
-                Violation(
+            return Violation(
                     "method count",
                     (
                         str(file_info.file_path),
@@ -46,8 +65,8 @@ class MethodCount(Metric):
                         captures[len(captures) - 1][0].end_point[0],
                     ),
                 )
-            )
-        return violations
-
+        else: 
+            return None
+            
 
 metric = MethodCount()
