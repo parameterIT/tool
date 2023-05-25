@@ -1,5 +1,9 @@
 # Quality Tool
-
+## Documentation
+ Documentation is generated using mkdocs. Use the following command to generate the documentation website:
+ ```sh
+ poetry run docs
+ ```
 ## Setup
 
 Make sure you have [Poetry >= 1.2.0](https://python-poetry.org/docs/) installed.

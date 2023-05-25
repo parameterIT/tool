@@ -12,10 +12,12 @@ tree-sitter = "^0.20.1"
 defusedxml = "^0.7.1"
 click = "^8.1.3"
 chardet = "^5.1.0"
+mkdocs = "^1.4.2"
 
 [tool.poetry.scripts]
 modu="core.main:load"
 test="metrics.test.test_all:run"
+docs="documentation.build:run"
 
 [tool.poetry.group.dev.dependencies]
 black = "^23.1.0"
