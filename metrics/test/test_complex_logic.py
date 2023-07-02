@@ -19,32 +19,64 @@ class TestComplexLogic(unittest.TestCase):
 
         locations = result.get_violation_locations()
         expected_locations = [
-            Location(Path("metrics/test/data/test_data_complex_logic/data_complex_logc.cs"), 11, 11),
-            Location(Path("metrics/test/data/test_data_complex_logic/data_complex_logc.cs"), 12, 12),
-            Location(Path("metrics/test/data/test_data_complex_logic/data_complex_logc.cs"), 15, 15),
-            Location(Path("metrics/test/data/test_data_complex_logic/data_complex_logc.cs"), 17, 17),
             Location(
-                Path("metrics/test/data/test_data_complex_logic/data_complex_logic.java"),
+                Path("metrics/test/data/test_data_complex_logic/data_complex_logc.cs"),
+                11,
+                11,
+            ),
+            Location(
+                Path("metrics/test/data/test_data_complex_logic/data_complex_logc.cs"),
+                12,
+                12,
+            ),
+            Location(
+                Path("metrics/test/data/test_data_complex_logic/data_complex_logc.cs"),
                 15,
                 15,
             ),
             Location(
-                Path("metrics/test/data/test_data_complex_logic/data_complex_logic.java"),
+                Path("metrics/test/data/test_data_complex_logic/data_complex_logc.cs"),
+                17,
+                17,
+            ),
+            Location(
+                Path(
+                    "metrics/test/data/test_data_complex_logic/data_complex_logic.java"
+                ),
+                15,
+                15,
+            ),
+            Location(
+                Path(
+                    "metrics/test/data/test_data_complex_logic/data_complex_logic.java"
+                ),
                 16,
                 16,
             ),
             Location(
-                Path("metrics/test/data/test_data_complex_logic/data_complex_logic.java"),
+                Path(
+                    "metrics/test/data/test_data_complex_logic/data_complex_logic.java"
+                ),
                 19,
                 19,
             ),
             Location(
-                Path("metrics/test/data/test_data_complex_logic/data_complex_logic.java"),
+                Path(
+                    "metrics/test/data/test_data_complex_logic/data_complex_logic.java"
+                ),
                 21,
                 21,
             ),
-            Location(Path("metrics/test/data/test_data_complex_logic/data_complex_logic.py"), 20, 20),
-            Location(Path("metrics/test/data/test_data_complex_logic/data_complex_logic.py"), 23, 23),
+            Location(
+                Path("metrics/test/data/test_data_complex_logic/data_complex_logic.py"),
+                20,
+                20,
+            ),
+            Location(
+                Path("metrics/test/data/test_data_complex_logic/data_complex_logic.py"),
+                23,
+                23,
+            ),
         ]
         self.assertCountEqual(locations, expected_locations)
 

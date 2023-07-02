@@ -55,7 +55,9 @@ class ComplexLogic(Metric):
                         ]
                     )
             if boolean_count > 4:
-                location = Location(file_info.file_path, node.start_point[0]+1, node.end_point[0]+1)
+                location = Location(
+                    file_info.file_path, node.start_point[0] + 1, node.end_point[0] + 1
+                )
                 violation = Violation("complex logic", [location])
                 violations.append(violation)
 

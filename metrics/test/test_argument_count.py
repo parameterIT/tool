@@ -20,28 +20,46 @@ class TestArgumentCount(unittest.TestCase):
         locations = result.get_violation_locations()
         expected_locations = [
             Location(
-                Path("metrics/test/data/test_data_argument_count/data_argument_count.cs"),
-                9, 9
+                Path(
+                    "metrics/test/data/test_data_argument_count/data_argument_count.cs"
+                ),
+                9,
+                9,
             ),
             Location(
-                Path("metrics/test/data/test_data_argument_count/data_argument_count.cs"),
-                10, 10
+                Path(
+                    "metrics/test/data/test_data_argument_count/data_argument_count.cs"
+                ),
+                10,
+                10,
             ),
             Location(
-                Path("metrics/test/data/test_data_argument_count/data_argument_count.py"),
-                13, 13
+                Path(
+                    "metrics/test/data/test_data_argument_count/data_argument_count.py"
+                ),
+                13,
+                13,
             ),
             Location(
-                Path("metrics/test/data/test_data_argument_count/data_argument_count.py"),
-                18, 18
+                Path(
+                    "metrics/test/data/test_data_argument_count/data_argument_count.py"
+                ),
+                18,
+                18,
             ),
             Location(
-                Path("metrics/test/data/test_data_argument_count/data_argument_count.java"),
-                17, 17
+                Path(
+                    "metrics/test/data/test_data_argument_count/data_argument_count.java"
+                ),
+                17,
+                17,
             ),
             Location(
-                Path("metrics/test/data/test_data_argument_count/data_argument_count.java"),
-                20, 20
+                Path(
+                    "metrics/test/data/test_data_argument_count/data_argument_count.java"
+                ),
+                20,
+                20,
             ),
         ]
         self.assertCountEqual(locations, expected_locations)

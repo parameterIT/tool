@@ -34,7 +34,9 @@ class ArgumentCount(Metric):
         captures = query.captures(ast.root_node)
         for node, _ in captures:
             if node.named_child_count > 4:
-                location = Location(file_info.file_path, node.start_point[0]+1, node.end_point[0] + 1)
+                location = Location(
+                    file_info.file_path, node.start_point[0] + 1, node.end_point[0] + 1
+                )
                 violation = Violation("argument count", [location])
                 violations.append(violation)
 

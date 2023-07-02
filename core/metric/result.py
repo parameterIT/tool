@@ -2,6 +2,7 @@ from dataclasses import dataclass
 
 from typing import List, Any
 
+
 class Result:
     """
     represents a result for a given metric
@@ -18,4 +19,8 @@ class Result:
         """
         returns a list of locations defining where saved violations are found
         """
-        return [location for violation in self.violations for location in violation.locations]
+        return [
+            location
+            for violation in self.violations
+            for location in violation.locations
+        ]
