@@ -1,7 +1,6 @@
-from typing import List
 from core.metric.metric import Metric
 from core.metric.result import Result
-from core.metric.violation import Violation
+from core.metric.violation import Location, Violation
 from core.source_repository.source_repository import SourceRepository
 from metrics.util.language_util import translate_to, SUPPORTED_LANGUAGES
 
@@ -35,16 +34,10 @@ class ArgumentCount(Metric):
         captures = query.captures(ast.root_node)
         for node, _ in captures:
             if node.named_child_count > 4:
-                violations.append(
-                    Violation(
-                        "argument count",
-                        (
-                            str(file_info.file_path),
-                            node.start_point[0] + 1,
-                            node.end_point[0] + 1,
-                        ),
-                    )
-                )
+                location = Location(file_info.file_path, node.start_point[0]+1, node.end_point[0] + 1)
+                violation = Violation("argument count", [location])
+                violations.append(violation)
+
         return violations
 
 

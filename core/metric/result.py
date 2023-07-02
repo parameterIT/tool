@@ -18,4 +18,4 @@ class Result:
         """
         returns a list of locations defining where saved violations are found
         """
-        return [violation.locations for violation in self.violations]
+        return [location for violation in self.violations for location in violation.locations]
