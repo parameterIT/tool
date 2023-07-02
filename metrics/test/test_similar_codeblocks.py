@@ -7,9 +7,6 @@ from metrics.similar_codeblocks import SimilarBlocksofCode
 
 class TestSimilarCodeBlocks(unittest.TestCase):
     def setUp(self):
-        # chdir because paths are assumed to be relative from the project root but test
-        # paths start at the test file
-        os.chdir("../../")
         self._source_repository = SourceRepository(
             Path("./metrics/test/data/test_data_similar_codeblocks")
         )
@@ -35,9 +32,6 @@ class TestSimilarCodeBlocks(unittest.TestCase):
 
         expected_lines_of_duplications = [[(3, 11), (16, 24)]]
         self.assertCountEqual(lines_of_duplications, expected_lines_of_duplications)
-
-    def tearDown(self):
-        os.chdir(Path("metrics/test").resolve())
 
 
 if __name__ == "__main__":

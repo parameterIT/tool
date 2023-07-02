@@ -7,9 +7,6 @@ from metrics.nested_controlflows import NestedControlflows
 
 class TestNestedControlFlows(unittest.TestCase):
     def setUp(self):
-        # chdir because paths are assumed to be relative from the project root but test
-        # paths start at the test file
-        os.chdir("../../")
         self._source_repository = SourceRepository(
             Path("./metrics/test/data/test_data_nested_controlflows")
         )
@@ -139,9 +136,6 @@ class TestNestedControlFlows(unittest.TestCase):
             ),
         ]
         self.assertCountEqual(locations, expected_locations)
-
-    def tearDown(self):
-        os.chdir(Path("metrics/test").resolve())
 
 
 if __name__ == "__main__":
