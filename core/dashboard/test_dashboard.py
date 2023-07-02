@@ -2,8 +2,7 @@ import csv
 import unittest
 
 from pathlib import Path
-
-from test.test_support import os, shutil
+import shutil
 from core.dashboard import Dashboard
 from datetime import datetime
 
