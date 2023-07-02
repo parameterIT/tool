@@ -15,7 +15,6 @@ class TestCognitiveComplexity(unittest.TestCase):
         )
         self._metric: Metric = CognitiveComplexity()
         self._metric._source_repository = self._source_repository
-        self.maxDiff = None
 
     def test_recursion_returns_3(self):
         result = self._metric.run()
