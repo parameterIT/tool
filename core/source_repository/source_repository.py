@@ -162,6 +162,9 @@ class SourceRepository:
         return files
 
     def _get_ignore_regex_list(self):
+        if not _IGNORE_FILE_PATH.exists():
+            return []
+
         with _IGNORE_FILE_PATH.open("r") as file:
             ignored_files = []
             for line in file:
