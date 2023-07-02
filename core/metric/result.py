@@ -1,3 +1,7 @@
+from dataclasses import dataclass
+
+from typing import List, Any
+
 class Result:
     """
     represents a result for a given metric
@@ -5,7 +9,7 @@ class Result:
     a result is a collection of violations with the metric type specified
     """
 
-    def __init__(self, metric, violations, outcome):
+    def __init__(self, metric: str, violations: List, outcome: Any):
         self.metric = metric
         self.violations = violations
         self.outcome = outcome
