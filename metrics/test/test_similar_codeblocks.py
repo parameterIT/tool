@@ -14,7 +14,7 @@ class TestSimilarCodeBlocks(unittest.TestCase):
         self._similarcode._source_repository = self._source_repository
 
     @unittest.skipIf(
-        not os.path.exists("../../metrics/cpd"),
+        not os.path.exists("metrics/cpd"),
         "CPD doesn't exist in the environment",
     )
     def test_similar_codeblocks_given_file_returns_1(self):
