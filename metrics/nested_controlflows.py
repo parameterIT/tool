@@ -1,6 +1,6 @@
 from core.metric.metric import Metric
 from core.metric.result import Result
-from core.metric.violation import Violation
+from core.metric.violation import Violation, Location
 from core.source_repository.source_repository import SourceRepository
 from metrics.util.language_util import translate_to, SUPPORTED_LANGUAGES
 
@@ -56,17 +56,11 @@ class NestedControlflows(Metric):
                     if found:
                         break
                     if len(sub_node_query.captures(node3)) > 0:
-                        violations.append(
-                            Violation(
-                                "nested controlflow",
-                                (
-                                    str(file_info.file_path),
-                                    node.start_point[0],
-                                    node3.end_point[0] + 1,
-                                ),
-                            )
-                        )
+                        location = Location(file_info.file_path, node.start_point[0], node3.end_point[0] + 1)
+                        violation = Violation("nested controlflow", [location])
+                        violations.append(violation)
                         found = True
+
         return violations
 
 

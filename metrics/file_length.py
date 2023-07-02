@@ -1,7 +1,7 @@
 from io import TextIOWrapper
 from core.metric.metric import Metric
 from core.metric.result import Result
-from core.metric.violation import Violation
+from core.metric.violation import Violation, Location
 from core.source_repository.source_repository import SourceRepository
 from metrics.util.language_util import (
     translate_to,
@@ -51,7 +51,10 @@ class FileLength(Metric):
             ) + 1  # length is zero indexed - therefore we add 1 at the end
         loc = sum(1 for line in open_file if line.rstrip()) - count_comments
         if loc > 250:
-            violations.append(Violation("LOC", (str(file_info.file_path), -1, -1)))
+            location = Location(file_info.file_path, -1, -1)
+            violation = Violation("LOC", [location])
+            violations.append(violation)
+
         return violations
 
 

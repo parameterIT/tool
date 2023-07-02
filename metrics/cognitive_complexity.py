@@ -1,8 +1,6 @@
-import logging
 import tree_sitter
 
 from pathlib import Path
-from typing import List
 
 from core.metric.metric import Metric
 from core.metric.result import Result
@@ -52,7 +50,7 @@ class CognitiveComplexity(Metric):
             count += self._count_breaks_in_linear_flow(node, file_info)
             count += self._count_nesting(node, file_info)
             if count > 5:
-                location = Location(file_info.file_path, node.start_point[0], node.end_point[1])
+                location = Location(file_info.file_path, node.start_point[0] + 1, node.end_point[0] + 1)
                 violation = Violation("cognitive_complexity", [location])
                 violations.append(violation)
                 

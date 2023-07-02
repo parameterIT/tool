@@ -1,6 +1,6 @@
 from core.metric.metric import Metric
 from core.metric.result import Result
-from core.metric.violation import Violation
+from core.metric.violation import Violation, Location
 from core.source_repository.source_repository import SourceRepository
 from metrics.util.language_util import translate_to, SUPPORTED_LANGUAGES
 
@@ -37,16 +37,10 @@ class MethodCount(Metric):
         )
         captures = query.captures(ast.root_node)
         if len(captures) > 20:
-            violations.append(
-                Violation(
-                    "method count",
-                    (
-                        str(file_info.file_path),
-                        captures[0][0].start_point[0] + 1,
-                        captures[len(captures) - 1][0].end_point[0],
-                    ),
-                )
-            )
+            location = Location(file_info.file_path, captures[0][0].start_point[0] + 1, captures[len(captures) - 1][0].end_point[0])
+            violation = Violation("method count", [location])
+            violations.append(violation)
+
         return violations
 
 
