@@ -37,7 +37,11 @@ class MethodCount(Metric):
         )
         captures = query.captures(ast.root_node)
         if len(captures) > 20:
-            location = Location(file_info.file_path, captures[0][0].start_point[0] + 1, captures[len(captures) - 1][0].end_point[0])
+            location = Location(
+                file_info.file_path,
+                captures[0][0].start_point[0] + 1,
+                captures[len(captures) - 1][0].end_point[0],
+            )
             violation = Violation("method count", [location])
             violations.append(violation)
 

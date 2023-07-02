@@ -37,7 +37,9 @@ class MethodLength(Metric):
                 node.end_point[0] - node.start_point[0] + 1
             )  # length is zero indexed - therefore we add 1 at the end
             if length > 25:
-                location = Location(file_info.file_path, node.start_point[0], node.end_point[0] + 1)
+                location = Location(
+                    file_info.file_path, node.start_point[0], node.end_point[0] + 1
+                )
                 violation = Violation("method length", [location])
                 violations.append(violation)
 

@@ -19,113 +19,157 @@ class TestNestedControlFlows(unittest.TestCase):
 
         locations = result.get_violation_locations()
         expected_locations = [
-            Location(Path(
-                "metrics/test/data/test_data_nested_controlflows/data_nested_control_flow_switches.java"),
+            Location(
+                Path(
+                    "metrics/test/data/test_data_nested_controlflows/data_nested_control_flow_switches.java"
+                ),
                 3,
                 10,
             ),
-            Location(Path(
-                "metrics/test/data/test_data_nested_controlflows/data_nested_control_flow_switches.java"),
+            Location(
+                Path(
+                    "metrics/test/data/test_data_nested_controlflows/data_nested_control_flow_switches.java"
+                ),
                 18,
                 27,
             ),
-            Location(Path(
-                "metrics/test/data/test_data_nested_controlflows/data_nested_controlflows_switches.cs"),
+            Location(
+                Path(
+                    "metrics/test/data/test_data_nested_controlflows/data_nested_controlflows_switches.cs"
+                ),
                 10,
                 18,
             ),
-            Location(Path(
-                "metrics/test/data/test_data_nested_controlflows/data_nested_controlflows_switches2.cs"),
+            Location(
+                Path(
+                    "metrics/test/data/test_data_nested_controlflows/data_nested_controlflows_switches2.cs"
+                ),
                 2,
                 13,
             ),
-            Location(Path(
-                "metrics/test/data/test_data_nested_controlflows/data_nested_controlflows.cs"),
+            Location(
+                Path(
+                    "metrics/test/data/test_data_nested_controlflows/data_nested_controlflows.cs"
+                ),
                 6,
                 13,
             ),
-            Location(Path(
-                "metrics/test/data/test_data_nested_controlflows/data_nested_controlflows.cs"),
+            Location(
+                Path(
+                    "metrics/test/data/test_data_nested_controlflows/data_nested_controlflows.cs"
+                ),
                 23,
                 34,
             ),
-            Location(Path(
-                "metrics/test/data/test_data_nested_controlflows/data_nested_controlflows.cs"),
+            Location(
+                Path(
+                    "metrics/test/data/test_data_nested_controlflows/data_nested_controlflows.cs"
+                ),
                 37,
                 48,
             ),
-            Location(Path(
-                "metrics/test/data/test_data_nested_controlflows/data_nested_controlflows.cs"),
+            Location(
+                Path(
+                    "metrics/test/data/test_data_nested_controlflows/data_nested_controlflows.cs"
+                ),
                 60,
                 74,
             ),
-            Location(Path(
-                "metrics/test/data/test_data_nested_controlflows/data_nested_controlflows_2.py"),
+            Location(
+                Path(
+                    "metrics/test/data/test_data_nested_controlflows/data_nested_controlflows_2.py"
+                ),
                 1,
                 6,
             ),
-            Location(Path(
-                "metrics/test/data/test_data_nested_controlflows/data_nested_controlflows_2.py"),
+            Location(
+                Path(
+                    "metrics/test/data/test_data_nested_controlflows/data_nested_controlflows_2.py"
+                ),
                 8,
                 13,
             ),
-            Location(Path(
-                "metrics/test/data/test_data_nested_controlflows/data_nested_controlflows_3.py"),
+            Location(
+                Path(
+                    "metrics/test/data/test_data_nested_controlflows/data_nested_controlflows_3.py"
+                ),
                 3,
                 19,
             ),
-            Location(Path(
-                "metrics/test/data/test_data_nested_controlflows/data_nested_controlflows_3.py"),
+            Location(
+                Path(
+                    "metrics/test/data/test_data_nested_controlflows/data_nested_controlflows_3.py"
+                ),
                 20,
                 32,
             ),
-            Location(Path(
-                "metrics/test/data/test_data_nested_controlflows/data_nested_controlflows_3.py"),
+            Location(
+                Path(
+                    "metrics/test/data/test_data_nested_controlflows/data_nested_controlflows_3.py"
+                ),
                 45,
                 49,
             ),
-            Location(Path(
-                "metrics/test/data/test_data_nested_controlflows/data_nested_controlflows_3.py"),
+            Location(
+                Path(
+                    "metrics/test/data/test_data_nested_controlflows/data_nested_controlflows_3.py"
+                ),
                 51,
                 59,
             ),
-            Location(Path(
-                "metrics/test/data/test_data_nested_controlflows/data_nested_controlflows_1.py"),
+            Location(
+                Path(
+                    "metrics/test/data/test_data_nested_controlflows/data_nested_controlflows_1.py"
+                ),
                 4,
                 8,
             ),
-            Location(Path(
-                "metrics/test/data/test_data_nested_controlflows/data_nested_controlflows_1.py"),
+            Location(
+                Path(
+                    "metrics/test/data/test_data_nested_controlflows/data_nested_controlflows_1.py"
+                ),
                 10,
                 14,
             ),
-            Location(Path(
-                "metrics/test/data/test_data_nested_controlflows/data_nested_control_flows.java"),
+            Location(
+                Path(
+                    "metrics/test/data/test_data_nested_controlflows/data_nested_control_flows.java"
+                ),
                 7,
                 14,
             ),
-            Location(Path(
-                "metrics/test/data/test_data_nested_controlflows/data_nested_control_flows.java"),
+            Location(
+                Path(
+                    "metrics/test/data/test_data_nested_controlflows/data_nested_control_flows.java"
+                ),
                 15,
                 24,
             ),
-            Location(Path(
-                "metrics/test/data/test_data_nested_controlflows/data_nested_control_flows.java"),
+            Location(
+                Path(
+                    "metrics/test/data/test_data_nested_controlflows/data_nested_control_flows.java"
+                ),
                 32,
                 39,
             ),
-            Location(Path(
-                "metrics/test/data/test_data_nested_controlflows/data_nested_control_flows.java"),
+            Location(
+                Path(
+                    "metrics/test/data/test_data_nested_controlflows/data_nested_control_flows.java"
+                ),
                 41,
                 48,
             ),
-            Location(Path(
-                "metrics/test/data/test_data_nested_controlflows/data_nested_control_flows.java"),
+            Location(
+                Path(
+                    "metrics/test/data/test_data_nested_controlflows/data_nested_control_flows.java"
+                ),
                 50,
                 61,
             ),
-            Location(Path(
-                "metrics/test/data/test_data_nested_controlflows/data_nested_controlflows_5.py"),
+            Location(
+                Path(
+                    "metrics/test/data/test_data_nested_controlflows/data_nested_controlflows_5.py"
+                ),
                 3,
                 10,
             ),

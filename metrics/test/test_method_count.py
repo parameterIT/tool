@@ -18,9 +18,21 @@ class TestMethodCount(unittest.TestCase):
         self.assertEqual(result.outcome, 3)
         locations = result.get_violation_locations()
         expected_locations = [
-            Location(Path("metrics/test/data/test_data_method_count/data_method_count_1.cs"), 3, 98),
-            Location(Path("metrics/test/data/test_data_method_count/data_method_count.java"), 2, 65),
-            Location(Path("metrics/test/data/test_data_method_count/data_method_count.py"), 1, 81),
+            Location(
+                Path("metrics/test/data/test_data_method_count/data_method_count_1.cs"),
+                3,
+                98,
+            ),
+            Location(
+                Path("metrics/test/data/test_data_method_count/data_method_count.java"),
+                2,
+                65,
+            ),
+            Location(
+                Path("metrics/test/data/test_data_method_count/data_method_count.py"),
+                1,
+                81,
+            ),
         ]
         self.assertCountEqual(locations, expected_locations)
 

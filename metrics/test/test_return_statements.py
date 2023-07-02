@@ -18,33 +18,45 @@ class TestReturnStatements(unittest.TestCase):
         self.assertEqual(result.outcome, 6)
         locations = result.get_violation_locations()
         expected_locations = [
-            Location(Path(
-                "metrics/test/data/test_data_return_statements/data_return_statements.py"),
+            Location(
+                Path(
+                    "metrics/test/data/test_data_return_statements/data_return_statements.py"
+                ),
                 5,
                 15,
             ),
-            Location(Path(
-                "metrics/test/data/test_data_return_statements/data_return_statements.py"),
+            Location(
+                Path(
+                    "metrics/test/data/test_data_return_statements/data_return_statements.py"
+                ),
                 18,
                 35,
             ),
-            Location(Path(
-                "metrics/test/data/test_data_return_statements/data_return_statements.cs"),
+            Location(
+                Path(
+                    "metrics/test/data/test_data_return_statements/data_return_statements.cs"
+                ),
                 5,
                 13,
             ),
-            Location(Path(
-                "metrics/test/data/test_data_return_statements/data_return_statements.cs"),
+            Location(
+                Path(
+                    "metrics/test/data/test_data_return_statements/data_return_statements.cs"
+                ),
                 21,
                 28,
             ),
-            Location(Path(
-                "metrics/test/data/test_data_return_statements/data_return_statements.java"),
+            Location(
+                Path(
+                    "metrics/test/data/test_data_return_statements/data_return_statements.java"
+                ),
                 5,
                 24,
             ),
-            Location(Path(
-                "metrics/test/data/test_data_return_statements/data_return_statements.java"),
+            Location(
+                Path(
+                    "metrics/test/data/test_data_return_statements/data_return_statements.java"
+                ),
                 41,
                 57,
             ),

@@ -22,10 +22,13 @@ class TestSimilarCodeBlocks(unittest.TestCase):
         self.assertEqual(result.outcome, 1)
         # CPD reports the full path's, so will always be machine specific. Therefore, we test only that the reported
         # lines are correct and assume that these lines can only stem correctly from the expected files.
-        lines = [(loc.first_line, loc.last_line) for loc in result.get_violation_locations()]
+        lines = [
+            (loc.first_line, loc.last_line) for loc in result.get_violation_locations()
+        ]
 
         expected_lines = [(3, 11), (16, 24)]
         self.assertCountEqual(lines, expected_lines)
+
 
 if __name__ == "__main__":
     unittest.main()

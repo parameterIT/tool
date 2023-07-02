@@ -56,7 +56,11 @@ class NestedControlflows(Metric):
                     if found:
                         break
                     if len(sub_node_query.captures(node3)) > 0:
-                        location = Location(file_info.file_path, node.start_point[0], node3.end_point[0] + 1)
+                        location = Location(
+                            file_info.file_path,
+                            node.start_point[0],
+                            node3.end_point[0] + 1,
+                        )
                         violation = Violation("nested controlflow", [location])
                         violations.append(violation)
                         found = True

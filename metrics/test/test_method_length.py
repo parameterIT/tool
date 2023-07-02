@@ -19,21 +19,35 @@ class TestMethodLength(unittest.TestCase):
 
         locations = result.get_violation_locations()
         expected_locations = [
-            Location(Path("metrics/test/data/test_data_method_length/data_method_length.cs"), 17, 44),
-            Location(Path("metrics/test/data/test_data_method_length/data_method_length.cs"), 46, 73),
-            Location(Path(
-                "metrics/test/data/test_data_method_length/data_method_length.cs"),
+            Location(
+                Path("metrics/test/data/test_data_method_length/data_method_length.cs"),
+                17,
+                44,
+            ),
+            Location(
+                Path("metrics/test/data/test_data_method_length/data_method_length.cs"),
+                46,
+                73,
+            ),
+            Location(
+                Path("metrics/test/data/test_data_method_length/data_method_length.cs"),
                 75,
                 110,
             ),
-            Location(Path("metrics/test/data/test_data_method_length/data_method_length.py"), 39, 73),
-            Location(Path(
-                "metrics/test/data/test_data_method_length/data_method_length.py"),
+            Location(
+                Path("metrics/test/data/test_data_method_length/data_method_length.py"),
+                39,
+                73,
+            ),
+            Location(
+                Path("metrics/test/data/test_data_method_length/data_method_length.py"),
                 76,
                 108,
             ),
-            Location(Path(
-                "metrics/test/data/test_data_method_length/data_method_length.java"),
+            Location(
+                Path(
+                    "metrics/test/data/test_data_method_length/data_method_length.java"
+                ),
                 18,
                 46,
             ),
