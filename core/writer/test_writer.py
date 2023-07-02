@@ -4,7 +4,7 @@ import unittest
 
 from pathlib import Path
 
-from test.test_support import shutil
+import shutil
 from core.metric.result import Result
 from core.metric.violation import Violation
 

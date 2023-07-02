@@ -1,15 +1,11 @@
 from pathlib import Path
 import unittest
-import os
 from core.source_repository.source_repository import SourceRepository
 from metrics.complex_logic import ComplexLogic
 
 
 class TestComplexLogic(unittest.TestCase):
     def setUp(self):
-        # chdir because paths are assumed to be relative from the project root but test
-        # paths start at the test file
-        os.chdir("../../")
         self._source_repository = SourceRepository(
             Path("./metrics/test/data/test_data_complex_logic")
         )
@@ -50,9 +46,6 @@ class TestComplexLogic(unittest.TestCase):
             ("metrics/test/data/test_data_complex_logic/data_complex_logic.py", 23, 23),
         ]
         self.assertCountEqual(locations, expected_locations)
-
-    def tearDown(self):
-        os.chdir(Path("metrics/test").resolve())
 
 
 if __name__ == "__main__":
