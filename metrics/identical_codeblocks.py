@@ -1,6 +1,6 @@
 from core.metric.metric import Metric
 from core.metric.result import Result
-from core.metric.violation import Violation
+from core.metric.violation import Violation, Location
 from core.source_repository.source_repository import SourceRepository
 from metrics.util.language_util import SUPPORTED_ENCODINGS
 from defusedxml.ElementTree import parse
@@ -41,7 +41,7 @@ class IdenticalBlocksofCode(Metric):
         for child in element_tree.getroot():
             if child.tag == "duplication":
                 duplicates = [
-                    (
+                    Location(
                         child.attrib["path"],
                         int(child.attrib["line"]),
                         int(child.attrib["endline"]),

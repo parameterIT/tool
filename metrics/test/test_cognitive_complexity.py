@@ -2,6 +2,7 @@ import unittest
 
 from pathlib import Path
 from core.metric.metric import Metric
+from core.metric.violation import Location
 
 from core.source_repository.source_repository import SourceRepository
 from metrics.cognitive_complexity import CognitiveComplexity
@@ -23,18 +24,24 @@ class TestCognitiveComplexity(unittest.TestCase):
 
         locations = result.get_violation_locations()
         expected_locations = [
-            (
-                "metrics/test/data/test_cognitive_complexity/test_recursion/data_recursion.py",
+            Location(
+                Path(
+                    "metrics/test/data/test_cognitive_complexity/test_recursion/data_recursion.py"
+                ),
                 1,
                 8,
             ),
-            (
-                "metrics/test/data/test_cognitive_complexity/test_recursion/data_recursion.java",
+            Location(
+                Path(
+                    "metrics/test/data/test_cognitive_complexity/test_recursion/data_recursion.java"
+                ),
                 5,
                 13,
             ),
-            (
-                "metrics/test/data/test_cognitive_complexity/test_recursion/data_recursion.cs",
+            Location(
+                Path(
+                    "metrics/test/data/test_cognitive_complexity/test_recursion/data_recursion.cs"
+                ),
                 5,
                 15,
             ),
@@ -56,18 +63,24 @@ class TestCognitiveComplexity(unittest.TestCase):
 
         locations = result.get_violation_locations()
         expected_locations = [
-            (
-                "metrics/test/data/test_cognitive_complexity/test_breaks_in_linear_flow/data_breaks_in_linear_flow.cs",
+            Location(
+                Path(
+                    "metrics/test/data/test_cognitive_complexity/test_breaks_in_linear_flow/data_breaks_in_linear_flow.cs"
+                ),
                 10,
                 49,
             ),
-            (
-                "metrics/test/data/test_cognitive_complexity/test_breaks_in_linear_flow/data_breaks_in_linear_flow.py",
+            Location(
+                Path(
+                    "metrics/test/data/test_cognitive_complexity/test_breaks_in_linear_flow/data_breaks_in_linear_flow.py"
+                ),
                 1,
                 25,
             ),
-            (
-                "metrics/test/data/test_cognitive_complexity/test_breaks_in_linear_flow/data_breaks_in_linear_flow.java",
+            Location(
+                Path(
+                    "metrics/test/data/test_cognitive_complexity/test_breaks_in_linear_flow/data_breaks_in_linear_flow.java"
+                ),
                 5,
                 42,
             ),

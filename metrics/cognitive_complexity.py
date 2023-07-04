@@ -1,12 +1,10 @@
-import logging
 import tree_sitter
 
 from pathlib import Path
-from typing import List
 
 from core.metric.metric import Metric
 from core.metric.result import Result
-from core.metric.violation import Violation
+from core.metric.violation import Violation, Location
 from core.source_repository.file_info import FileInfo
 from metrics.util.language_util import translate_to, SUPPORTED_LANGUAGES
 from core.source_repository.source_repository import SourceRepository
@@ -52,18 +50,12 @@ class CognitiveComplexity(Metric):
             count += self._count_breaks_in_linear_flow(node, file_info)
             count += self._count_nesting(node, file_info)
             if count > 5:
-                violations.append(
-                    Violation(
-                        "cognitive complexity",
-                        # We use start_point for what would otherwise be start_line & end_line
-                        # to report the line where the keyword that breaks linear flow is met .
-                        (
-                            str(file_path),
-                            node.start_point[0] + 1,
-                            node.end_point[0] + 1,
-                        ),
-                    )
+                location = Location(
+                    file_info.file_path, node.start_point[0] + 1, node.end_point[0] + 1
                 )
+                violation = Violation("cognitive_complexity", [location])
+                violations.append(violation)
+
         return violations
 
     def _count_breaks_in_linear_flow(self, node, file_info):

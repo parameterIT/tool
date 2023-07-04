@@ -2,7 +2,7 @@ import tree_sitter
 
 from core.metric.metric import Metric
 from core.metric.result import Result
-from core.metric.violation import Violation
+from core.metric.violation import Violation, Location
 from core.source_repository.source_repository import SourceRepository
 from metrics.util.language_util import translate_to, SUPPORTED_LANGUAGES
 
@@ -37,16 +37,12 @@ class MethodLength(Metric):
                 node.end_point[0] - node.start_point[0] + 1
             )  # length is zero indexed - therefore we add 1 at the end
             if length > 25:
-                violations.append(
-                    Violation(
-                        "method length",
-                        (
-                            str(file_info.file_path),
-                            node.start_point[0],
-                            node.end_point[0] + 1,
-                        ),
-                    )
+                location = Location(
+                    file_info.file_path, node.start_point[0], node.end_point[0] + 1
                 )
+                violation = Violation("method length", [location])
+                violations.append(violation)
+
         return violations
 
 
