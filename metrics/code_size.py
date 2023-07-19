@@ -16,7 +16,7 @@ class CodeSize(Metric):
     """
 
     def __init__(self):
-        self._source_repository: SourceRepository = None
+        pass
 
     def run(self):
         loc: int = 0

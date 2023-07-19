@@ -12,7 +12,7 @@ TOKENS = 35
 
 class IdenticalBlocksofCode(Metric):
     def __init__(self):
-        self._source_repository: SourceRepository = None
+        pass
 
     def run(self) -> Result:
         return self._identical_blocks_of_code()
@@ -32,7 +32,7 @@ class IdenticalBlocksofCode(Metric):
         to_inspect = str(to_inspect)
         to_inspect = to_inspect[1 : (len(to_inspect) - 1)]
         res = subprocess.run(
-            f"metrics/cpd/bin/run.sh cpd --minimum-tokens {TOKENS} --skip-lexical-errors --dir {to_inspect} --format xml",
+            f"metrics/cpd/bin/pmd cpd --minimum-tokens {TOKENS} --skip-lexical-errors --dir {to_inspect} --format xml",
             shell=True,
             capture_output=True,
             text=True,

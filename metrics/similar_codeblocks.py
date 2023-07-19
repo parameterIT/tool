@@ -13,7 +13,7 @@ TOKENS = 35
 
 class SimilarBlocksofCode(Metric):
     def __init__(self):
-        self._source_repository: SourceRepository = None
+        pass
 
     def run(self):
         return self._similar_blocks_of_code()
@@ -31,7 +31,7 @@ class SimilarBlocksofCode(Metric):
         to_inspect = str(to_inspect)
         to_inspect = to_inspect[1 : (len(to_inspect) - 1)]
         res = subprocess.run(
-            f"metrics/cpd/bin/run.sh cpd --minimum-tokens {TOKENS} --skip-lexical-errors --ignore-identifiers --ignore-literals --dir {to_inspect} --format xml",
+            f"metrics/cpd/bin/pmd cpd --minimum-tokens {TOKENS} --skip-lexical-errors --ignore-identifiers --ignore-literals --dir {to_inspect} --format xml",
             shell=True,
             capture_output=True,
             text=True,

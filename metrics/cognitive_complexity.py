@@ -12,7 +12,7 @@ from core.source_repository.source_repository import SourceRepository
 
 class CognitiveComplexity(Metric):
     def __init__(self):
-        self._source_repository: SourceRepository | None = None
+        pass
 
     def run(self) -> Result:
         """
