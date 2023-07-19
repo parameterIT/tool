@@ -1,4 +1,3 @@
-import logging
 import json
 import subprocess
 from pathlib import Path
@@ -9,16 +8,7 @@ from core.source_repository.file_info import FileInfo
 from core.source_repository.languages import languages
 import chardet
 
-_TREESITTER_BUILD: Path = Path("build/my-languages.so")
 _IGNORE_FILE_PATH: Path = Path("core/util/.moduignore")
-
-UNKNOWN_ENCODING = "unknown"
-
-PYTHON = "python"
-C_SHARP = "c_sharp"
-JAVA = "java"
-UNKNOWN_LANGUAGE = "unknown"
-
 
 class SourceRepository:
     """
@@ -31,41 +21,6 @@ class SourceRepository:
         self.asts: Dict[Path, tree_sitter.Tree] = {}
         self.ignored_glob_regex_list = self._get_ignore_regex_list()
         self.files: Dict[Path, FileInfo] = self._discover_files()
-        self.tree_sitter_languages: Dict[str, tree_sitter.Language] = {
-            PYTHON: tree_sitter.Language(_TREESITTER_BUILD, PYTHON),
-            C_SHARP: tree_sitter.Language(_TREESITTER_BUILD, C_SHARP),
-            JAVA: tree_sitter.Language(_TREESITTER_BUILD, JAVA),
-        }
-
-        python_parser = tree_sitter.Parser()
-        python_parser.set_language(self.tree_sitter_languages[PYTHON])
-
-        c_sharp_parser = tree_sitter.Parser()
-        c_sharp_parser.set_language(self.tree_sitter_languages[C_SHARP])
-
-        java_parser = tree_sitter.Parser()
-        java_parser.set_language(self.tree_sitter_languages[JAVA])
-
-        self.tree_sitter_parsers: Dict[str, tree_sitter.Parser] = {
-            PYTHON: python_parser,
-            C_SHARP: c_sharp_parser,
-            JAVA: java_parser,
-        }
-
-    def get_ast(self, for_file: FileInfo) -> tree_sitter.Tree:
-        """
-        get_ast checks if an AST for the path already has been computed, and returns that
-        AST if it is the case. Otherwise, it will parse the file to a tree_sitter AST
-        and return that tree.
-        """
-        ast = None
-        try:
-            ast = self.asts[for_file.file_path]
-            return ast
-        except KeyError:
-            self.asts[for_file.file_path] = self._parse_ast(for_file)
-            ast = self.asts[for_file.file_path]
-            return ast
 
     def _parse_ast(self, of_file: FileInfo) -> tree_sitter.Tree:
         """
