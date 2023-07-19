@@ -1,3 +1,5 @@
+import metrics.util.parsing as parsing
+
 from io import TextIOWrapper
 from core.metric.metric import Metric
 from core.metric.result import Result
@@ -24,7 +26,7 @@ class FileLength(Metric):
                 with open(file, encoding=file_info.encoding) as f:
                     violations.extend(
                         self._parse(
-                            f, self._source_repository.get_ast(file_info), file_info
+                            f, parsing.get_ast(file_info), file_info
                         )
                     )
         return Result("file length", violations, len(violations))
@@ -34,7 +36,7 @@ class FileLength(Metric):
         Finds out whether or not a file is more than 250 lines long excluding comments
         """
         violations = []
-        tree_sitter_language = self._source_repository.tree_sitter_languages[
+        tree_sitter_language = parsing.LANGUAGES[
             file_info.language
         ]
 

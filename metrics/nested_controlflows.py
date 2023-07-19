@@ -1,3 +1,5 @@
+import metrics.util.parsing as parsing
+
 from core.metric.metric import Metric
 from core.metric.result import Result
 from core.metric.violation import Violation, Location
@@ -14,7 +16,7 @@ class NestedControlflows(Metric):
         for _, file_info in self._source_repository.files.items():
             if file_info.language in SUPPORTED_LANGUAGES:
                 violations.extend(
-                    self._parse(self._source_repository.get_ast(file_info), file_info)
+                    self._parse(parsing.get_ast(file_info), file_info)
                 )
         return Result("nested controlflow", violations, len(violations))
 
@@ -32,7 +34,7 @@ class NestedControlflows(Metric):
         control flow depth of at least 4
         """
         violations = []
-        tree_sitter_language = self._source_repository.tree_sitter_languages[
+        tree_sitter_language = parsing.LANGUAGES[
             file_info.language
         ]
         query_str = translate_to[file_info.language]["method_control_flow"]

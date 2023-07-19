@@ -1,3 +1,5 @@
+import metrics.util.parsing as parsing
+
 from core.metric.metric import Metric
 from core.metric.result import Result
 from core.metric.violation import Violation, Location
@@ -14,7 +16,7 @@ class MethodCount(Metric):
         for _, file_info in self._source_repository.files.items():
             if file_info.language in SUPPORTED_LANGUAGES:
                 violations.extend(
-                    self._parse(self._source_repository.get_ast(file_info), file_info)
+                    self._parse(parsing.get_ast(file_info), file_info)
                 )
         return Result("method count", violations, len(violations))
 
@@ -23,7 +25,7 @@ class MethodCount(Metric):
         Finds the amount of methods for a file, and returns whether or not the method count is greater than 20
         """
         violations = []
-        tree_sitter_language = self._source_repository.tree_sitter_languages[
+        tree_sitter_language = parsing.LANGUAGES[
             file_info.language
         ]
         function_block = translate_to[file_info.language]["function"]

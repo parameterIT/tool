@@ -1,4 +1,4 @@
-import tree_sitter
+import metrics.util.parsing as parsing
 
 from core.metric.metric import Metric
 from core.metric.result import Result
@@ -16,7 +16,7 @@ class MethodLength(Metric):
         for _, file_info in self._source_repository.files.items():
             if file_info.language in SUPPORTED_LANGUAGES:
                 violations.extend(
-                    self._parse(self._source_repository.get_ast(file_info), file_info)
+                    self._parse(parsing.get_ast(file_info), file_info)
                 )
         return Result("method length", violations, len(violations))
 
@@ -26,7 +26,7 @@ class MethodLength(Metric):
         that is greater than 25
         """
         violations = []
-        query = self._source_repository.tree_sitter_languages[file_info.language].query(
+        query = parsing.LANGUAGES[file_info.language].query(
             f"""
                 (_ [{translate_to[file_info.language]["function_block"]}])
             """

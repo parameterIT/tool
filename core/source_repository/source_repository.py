@@ -1,14 +1,19 @@
 import json
 import subprocess
 from pathlib import Path
-from typing import Dict, List
-from tree_sitter import Parser, Language
+from typing import Dict
 import tree_sitter
 from core.source_repository.file_info import FileInfo
-from core.source_repository.languages import languages
 import chardet
 
 _IGNORE_FILE_PATH: Path = Path("core/util/.moduignore")
+
+UNKNOWN_ENCODING = "unknown"
+UNKNOWN_LANGUAGE = "unknown"
+
+PYTHON = "python"
+C_SHARP = "c_sharp"
+JAVA = "java"
 
 class SourceRepository:
     """
@@ -21,16 +26,6 @@ class SourceRepository:
         self.asts: Dict[Path, tree_sitter.Tree] = {}
         self.ignored_glob_regex_list = self._get_ignore_regex_list()
         self.files: Dict[Path, FileInfo] = self._discover_files()
-
-    def _parse_ast(self, of_file: FileInfo) -> tree_sitter.Tree:
-        """
-        parses and returns the tree_sitter AST for a given file
-        """
-        with of_file.file_path.open("rb") as file:
-            ast = self.tree_sitter_parsers[of_file.language].parse(file.read())
-            if ast is None:
-                raise TypeError(f"Abstract syntax tree for ${of_file} is None")
-            return ast
 
     def _discover_files(self) -> Dict[Path, FileInfo]:
         if self.src_root.is_file():

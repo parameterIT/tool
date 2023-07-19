@@ -1,4 +1,5 @@
 import tree_sitter
+import metrics.util.parsing as parsing
 
 from pathlib import Path
 
@@ -7,7 +8,6 @@ from core.metric.result import Result
 from core.metric.violation import Violation, Location
 from core.source_repository.file_info import FileInfo
 from metrics.util.language_util import translate_to, SUPPORTED_LANGUAGES
-from core.source_repository.source_repository import SourceRepository
 
 
 class CognitiveComplexity(Metric):
@@ -30,8 +30,8 @@ class CognitiveComplexity(Metric):
 
     def _count_cognitive_complexity(self, file_path: Path, file_info: FileInfo):
         violations = []
-        ast: tree_sitter.Tree = self._source_repository.get_ast(file_info)
-        tree_sitter_language = self._source_repository.tree_sitter_languages[
+        ast: tree_sitter.Tree = parsing.get_ast(file_info)
+        tree_sitter_language = parsing.LANGUAGES[
             file_info.language
         ]
 
@@ -59,7 +59,7 @@ class CognitiveComplexity(Metric):
         return violations
 
     def _count_breaks_in_linear_flow(self, node, file_info):
-        tree_sitter_language = self._source_repository.tree_sitter_languages[
+        tree_sitter_language = parsing.LANGUAGES[
             file_info.language
         ]
         query_breaks = tree_sitter_language.query(
@@ -76,7 +76,7 @@ class CognitiveComplexity(Metric):
         return len(query_breaks.captures(node))
 
     def _count_recursion(self, node: tree_sitter.Node, file_info):
-        tree_sitter_language = self._source_repository.tree_sitter_languages[
+        tree_sitter_language = parsing.LANGUAGES[
             file_info.language
         ]
 
@@ -125,7 +125,7 @@ class CognitiveComplexity(Metric):
 
     def _count_nesting(self, node, file_info):
         count = 0
-        tree_sitter_language = self._source_repository.tree_sitter_languages[
+        tree_sitter_language = parsing.LANGUAGES[
             file_info.language
         ]
         initial_query_str = translate_to[file_info.language]["method_control_flow"]
