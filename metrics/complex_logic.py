@@ -7,7 +7,7 @@ from metrics.util.language_util import translate_to, SUPPORTED_LANGUAGES
 
 class ComplexLogic(Metric):
     def __init__(self):
-        self._source_repository: SourceRepository = None
+        pass
 
     def run(self):
         violations = []

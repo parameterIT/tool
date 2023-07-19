@@ -12,7 +12,7 @@ from metrics.util.language_util import (
 
 class FileLength(Metric):
     def __init__(self):
-        self._source_repository: SourceRepository = None
+        pass
 
     def run(self):
         violations = []
