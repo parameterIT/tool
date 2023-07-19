@@ -34,8 +34,9 @@ _PARSERS: Dict[str, tree_sitter.Parser] = {
 }
 
 _ASTS: Dict[Path, tree_sitter.Tree] = {
-        # Intentionally empty
+    # Intentionally empty
 }
+
 
 def get_ast(for_file: FileInfo) -> tree_sitter.Tree:
     """

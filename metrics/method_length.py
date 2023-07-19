@@ -15,9 +15,7 @@ class MethodLength(Metric):
         violations = []
         for _, file_info in self._source_repository.files.items():
             if file_info.language in SUPPORTED_LANGUAGES:
-                violations.extend(
-                    self._parse(parsing.get_ast(file_info), file_info)
-                )
+                violations.extend(self._parse(parsing.get_ast(file_info), file_info))
         return Result("method length", violations, len(violations))
 
     def _parse(self, ast, file_info):

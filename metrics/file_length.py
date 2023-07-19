@@ -25,9 +25,7 @@ class FileLength(Metric):
             ):
                 with open(file, encoding=file_info.encoding) as f:
                     violations.extend(
-                        self._parse(
-                            f, parsing.get_ast(file_info), file_info
-                        )
+                        self._parse(f, parsing.get_ast(file_info), file_info)
                     )
         return Result("file length", violations, len(violations))
 
@@ -36,9 +34,7 @@ class FileLength(Metric):
         Finds out whether or not a file is more than 250 lines long excluding comments
         """
         violations = []
-        tree_sitter_language = parsing.LANGUAGES[
-            file_info.language
-        ]
+        tree_sitter_language = parsing.LANGUAGES[file_info.language]
 
         query = tree_sitter_language.query(
             f"""

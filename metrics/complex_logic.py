@@ -15,9 +15,7 @@ class ComplexLogic(Metric):
         violations = []
         for _, file_info in self._source_repository.files.items():
             if file_info.language in SUPPORTED_LANGUAGES:
-                violations.extend(
-                    self._parse(parsing.get_ast(file_info), file_info)
-                )
+                violations.extend(self._parse(parsing.get_ast(file_info), file_info))
         return Result("complex logic", violations, len(violations))
 
     def _parse(self, ast, file_info):
@@ -25,9 +23,7 @@ class ComplexLogic(Metric):
         Finds the conditionals of a file and returns the number of conditionals that have more than 4 conditions
         """
         violations = []
-        tree_sitter_language = parsing.LANGUAGES[
-            file_info.language
-        ]
+        tree_sitter_language = parsing.LANGUAGES[file_info.language]
 
         query = tree_sitter_language.query(
             f"""

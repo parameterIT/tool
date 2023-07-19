@@ -15,9 +15,7 @@ class NestedControlflows(Metric):
         violations = []
         for _, file_info in self._source_repository.files.items():
             if file_info.language in SUPPORTED_LANGUAGES:
-                violations.extend(
-                    self._parse(parsing.get_ast(file_info), file_info)
-                )
+                violations.extend(self._parse(parsing.get_ast(file_info), file_info))
         return Result("nested controlflow", violations, len(violations))
 
     def _unique(self, not_unique_list):
@@ -34,9 +32,7 @@ class NestedControlflows(Metric):
         control flow depth of at least 4
         """
         violations = []
-        tree_sitter_language = parsing.LANGUAGES[
-            file_info.language
-        ]
+        tree_sitter_language = parsing.LANGUAGES[file_info.language]
         query_str = translate_to[file_info.language]["method_control_flow"]
         if file_info.language == "python" or file_info.language == "c_sharp":
             query_str += translate_to[file_info.language]["global_control_flow"]
