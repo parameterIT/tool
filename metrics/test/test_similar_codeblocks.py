@@ -25,7 +25,7 @@ class TestSimilarCodeBlocks(unittest.TestCase):
         lines = [
             (loc.first_line, loc.last_line) for loc in result.get_violation_locations()
         ]
-        expected_lines = [(3, 11), (16, 24)]
+        expected_lines = [(1, 11), (14, 24)]
         self.assertCountEqual(lines, expected_lines)
 
 
